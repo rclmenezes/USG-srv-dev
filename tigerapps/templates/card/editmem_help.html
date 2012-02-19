@@ -1,0 +1,16 @@
+{% extends "card/base_help.html" %}
+
+{% block content %}
+Club accounts may view and modify members of their club.  To reach the member editing portion of the site, login and select <b>Members</b> on the top navigation bar, then <b>Find/Modify Members</b> on the side navigation bar.
+
+You will see a form allowing you to search for members by the following criteria:
+<ul>
+<li>First or last name</li>
+<li>Netid</li>
+<li>Class year</li>
+<li>Role (member or meal checker)</li>
+<li>Status (active or inactive)</li>
+</ul>
+After clicking "Submit", the members that fit your search criteria will be listed in alphabetical order by last name.  You can change any of the listed members' role or status or remove members by checking the boxes next to their information and clicking the "Toggle Role", "Toggle Status", or "Remove" buttons at the bottom of the list.  <br><br>
+You can also edit a member's personal information (including name, year, role, and status) by clicking on their netid.  On the new page that is displayed, change the fields appropriately and click "Submit Changes"; a confirmation or error message will be displayed at the top of the page.  You can also remove the member by clicking "Remove".<br>
+{% endblock %}

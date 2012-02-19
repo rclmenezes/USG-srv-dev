@@ -1,0 +1,34 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX Confirm Purchase - {{ offer.book.title }}{% endblock %}
+
+{% block content %}
+
+<h2>Confirm Purchase</h2>
+<span class="description">By clicking the 'Confirm Purchase' button below,
+you are agreeing to pay the seller in full (<b>${{offer.price}}</b>) for the
+book, barring any unforeseen circumstances regarding the condition of
+the book. You and the seller will receive email confirmations that will
+include contact information so that you can proceed with the transaction.
+</span>
+<br /><br />
+<h4>{{ offer.book.title }}</h4><br />
+<div class="imageleft">
+  <img src="/media/ptx{{offer.book.imagename}}" />
+</div>
+Price: <b>${{offer.price}}</b> <br />
+Author: {{ offer.book.author }} <br />
+Condition: {{ offer.get_condition_display }} <br />
+Seller description: {{ offer.desc }} <br />
+{% if offer.book.edition %}
+Edition: {{ offer.book.edition }}<br />
+{% endif %}
+ISBN-13: {{ offer.book.isbn13 }} &nbsp;&nbsp;&nbsp;
+ISBN-10: {{ offer.book.isbn10 }} <br />
+<br />
+<form method="POST" action="/buy">
+  <input style="display: none;" name="offer_id" value="{{offer.id}}"/>
+  <input type="submit" name="buy_btn" value="Confirm Purchase" />
+</form>
+<br /><br />
+{% endblock %}

@@ -1,0 +1,76 @@
+<div class="close">
+  <img src="static/close.png"
+       height="32px" width="32px"
+       onclick="$.closeDOMWindow()"></img>
+</div>
+
+<!-- Photo display -->
+<table id="photo"><tr>
+  <!-- Previous link -->
+  <td class="prev" onclick="prevdetails()">
+    &lt;
+  </td>
+
+  <!-- Photograph -->
+  <td class="photo">
+    <img src="{{ photo }}" width="{{ width }}" height="{{ height }}">
+  </td>
+
+  <!-- Next link -->
+  <td class="next" onclick="nextdetails()">
+    &gt;
+  </td>
+</tr></table>
+
+<!-- Comments, captions, actions -->
+<table id="actions"><tr>
+  <td class="left">
+    <ul>
+      <li>
+        <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+        <fb:like href="www.tigeralbum.com/#{{ permalink }}"
+                 layout="button_count"
+                 show_faces="false" width="200"></fb:like>
+      </li>
+      <li>
+        <select id="report_image">
+          <option value="0">Report photo...</option>
+          <option value="offs">&nbsp;&nbsp;Inappropriate or offensive</option>
+          <option value="cprv">&nbsp;&nbsp;Copyright violation</option>
+          <option value="othr">&nbsp;&nbsp;Something even more heinous</option>
+        </select>
+      </li>
+    </ul>
+  </td>
+
+  <td>
+    <article class="caption">
+      {{ caption }}
+      <footer>
+        {{ dt_submitted }} &bull;
+        <a href="#{{ permalink }}">Permalink</a>
+      </footer>
+    </article>
+
+    <section class="comments">
+      <div class="replaceme">
+        {% include "api_comments.html" %}
+      </div>
+
+      <article id="comment_form">
+      <form>
+        <div class="textarea_wrapper">
+          <textarea name="comment" rows="1" placeholder="Write a comment..."></textarea>
+        </div>
+        <p class="error hidden"></p>
+        <p class="indicator hidden">Posting...</p>
+        <label class="hidden">Nickname: <input name="author" maxlength="25"></label>
+        <input class="hidden" type="button" value="Post">
+        <input type="hidden" name="id" value="{{ permalink }}">
+        <input type="hidden" name="parentid" value="">
+        <input type="hidden" name="title" value="{{ caption|truncatewords:10 }} - TigerAlbum">
+      </form>
+      </article>
+    </section>
+  </td>
+</tr></table>

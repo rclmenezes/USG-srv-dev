@@ -1,0 +1,10 @@
+{% extends "ccc/base.html" %}
+
+{% block content %}
+	<div class="main-box">
+	<h2 id="postTitle" style="text-align:center;">{{ post.title }}</h2>
+	{% autoescape off %}
+	{{ post.content }}
+	{% endautoescape %}
+	</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "card/base_help.html" %}
+
+{% block content %}
+Your personal page displays your meal history during the current month. If you have open exchanges, they will be listed in two groups:
+<ul>
+<li><b>'You should be a guest at'</b> This means that you have hosted this person at your club, and in order to complete the exchange, you should eat a meal at their club.
+<li><b>'You should host'</b> This means that you have eaten at this person's club, and in order to complete the exchange, you should host them for the same meal at your club.
+</ul>
+<br>
+
+Under the <b>Open Exchanges</b> heading will be a list of all of your Completed Exchanges for the month. You don't need to do anything about these; they're just listed for information's sake. <br><br>
+
+Each set of exchanges will contain a list of information about the exchange. This information will be listed under the following headers:
+<ul>
+<li><b> Date of First Meal </b> The date of the earliest meal in the exchange. 
+<li><b> Club </b> This is the club of the other person involved in the exchange (we assume you know your own!).
+<li><b> Guest/Host </b> (In Open Exchanges) The name of the other person involved in the exchange.
+<li><b> Meal Type </b> Breakfast, Brunch, Lunch, Dinner, or Other.
+<li><b> Days to Expiration </b> (In Open Exchanges)This simply gives the number of days until the end of the month. 
+<li><b> Date of Second Meal </b> (In Complete Exchanges) The date of the latest meal in the exchange.
+<li><b> Host Name </b> (In Complete Exchanges) Indicates which member hosted on which date. The name of the host comes directly after the date they hosted in the table.
+</ul>
+ 
+<br>
+If any of this information seems incorrect, you should contact the club officer in charge of meals. 
+
+{% endblock %}

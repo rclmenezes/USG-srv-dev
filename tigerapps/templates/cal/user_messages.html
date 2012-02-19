@@ -1,0 +1,27 @@
+{% extends "cal/base.html" %}
+
+{% block title %}My Messages{% endblock %}
+
+
+{% block content %}
+<h1 id="title">{{user_data.casual_name}}'s Messages</h1>
+{% if unread_messages %}
+<span id="subtitle">Unread Messages</span>
+{% for msg in unread_messages %}
+<p>{{ msg.um_contents }}</p>
+{% endfor %}
+{% endif %}
+
+{% if read_messages %}
+<span id="subtitle">Read Messages</span>
+{% for msg2 in read_messages %}
+<p>{{ msg2.um_contents }}</p>
+{% endfor %}
+{% endif %}
+
+{% if not unread_messages and not read_messages %}
+<p>You have no messages</p>
+{% endif %}
+
+
+{% endblock %}

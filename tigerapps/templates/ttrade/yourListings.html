@@ -1,0 +1,7 @@
+{% extends "ttrade/show_listings.html" %}
+
+{% block title %}TigerTrade | Your Listings{% endblock %}
+
+{% block lastFieldName %}Posted{% endblock %}
+
+{% block lastField %}{{listing.posted|date:"N d Y"}}<br />&nbsp;{% endblock %}

@@ -1,0 +1,38 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="icon" type="image/png" href="/static/meal.png">
+    <script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+    <title> MealChecker </title>
+</head>
+
+<body>
+    <div class="header">
+        <center>
+	<h1> Welcome to MealChecker! </h1>
+	</center>
+    </div>
+
+    <div class="navprim">
+    <br>
+    </div>    
+    <br>
+    <br>
+
+    {% block content %}
+    {% endblock %}
+    <!hr>
+    <div class="footer">
+    {% block footer %}
+    This is the MealChecker website.&nbsp &nbsp    
+    <a href="/help/about/" onclick="window.open(this.href);return false;">About MealChecker</a> &nbsp &nbsp 
+    {% endblock %}
+     <a href="/help/{% block path %}login/{% endblock %}" onclick="window.open(this.href);return false;">Login Help</a>
+     </div>
+    
+
+
+
+</body>
+</html>

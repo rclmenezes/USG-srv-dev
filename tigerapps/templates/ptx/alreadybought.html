@@ -1,0 +1,13 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX Failure to Purchase - {{ offer.book.title }}{% endblock %}
+
+{% block content %}
+
+<h2>Purchase Unavailable.</h2>
+
+<p>You were unable to purchase <strong>{{ offer.book.title }}</strong>. We apologize,
+but this book is no longer being offered. It will no longer appear in the listings.</p>
+
+
+{% endblock %}

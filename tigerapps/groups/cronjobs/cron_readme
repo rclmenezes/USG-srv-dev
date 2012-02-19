@@ -1,0 +1,34 @@
+README for Student Groups Cron Jobs
+Aaron Trippe
+
+INTRO
+Cron jobs on Student Groups are used to send yearly renewal emails as well as to deactivate groups that fail to renew.
+
+JOBS
+September 1: renew.py
+  - Email all active groups asking them to renew
+  - set all active groups' statuses as up for renewal
+September 11: renew_remind.py
+  - Email all groups still up for renewal
+September 14: last_renew_remind.py
+  - Email all groups still up for renewal
+September 15: deactivate.py
+  - Set all groups still up for renewal to inactive
+  - Email groups notifying them of deactivation
+
+LOG
+Jobs will redirect their output to the file cron_log.
+
+EDITING
+Edit cron jobs using the crontab command.  Since the jobs were created under my (atrippe) username, you would enter the editor like so:
+
+crontab -u atrippe -e
+
+For more information on cron and how to edit jobs, see "Newbie: Intro to cron" at unixgeeks.org/security/newbie/unix/cron-1.html.
+
+Note: cron jobs run according to the server's representation of time.  Upon my last check, the server was ahead 6 hours from EST.  You can check using the date command line tool.
+
+PYTHON FILES
+Cron jobs simply run a bash command.  In our case, they call python and run some .py files on the server.  In the .py files, we set up the environment (path, django settings module) and then do whatever we want.
+
+Note: The order of the directories in sys.path is magic.  Don't change it.

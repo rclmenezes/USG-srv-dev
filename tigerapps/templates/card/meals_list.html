@@ -1,0 +1,181 @@
+{% extends "card/base_club_meal.html" %}
+
+{% block content %}
+
+<h2>List and Modify Meals</h2>
+
+{% if errmsg %}
+<h4>{{ errmsg }}</h4>
+{% endif %}
+
+<form action="/{{ club }}/meals/list" method="get" name="listForm">
+<div class="row">
+<span class="label">{{ club|capfirst }} netID:</span>
+    <span class="formw"><input type="text" name="memberID" value="{{ memberID }}"></span></div>
+<div class="row">
+<span class="label">Other netID:</span>
+    <span class="formw"><input type="text" name="otherID" value="{{ otherID }}"></span></div>
+<div class="row">
+<span class="label">Other Club:</span>
+    <span class="formw"><input type="text" name="oClub" value="{{ oClub }}"></span></div>
+<div class="row">
+<span class="label">Date:</span>
+    <span class="formw"><input type="text" name="date" value="{{ date }}" />
+    <script language="JavaScript">
+    new tcal ({'formname': 'listForm','controlname': 'date'});
+    </script></span></div>
+<div class="row">
+<span class="label">Exchange Status:</span>
+<span class="formw"><select name="status">
+        <option value="both">Both</option>
+        <option value="incomplete" {% ifequal status 'incomplete' %}selected="selected"{% endifequal %}>Incomplete</option>
+        <option value="complete" {% ifequal status 'complete' %}selected="selected"{% endifequal %}>Complete</option>
+    </select></span></div>
+<div class="row">
+<span class="label">Meal:</span>
+<span class="formw"><select name="meal">
+        <option value="Any">Any</option>
+        <option value="Dinner" {% ifequal meal 'Dinner' %}selected="selected"{% endifequal %}>Dinner</option>
+        <option value="Lunch" {% ifequal meal 'Lunch' %}selected="selected"{% endifequal %}>Lunch</option>
+        <option value="Brunch" {% ifequal meal 'Brunch' %}selected="selected"{% endifequal %}>Brunch</option>
+        <option value="Breakfast" {% ifequal meal 'Breakfast' %}selected="selected"{% endifequal %}>Breakfast</option>
+        <option value="Other" {% ifequal meal 'Other' %}selected="selected"{% endifequal %}>Other</option>
+    </select></span></div>
+<div class="row">
+<span class="label">Checker netID<br>(or 'Club'):</span>
+    <span class="formw"><input type="text" name="oChecker" value="{{ oChecker }}"></span></div>
+<div class="row">
+    <span class="formw"><input type="submit" value="Submit" class="button"></span></div>
+</form>
+<br>
+{% if hostinc or guestinc %}{% ifnotequal status 'complete' %}
+<h3> Incomplete Exchanges </h3>
+<table border="1">
+  <tr>
+    <th>Host</th>
+    <th>Guest</th>
+    <th>Host Club</th>
+    <th>Guest Club</th>
+    <th>Date</th>
+    <th>Meal</th>
+    <th>Checker</th>
+  </tr>
+  <br>
+  
+  {% for exchange in hostinc %}
+    <tr>
+      <td>{{ exchange.meal_1.host.netid }}</td>
+      <td>{{ exchange.meal_1.guest.netid }}</td>
+      <td>{{ exchange.meal_1.host.club.name }}</td>
+      <td>{{ exchange.meal_1.guest.club.name }}</td>
+      <td><a href="/{{club}}/meals/{{ exchange.meal_1.id }}/modify/">{{ exchange.meal_1.date|date:"M d, Y" }}</a></td>
+      <td>{{ exchange.meal_1.meal_type }}</td> 
+      <td>
+      {% ifequal exchange.meal_1.checker.full_name "x x" %}
+      Club 
+      {% else %}      
+      {{ exchange.meal_1.checker.full_name }}
+      {% endifequal %}
+      </td>      
+    </tr>
+  {% endfor %}
+
+  {% for exchange in guestinc %}
+    <tr>
+      <td>{{ exchange.meal_1.host.netid }}</td>
+      <td>{{ exchange.meal_1.guest.netid }}</td>
+      <td>{{ exchange.meal_1.host.club.name }}</td>
+      <td>{{ exchange.meal_1.guest.club.name }}</td>
+      <td>{{ exchange.meal_1.date|date:"M d, Y" }}</td>
+      <td>{{ exchange.meal_1.meal_type }}</td>
+      <td>
+      {% ifequal exchange.meal_1.checker.full_name "x x" %}
+      Club 
+      {% else %}      
+      {{ exchange.meal_1.checker.full_name }}
+      {% endifequal %}
+      </td>
+    </tr>
+  {% endfor %}
+</table> 
+<br>
+{% endifnotequal %}{% endif %}
+
+{% if hostcomp or guestcomp %}{% ifnotequal status 'incomplete' %}
+<h3> Complete Exchanges </h3>
+<table border="1">
+  <tr>
+    <th>Host</th>
+    <th>Guest</th>
+    <th>Host Club</th>
+    <th>Guest Club</th>
+    <th>Date 1</th>
+    <th>Date 2</th>
+    <th>Checker 1</th>
+    <th>Checker 2</th>
+    <th>Meal</th>
+  </tr>
+  <br>
+  
+  {% for exchange in hostcomp %}
+    <tr>
+      <td>{{ exchange.meal_1.host.netid }}</td>
+      <td>{{ exchange.meal_1.guest.netid }}</td>
+      <td>{{ exchange.meal_1.host.club.name }}</td>
+      <td>{{ exchange.meal_1.guest.club.name }}</td>
+      <td><a href="/{{club}}/meals/{{ exchange.meal_1.id }}/modify/">{{ exchange.meal_1.date|date:"M d, Y" }}</a></td>
+      <td>{{ exchange.meal_2.date|date:"M d, Y" }}</td>
+      <td>
+      {% ifequal exchange.meal_1.checker.full_name "x x" %}
+      Club 
+      {% else %}      
+      {{ exchange.meal_1.checker.full_name }}
+      {% endifequal %}
+      </td>
+      <td>
+      {% ifequal exchange.meal_2.checker.full_name "x x" %}
+      Club 
+      {% else %}      
+      {{ exchange.meal_2.checker.full_name }}
+      {% endifequal %}
+      </td>
+      <td>{{ exchange.meal_1.meal_type }}</td>
+    </tr>
+  {% endfor %}
+
+  {% for exchange in guestcomp %}
+    <tr>
+      <td>{{ exchange.meal_1.host.netid }}</td>
+      <td>{{ exchange.meal_1.guest.netid }}</td>
+      <td>{{ exchange.meal_1.host.club.name }}</td>
+      <td>{{ exchange.meal_1.guest.club.name }}</td>
+      <td>{{ exchange.meal_1.date|date:"M d, Y" }}</td>
+      <td><a href="/{{club}}/meals/{{ exchange.meal_1.id }}/modify/">{{ exchange.meal_2.date|date:"M d, Y" }}</a></td>
+       <td>
+      {% ifequal exchange.meal_1.checker.full_name "x x" %}
+      Club 
+      {% else %}      
+      {{ exchange.meal_1.checker.full_name }}
+      {% endifequal %}
+      </td>
+      <td>
+      {% ifequal exchange.meal_2.checker.full_name "x x" %}
+      Club 
+      {% else %}      
+      {{ exchange.meal_2.checker.full_name }}
+      {% endifequal %}
+      </td>
+      <td>{{ exchange.meal_1.meal_type }}</td>
+    </tr>
+  {% endfor %}
+
+</table> 
+{% endifnotequal %}{% endif %}
+
+{% endblock content %}
+{% block footer %}
+You can list, modify, and delete meals using this screen. Confused? Click 
+{% endblock %}
+{% block path %}
+editmeal
+{% endblock %}

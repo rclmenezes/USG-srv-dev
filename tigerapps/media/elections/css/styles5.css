@@ -1,0 +1,434 @@
+/* ------ Base template css -------- */
+html {
+}
+
+body {
+	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+	margin: 0;
+	padding: 0;
+	font-family: Verdana;
+	background: none repeat scroll 0 0 #FF9C26;
+}
+
+.wrapper
+{
+    width: 950px;
+    margin: 0 auto;
+    padding: 0 20px 100px 20px;
+    background: white;
+    -moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+}
+
+.wrapper:after
+{
+    clear:both;
+    content: ".";
+    display: block;
+    height: 0px;
+    visibility: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+p {
+    text-decoration: none;
+    color: black;
+}
+
+h2
+{
+    font-size: 16px;
+    text-align: center;
+}
+
+a:hover
+{
+    text-decoration: none;
+    color: #F96B02;
+}
+
+a#edit
+{
+    color: #425F9D;
+}
+
+a#edit:hover
+{
+    text-decoration: none;
+    color: #F96B02;
+}
+
+span
+{
+    color: #425F9D;
+}
+
+span#right
+{
+    float: right;
+}
+
+
+/**** HEADER ******/
+
+.top
+{
+    position: relative;
+    margin: 0 auto;
+}
+
+.header
+{
+    display: block;
+    padding: 40px 0 0 0;
+    margin-bottom: -40px;
+    min-height: 110px;
+}
+
+.logo
+{
+    z-index: 1;
+    position: absolute;
+}
+
+#usglogo
+{
+    top: 7px;
+    left: 0;
+}
+
+#ttradelogo
+{
+    top: 15px;
+    left: 100px;
+}
+
+.right
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+    #make_a_listing
+    {
+        width: 107px;
+        position: absolute;
+        right: 15px;
+        top: 5px;
+        font-weight: bold;
+    }
+    
+    #your_listings
+    {
+        width: 95px;
+        position: absolute;
+        right: 10px;
+        top: 25px;
+        font-weight: bold;
+    }
+
+    #login
+    {
+        position: absolute;
+        right: 15px;
+        top: 5px;
+        font-weight: bold;
+    }
+    
+    #logout
+    {
+        position: absolute;
+        right: 15px;
+        top: 45px;
+        font-weight: bold;
+    }
+
+.header table, tr, td, th
+{
+    border: none;
+}
+
+/**** </HEADER> ******/
+	
+/******************NAVBAR*********************/
+.navbar {
+    background: white;
+	display: block;
+	position: relative;
+	height: 48px;
+	padding: 0;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #DCE7EC;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#nav a{
+	text-decoration:none;
+	display:block;
+	padding:2px 0px;
+	background-color: transparent;
+	-moz-border-radius: 7px;    
+	-webkit-border-radius: 7px;
+}
+
+.navbar ul {  
+    margin: 0 auto;
+    width: 80%;
+    list-style: none;
+}
+
+.navbar ul li {
+	float: left;
+}
+
+.navbar ul li: hover
+{
+	float: left;
+	background: #E56717 no-repeat;
+}
+
+	.navbar ul li a {
+		display: block;
+		padding-right: 20px;
+			width: 150px;
+		font-size: 14px;
+		line-height: 44px;
+		text-align: center;
+		text-decoration: none;
+		color: black;
+	}
+	
+/****************</NAVBAR>*********************/
+
+/****************<TABLE>*********************/
+table#search td
+{
+    padding-right: 10px;
+}
+
+#search
+{
+    margin-bottom: 10px;
+}
+
+
+#listings
+{
+	width: 100%;
+	border: 1px solid #DCE7EC;
+}
+
+table.listings
+{
+    text-align: center;
+}
+
+table, td, tr, tbody, th {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+}
+
+th
+{
+    text-decoration: none;
+    font-weight: normal;
+    padding: 0 5px;
+}
+
+tr.title th
+{
+    background: #B2BBBF;
+    color: white;
+    text-align: center;
+}
+
+tr.title h3
+{
+    margin: 0;
+    padding: 5px;
+}
+
+tr.listing:hover
+{
+    cursor: pointer;
+}
+
+.main
+{
+    width: 80%;
+    margin: 20px auto 0 auto;
+    padding: 0;
+}
+
+th.th_picture
+{
+	width: 7%;	
+}
+
+th.th_listing_type
+{
+    width: 8%;
+    border-left: 1px solid white;
+}
+
+th.th_title
+{
+	width: 40%;
+	border-left: 1px solid white;
+}
+
+th.th_t
+{
+	width: 13%;
+	border-left: 1px solid white;
+}
+
+th.th_r
+{
+	width: 19%;
+	border-left: 1px solid white;
+}
+
+th.th_r img
+{
+    margin-bottom: -6px;
+}
+
+table#items
+{
+    display: inline-block;
+}
+
+#th_remaining:hover
+{
+    cursor: pointer;
+    background: #FF9C26;
+    opacity: 1;
+}
+
+table#info td
+{
+    padding: 0 5px;
+}
+
+table#info
+{
+    margin: 0 auto;
+}
+
+/****************</TABLE>*********************/
+
+.footer
+{
+    min-height: 10px;
+    margin: 0 10%;
+    padding: 30px 0px 20px;
+    margin: 0 auto;
+    width: 500px;
+}
+
+.footer small
+{
+    width: 500px;
+    color: white;
+}
+
+#center
+{
+    width: 500px;
+    border: 1px solid #DCE7EC;
+    margin: 20px auto 0 auto;
+    padding: 0;
+}
+
+#main_listing
+{
+    width: 700px;
+    border: 1px solid #DCE7EC;
+    margin: 20px auto 0 auto;
+    padding: 0 0 15px;
+}
+
+input#get
+{
+    text-align: center;
+}
+
+.centerize
+{
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+.box
+{
+    width: 400px;
+    margin: 15px auto;
+}
+
+.box h3
+{
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+
+.box_inner
+{
+    padding: 8px;
+    border: 2px solid #DCE7EC;
+    -moz-border-radius: 7px;    
+	-webkit-border-radius: 7px;
+	min-height: 30px;
+	margin-bottom: 5px;
+}
+
+#picture
+{
+    text-align: center;
+}
+
+.white
+{
+    background: #B2BBBF;
+    color: white;
+    margin: 0;
+    text-align: center;
+}
+
+.white h3
+{
+    margin: 0;
+    padding: 5px;
+}
+
+.button {
+    cursor: pointer;
+    display: inline;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 5px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.submit-bar
+{
+    padding: 10px;
+    text-align: center;
+}

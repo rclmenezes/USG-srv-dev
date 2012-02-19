@@ -1,0 +1,86 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% ifequal user_mship.type 'O' %}
+{% include 'groups/off_sidebar.html' %}
+{% endifequal %}
+{% endblock %}
+
+{% block content %}
+
+  <script> 
+//    $.datepicker.setDefaults($.datepicker.regional['us']);
+    $(function() {
+    $( "#id_date" ).datepicker();
+    });
+  </script>
+
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+<div class="group_header">
+<h2>Newsfeed</h2>
+</div</li></ul>
+
+<div class="group_profile">
+  <form action="" method="get" id="search_form_id">
+    <ul class="search_form">
+      {{form.as_ul}}
+      <li><input type="submit" value="Search Messages"></li>
+      <input type="hidden" name="page" id="page_input_id" value="{{page.number}}">
+    </ul>
+  </form>
+</div>
+  <br/>
+
+  {% if entries %}
+  {{page.start_index}}-{{page.end_index}} of {{p.count}} entries
+  <div id="group_feed">  
+    <div class="header">
+      <h3><a href="/feeds/groups/{{group.url}}">Newsfeed for {{group}} <img src="/media/groups/css/img/200px-Feed-icon.svg.png" alt="Feed"/></a></h3>
+    </div>
+    <div class="content">
+      {% for e in entries %}
+      <div class="feed_entry">
+	<ul>
+	  <li class="title"><strong>{{e.title}}</strong></li>
+	  {% autoescape off %}
+	  <li class="author">Posted by <a href="/groups/{{group.url}}/">{{e.group}}</a> on {{e.pub_date|date:"D d, M Y"}}</li>
+	  <li class="text">{{e.text|linebreaksbr}}</li>
+	  {% endautoescape %}
+
+	  {% if e.event %}
+	  <div class="post_event">
+	    {% if e.event.event_cluster.cluster_image %}<a href="{{e.event.get_absolute_url}}"><img src="/{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
+	    <span class="post_event_title">Event: <a href="{{e.event.get_absolute_url}}">{{e.event}}</a></span><br/>
+	    <span class="post_event_description"><strong>Description:</strong> {{e.event.event_cluster.cluster_description|slice:":80"}}{% if e.event.event_cluster.cluster_description|slice:"80:" %} ...{% endif %}</span>
+	    {% if e.event.event_cluster.cluster_image %}<div class="clear"></div>{% else %}<br/>{% endif %}
+	    <span class="post_event_time"><strong>Time:</strong> {% ifequal e.event.getFormattedStartDate e.event.getFormattedEndDate %}{{e.event.getTime}} to {{e.event.getEndTime}} on {{e.event.getFormattedStartDate}}{% else %}{{e.event.getTime}} {{e.event.getFormattedStartDate}} to {{e.event.getEndTime}} {{e.event.getFormattedEndDate}}{% endifequal %}</span>
+	    <br/><span class="post_event_loc"><strong>Location:</strong> {{e.event.getGCalLocation|default:"Unspecified"}}</span>
+	  </div>
+	  {% endif %}
+
+
+	  {% ifequal user_mship.type 'O' %}<li><a href="/groups/{{group.url}}/post/{{e.id}}?newsfeed=True&page={{page.number}}">Edit</a> <a href="/groups/{{group.url}}/post/{{e.id}}/delete?newsfeed=True&page={{page.number}}" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a></li>{% endifequal %}
+	</ul>
+      </div>
+  {% endfor %}
+
+    <ul class="paginate">
+      {% if page.has_previous %}
+      <li><input type="button" value="<< First" name="first" class="prev" onclick="$('#page_input_id').attr('value',1);$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Newer Entries" name="prev" class="prev" onclick="$('#page_input_id').attr('value',{{page.previous_page_number}});$('#search_form_id').submit();"/></li>{% endif %}
+      {% if page.has_next %}
+      <li><input type="button" value="Last >>" name="last" class="next" onclick="$('#page_input_id').attr('value',{{p.num_pages}});$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Older Entries" name="next" class="next" onclick="$('#page_input_id').attr('value',{{page.next_page_number}});$('#search_form_id').submit();"/></li>
+      {% endif %}
+
+    </ul>
+  </div>
+  </div>
+  {% else %}
+  <h4><em>There are no feed entries.</em></h4>
+  {% endif %}
+
+{% endblock %}

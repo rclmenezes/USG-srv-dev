@@ -1,0 +1,136 @@
+/*Base CSS*/
+html {
+
+}
+
+body {
+	background: none repeat scroll 0 0 #FF9C26;
+    margin: 0;
+    padding: 0;
+	font-family: "Helvetica";
+	font-size: 13px;
+}
+
+.header
+{
+    margin: 0 15px;
+    min-height: 100px;
+    padding: 25px 8px 0;
+    display: block;
+    width: 95%;
+}
+
+.header .usg
+{
+    float: right;
+}
+
+h1.title {
+    font-weight: normal;
+    font-size: 60px;
+    margin: 0;
+    padding-top: 20px;
+    padding-left: 140px;
+}
+
+.wrapper
+{
+	width: 950px;
+    margin: 0 auto;
+    padding: 0 20px 100px 20px;
+    background: white;
+    -moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+}
+
+.wrapper:after
+{
+    clear:both;
+    content: ".";
+    display: block;
+    height: 0px;
+    visibility: hidden;
+}
+
+.content
+{
+    padding: 0;
+    margin: 25px 15px 0;
+}
+
+.footer
+{
+    min-height: 10px;
+    padding: 30px 0px 20px;
+    margin: 0 auto;
+    width: 500px;
+}
+
+.footer small
+{
+    width: 500px;
+    color: white;
+}
+
+.footer a
+{
+    text-decoration: none;
+}
+
+.footer a:hover
+{
+    text-decoration: underline;
+}
+
+.office
+{
+    background: #FF9C26;
+    display: block;
+    width: 90%;
+    border: 1px black solid;
+    padding: 5px 10px 10px;
+}
+
+h2.officename
+{
+    margin: 0;
+    padding: 0;
+}
+
+.candidate
+{
+    border: 1px black solid;
+    display: block;
+    background: white;
+    padding: 4px;
+}
+
+.photo
+{
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+.statement
+{
+    float: right;
+    display: block;
+    width: 75%;
+}
+
+h3.candidateName
+{
+    margin: 0 0 5px 0;
+    padding: 0;
+}
+
+.clear
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+} 

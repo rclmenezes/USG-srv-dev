@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Submit - TigerAlbum{% endblock %}
+
+{% block id %}submit{% endblock %}
+
+{% block content %}
+<h2>Submit a photo</h2>
+<p>
+  We're looking for funny, poignant, or just-plain-awesome photos.
+  Please be kind though: JPEG files only. And, remember, all photo
+  submissions are anonymous and moderated.
+</p>
+
+<form action="/submit/" method="post" enctype="multipart/form-data">
+  {{ form.non_field_errors }}
+
+  <div>
+    {{ form.photo.errors }}
+    <label>
+      <p>Photo:</p>
+      <p><input type="file" name="photo"></p>
+    </label>
+  </div>
+
+  <div>
+    {{ form.caption.errors }}
+    <p>Caption <span>(optional)</span>:</p>
+    <p>
+      <textarea name="caption" maxlength="500"
+                rows="5" cols="80">{{ form.caption.value|default:'' }}</textarea>
+    </p>
+  </div>
+
+  <div>
+    <p><input type="submit" value="Submit photo"></p>
+  </div>
+  {% csrf_token %}
+</form>
+{% endblock %}

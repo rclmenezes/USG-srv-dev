@@ -1,0 +1,44 @@
+{% extends "card/base_club_mem.html" %}
+
+ <script language="javascript" type="text/javascript">
+<!-- 
+    function confirmation(){
+    var answer=confirm("Remove member from MealChecker system?")
+    if (answer) {
+    alert("Member removed")
+    window.location("http://card.tigerapps.org/{{ club }}/members")
+    }
+    else {
+    alert("Member not removed")
+    }
+}
+//-->
+</script>
+
+{% block content %}
+
+<h2>Edit Member</h2>
+{% if mes and not errmes%}
+<h4>{{ mes }}</h4>
+{% endif %}
+{% if errmes %}
+<script language="javascript" type="text/javascript"> alert('{{ errmes }}');</script>
+{% endif %}
+
+<form name="modMem" action="/{{ club }}/members/{{ member.netid }}/modify/" method="post">
+{% for field in form %}
+<div class="row">
+  <span class="label">{{ field.label }}:</span>
+  <span class="formw">{{field}}</span>
+{% for error in field.errors %}
+</div><div class="row">
+  <span class="error">{{error}}</span>
+{% endfor %}
+</div>
+{% endfor %}
+<div class="row">
+    <span class="formw"><input type="submit" name="Modify" value="Submit Changes" class="button"></span> 
+    <input type="submit" name="Remove" value="Remove" class="button" onclick="return confirm('Are you sure you want to remove this member from the club?');">
+</form>
+
+{% endblock content %}

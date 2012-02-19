@@ -1,0 +1,95 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% ifequal mship.type 'O' %}
+{% include 'groups/off_sidebar.html' %}
+{% endifequal %}
+{% endblock %}
+
+{% block content %}
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+<div class="group_header"><h2>Member Settings</h2></div>
+</li></ul>
+
+<form class="first_form" action="" method="post">
+  <table class="formTable">
+    {% for field in form %}
+    
+    {% ifequal field.label 'Display' %}{% ifnotequal user_mship.type 'S' %}   
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifnotequal %}{% else %}
+
+    {% ifequal field.label 'Message notifications' %}{% ifnotequal user_mship.type 'S' %}   
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifnotequal %}{% else %}
+
+
+    {% ifequal field.label 'Request notifications' %}{% ifequal mship.type 'O' %}   
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifequal %}{% else %}
+
+
+    {% ifequal field.label 'Title' %}{% ifequal mship.type 'O' %}    
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifequal %}{% else %}
+
+    {% ifequal field.label 'Officer order' %}{% ifequal mship.type 'O' %}    
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifequal %}{% else %}
+
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifequal %}    {% endifequal %}   {% endifequal %} {% endifequal %} {% endifequal %}
+    
+    {% endfor %}
+  </table>
+
+  <!--<table class="formTable">
+    <tbody>
+      {{ form.as_table }}
+    </tbody>
+  </table>-->
+  <input type="submit" value="Submit Changes" name="submit">
+</form>
+
+<br/>
+<div>
+  <form method="post" action="">
+    <input type="submit" value="Leave Group" name="remove" onclick="return confirm('Are you sure you want to leave this group?');">
+    {% ifequal mship.type 'O' %}
+    <input type="submit" value="Resign Officership (stay a member)" name="resign_to_member" onclick="return confirm('Are you sure you want to recind your officer position?');">
+    {% endifequal %}
+    {% ifnotequal mship.type 'S' %}
+    <input type="submit" value="Resign Membership (stay a subscriber)" name="resign_to_subscriber" onclick="return confirm('Are you sure you want to recind you membership?');">
+    {% endifnotequal %}
+  </form>
+</div>
+    
+
+{% endblock %}

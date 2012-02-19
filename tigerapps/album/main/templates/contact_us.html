@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block h1 %}TigerAlbum: Contact Us{% endblock %}
+
+{% block title %}Contact Us - TigerAlbum{% endblock %}
+
+{% block id %}contact{% endblock %}
+
+{% block content %}
+
+<p>
+The awesomeness that is TigerAlbum has been created by Hamza Aftab,
+Jasika Bawa, Hao Lian, Nathan Swaney and James Yang for the Princeton
+community as their COS 333 final project. They are also responsible
+for maintaining the website.
+</p>
+
+<p>
+Got any questions, concerns or comments on TigerAlbum? Feel free to
+fill out the form below, or contact us
+at <a href="mailto:team@tigeralbum.com"><u>team@tigeralbum.com</u></a>
+and we'll get back to you as soon as we can!
+</p>
+
+<form action="/contact/" method="post">
+  {{ form.non_field_errors }}
+
+  <div>
+    <label>
+      <h2>Your email address <span>(optional)</span></h2>
+      {{ form.email.errors }}
+      <p><input type="email" name="email" maxlength="100"
+                value="{{ form.email.value|default:'' }}"></p>
+    </label>
+  </div>
+
+  <div>
+    <h2>Issue</h2>
+    {{ form.reason.errors }}
+    <p><ul>
+     <li><input type="radio" name="reason" value="0">General feedback</li>
+     <li><input type="radio" name="reason" value="1">Reporting a bug</li>
+     <li><input type="radio" name="reason" value="2">Concern about moderation</li>
+     <li><input type="radio" name="reason" value="3">Other</li>
+    </ul></p>
+  </div>
+
+  <div>
+    <h2>Comment</h2>
+    {{ form.comment.errors }}
+    <p>
+      <textarea name="comment" maxlength="50000"
+                rows="15" cols="80">{{ form.comment.value|default:'' }}</textarea>
+    </p>
+  </div>
+
+  <div>
+    <p><input type="submit" value="Send feedback"></p>
+  </div>
+
+  {% csrf_token %}
+</form>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+<div class="group_header">
+<h2>Join Group</h2>
+</div>
+</li></ul>
+
+<form class="first_form" action="" method="post">
+  <table class="formTable">
+    {% for field in form %}
+    
+    {% ifequal field.label 'Display' %}{% if request %}       
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endif %}{% else %}
+
+    {% ifequal field.label 'Message notifications' %}{% if request %}       
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endif %}{% else %}
+
+    {% ifnotequal field.label 'Title' %}{% ifnotequal field.label 'Officer order' %}{% ifnotequal field.label 'Request notifications' %}
+    <tr>
+      <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td> 
+      <td class="field">{{field}}</td>
+    </tr>
+    <tr><td class="help">{{field.help_text}}</td></tr>
+    {% endifnotequal %}{% endifnotequal %}{% endifnotequal %}
+    {% endifequal %}{% endifequal %}
+    
+    {% endfor %}
+  </table>
+
+  <input type="submit" value="Submit" name="submit">
+</form>
+
+<script>
+{% for id in uncheck %}
+$("{{id}}").removeAttr("checked", "checked");
+{% endfor %}
+</script>
+
+{% endblock %}

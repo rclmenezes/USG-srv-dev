@@ -1,0 +1,30 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Request a Book{% endblock %}
+
+{% block content %}
+
+<h1>Request a Book</h1>
+{{ message }}
+{% if form.errors %}
+    Please correct the error(s) below
+{% endif %}
+
+<form action="/request_{{proc}}_{{ticket}}" method="post">
+
+Please verify that this is the correct book.
+
+<ul>
+<li>Title: {{bookinfo.title}}</li>
+<li>Author: {{bookinfo.author}}</li>
+{% if bookinfo.edition %} <li>Edition: {{bookinfo.edition}}</li> {% endif %}
+<li>Publisher: {{bookinfo.publisher}}</li>
+<li>Publication Date: {{bookinfo.pubdate}}</li>
+</ul>
+<img src="/media/ptx{{bookinfo.img_http}}">
+
+<input type="submit" value="Next" />
+
+</form>
+
+{% endblock %}

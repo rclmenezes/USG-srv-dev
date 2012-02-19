@@ -1,0 +1,29 @@
+{% extends "ccc/base.html" %}
+
+{% block content %}
+	<div class="main-box">
+	{% for post in posts.object_list %}
+	    {# Each "post" is a Post model object. #}
+	    <h2 id="postTitle" style="text-align: center;">{{ post.title }}</h2>
+		{% autoescape off %}
+		{{ post.content }}
+		{% endautoescape %}
+	{% endfor %}
+
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if posts.has_previous %}
+	            <a href="?page={{ posts.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+	        </span>
+
+	        {% if posts.has_next %}
+	            <a href="?page={{ posts.next_page_number }}">next</a>
+	        {% endif %}
+	    </span>
+	</div>
+	</div>
+{% endblock %}

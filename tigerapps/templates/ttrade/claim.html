@@ -1,0 +1,61 @@
+{% extends "ttrade/listing.html" %}
+
+{% block fixed %}
+	{% if edit %}
+		{% ifnotequal listing.method 'Au' %}
+			{% if listing.offers.all %}
+			<div class="box"><h3>Offers</h3>
+				{% for offer in listing.offers.all %}
+				{% if offer.additional %}
+				<div class="box_inner">
+					"{{ offer.additional }}"
+					<br/><br/>
+					<form action="/item/{{listing.listingID}}" method="POST">
+						<input type="hidden" name="offer" value="{{offer.offerID}}" />
+						<input type="submit" name="Accept" value="Accept" />
+						<input type="submit" name="Reject" value="Reject" />
+					</form>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+			{% else %}
+			<div class="centerize"><h3>No offers yet!</h3></div>
+			{% endif %}
+		{% endifnotequal %}
+	{% else %}
+		{% if logged_in %}
+		<form id="item" action="/confirm" method="POST">
+		<div class="box"><h3>Make an offer!</h3>
+			<div class="box_inner">
+				<div class="centerize">
+					{% ifequal listing.method 'Au'%}
+						Bid: $<input type="text" id="price" name="price" />
+					{% else %}
+						<textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
+					{% endifequal %}
+					<br />
+					<input type="hidden" name="listing" value="{{listing.listingID}}"/>
+					<input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
+				</div>
+				<p> (An email will be sent to both you and the seller as confirmation)</p>
+			</div>
+		</div>
+		</form>
+		{% endif %}
+		<script type="text/javascript" src="/media/ttrade/js/formcheck/lang/en.js"> </script>
+		<script type="text/javascript" src="/media/ttrade/js/formcheck/formcheck-yui.js"> </script>
+		<link rel="stylesheet" href="/media/ttrade/js/formcheck/theme/classic/formcheck.css" type="text/css" media="screen" />
+		<script type="text/javascript">
+			window.addEvent('domready', function() 
+			{
+				{% ifequal listing.method 'Au'%}
+					// Make minimum for price
+					var min = ({{listing.price}} + 1).toFixed(2);
+					$('price').set('class', "validate['required','number[" + min + ",-1]']");
+				{% endifequal %}
+				formcheck = new FormCheck('item');
+			});
+		</script>
+	{% endif %}
+{% endblock %}

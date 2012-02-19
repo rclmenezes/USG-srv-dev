@@ -1,0 +1,71 @@
+{% extends "elections/base.html" %}
+
+{% block headercss %} <link rel="stylesheet" type="text/css" href="/media/elections/css/reg.css" />{% endblock %}
+
+{% block content %}
+<div class="content">
+	<h1>Register for the USG Election!</h1>
+	{% if changes %} <strong style="color: red;">Your changes have been saved. </strong><br/>{% else %}{% if register %} <strong style="color: red;"> You have successfully been registered! </strong><br/> {% endif %}{% endif %}
+	
+	{% if candidate %}
+	<h2> Preview </h2>
+	<div class="office">
+		<h2 class="officename">{{candidate.office}}</h2>
+		<div class="candidate">
+			<div class="photo"><img alt="Your picture" src="{% if candidate.headshot %}{{ candidate.headshot.url }}{% endif %}"/></div>
+			<div class="statement">
+				<h3 class="candidateName">{{candidate}}</h3>
+				{{candidate.statement}}
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<br />
+	{% endif %}
+	
+	
+	<div class="register">
+		<h2>Edit Statement</h2>
+		<p> Deadline for registration is {{election.deadline|date:"N d"}} at {{election.deadline|date:" P"}} After that point, you will no longer be allowed to make any changes to your statement.</p>
+		<table class="formTable">
+			<tbody>
+				<form enctype="multipart/form-data" id="register" action="/register" method="post">
+					{% for field in candidateForm %}
+					<tr>
+						<th class="tableLabel">{{field.label_tag}}:</th>
+						<td>
+							{{ field }}
+						</td>
+						{% if field.errors %}
+		           		{% for error in field.errors %}
+		               	<td style="color: red;">&bull; {{ error }}</td>
+		               	{% endfor %}
+						{% endif %}
+					</tr>
+					{% endfor %}
+					<tr>
+						<th></th>
+						<td><input type="submit" class="submit", value="Submit" /></td>
+					</tr>
+				</form>
+			</tbody>
+		</table>
+	</div>
+	
+	<br/>
+	{% if candidate %}
+	<div>
+		<h2>Remove Registration</h2>
+		<p> You can do it, but you'll make us sad pandas. </p>
+		<form enctype="multipart/form-data" id="remove" action="/remove" method="post">
+			<input type="hidden" id="netid" name="netid" value="{{ candidate.netid }}" />
+			<input type="submit" class="submit", value="Remove" />
+		</form>
+	</div>
+	{% endif %}
+			
+	<script type="text/javascript">
+	$('id_headshot').set('value', '{{candidate.headshot}}')
+	</script>
+</div>
+{% endblock %}

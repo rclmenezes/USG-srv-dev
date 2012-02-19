@@ -1,0 +1,184 @@
+{% extends "ttrade/base.html" %}
+
+{% block title %} TigerTrade | Create {% endblock %}
+
+{% block content %}
+
+	<div id="center">
+		<div class="white"> <h3> Make a listing </h3></div>
+		<form id="create" action="/create" method="POST" enctype="multipart/form-data" >
+			<input type="radio" name="listingType" value="request" /> Request to Buy<br />
+			<input type="radio" name="listingType" value="rental" /> Offer to Rent <br />
+			<input type="radio" name="listingType" value="sale" /> Item for Sale
+			<div id="more" style="display: none; visibility: hidden;">
+			{{ form.non_field_errors }}
+			<table class="formTable">
+				<tbody>
+					{% for field in listingForm %}
+					<tr id="row_{{field.auto_id}}">
+						<th id="th_{{field.auto_id}}" class="tableLabel">{{field.label_tag}}:</th>
+						<td>{{ field }}</td>
+						{% if field.errors %}
+		           		{% for error in field.errors %}
+		               	<td style="color: red;">&bull; {{ error }}</td>
+		               	{% endfor %}
+						{% endif %}
+					</tr>
+					{% endfor %}
+					
+					<tr id="row_days">
+						<th>Days &nbsp;&nbsp;</th>
+						<td>
+						<select name="days">
+							<option selected="" value="1">1 </option>
+							<option value="2">2 </option>
+							<option value="3">3 </option>
+							<option value="4">4 </option>
+							<option value="5">5 </option>
+							<option value="6">6 </option>
+							<option value="7">7 </option>
+							<option value="8">8 </option>
+							<option value="9">9 </option>
+							<option value="10">10 </option>
+							<option value="11">11 </option>
+							<option value="12">12 </option>
+							<option value="13">13 </option>
+							<option value="14">14 </option>
+						</select>
+						</td>
+					</tr>
+					<tr id="row_hours">
+						<th>Hours &nbsp;&nbsp;</th>
+						<td>
+					<select name="hours">
+						<option selected="" value="0">0 </option>
+						<option value="1">1 </option>
+						<option value="2">2 </option>
+						<option value="3">3 </option>
+						<option value="4">4 </option>
+						<option value="5">5 </option>
+						<option value="6">6 </option>
+						<option value="7">7 </option>
+						<option value="8">8 </option>
+						<option value="9">9 </option>
+						<option value="10">10 </option>
+						<option value="11">11 </option>
+						<option value="12">12 </option>
+						<option value="13">13 </option>
+						<option value="14">14 </option>
+						<option value="15">15 </option>
+						<option value="16">16 </option>
+						<option value="17">17 </option>
+						<option value="18">18 </option>
+						<option value="19">19 </option>
+						<option value="20">20 </option>
+						<option value="21">21 </option>
+						<option value="22">22 </option>
+						<option value="23">23 </option>
+					</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			<small id="console"></small>
+			<div class="submit-bar"><input id="next-button" class="validate['submit']" type="submit" value="Submit"></div>
+		</form>
+	</div>
+	<script type="text/javascript" src="/media/ttrade/js/formcheck/lang/en.js"> </script>
+	<script type="text/javascript" src="/media/ttrade/js/formcheck/formcheck-yui.js"> </script>
+	<link rel="stylesheet" href="/media/ttrade/js/formcheck/theme/classic/formcheck.css" type="text/css" media="screen" />
+	<script type="text/javascript">
+	
+		window.addEvent('domready', function() 
+		{	
+			var more = $('more');
+			more.slide('hide');
+			more.setStyle("display", "");
+			more.setStyle("visibility", "");
+			
+			// Initial listingType input
+			$$('input[name=listingType]').addEvent('click', function()
+			{
+			    more.slide('in');
+				$('id_picture').set('class', "validate['image']");
+				$('id_category').set('class', "validate['required']");
+				formcheck = new FormCheck('create');
+				$('id_category').set('class', "validate['required']");
+				$('id_title').set('class', "validate['required','length[4,70]']");
+				$('id_price').set('class', "validate['required','number']");
+				$('id_method').set('class', "validate['required']");
+				formcheck.register($('id_category'));
+				formcheck.register($('id_title'));
+				
+				if (this.value == "sale" || this.value == "rental")
+				{
+					$('row_id_method').fade('in');
+					$('row_id_picture').fade('in');
+					formcheck.register($('id_method'));
+					
+					if ($('id_method').getSelected()[0].value == "Fi" || $('id_method').getSelected()[0].value == "Au")
+					{
+						$('row_id_price').fade('in');
+						formcheck.register($('id_price'));
+					}
+					else
+					{
+						formcheck.dispose($('id_price'));
+						$('row_id_price').fade('out');
+					}
+				}    
+				if (this.value == "request")
+				{
+					formcheck.dispose($('id_method'));
+					formcheck.dispose($('id_price'));
+					$('row_id_method').fade('out');
+					$('row_id_picture').fade('out');
+					$('row_id_price').fade('out');
+				}                                 
+			});
+			
+			// Adds/removes price based on method
+			$('id_method').addEvent('change', function()
+			{
+				if (this.getSelected()[0].value == "Fi" || this.getSelected()[0].value == "Au")
+				{
+					$('row_id_price').fade('in');
+					formcheck.register($('id_price'));
+					
+					label = $('th_id_price');
+					if ($('id_method').getSelected()[0].value == "Fi" && label.getFirst('label').get('html') == "Starting Price")
+					{
+						label.getFirst('label').set('html', "Price");
+					}
+					else if ($('id_method').getSelected()[0].value == "Au" && label.getFirst('label').get('html') == "Price")
+					{
+						label.getFirst('label').set('html', "Starting Price");
+					}
+				}
+				else
+				{
+					$('row_id_price').fade('out');	
+					formcheck.dispose($('id_price'));
+				}
+			});
+			
+			$('id_category').addEvent('change', function()
+			{
+				if (this.getSelected()[0].value == 'Gr')
+				{
+					$('console').set('html', "<br/>Please note that it is against University Policy to sell graduation tickets. You are allowed to trade them or give them away, but you may not sell them. In no way is the USG responsible for sold graduation tickets and the disciplinary action that may arise through their sale.");
+				}
+				else if (this.getSelected()[0].value == 'Bo')
+				{
+					$('console').set('html', "<br/>If you are a Princeton University student trying to sell a textbook, we recommend you use our other service, <a href=\"http://ptx.tigerapps.org\">the Princeton Textbook Exchange</a>.");
+				}
+				else
+				{
+					$('console').set('html', "");
+				}
+			});
+		 
+		});
+	</script>
+{% endblock %}

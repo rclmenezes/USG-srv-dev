@@ -1,0 +1,15 @@
+{% for comment in comments %}
+<article style="margin-left: {{ comment.depth }}px"
+         data-id="{{ comment.comment.id }}">
+  <span class="author">{{ comment.comment.author }}</span>:
+  {{ comment.comment.comment }}
+
+  <footer>
+    {{ comment.comment.dt_posted|date:"F d, Y \a\t P" }}
+    &bull; <a class="report">Report</a>
+    {% if comment.depth < 31 %}
+    &bull; <a class="reply">Reply</a>
+    {% endif %}
+  </footer>
+</article>
+{% endfor %}

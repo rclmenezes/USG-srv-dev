@@ -1,0 +1,250 @@
+{% extends "card/base_club_meal.html" %}
+
+{% block content %}
+
+<h2>Add Meal</h2>
+{% if confirm %}
+<h4> {{ confirm }} </h4>
+{% endif %}
+   {% if errmes %}      
+<script language="javascript" type="text/javascript"> alert('{{ errmes }}');</script>
+   {% endif %}
+
+<style>
+    #columns {
+        width: 800px;
+    }
+    #columns .column {
+        position: relative;
+        padding: 1%;
+    }
+    #columns .left {
+        float: left;
+	width: 350px;
+    }
+    #columns .right {
+        float: left;
+	width: 350px;
+    }
+    #display {
+    width: 800px;
+    }
+    #display .host {
+    float: left;
+    width: 375px;
+    }
+    #display .guest {
+    float: left;
+    width: 350px;
+    }
+    #pair {
+    float:left;
+    }
+    #clear {
+    clear: both;
+    }
+</style>
+
+<script>
+function card_parse(element, change_text)
+// Parse PUID from card swipe input, and set element's value to the PUID
+// If input doesn't match that of a prox, clear element and alert the user
+{
+raw_text = element.value;
+
+if (raw_text.search(";601621") < 0)  // invalid input
+{
+element.value = "";
+element.focus();
+alert("Invalid card input. Please try again.");
+return;
+}
+
+split_text = raw_text.split(";601621");  // text before puid on prox
+puid = split_text[1].slice(0, 9);  // puid is 9 digits
+
+if (!puid.match(/^\d+$/))  // invalid input
+{
+element.value = "";
+element.focus();
+alert("Invalid card input. Please try again.");
+return;
+}
+
+//element.value = puid;
+status = 2;
+
+if (change_text) {
+//document.getElementById("instruct_guest_id").innerHTML = "Swipe Guest Card";
+document.getElementById("guest_input_id").focus();
+}
+else
+document.getElementById("input_id").submit();
+
+document.getElementById("instruct_host_id").innerHTML = "";
+return;
+}
+</script>
+
+<script>
+function select_elem()
+// Function to select particular elements at load time
+{
+{% if host and guest %} 
+document.getElementById("confirm_id").focus();
+{% else %} 
+document.getElementById("host_input_id").focus();
+{% endif %}
+}
+
+status = 0;
+function host_blur()
+{
+//if (document.hasFocus != "reset") {
+//if ($('#instruct_host_id').attr('value')=='') {
+if (status == 0) {
+status = 1;
+document.getElementById("instruct_host_id").innerHTML = '<span style="color:red;">Select Here to Swipe</span>';
+//}
+}
+}
+function guest_blur()
+{
+//if ($('#instruct_guest_id').attr('value')=='' && $('#instruct_host_id').attr('value')!='') {
+if (status==2) {
+status = 2;
+document.getElementById("instruct_guest_id").innerHTML = '<span style="color:red;">Select Here to Swipe</span>';
+}
+}
+function host_focus()
+{
+//if ($('#instruct_host_id').attr('value')=='') {
+if (status == 1) {
+status = 0;
+document.getElementById("instruct_host_id").innerHTML = "Swipe Host Card";
+}
+}
+function guest_focus()
+{
+//if ($('#instruct_guest_id').attr('value')=='' && $('#instruct_host_id').attr('value')!='') {
+if (status == 2) {
+status = 2;
+document.getElementById("instruct_guest_id").innerHTML = "Swipe Guest Card";
+}
+}
+
+</script>
+
+{% if swiped %}
+
+<form name="input_form" id="input_id"  method="post" action="">
+<div class="pair">
+
+<div class="row">
+  <span class="label">Host:</span>
+<span class="form2">{{ host.first_name }} {{ host.last_name }}</span>
+</div>
+<div class="row">
+  <span class="label">Guest:</span>
+<span class="form2">{{ guest.first_name }} {{ guest.last_name }}</span>
+</div>
+
+<div class="row">
+  <span class="label">Date:</span>
+<span class="form2"><input type="text" name="date_input" id="date_input_id" value="{{today}}"/><script language="JavaScript">new tcal ({'formname': 'input_form','controlname': 'date_input'});</script></span>
+</div>
+
+<div class="row">
+  <span class="label">Meal:</span>
+<span class="form2"><select name="meal_input" id="meal_input_id"/>
+<option value="Dinner">Dinner</option>
+<option value="Lunch">Lunch</option>
+<option value="Breakfast">Breakfast</option>
+<option value="Brunch">Brunch</option>
+<option value="Other">Other</option>
+</select></span>
+</div>
+
+<input type="hidden" name="host" value={{ host.netid }}>
+<input type="hidden" name="guest" value={{ guest.netid }}>
+
+<div class="row">
+    <span class="form2"><input type="submit" name="confirm" value="Submit" class="button"></span>
+</div>
+</div>
+</form>
+
+<form action="" method="post">
+<div class="row">
+<span class="form2"><input type="submit" value="Reset" name="reset" id="reset_id" class="button" onclick="$('input[type=&quot;text&quot;]').attr('value','');"></span></div>
+</form>
+
+{% else %}
+
+<div id="columns">
+<div class="left column">
+
+<h3>Enter Meals by Swiping Prox</h3>
+
+<form name="input_form" id="input_id"  method="post" action="">
+
+<div class="pair">
+<div class="row">
+<span class="form2">
+<input type="password" name="host_input" id="host_input_id" onchange="card_parse(this,true)" onblur="host_blur()" onfocus="host_focus()" {% if host %} value="{{ host.puid }}"{% else %} value=""{% endif %}></span>
+<span class="label2"><label for="host_input" name="instruct_host" id="instruct_host_id" class="display instruct">
+{% if not host %} Swipe host card {% endif %}
+</label>
+</span>
+</div>
+</div>
+
+<div class="row">
+<span class="form2"><input type="password" name="guest_input" id="guest_input_id"   onchange="card_parse(this, false)" onblur="guest_blur()" onfocus="guest_focus()" {% if guest %} value="{{ guest.puid }}"{% else %} value=""{% endif %}></span>
+<span class="label2"><label for="guest_input" name="instruct_guest" id="instruct_guest_id" class="input instruct">
+</label></span></div>
+
+</form>
+
+<form action="" method="post">
+<div class="row">
+<span class="form2"><input type="submit" value="Reset" name="reset" id="reset_id" class="button" onclick="$('input[type=&quot;text&quot;]').attr('value','');"></span></div>
+</form>
+
+
+</div>
+<div class="right column">
+
+<h3>Enter Meals Manually</h3>
+
+<form action="/{{ club }}/meals/add" method="post" name="addForm">
+
+{% for field in form %}
+<div class="row">
+  <span class="label">{{ field.label }}:</span>
+  <span class="formw">{{field}}{% ifequal field.label 'Date' %} <script language="JavaScript">new tcal ({'formname': 'addForm','controlname': 'date'});</script>{% endifequal %}</span>
+{% for error in field.errors %}
+</div><div class="row">
+  <span class="error">{{error}}</span>
+{% endfor %}
+</div>
+{% endfor %}
+
+<div class="row">
+    <span class="formw"><input type="submit" value="Submit" class="button"></span></div>
+</form>
+
+</div>
+</div>
+<div id="clear">
+</div>
+
+{% endif %}
+
+{% endblock content %}
+{% block footer %}
+You can add individual meals to the system using this screen.
+{% endblock %}
+{% block path %}
+editmeal
+{% endblock %}

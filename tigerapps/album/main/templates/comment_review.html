@@ -1,0 +1,41 @@
+<title>Comment Review</title>
+<body> 
+<p><pre>Comment Review              <a href="/mod">Moderator Home</a>       <a href="logout">Logout</a></pre></p><hr>
+<table border="1">
+<tr>
+  <td># Flags</td>
+  <td>ID</td>
+  <td>Photo</td>
+  <td>Author</td>
+  <td>Comment</td>
+  <td>Poster's Location</td>
+  <td>Edit Author</td>
+  <td>Edit Comment</td>
+  <td>Ignore all reports</td>
+  <td>Delete</td>
+  <td>Pass</td>
+</tr>
+
+<form action = "/mod/comment_review" method="post">
+{% csrf_token %}
+  {% for comment in flagged_comments %}
+<tr>
+  <td>{{ comment.n_flagged }}</td>
+    <td><a href="/perma_{{ comment.photo.id}}" target="_blank">{{ comment.photo.id }}</a></td>
+  <td><a href="/{{ comment.photo.photo.name}}" target="_blank"><img src="/{{ comment.photo.thumbnail.name }}"/></a></td>
+  <td><textarea name="{{ forloop.counter }}_at" rows="3" cols="20">{{ comment.author }}</textarea></td>
+  <td><textarea name="{{ forloop.counter }}_ct" rows="6" cols="40">{{ comment.comment }}</textarea></td>
+  <td><iframe src="http://api.hostip.info/get_html.php?ip={{comment.ip}}" seamless="seamless"></iframe></td>
+  <INPUT TYPE="hidden" NAME="{{ forloop.counter }}_id" VALUE="{{ comment.id }}">
+  <td><INPUT TYPE="CHECKBOX" NAME="{{ forloop.counter }}_ae"></td>
+  <td><INPUT TYPE="CHECKBOX" NAME="{{ forloop.counter }}_ce"></td>
+  <td><INPUT TYPE="RADIO" NAME="group_{{ forloop.counter }}" VALUE="accept"></td>
+  <td><INPUT TYPE="RADIO" NAME="group_{{ forloop.counter }}" VALUE="reject"></td>
+  <td><INPUT TYPE="RADIO" NAME="group_{{ forloop.counter }}" VALUE="pass" checked></td>
+</tr>
+  {% endfor %}
+
+</table>
+<INPUT TYPE=SUBMIT VALUE="submit">
+</form>
+</body>

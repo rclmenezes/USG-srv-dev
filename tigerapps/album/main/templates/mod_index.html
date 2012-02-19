@@ -1,0 +1,9 @@
+<title>TigerAlbum Moderation</title>
+<body>
+  <p><pre>Moderator Home              <a href="change_password">Change Password</a>           <a href="logout">Logout</a>                <a href="mailto:team@tigeralbum.com">Contact Admins</a>                 <a href="mod_list">Contact other Moderators</a></pre></p><hr>
+  <p>There are <b>{{num_approve_photos}} </b> <a href="photo_approve">newly submitted photos awaiting moderator approval</a>.</p>
+  <p>IP address {{ most_common_ip }} is responsible for {{ most_common_count }} of those submissions. Click here to <a href="photo_approve_ip">review this user's photos only</a>.</p>
+  <p>The oldest unapproved submission was submitted on {{ date_oldest_submit }}. The most recently approved photo was submitted on {{ date_last_approval }}.</p>
+  <p>There are {{num_flagged_photos}} <a href="photo_review">flagged photos needing moderator review</a>.</p>
+  <p>There are {{num_flagged_comments}} <a href="comment_review">flagged comments needing moderator review</a>.</p>
+</body>

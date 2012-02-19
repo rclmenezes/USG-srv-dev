@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Rodrigo Menezes">
+	<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps,MyPrinceton">
+	<link rel="icon" 
+	      type="image/ico" 
+	      href="/media/images/favicon.ico">
+	<title>MyPrinceton</title>
+
+	<!-- Add ALLLLL THE JAVASCRIPT!
+	http://s3.amazonaws.com/kym-assets/photos/images/original/000/140/938/responsibility12%28alternate%29.png?1309207929-->
+	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript" src="/media/my/js/jquery-ui-1.7.2.custom.min.js" ></script>
+	<script type="text/javascript" src="/media/my/js/jquery.json-2.2.min.js" ></script>
+	<script type="text/javascript" src="/media/my/js/common.js"></script>
+	<script type="text/javascript" src="/media/my/js/subModal.js"></script>
+
+	<!-- Adding CSS -->
+	<link rel="stylesheet" type="text/css" href="/media/my/css/styles4.css" />
+	<link rel="stylesheet" type="text/css" href="/media/my/css/subModal.css" />
+	
+	<!-- Navbar -->
+	<script type="text/javascript"> 
+
+	    $(document).ready(function(){ 
+	        $("ul.sf-menu").supersubs({ 
+	            minWidth:    12,   // minimum width of sub-menus in em units 
+	            maxWidth:    27,   // maximum width of sub-menus in em units 
+	            extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+	                               // due to slight rounding differences and font-family 
+	        }).superfish({
+			speed: 'fast',
+			animation:   {opacity:'show'},
+			delay: 600
+				});  // call supersubs first, then superfish, so that subs are 
+	                         // not display:none when measuring. Call before initialising 
+	                         // containing tabs for same reason. 
+	    }); 
+
+	</script>
+
+	<!-- Adding javascript--> 
+	<script type="text/javascript" >
+	$(document).ready(function(){
+		////// Dragbox icon showing and coloring ////////
+		$('.dragbox').each(function(){
+			// Makes h2 orange upon hover
+			$(this).hover(function(){
+				$(this).find('h2').addClass('collapse');
+			}, function(){
+				$(this).find('h2').removeClass('collapse');
+			})
+			
+			// Adds icons upon hover
+			.find('h2').hover(function(){
+				$(this).find('.configure').css('visibility', 'visible');
+			}, function(){
+				$(this).find('.configure').css('visibility', 'hidden');
+			})
+			
+			// Hides content and changes arrow. Updates widget data.
+			.click(function(e){
+				if ($(e.target).is('.dragbox h2 img.is_collapsed'))
+				{
+					$content = $(this).siblings('.dragbox-content');
+					$image = $(this).children().find("img.is_collapsed");
+					if ($content.css('display')=="none" || $image.attr("src") == "/media/my/images/right.png")
+					{
+						$content.show();
+						$image.attr("src", "/media/my/images/down.png");
+					}
+					else
+					{
+						$content.hide();
+						$image.attr("src", "/media/my/images/right.png");
+					}
+					updateWidgetData();
+				}
+			})
+			
+			// Upon end, makes sure configure is hidden
+			.end().find('.configure').css('visibility', 'hidden');
+		});
+		
+		//////// MyApp sorting ////////
+		$('.moveable').sortable({
+			connectWith: '.moveable',
+			handle: 'h2',
+			cursor: 'move',
+			placeholder: 'placeholder',
+			forcePlaceholderSize: true,
+			opacity: 0.4,
+			start: function(event, ui){  
+				//Firefox, Safari/Chrome fire click event after drag is complete, fix for that.
+				/*if($.browser.mozilla || $.browser.safari)  
+				{
+					$content = $(ui.item).find('.dragbox-content');
+					$image = $(ui.item).find("img.is_collapsed");
+					if ($content.css('display')=="none" || $image.attr("src") == "/media/my/images/right.png")
+					{
+						$content.show();
+						$image.attr("src", "/media/my/images/down.png");
+					}
+					else
+					{
+						$content.hide();
+						$image.attr("src", "/media/my/images/right.png");
+					}
+				}*/
+			},
+			stop: function(event, ui){  
+				ui.item.css({'top':'0','left':'0'}); //Opera fix  
+				updateWidgetData();  
+				
+				// Make sure collapse and configure are gone (Firefox fix)
+				//$(ui.item).find('h2').removeClass('collapse');
+				//$(ui.item).find('.configure').css('visibility', 'hidden');
+				
+				// Change iFrame
+				var iframe = ui.item.find('iframe');
+				var source = iframe.attr('src')
+				var root = source.substring(0, source.indexOf('?'));
+				var newColumn = ui.item.parents('.column').attr('id');
+				root = root + "?" + newColumn + "=True";
+				if (source.search("&settings=True") != -1)
+					root = root + "&settings=True";
+				iframe.attr('src', root);
+				
+				// Swap height with other if necessary
+				if ((source.search("M=True") != -1) != (newColumn == 'M'))
+				{
+					var height = ui.item.find('.dragbox-content').css('height');
+					var newHeight = ui.item.find('.other').html();
+					ui.item.find('.dragbox-content').css('height', newHeight);
+					ui.item.find('.other').html(height);
+					//alert("Swap " + height + " for " + newHeight + "!");
+				}
+			}
+		})
+		.disableSelection();
+		
+		//////// Submodal  /////////
+		$('.add').click(function(){
+			var colID = $(this).parents('.column').attr('id');
+			showPopWin('/addMyApp/{{ orderNo }}/' + colID, 600, 500, returnRefresh);
+		});
+		$('#page_plus').click(function(){
+			showPopWin('/addPage', 275, 175, function() {
+				showPopWin('/addMyApp', 600, 500, function(){
+					var order = {{ pages }};
+					window.top.location.href = "/page/" + order;
+				});	
+			});
+		});
+		
+		//////// Icon actions /////////
+		$('img.trash').click(function(){
+			var answer = confirm("Are you sure you want to remove this MyApp?")
+			if (answer)
+			{
+				var box = $(this).parents('.dragbox');
+				box.remove();
+				updateWidgetData();
+			}
+		});
+		$('img.refresh').click(function(){
+			var content = $(this).parents('.dragbox').find('.dragbox-content');
+			var source = $(this).parents('.dragbox').find('iframe').attr('src');
+			var scrolling = $(this).parents('.dragbox').find('iframe').attr('scrolling');
+			content.html('<iframe src="' + source + '" class="myapp" style="width:100%;height:100%;background-color:transparent;" scrolling="' + scrolling + '" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>');
+		});
+		$('img.settings').click(function(){
+			var content = $(this).parents('.dragbox').find('.dragbox-content');
+			var scrolling = $(this).parents('.dragbox').find('iframe').attr('scrolling');
+			var source = $(this).parents('.dragbox').find('iframe').attr('src');
+			if (endsWith(source, '&settings=True'))
+			{
+				source = chop(source, '&settings=True');
+				content.html('<iframe src="' + source + '" class="myapp" style="width:100%;height:100%;background-color:transparent;" scrolling="' + scrolling + '" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>');
+			}
+			else
+				content.html('<iframe src="' + source + '&settings=True" class="myapp" style="width:100%;height:100%;background-color:transparent;" scrolling="' + scrolling + '" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>');
+		});
+		
+		/////// PAGE CHANGING ////////
+		
+		// Globals
+		if ($('.page_remove').length > 0)
+			var remove = true;
+		else
+			var remove = false;
+		var tabName = $('#tabName').html();
+		
+		$(window).keypress(function(e) {
+		    if ((e.keyCode == 13) && $('#clickEdit').length > 0) {
+		        changePageName(tabName, remove);
+		    }
+		});
+		
+		$('html').click(function() {
+			if ($('#clickEdit').length > 0)
+			{
+				changePageName(tabName, remove);
+			}
+		});
+		
+		$('#page_it').click(function(event){
+			var $target = $(event.target);
+			if( !$target.is(".page_remove") ) 
+			{
+				event.stopPropagation();
+				if ($('#clickEdit').length < 1)
+				{
+					tabName = $('#tabName').html();
+					$(this).html('<input type="textbox" id="clickEdit" style="width: 80%; font-size: 14px; margin: 0; padding: 0;" value="' + tabName + '"/>');
+					$('#clickEdit').focus();
+				}
+			}
+		});
+		
+		/////// PAGE REMOVAL//////
+		$('#page_it').hover(function(){
+			$('img.page_remove').css('visibility', '');
+		}, function(){
+			$('img.page_remove').css('visibility', 'hidden');
+		});
+		$('img.page_remove').click(function(){
+			var answer = confirm("Remove this page?");
+			if (answer)
+			{
+				$.post('/removePage', 'orderNo={{ orderNo }}', function(response)
+				{
+					if (response=="success") 
+						window.top.location.href = "/";
+				});
+			}
+		});
+	});
+	
+	function changePageName(tabName, remove)
+	{
+		var inputValue = $('#clickEdit').attr('value');
+		// Add img if necessary
+		if (remove)
+			var tab = '<img style="display:none;" class="page_remove" src="/media/my/images/SmallX.gif"/><span id="tabName">';
+		else
+			var tab = '<span id="tabName">';
+			
+		// Will not accept crap
+		if (inputValue.length > 1 && inputValue.length < 21)
+		{
+			tab += inputValue;
+			$.post("/changePageName/{{ orderNo }}", "name=" + inputValue, function(response)
+			{
+				if(response=="success")  
+					$("#console").html('<div class="success" style="color: #F96B02;">Saved</div>').hide().fadeIn(1000);  
+				setTimeout(function(){ $('#console').fadeOut(1000); }, 2000);
+			});
+		}
+		else
+		{
+			tab += tabName;
+			$("#console").html('<div class="success" style="color: red;">Length must be between 1 and 20 characters</div>').hide().fadeIn(1000);  
+			setTimeout(function(){ $('#console').fadeOut(1000); }, 2000);
+		}
+		$('#page_it').html(tab + "</span>");
+	}
+
+	function updateWidgetData(){  
+		var items=[]; 
+		$('.column').each(function(){  
+			var columnId=$(this).attr('id');  
+			$('.dragbox', this).each(function(i){  
+				var collapsed=false;  
+				if($(this).find('.dragbox-content').css('display')=="none")  
+					collapsed=true;  
+				//Create Item object for current panel  
+				var item={  
+					id: $(this).attr('id'),  
+					collapsed: collapsed,  
+					order : i,  
+					column: columnId  
+				};  
+				//Push item object into items array  
+				items.push(item);  
+			});  
+		}); 
+		//Assign items array to sortorder JSON variable  
+		var sortorder={ items: items };  
+
+		//Pass sortorder variable to server using ajax to save state  
+		$.post('/saveMyApps/{{ orderNo }}', 'data='+$.toJSON(sortorder), function(response)
+		{  
+			if(response=="success")  
+				$("#console").html('<div class="success" style="color: #F96B02;">Saved</div>').hide().fadeIn(1000);  
+			setTimeout(function(){  
+				$('#console').fadeOut(1000);  
+			}, 2000);  
+		});	
+	}
+	
+	function endsWith(str, suffix) {
+	    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	}
+	
+	function chop(str, suffix) {
+		return str.substring(0, str.length - suffix.length);
+	}
+	
+	function returnRefresh() {
+		window.top.location.href = window.top.location.href;
+	}
+</script>
+</head>
+
+<body>
+	{% include "main/jquery.html" %}
+	<div id="wrapper">
+		<div class="top">
+			<div id="header">
+				<div class="logo"><a href=""><img src="/media/my/images/myPrinceton.png
+					" alt=""/></a></div>
+				<div id="logout">
+					<a href="/logout">Logout</a>
+				</div>
+				<div id="console" style="position: absolute; top: 30px; right: 30px;"></div>
+			</div> <!-- header-->
+		</div><!-- top -->
+		
+		<div id="pages">
+			{% autoescape off %}{{ pageBar }}{% endautoescape %}
+		</div>
+		
+		<!-- Adds widgets -->
+		<div id="panel">
+			{% for column in colList %}
+			<div class="column" id="{{ column.location }}">
+				<div class="moveable">
+					{% for relation in column.relations %}
+					<div class="dragbox" id="{{ relation.relationID }}" >
+						<h2>
+							<div class="arrow"><img class="is_collapsed" src="{% if relation.collapsed %}/media/my/images/right.png{% else %}/media/my/images/down.png{% endif %}" /></div>
+							<div class="title">{% if relation.myapp.link %} <a href="{{relation.myapp.link}}" style="color:white;"> {% endif %}{{ relation.myapp.name }}{% if relation.myapp.link %} </a> {% endif %} </div>
+							<span class="configure" ><img class="refresh" src="/media/my/images/refresh.png" alt="Refresh" /><img class="trash" src="/media/my/images/trash.png" alt="Remove" />{% if relation.myapp.settings %}<img class="settings" src="/media/my/images/settings.png" alt="Settings" />{% endif %}</span>
+						</h2>
+						<div class="dragbox-content" style="display:{% if relation.collapsed %}none{% endif %}; height:{% ifequal column.location 'M' %}{{ relation.myapp.mHeight }}{% else %}{{ relation.myapp.sHeight }}{% endifequal %}px;">
+							<iframe src="/myapps/{{ relation.relationID }}/?{{ column.location }}=True" class="myapp" style="width:100%;height:100%;background-color:transparent;padding:0;margin: 0;" scrolling="{% if relation.myapp.scrolling %}auto{% else %}no{% endif %}" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>
+							<!--Storage--><div class="other" style="display: none;">{% ifequal column.location 'M' %}{{ relation.myapp.sHeight }}{% else %}{{ relation.myapp.mHeight }}{% endifequal %}px</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<div class="add"><small>+ click to add an app</small></div>
+			</div>
+			{% endfor %}
+		</div>
+	</div><!--wrapper-->
+	
+	<div class="footer">
+		<small>&copy;USG 2011 | Made by Rodrigo Menezes | Design by Rodrigo Menezes and Ed Kelley</small>
+	</div>
+</body>
+</html>

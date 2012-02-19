@@ -1,0 +1,64 @@
+		{% load app_extras %}
+		<div id="spotlight">
+			<div class="spotlight-item" id="spotleft">
+				<div class="spotlight-title">
+					<h3>What's Hot<span class="spotlight-more"><a href="/hotevents">show more</a></span></h3>
+				</div>
+				<div class="spotlight-content">
+					<ul class="spotlight-menu">
+						{% for event in hot_events %}
+						<li><a class="centerellipsis" href="/events/{{event.event_id}}"><span class='ellipsis_text'>{{event}}</span></a></li>
+						<li><ul>
+							<li><a class="centerellipsis" style="text-decoration: none;"><span class='ellipsis_text'>{{event.getFormattedStartDate}},{{event.getTime}} | {{event.getAttendeeCount}} attendee{{ event.getAttendeeCount|pluralize }}</span></a></li>
+						</ul></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="spotlight-item" id="spotcenter">
+				<div class="spotlight-title">
+					<h3>Recently Added<span class="spotlight-more"><a href="/recentlyadded">show more</a></span></h3>
+				</div>
+
+
+				<div class="spotlight-content">
+					<ul class="spotlight-menu">
+						{% for event in recently_added %}
+						<li><a class="centerellipsis" href="/events/{{event.event_id}}"><span class='ellipsis_text'>{{event}}</span></a></li>
+						<li><ul>
+							<li><a class="centerellipsis" style="text-decoration: none;"><span class='ellipsis_text'>{{event.getFormattedStartDate}},{{event.getTime}} | added {{event.event_date_time_created|time_difference}} ago</span></a></li>
+						</ul></li>
+						{% endfor %}				
+					</ul>	
+				</div>
+			</div>
+			<div class="spotlight-item" id="spotright">
+				{% if user_data %}
+				<div class="spotlight-title">
+					<h3>Recently Viewed<span class="spotlight-more"><a href="/recentlyviewed">show more</a></span></h3>
+				</div>
+				<div class="spotlight-content">
+					<ul class="spotlight-menu">
+						{% for event in recently_viewed %}
+						<li><a class="centerellipsis" href="/events/{{event.event_id}}"><span class='ellipsis_text'>{{event}}</span></a></li>
+						<li><ul>
+							<li><a class="centerellipsis" style="text-decoration: none;"><span class='ellipsis_text'>{{event.getFormattedStartDate}},{{event.getTime}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize }}</span></a></li>
+						</ul></li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% else %}
+				<div class="spotlight-title">
+					<h3><a href="/login">Log In for Full Access</a></h3>
+				</div>
+				<div class="spotlight-content">
+					<ul class="spotlight-menu" style="font-size: 1.2em;">
+						<li>Invite friends</li>
+						<li>Discuss events</li>
+						<li>Set up email reminders</li>
+						<li>Submit your own events</li>
+					</ul>
+				</div>				
+				{% endif %}
+			</div>
+		</div>	

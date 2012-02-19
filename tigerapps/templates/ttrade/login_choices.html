@@ -1,0 +1,14 @@
+{% extends "ttrade/base.html" %}
+
+{% block title %} TigerTrade | Login {% endblock %}
+
+{% block content %}
+	<div id="center">
+	<div class="white"> <h3> Choose a method of login </h3></div>
+		<ul>
+		<li><a href="/cas/login"> Princeton University CAS </a></li>
+		<li><a href="/ias/login"> Institute for Advanced Study CAS </a></li>
+		<li>Facebook Connect (Coming eventually)</li>
+		</ul>
+	</div>
+{% endblock %}
