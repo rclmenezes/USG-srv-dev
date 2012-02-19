@@ -1,0 +1,84 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - My Account{% endblock %}
+{% block id %}myaccount{% endblock %}
+
+{% block content %}
+
+<h2>My Account (rating: {{user_data.getRating}})</h2>
+
+<div>
+  <span id="click1"
+        class="clickable {%ifequal clickid 1%}selectedtab{%endifequal%}"
+        onclick="updateTabs('basicinfo', 'click1');">
+    Your Account and Inventory
+  </span>
+  <span id="click3"
+        class="clickable {%ifequal clickid 3%}selectedtab{%endifequal%}"
+        onclick="updateTabs('pending', 'click3');">
+    Transactions
+  </span>
+</div>
+
+<div id="basicinfo" style="display: {%ifequal clickid 1%}block{%else%}none{%endifequal%};">
+  <h4>Basic Information</h4>
+  <p class="description">This information will be e-mailed to people
+    who buy books from you or sell books to you. It is important to
+    keep it up-to-date so that people can find you more easily.</p>
+
+  <p>
+    You are <strong>{{user_data.first_name}}
+    {{user_data.last_name}}</strong>, and you live
+    in <strong>{{user_data.dorm_name}}
+    {{user_data.dorm_room}}</strong>. <a href="/profile">Edit this
+    information</a>.
+  </p>
+
+  <h4>Inventory</h4>
+  <p class="description">The <strong>inventory</strong> is a list of
+  all of the books that you are currently offering. It shows the
+  price, title, and the date that you offered the book.</p>
+
+  {% if has_open_offers %}
+  <table id="open-offers" class="fancy">
+    <thead>
+      <th>Date</th>
+      <th>Price ($)</th>
+      <th>Title</th>
+      <th>Action</th>
+    </thead>
+    <tbody>
+      {% for offer in open_offers %}
+      <tr>
+        <td>{{ offer.date_open|date:"n/j/y" }}</td>
+        <td>{{ offer.price }}</td>
+        <td>{{ offer.book.title }}</td>
+        <td>
+          <form method="post">
+	    <span><input type="hidden"
+                         name="open_offerid"
+                         value="{{ offer.id }}" /></span>
+	    <span><input type="submit"
+                         name="edit_open"
+                         value="Edit" /></span>
+	    <span><input type="submit"
+                         name="delete_open"
+                         value="Remove" /></span>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>You have no items in your inventory right now.</p>
+  {% endif %}
+</div>
+
+<div id="pending" style="display: {%ifequal clickid 3%}block{%else%}none{%endifequal%};">
+{% include "myaccount/pendingtransactions.html" %}
+{% include "myaccount/completedtransactions.html" %}
+</div>
+
+<script type="text/javascript" src="/media/ptx/css/myaccount.js"></script>
+{% endblock %}

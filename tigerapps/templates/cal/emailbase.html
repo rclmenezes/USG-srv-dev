@@ -1,0 +1,15 @@
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+</head>
+
+<body id="{% block id %}base{% endblock %}">
+{% block content %} {% endblock %}
+<img src="[IMG_EMBED]media/cal/css/images/icon-tips.gif[/IMG_EMBED]" style="float: left; padding-top: 10px; padding-left: 4px;" /><p style="color: #777; padding-left: 25px; font-size: 10px;"><strong>Tip:</strong> {% block tip %}Did you know that you can sync the Princeton Events Calendar with your Google Calendar, iCal, or Outlook Calendar?<br />Subscribe to the "Your personal calendar" address <a href="http://dev.cal.tigerapps.org/user">provided in your profile</a> to see your events appear on your calendar.{% endblock %}</p>
+{% include "cal/email_footer.html" %}
+</body>
+</html>

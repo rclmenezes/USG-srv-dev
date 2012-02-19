@@ -1,0 +1,19 @@
+{% extends "cal/base.html" %}
+{% load app_extras %}
+
+{% block title %}Events Page{% endblock %}
+
+{% block content %}
+
+<ul class="events">
+{% for date in fdates %}
+<li>{{date}}</li>
+{% for event in events|dict_get:date %}
+<ul>
+<li class="event-title"><a href="events/{{event.event_id}}">{{event}}</a></li>
+<li class="event-time">{{event.getTime}}</li>
+<li class="event-subtext">{{event.get_event_location_display}} {{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}</li>
+</ul>
+{% endfor %}
+{% endfor %}
+{% endblock %}

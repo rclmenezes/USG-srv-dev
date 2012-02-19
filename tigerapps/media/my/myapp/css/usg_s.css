@@ -1,0 +1,51 @@
+#feed, html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
+h2.postTitle
+{
+    margin: 0;
+    padding: 0 0 0 5px;
+    font-size: 14px;
+}
+
+em.date
+{
+    margin: 0 0 10px 5px;
+    font-style: italic;
+    font-size: 13px;
+}
+
+p.style, p.description
+{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+p.img
+{
+    width: 100px;
+}
+
+.entry
+{
+    display: block;
+}
+
+#feed a
+{
+    display: block;
+    font-size: 13px;
+    text-decoration: none;
+    color: black;
+    padding: 10px 0;
+    border-bottom: 1px solid black;
+}
+
+#feed a:hover
+{
+    background: #C2CDD2;
+}

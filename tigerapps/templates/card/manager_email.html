@@ -1,0 +1,67 @@
+{% extends "card/base_email.html" %}
+
+{% block content %}
+
+<h2>Hi {{ club }} Manager!</h2>
+
+It is the beginning of a new month! This means the following:
+<ol>
+<li> The meal exchange period is over. All of this month's exchanges have been deleted from the database and the new month starts fresh. </li>
+<li> A new archive file is available for your convenience. If your club has open exchanges, you can find the summary spreadsheet attached to this email. If you lose this email, contact the site administrator and he will send you a new copy off the server.</li>
+</ol>
+{% if not mealsout and not mealsin %}
+<b>Congratulations! Your club has no open exchanges for the month.</b><br>
+{% else %}
+<b>The following exchanges were never completed. You can also find this information in the attached file.</b><br><br>
+{% if mealsout %}
+<b>
+Your members ate these meals at another club without completing the exchange: </b><br><br>
+
+<table border="1">
+<tr><td> Date of Meal</td>
+<td> Club </td>
+<td> Host </td>
+<td> Guest </td>
+<td> Meal Type</td>
+</tr>
+
+{% for ex in mealsout %}
+<tr><td> {{ ex.meal_1.date }} </td>
+<td> {{ ex.meal_1.host.club.name }} </td>
+<td> {{ ex.meal_1.host.full_name }} </td>
+<td> {{ ex.meal_1.guest.full_name }} </td>
+<td> {{ ex.meal_1.meal_type }} </td></tr> 
+{% endfor %}
+
+</table>
+{% endif %}
+
+{% if mealsin %}
+<b><br>
+Your members hosted these meals at {{ club }} without completing the exchange: </b><br><br>
+
+<table border="1">
+<tr><td> Date of Meal</td>
+<td> Club </td>
+<td> Host </td>
+<td> Guest </td>
+<td> Meal Type</td>
+</tr>
+
+{% for ex in mealsin %}
+<tr><td> {{ ex.meal_1.date }} </td>
+<td> {{ ex.meal_1.guest.club.name }} </td>
+<td> {{ ex.meal_1.host.full_name }} </td>
+<td> {{ ex.meal_1.guest.full_name }} </td>
+<td> {{ ex.meal_1.meal_type }} </td></tr> 
+{% endfor %}
+
+</table>
+<br>
+{% endif %}
+
+
+{% endif %}
+<br>
+
+{% endblock content %}

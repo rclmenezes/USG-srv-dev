@@ -1,0 +1,13 @@
+    <div class="sidebar"> 
+      <div class="sidebar-title"> 
+	<h3>Messages</h3> 
+      </div> 
+      <div class="sidebar-content"> 
+	<ul class="sidebar-menu">
+	  {% if not message_page %}
+	  <li><a href="/groups/{{group.id}}/messages/{{message.id}}">Return to Message</a></li>
+	  {% endif %}
+	  <li><a href="/groups/{{group.id}}/messages/">{% if unread_messages %}<strong>{% endif %}Return to Group Messages{% if unread_messages %} ({{unread_messages}})</strong>{% endif %}</a></li>
+	</ul>
+      </div> 
+    </div>

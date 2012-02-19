@@ -1,0 +1,66 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% include 'groups/off_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+
+{% if entry %}
+{% if newsfeed %}<li class="nav_tree_2"><a href="/groups/{{group.url}}/feed">Newsfeed</a></li>
+<li class="nav_tree_3">{% else %}
+<li class="nav_tree_2">{% endif %}
+<div class="group_header"><h2>Edit Post</h2></div</li>
+</ul>
+{% else %}
+<li class="nav_tree_2">
+<div class="group_header"><h2>Post to Feed</h2></div>
+</li></ul>
+{% endif %}
+
+  <form class="first_form" id="profile_form" action="" method="POST" enctype="multipart/form-data">
+
+    <table class="formTable">
+      {% for field in form %}
+    
+      <tr>
+	<td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td>
+	<td class="field">{{field}}</td>
+      </tr>
+      <tr>
+	<td class="help">{{field.help_text}}</td>
+      </tr>
+
+
+      {% endfor %}
+      </table>
+
+    {% if newsfeed %}
+    <input type="hidden" name="newsfeed" value="True">
+    <input type="hidden" name="page" value="{{page}}">
+    {% endif %}
+
+    <input type="submit" value="Post" name="submit">
+  </form>
+
+<script>
+
+  // Changes post title to match event
+  
+  editable_title = false;
+
+  $('#id_event').change( function() {  
+  if ( $('#id_title').attr('value') == '' || editable_title ) {
+  $('#id_title').attr('value', $('option:selected').html());
+  editable_title = true;
+  }
+  } );
+
+//  $('#id_title').keypress( editable_title=false; );
+
+</script>
+
+{% endblock %}

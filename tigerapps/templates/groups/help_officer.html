@@ -1,0 +1,54 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/help_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="group_header">
+  <h2>Help: Managing Groups</h2>
+</div>
+
+<div class="group_profile">
+
+Officers of a student group have several group management tools at their disposal, located in the "Manage Group" menu on the right of the group profile.<br/><br/>
+
+<div class="subsection">
+<h3 class="subheader">Edit Group Profile</h3>
+<p class="subcontent">Here, officers can edit group profile information including name, description, website, and email address.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Approve Member Requests</h3>
+<p class="subcontent">This tool will display a table of all the students who have requested to become members of your group.  Officers can either approve or reject these requests.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Edit Members</h3>
+<p class="subcontent">Officers can choose to promote members, demote officers, or remove members from the group.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Post to Feed</h3>
+<p class="subcontent">This tool allows officers to post news and updates to the public group feed.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Publishing Events</h3>
+<p class="subcontent">Student Groups gives you the ability to publish events from the Princeton student Events Calendar on your group's feed.  When you submit the event, select your group's name in the "Post event to Princeton Student Groups" field.  Or, you can publish an event that has already been submitted by selecting it in the "Event" field when you post to your feed.</p>
+</div>
+
+
+<div class="subsection">
+<h3 class="subheader">Send Message</h3>
+<p class="subcontent">Officers can use this form to post a new message to the member message board.  They can choose to send to only officers or all members, and can allow or disable comments.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Upload Files</h3>
+<p class="subcontent">Each organization on Princeton student Groups is allocated space for up to five 2MB files.  These files can be text (like a performance schedule or roster), images, or any other format, so long as they fit the size specifications.  Officers have the ability to upload or delete files as well as to set view permissions.</p>
+</div>
+
+</div>
+
+{% endblock %}

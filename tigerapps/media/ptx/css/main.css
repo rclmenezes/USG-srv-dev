@@ -1,0 +1,407 @@
+/*
+ * Princeton Textbook Exchange CSS
+ * Written by Jonny Weiss
+ * 4/29/09
+ * Modified by Hao Lian
+ * 07/19/09
+ * Favicon by Mark James' Silk icon set (famfamfamfam.com)
+ */
+
+@import url('reset.css');
+
+/* ------ Base template css -------- */
+html {
+    height: 100%;
+    margin-bottom: 1px;
+}
+
+body, input, textarea {
+    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+}
+
+body {
+    background-color: black;
+    background-image: url('img/background-pattern.gif');
+    color: white;
+    line-height: 1.5;
+    /* Overlay. */
+    min-height: 652px;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+.selectedtab {
+    font-weight: bold;
+}
+
+div.error {
+    background: #FFC7EC;
+    border: 1px solid #FFA1E0;
+    padding: 10px;
+    margin: 1em 0;
+}
+
+/* For containing a bookinfo mostly */
+div.book {
+    border: 1px dotted black;
+    padding: 10px;
+    margin: 1em 0;
+}
+
+#footer {
+    text-align: center;
+    margin-top: 5em;
+    padding-bottom: 1em;
+}
+
+#footer, #footer a {
+    color: #9c9c9c;
+}
+
+/* ---------- Navigation ---------- */
+#nav {
+    width: 100%;
+    background-color: black;
+    background-image: url('img/nav-pattern.png');
+    background-repeat: repeat-x;
+    border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    -webkit-border-radius: 15px 15px 0 0;
+}
+
+#nav td {
+    vertical-align: middle;
+}
+
+#nav #links {
+    min-width: 397px;
+}
+
+#nav #search {
+    text-align: right;
+    padding-right: 18px;
+}
+
+#nav ul li {
+    display: inline-block;
+}
+
+#nav li a {
+    background-image: url('img/nav-sprites.png');
+    background-repeat: no-repeat;
+    height: 50px;
+    display: block;
+    text-indent: -999%;
+}
+
+/* Navigation background images use sprites for performance. */
+#nav li.first a {
+    width: 93px;
+    background-position: 0 0;
+    border-radius: 15px 0 0 0;
+    -moz-border-radius: 15px 0 0 0;
+    -webkit-border-radius: 15px 0 0 0;
+}
+
+#nav li.first a:hover {
+    background-position: 0 -50px;
+}
+
+#nav li.second a {
+    width: 109px;
+    background-position: -93px 0;
+}
+
+#nav li.second a:hover {
+    background-position: -93px -50px;
+}
+
+#nav li.third a {
+    width: 81px;
+    background-position: -202px 0;
+}
+
+#nav li.third a:hover {
+    background-position: -202px -50px;
+}
+
+#nav li.fourth a {
+    width: 114px;
+    background-position: -283px 0;
+}
+
+#nav li.fourth a:hover {
+    background-position: -283px -50px;
+}
+
+/* ---------- Account information ---------- */
+#account {
+    padding: 7px 18px;
+    color: white;
+    font-weight: bold;
+    background: url('img/sub-nav-pattern.png');
+    background-repeat: repeat-x;
+    background-color: #ffb55d;
+}
+
+#account a {
+    color: white;
+}
+
+#account div {
+    float: right;
+}
+
+/* ---------- Fancy tables ---------- */
+table.fancy {
+    width: 100%;
+}
+
+table.fancy th {
+    font-weight: bold;
+    font-size: 1.2em;
+    min-width: 6em;
+}
+
+table.fancy td, table.fancy th {
+    padding: 5px 10px;
+}
+
+/* ----------- Content ------------ */
+#content {
+    background: #efefef;
+    color: black;
+    padding: 14px 18px;
+    border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;
+}
+
+#content p {
+    margin: 0.5em 0;
+}
+
+#container {
+    margin: 0 10%;
+    min-width: 800px;
+}
+
+#container a {
+    text-decoration: underline;
+}
+
+#container a:hover {
+    text-decoration: none;
+}
+
+#container h2 {
+    margin-bottom: 0.67em; /* 1.5 * 0.67 = 1 */
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+#container h3 {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0.42em 0; /* 0.42 * 1.2 = 0.5 */
+    padding-top: 0.83em; /* A little bit more spacing */
+}
+
+#container h4 {
+    margin: 0.5em 0;
+    padding-top: 1em;
+}
+
+/* ------------ Header ------------- */
+
+#header {
+    margin-bottom: 1em;
+}
+
+#header a {
+    height: 58px;
+    width: 580px;
+    display: block;
+    background-image: url('img/logo.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    text-indent: -999%;
+    margin: 0 auto;
+    padding: 0.5em 0;
+}
+
+#header a {
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/* Purely presentational markup, high five. */
+#overlay {
+    height: 652px;
+    width: 985px;
+    margin-bottom: -652px;
+
+    background-color: transparent;
+    background-image: url('img/background-radiation.png');
+    background-repeat: no-repeat;
+}
+
+/* ---------- Browse by course ---------- */
+body#browsebycourse .deptcontact {
+    float: right;
+    width: 40%;
+    /* TODO: redesign colors */
+    background: #efc;
+    border: 1px solid #cda;
+    padding: 0 10px;
+}
+
+body#browsebycourse h3 {
+    clear: right;
+}
+
+/* -------- Browse Styling ------- */
+
+table.books div.title a {
+    font-weight: bold;
+}
+
+table.books div.data {
+    color: red;
+}
+
+table.books img {
+    vertical-align: text-top;
+    margin: 0.5em 0;
+}
+
+/* Columns */
+table.books .prices,.offers {
+    text-align: center;
+}
+
+table.books tbody td {
+    border-top: 1px dotted black;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.imageright {
+    float: right;
+    padding-left: 5px;
+}
+
+.imageleft {
+    float: left;
+    padding-right: 10px;
+}
+
+/* ---------- Homepage ---------- */
+body#homepage #content td {
+    width: 20%;
+    padding: 0 5px;
+}
+
+/* ---------- User accounts ---------- */
+body#myaccount p.description {
+    /* TODO: redesign colors */
+    background: #efc;
+    border: 1px solid #cda;
+    padding: 1em 10px;
+    margin-bottom: 1em;
+}
+
+body#myaccount .clickable {
+    cursor: hand;
+    cursor: pointer;
+    border: 1px solid gray;
+    padding: 0.5em 10px;
+    margin: 0.5em 0;
+    margin-right: 20px;
+    width: 40%;
+    display: inline-block;
+}
+
+/* ---------- Help ---------- */
+#help #faq {
+    margin-top: 2em;
+}
+
+/* ---------- Wishlist ---------- */
+body#wishlist table.fancy th {
+    min-width: 8em;
+}
+
+body#wishlist p.title {
+    font-style: italic;
+}
+
+body#wishlist p.description {
+    margin: 1em 0;
+}
+
+/* ---------- The book information box motif ---------- */
+div.bookinfo div.bookinfo-image {
+    float: left;
+    margin-right: 20px;
+}
+
+div.bookinfo {
+    margin: 0.5em 0;
+}
+
+div.bookinfo p {
+    /* Overriding #content p */
+    margin: 0 !important;
+}
+
+div.bookinfo p.bookinfo-title {
+    margin-bottom: 1em !important;
+}
+
+/* ---------- The single-book page (browsebyisbn.html) ---------- */
+body#book div.book {
+    border: 0;
+    padding: 0;
+}
+
+body#book #content td li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+body#book blockquote {
+    margin: 0 5%;
+    font-family: Georgia, serif;
+    font-size: 1.2em;
+    border-left: 1px solid #aaa;
+    padding-left: 20px;
+    color: #333;
+}

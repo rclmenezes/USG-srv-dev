@@ -1,0 +1,28 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	<h1>Unreturned DVDs</h1>
+{% if rentalList %}
+<div class="list">
+<table>
+    <tr>
+        <td class="left"><b>DVD name</b></td>
+        <td class="left"><b>Renter's email</b></td>
+		<td class="left"><b>Date rented</b></td>
+		<td><b>Date due</b></td>
+    </tr>
+	{% for rental in rentalList %}
+	    <tr>
+		<td class="left">{{rental.dvd.name}}</td>
+		<td class="left">{{rental.netid}}@princeton.edu</td>
+		<td class="left">{{rental.dateRented}}</td>
+		<td>{{rental.dateDue}}</td>
+		</tr>
+	{% endfor %}
+</table>
+</div>
+{% else %}
+<p> Holy, smokes Batman! All DVD's have been returned! </p>
+{% endif %}
+
+{% endblock %}

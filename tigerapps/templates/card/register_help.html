@@ -1,0 +1,19 @@
+{% extends "card/base_help.html" %}
+
+{% block content %}
+If you have MealChecking permissions, you also have the ability to add a member to your club on the website. <br><br>
+
+To access member registration from your personal page, click "Meal Checking" on the top navbar, then click "Register Users" on the sidebar. <br><br>
+
+If you log in as a club manager, the Registration Page will be your homepage, but if you navigate away, you can get back by clicking "Meals" on the top navbar, then "Add Members" on the sidebar.<br><br>
+
+Adding members requires several pieces of information about the member:
+<ul>
+<li><b> First & Last Name: </b> The name by which you are known to the University.
+<li><b> netID: </b> This is your Princeton netid. Be especially careful that members get this right, since if they enter the wrong netid, they won't be able to login to the site through CAS.
+<li><b> puID: </b> This is the 9-digit number on the front of your prox. Be careful to get this right as well, because without the correct number, you won't be able to exchange meals by swiping.
+<li><b> Year: </b> This is your graduation year in YYYY format. 
+</ul>
+
+If a member registers successfully, you will see a 'Success' message at the top of the screen. In that case, you should go on registering members. If you see a message beginning with 'Error' at the top of the screen, the member entered some information incorrectly (or is already registered) and should contact the club officer in charge of members to fix the situation.
+{% endblock %}

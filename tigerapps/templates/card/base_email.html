@@ -1,0 +1,56 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <!link rel="stylesheet" type="text/css" href="/static/email_style.css">
+    <script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+    <style type="text/css">
+body
+{
+background-color:#ffffff;
+p{font-family:"Oldtown", Arial, fantasy;}
+}
+h1
+{
+color:FF6600;
+}
+hr
+{
+height:10px;
+border:1 px solid #000;
+color:#333333;
+background-color:#333333;
+}
+</style>    
+<title>
+ MealChecker 
+</title>
+</head>
+
+<body {% if onload %} onload={{ onload }} {% endif %}>
+    <div class="header">
+    <style type="text/css">
+    background-color=#666666;
+    </style>
+        <center>
+	<hr>
+        <h1> MealChecker </h1>
+        <hr>
+	</center>
+    </div>
+
+    <div class="content">
+    {% block content %}
+    {% endblock %}
+    </div>
+
+    <div class="footer">
+    {% block footer %}
+    Happy eating! <br>
+    <h4>MealChecker</h4><br>
+    <hr>
+    Check your meals at the website! <a href="http://card.tigerapps.org/"> MealChecker Website. </a>(http://card.tigerapps.org/)
+    {% endblock %}
+    </div>
+
+</body>
+</html>

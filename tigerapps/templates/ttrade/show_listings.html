@@ -1,0 +1,80 @@
+{% extends "ttrade/base.html" %}
+
+{% block content %}
+	<h3>{% block title %}All Listings{% endblock %}</h3>
+	
+	<div class="main">
+		<form name="search" method="get" action=".">
+		<table id="search">
+			<tr>
+				<td align="right">Filter by: </td>
+				<td>
+					<select name="category" onchange='this.form.submit()'>
+					{% for short, key, value in categories %}
+						<option value="{{short}}" {% ifequal category short %}selected="selected"{% endifequal %}>{{key}} ({{ value }})</option>
+					{% endfor %}
+					</select>
+					<select name="listingType" onchange='this.form.submit()'>
+						<option value="A" {% ifequal listingType "A" %}selected="selected"{% endifequal %}> of all types </option>
+						<option value="S" {% ifequal listingType "S" %}selected="selected"{% endifequal %}> of items for sale</option>
+						<option value="R" {% ifequal listingType "R" %}selected="selected"{% endifequal %}> of requests to buy</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Order by: </td>
+				<td>
+					<select name="order" onchange='this.form.submit()'>
+						<option value="R" {% ifequal order "R" %}selected="selected"{% endifequal %}> Time Remaining </option>
+						<option value="P" {% ifequal order "P" %}selected="selected"{% endifequal %}> Price </option>
+						<option value="N" {% ifequal order "N" %}selected="selected"{% endifequal %}> Newest </option>
+					</select>
+					&nbsp;&nbsp;Reverse<input type="checkbox" name="reverse" value="True" onchange='this.form.submit()' {% if reverse %}checked="checked"{% endif %} />
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Search listings:</td>
+				<td>
+					<input type="text" name="query" value="{% if query %}{{query}}{% endif %}" /> 
+				
+					&nbsp;
+					<input type="submit" value="Search" />
+				</td>
+			</tr>
+		</table>
+		</form>
+	
+		<div id="listings">
+			<div class="title"><span class="th tc_picture"><h3>Picture</h3></span><span class="th tc_listing_type"><h3>Type</h3></span><span class="th tc_title"><h3>Title</h3></span><span class="th tc_t"><h3>Price</h3></span><span class="th tc_t"><h3>Method</h3></span><span class="th tc_r" id="th_remaining"><h3> {% block lastFieldName %}{% endblock %}</h3></span></div>
+			{% for listing in listings.object_list %}
+			<div id="{{ listing.listingID }}" class="listing"><a href="/item/{{ listing.listingID }}"><span class="tr tc_picture">{% if listing.picture%}<img src="/media/ttrade/images/camera.gif" alt="picture" />{% endif %}</span><span class="tr tc_listing_type">{{listing.get_listingType_display}}</span><span class="tr tc_title">{{listing.title}}</span><span class="tr tc_t">{% if listing.price %}{{listing.price}}{% else %}--{% endif %}</span><span class="tr tc_t">{{listing.get_method_display}}</span><span class="tr tc_r">{% block lastField %}{% endblock %}</span></a></div>	
+			{% endfor %}
+
+			{% if not listings.object_list %}
+				<h2> Holy TigerTrade, no listings match your request, Batman! </h2>
+			{% endif %}
+		</div>
+		<div>
+			<span class="links" id="left"> Items per page: 
+				<a href="/{{extension}}?items=25{% if page %}&amp;page={{page}}{% endif %}{{oldGet}}">25</a> 
+				<a href="/{{extension}}?items=50{% if page %}&amp;page={{page}}{% endif %}{{oldGet}}">50</a> 
+				<a href="/{{extension}}?items=100{% if page %}&amp;page={{page}}{% endif %}{{oldGet}}">100</a>
+			</span>
+			<div style="display: inline-block; margin-left: 200px"><a href="/terms" style="color: #425F9D;">Terms of use</a></div>
+			<span class="links" id="right">
+				{% if listings.has_previous %}
+				    <a href="/{{extension}}?page={{ listings.previous_page_number }}{% if items %}&amp;items={{items}}{% endif %}{% if reverse %}&amp;reverse={{reverse}}{% endif %}{{ oldGet }}">Previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ listings.number }} of {{ listings.paginator.num_pages }}
+		        </span>
+
+		        {% if listings.has_next %}
+		            <a href="/{{extension}}?page={{ listings.next_page_number }}{% if items %}&amp;items={{items}}{% endif %}{% if reverse %}&amp;reverse={{reverse}}{% endif %}{{ oldGet }}">Next</a>
+		        {% endif %}
+			</span>
+		</div>
+	</div>
+	
+{% endblock %}

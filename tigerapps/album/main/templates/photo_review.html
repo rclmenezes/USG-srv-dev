@@ -1,0 +1,43 @@
+<title>Photo Review</title>
+<body>
+<p><pre>Photo Review                <a href="/mod">Moderator Home</a>       <a href="logout">Logout</a></pre></p><hr>
+<table border="1">
+<tr>
+  <td># Flags</td>
+  <td>OFFS</td>
+  <td>CPRV</td>
+  <td>OTHR</td>
+  <td>ID</td>
+  <td>Photo</td>
+  <td>Caption</td>
+  <td>Submitter's Location</td>
+  <td>Edit Caption</td>
+  <td>Ignore all reports</td>
+  <td>Delete</td>
+  <td>Pass</td>
+</tr>
+
+<form action = "/mod/photo_review" method="post">
+{% csrf_token %}
+  {% for photo in flagged_list %}
+<tr>
+  <td>{{ photo.n_flagged }}</td>
+  <td>{{ photo.n_flagged_offs }}</td>
+  <td>{{ photo.n_flagged_cprv }}</td>
+  <td>{{ photo.n_flagged_othr }}</td>
+  <td><a href="/perma_{{ photo.id }}" target="_blank">{{ photo.id }}</a></td>
+  <td><a href="/{{ photo.photo.name}}" target="_blank"><img src="/{{ photo.thumbnail.name }}"/></a></td>
+  <td><textarea name="{{ forloop.counter }}_ct" rows="6" cols="40">{{ photo.caption }}</textarea></td>
+  <td><iframe src="http://api.hostip.info/get_html.php?ip={{photo.ip}}" seamless="seamless"></iframe></td>
+  <INPUT TYPE="hidden" NAME="{{ forloop.counter }}_id" VALUE="{{ photo.id }}">
+  <td><INPUT TYPE="CHECKBOX" NAME="{{ forloop.counter }}_ce"></td>
+  <td><INPUT TYPE="RADIO" NAME="group_{{ forloop.counter }}" VALUE="accept"></td>
+  <td><INPUT TYPE="RADIO" NAME="group_{{ forloop.counter }}" VALUE="reject"></td>
+  <td><INPUT TYPE="RADIO" NAME="group_{{ forloop.counter }}" VALUE="pass" checked></td>
+</tr>
+  {% endfor %}
+
+</table>
+<INPUT TYPE=SUBMIT VALUE="submit">
+</form>
+</body>

@@ -1,0 +1,13 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+<h1>Check in DVDs</h1>
+<form action="/checkin/dvd" method="post">
+<ul>
+{% for dvd in  dvd_list %}
+<li class="list"><input type="checkbox" name="dvd" value="{{ dvd.pk }}" /> {{ dvd }} </li>
+{% endfor %}
+<input type="submit" value="Check-in" />
+</ul>
+</form>
+{% endblock %}

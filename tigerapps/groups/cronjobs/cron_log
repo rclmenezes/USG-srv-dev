@@ -1,0 +1,60 @@
+------------------------------
+Running cronjob: renew.py
+2011-09-01 04:00:01.624874
+
+Renew groups: 
+Batman Fan Club
+Beachcombers of Princeton
+Bicycle Club
+Black Metal Enthusiasts
+Bomb Squad
+The Bonsai Society
+
+Changed Batman Fan Club status
+emailed: 
+
+Changed Beachcombers of Princeton status
+emailed: 
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+
+Changed Bicycle Club status
+emailed: 
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+atrippe@princeton.edu
+
+Changed Black Metal Enthusiasts status
+emailed: 
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+atrippe@princeton.edu
+
+Changed Bomb Squad status
+emailed: 
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+atrippe@princeton.edu
+
+Changed The Bonsai Society status
+emailed: 
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+fakeemail@nothing.com
+atrippe@princeton.edu
+atrippe@princeton.edu
+fakeemail@nothing.com
+yaro@princeton.edu
+cettman@princeton.edu
+
+Done
+------------------------------
+

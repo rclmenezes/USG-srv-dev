@@ -1,0 +1,10 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	<h1>{{netid}} has checked out the following:</h1>
+	<ul>
+	{% for dvdName in dvdNames %}
+		<li class="list">{{dvdName}}</li>
+	{% endfor %}
+	</ul>
+{% endblock %}

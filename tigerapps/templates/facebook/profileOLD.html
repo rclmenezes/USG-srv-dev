@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %} {{user.user_firstname}} {{user.user_lastname}} {{user.class_suffix}} - Princeton Facebook{% endblock%}
+
+{% block headerscript %}
+{% endblock %}
+{% block content %}
+<div style="padding-top: 10px; padding-bottom: 20px;">
+	<div style="float: right; width: 210px; height:300px; ">
+		<p class="personalmsg" style="font-style:italic;">"Shirley T is back in the house!  Nassau Hall that is!"</p>
+		<p class="personalmsg-timestamp" style="font-size: 8px; color: #333; position:relative; top:-4px;">Posted by {{user.casual_name}} at 8:07 p.m. on 04/07/2011</p>
+		<div style="height: 30px"></div>
+		<div style="background-color: orange; color: black; padding: 6px; font-size: 12px; font-weight: bold; border: 1px solid black;">Menu</div>
+		<ul style="padding-left: 8px; padding-top: 6px; border: 1px solid black;">
+			<li>Flip card over</li>
+			<li>Email {{user.casual_name}}</li>
+		</ul>
+	</div>
+	<div style="background-color:orange; height: 360px; width:630px; border-radius: 15px 15px 15px 15px; -moz-border-radius: 15px 15px 15px 15px;-webkit-border-radius: 15px 15px 15px 15px; 	-moz-box-shadow: 3px 3px 4px #000;	-webkit-box-shadow: 3px 3px 4px #000;	box-shadow: 2px 2px 6px #000; border: 1px solid black; background-image: url('/media/siteimage/card-bg.png'); background-position: center bottom;">
+		<div style="background: black; width:630px; height: 15%; color:white; font-size:24px; border-radius: 15px 15px 0 0; -moz-border-radius: 15px 15px 0 0; -webkit-border-radius: 15px 15px 0 0;"><span style="padding: 20px 20px 20px 20px;"><img src="/media/siteimage/PU-Sig-Facebook.png" /></span><a href="#flip" class="quickFlipCta"><img style="position: relative; float: right; padding-right: 15px; padding-top: 15px;" title="flip card over" src="/media/siteimage/flip.png" /></a>
+		</div>
+			<div class="photocol" style="width: 280px; left:0px; float: left;">
+				<img style="width: 200px; padding-left: 20px; padding-top: 20px;" src="/media/userimage/{{user.user_puid}}.JPG"><br />
+				<p style="width: 200px; margin:0; color: #333; font-size:10px; position: relative; top:-6px; left: -20px; text-align: center; margin: auto;">Photo uploaded by {{user.casual_name}}</p>
+			</div>
+			<div class="profile-top" style="position: relative; left: -40px; top: 20px; ">
+			
+				<h1 style="font-size:20px; font-weight: bold;"><a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by First Name</span>|Find others named '{{user.user_firstname}}'" style="text-decoration:none;">{{user.user_firstname}}</a>
+				<a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Middle Name</span>|Find others named '{{user.user_middlename}}'" style="text-decoration:none;">{{user.user_middlename}}</a>
+				<a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Last Name</span>|Find others named '{{user.user_lastname}}'" style="text-decoration:none;">{{user.user_lastname}}</a>
+				{{user.name_suffix}}</a>
+				<a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Class Year</span>|Find others graduating in '{{user.user_class}}'" style="text-decoration:none;">{{user.class_suffix}}</a></h1>
+				
+				<p style="font-size: 15px; position: relative; top:-6px; color:#555;"><a style="text-decoration:none;" href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Major</span>|Find others majoring in '{{major}}'" style="text-decoration:none;">{{major}}</a></p>
+				<ul>
+					<li><a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Room</span>|Find others in '{{room_number}} {{hall}}'" style="text-decoration:none;">{{room_number}}</a><a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Hall</span>|Find others in '{{hall}}'" style="text-decoration:none;">{{hall}}</a> </li>
+					<li><a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Residential College</span>|Find others in '{{abbrev_college}}'" style="text-decoration:none;">{{user.user_rescollege}}</a>
+					<li>Frist Mailbox: <a style="text-decoration:none;" href="#">{{ user.user_mailbox }}</a></li>
+				</ul>
+				<ul style="padding: 20px;">
+					<li>Hometown: <a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Hometown</span>|Find others from '{{user.user_homecity}}'" style="text-decoration:none;">{{user.user_homecity}}</a>, 
+					<a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Home State</span>|Find others from '{{full_state}}'" style="text-decoration:none;">{{user.user_homestate}}</a> <a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by Home Country</span>|Find others from '{{user.user_homecountry}}'" style="text-decoration:none;">{{user.user_homecountry}}</a></li>
+					<li>High School: <a href="#" class="likesearch" title="<span style='letter-spacing: 0.05em;'>QuickSearch by High School</span>|Find others who went to '{{user.user_highschool}}'" style="text-decoration:none;">{{user.user_highschool}}</a></li>
+					<li>Birthdate: <a style="text-decoration:none;" href="#">{{bday_month}}</a> <a style="text-decoration:none;" href="#">{{bday_day}},</a> <a style="text-decoration:none;" href="#">{{bday_year}}</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+ 

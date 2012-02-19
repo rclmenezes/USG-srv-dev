@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Add MyApps!</title>
+</head>
+<body>
+	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			addButtonEvent();
+			
+			$('#category').change(function(){
+				var select = $("select option:selected").attr('value');
+			});
+			
+			$('#updateList').click(function(){
+				var select = $("select option:selected").attr('value');
+				var query = $('#query').val();
+				var send = "select=" + select + "&query=" + query;
+				$('#myapps').toggle();
+				$('#loading').toggle();
+				$.getJSON('/refreshApps', send, function(json) {	
+					var data = jQuery.parseJSON(json.data);
+					var myapps = "";
+					$.each(data, function(key, value){
+						str = '<div class="myapp"><h2 id="' + value.fields.name + '">' + value.fields.name + '<input class="add" id="' + value.pk + '" name="myapps" type="button" value="add" /></h2><div class="description">' + value.fields.description + '</div></div>';
+						myapps += str;
+					});
+					if (!myapps) {
+						myapps = "<br/><strong>Nothing matches your search.</strong><br/>";
+					}
+					
+					$('#myapps').html(myapps);
+					$('#myapps').toggle();
+					$('#loading').toggle();
+					addButtonEvent();
+				});
+			});	
+		});
+		
+		function addButtonEvent(){
+			$('input.add').each(function(){
+				$(this).click(function(){
+					var myappID = $(this).attr('id');
+					var name = $(this).parents('h2').attr('id');
+					if (!$('div.remove:last').attr('id'))
+						var addID = 0;
+					else
+						var addID = parseInt($('div.remove:last').attr('id')) + 1;
+					$('#addMyApp').append('<div class="remove" id="' + addID +'"><img class="remove" src="/media/my/images/small-x.png" alt="Remove" onclick="remove(' + addID +')">' + name + '<input name="myapps_' + addID + '" type="hidden" value="' + myappID + '" /></div>');
+				});
+			});
+		}
+		
+		function remove(addID){
+			var selector = "#" + addID;
+			$(selector).remove();
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="/media/my/css/addMyapp.css" />
+	<div class="myapp_added"><div class="inner">
+		<form id="addMyApp" action="/confirmMyApps/{{ page.orderNo }}/{{ colID }}" method="POST">
+			<div id="submit-bar"><input id="submit" type="submit" value="Submit" /></div>
+			<b>Added:</b><br/>
+		</form>
+	</div></div>
+	<div id="myapp_list"><div class="inner">
+		<tr>
+			<td align="right"> Category: </td>
+			<td>
+				<select id="category" name="category" >
+				{% for short, key, value in categories %}
+					<option value="{{short}}" {% ifequal category short %}selected="selected"{% endifequal %}>{{key}} ({{ value }})</option>
+				{% endfor %}
+				</select>
+			</td>
+		</tr><br/>
+		<tr>
+			<td align="right">Search listings:</td>
+			<td>
+				<input id="query" type="text" name="query" /> 
+				<input id="updateList" type="submit" value="Search" />
+			</td>
+		</tr>
+		<div id="myapps">
+		{% for myapp in myappList %}
+			<div class="myapp">
+				<h2 id="{{ myapp.name }}">{{ myapp.name }}<input class="add" id="{{ myapp.myappID	}}" name="myapps" type="button" value="add" /></h2>
+				<div class="description">
+					{% autoescape off %}
+					{{ myapp.description}}
+					{% endautoescape %}
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div id="loading" style="display: none;">
+			<table width="100%" height="300" border="0" cellpadding="10">
+		  	<tr>
+			    <td>&nbsp;</td>
+
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			  </tr>
+			  <tr>
+			    <td>&nbsp;</td>
+			    <td width="100" align="center" valign="middle"><img src="/media/my/images/loading.gif" alt="Loading..." /></td>
+			    <td>&nbsp;</td>
+			  </tr>
+			  <tr>
+
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			    <td>&nbsp;</td>
+			  </tr>
+			</table>
+		</div>
+	</div></div>
+</body>
+</html>

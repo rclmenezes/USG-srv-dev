@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>404 Page Not Found</title>
+	<link href="/media/cal/css/main.css?version=2.1" rel="stylesheet" type="text/css" />
+	<link href="/media/cal/css/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>				
+<body id="{% block id %}base{% endblock %}">
+	<div id="overlay"></div>
+		<div id="container">
+		  <h1 id="header">
+		  <a href="/">Princeton Events Calendar</a>
+		  </h1>		
+			<table id="nav">
+				<tr>
+					<td>
+						<ul class="lavaLampWithImage"{{uses_lava|safe}}>
+							<li style='position: absolute; left: -40px;'><a href="/"></a></li>
+							<li><a href="/">Front</a></li>
+							<li><a href="/today">Today</a></li>
+							<li><a href="/week">Week</a></li>
+							<li><a href="/weekend">Weekend</a></li>
+							<li><a href="/all">All</a></li>
+							<li><a href="/feeds/latest"/><img src="/media/cal/css/img/200px-Feed-icon.svg.png"/></li>
+						</ul>
+					</td>
+				</tr>
+			</table>		
+			<div id="content" class="errordoc">
+			<h1>Error: Page Not Found</h1>
+			<p>We're sorry! The page you requested <span class="url">{{request_path}}</span> was not found.</p>
+			<h3>It is possible that:</h3>
+			<ul>
+				<li>The URL was typed incorrectly</li>
+				<li>The page you tried to access was recently removed</li>
+			</ul>	
+			<p>If you reached this page through a link, please let us know so we can fix it.  Email <a href="mailto:usg@princeton.edu">usg@princeton.edu</a></p>
+			<h3>You can:</h3>
+			<ul>
+				<li>Return back to the <a href="javascript:history.go(-1)">page you came from</a></li>
+				<li>Go back to the <a href="/">Princeton Events Calendar Homepage</a></li>
+			</ul>
+			<div style="clear: both; display: block; padding-bottom: 40px;"></div>
+		</div>
+		<div id="footer">
+		<p>
+			&copy; Ethan Goldstein, Samantha Hantman, Dana Hoffman, Adriana Susnea, and Michael Yaroshefsky
+		</p>
+		<p>
+			Designed by <a href="http://www.trinston.com/">Trinston</a>.
+		</p>
+	</div>
+</div>	
+</body>
+</html>

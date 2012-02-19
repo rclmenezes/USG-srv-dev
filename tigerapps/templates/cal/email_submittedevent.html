@@ -1,0 +1,71 @@
+{% extends "cal/emailbase.html" %}
+{% load humanize %}
+{% block content %}
+<div style="">
+<table cellspacing="0" cellpadding="8" border="0" summary="" style="width:100%;font-family:Arial,Sans-serif;border:1px Solid #ccc;border-width:1px 2px 2px 1px; background-color: #fff;">
+<tr>
+<td>
+<div style="padding:2px">
+<h2 style="padding:0 0 0px 0;margin:0;font-family:Arial,Sans-serif;font-size:16px;font-weight:bold;color:#00F;">Congratulations, {{creator.casual_name}}!</h2> 
+<p style="padding:4px 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:bold;color:#55F">Your event has been added successfully to the <a href="{{ site }}">Princeton Events Calendar</a>.  <br />Here are some useful tips:</p>
+<p style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:bold;color:#333">Publicize Your Event<br />
+<ul>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Include your event in a weekly email to the whole school by <a href="{{ eventurl }}?forwardtoevents">clicking here</a>.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Send personal invitations to your friends by using the "<a href="{{ eventurl }}#invite">Send Invitation</a>" feature.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Go to the <a href="{{ site }}events/{{event.pk}}/custominvite">bulk invitation page</a> and send out an invitation to your listservs.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Distribute your event's short URL: {{bitly_address}}</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Put your <a href="{{ site }}events/{{event.pk}}/qr">QR code</a> on your poster so people can use their mobile phones to link to your page.</li>
+</ul>
+</p>
+<p style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:bold;color:#333">Manage Your Event<br />
+<ul>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">If you need to make a change to the event, <a href="{{ site }}events/manage/{{event.pk}}">click here to <strong>update</strong> the event</a>.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">If you wish to delete the event from the listing, <a href="{{ site }}events/delete/{{event.pk}}">click here to <strong>delete</strong> the event</a>. Confirmation is required.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">If you wish to cancel the event and notify attendees, <a href="{{ site }}events/cancel/{{event.pk}}">click here to <strong>cancel</strong> the event</a>. Confirmation is required.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">You can download an up-to-date spreadsheet for Microsoft Excel of all your attendees, including names, email addresses, and class year.  <a href="{{ site }}events/{{event.pk}}/attendees.csv">Click here to download the latest spreadsheet.</a></li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">You can send a mass email to all attendees by <a href="{{ site }}events/{{event.pk}}/sendmsg">clicking here</a>. Each attendee will receive a personalized email with your message (privacy of attendees will be ensured).</li>
+</ul>
+</p>
+<p style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:bold;color:#333">Other Tips<br />
+<ul>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Our calendar was designed with multi-date events in mind (i.e. performances, lecture series).  Make it easier for people to see all of the lectures in a series or all of the times for your show by using the "<a href="{{ site }}events/add/{{event.pk}}">add a related event</a>" feature. Use the "Event Subtitle" field to specify what makes each one different.  For example, you might put "Thursday Show" there, or the name of the guest lecturer for that day.  Clustered events like this share the same poster image and message board.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">If you are adding an event for a group (i.e. the Tigertones or Quipfire), submit the event while logged in with that group's netid so that you can have a page listing all events for that group.  A page for each netidthat submits one or more events is automatically created: {{site}}eventsby/some_netid_here</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">You can view a list of all of the events submitted under your netid by <a href="{{ site }}events/eventadmin">clicking here</a>.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">To get your event's poster featured prominently on the front page, get as many confirmed attendees as you can.  You can see a list of the most popular upcoming events <a href="{{site}}hotevents">here</a>.</li>
+<li style="font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#222;">Have any feedback?  We would love to hear what you think.  Just shoot an email to usg@princeton.edu with your honest feedback.</li>
+</ul>
+</p>
+<p style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#000">Good Luck!<br />The Princeton Events Calendar Team &amp; The USG</p>
+
+
+<h3 style="padding:20px 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:14px;font-weight:bold;color:#222"><a href="{{ eventurl }}">{{event}}</a></h3>
+<table cellpadding="0" cellspacing="0" border="0" summary="Event details">
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Begins</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.getFormattedStartDate}} at {{event.getTime}}</td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Ends</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% ifnotequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getFormattedEndDate}} at {% endifnotequal %}{{event.getEndTime}}</td>
+  </tr>  
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Where</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% if event.get_event_location_display or event.event_location_details %}{{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}<span dir="ltr">{% else %}No location given {% endif %}</span></td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Description</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.event_cluster.cluster_description|linebreaksbr}}{% if event.event_subdescription %}<br />{{event.event_subdescription|linebreaksbr}}{% endif %}</td>
+  </tr>  
+</table>
+</div>
+</td>
+</tr>
+<tr>
+  <td style="background-color:#f6f6f6;color:#888;border-top:1px Solid #ccc;font-family:Arial,Sans-serif;font-size:11px">
+  <a href="{{ site }}"><img style="float: right; border: none;" src="[IMG_EMBED]media/cal/email/pec_email_logo.png[/IMG_EMBED]" /></a>
+  <p>This email confirmation was sent automatically by the <a href="{{ site }}" style="">Princeton Events Calendar</a> because you just submitted the event listed above.</p>
+</td>
+</tr>
+</table>
+</div>
+{% endblock %}

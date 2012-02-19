@@ -1,0 +1,23 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Offer a Book{% endblock %}
+
+{% block content %}
+<h2>Offer a Book</h2>
+
+<h3>Select a Course</h3>
+{% if form.errors %}
+<p>Please correct the error(s) below</p>
+{% endif %}
+
+<p>
+    Enter the course for the book you are listing. For example,
+    "ECO100". If the book you're offering is not a course book, enter
+    "#misc", and our friendly robots will know what to do.
+</p>
+
+<form action="/offer_{{proc}}_{{ticket}}" method="post">
+  {{ form.as_p }}
+  <input type="submit" value="Next" />
+</form>
+{% endblock %}

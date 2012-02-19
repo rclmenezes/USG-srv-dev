@@ -1,0 +1,51 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% include 'groups/off_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+<div class="group_header"><h2>Upload Files</h2></div></li>
+</ul>
+
+<form class="first_form" action="" method="post" enctype="multipart/form-data">
+  {{ formset.management_form }}
+    <table>
+	{% for form in formset.forms %}
+	<table class="promote_form">
+
+	  {% for field in form %}
+	  {% if field.is_hidden %}{{field}}{% else %}
+	  <tr id="row_id_{{field.html_name}}">
+	    <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td>
+	    <td class="field">{{field}}</td>
+	  </tr>
+	  <tr>
+	    {% ifequal field.label 'Categories'%}
+	    <td></td><td class="select_text">{{field.help_text}}</td>
+	    {% else %}
+	    <td class="help">{{field.help_text}}</td>
+	    {% endifequal %}
+	  </tr>
+	  {% endif %}
+	  {% endfor %}
+
+	</table><br/>
+
+	<script>
+	  if( $('#id_groupfile_set-{{forloop.counter0}}-label').attr('value')) {
+	  $('#row_id_groupfile_set-{{forloop.counter0}}-file').html("");
+	  $('#row_id_groupfile_set-{{forloop.counter0}}-file').next().attr('style','display:none;');
+	  }
+	</script>
+
+	{% endfor %}
+    </table>
+<input type="submit" value="Submit" name="promote_submit"/>
+</form>
+
+{% endblock %}

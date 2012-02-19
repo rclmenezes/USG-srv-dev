@@ -1,0 +1,23 @@
+
+    <div class="sidebar"> 
+      <div class="sidebar-title"> 
+	<h3>Manage Group<span class="more"><a href="/help/officer">Help</a></span></h3> 
+      </div> 
+      <div class="sidebar-content"> 
+	<ul class="sidebar-menu">
+	  {% ifequal group.active_status 'R' %}
+	  <li><strong><a href="/groups/{{group.url}}/renew">Renew Group</a></strong></li>
+	  {% endifequal %}
+	  {% ifequal group.active_status 'I' %}{% if not reactivate_req %}
+	  <li><strong><a href="/groups/{{group.url}}/reactivate">Apply to Reactivate Group</a></strong></li>
+	  {% endif %}
+	  {% endifequal %}
+	  <li><a href="/groups/{{group.url}}/edit">Edit Group Profile</a></li>
+	  <li><a href="/groups/{{group.url}}/members">Edit Members</a></li>
+	  <li>{% if requests %}<strong>{% endif %}<a href="/groups/{{group.url}}/approve">Approve Member Requests{% if requests %} ({{requests}}){% endif %}</a>{%if requests %}</strong>{% endif %}</li>
+	  <li><a href="/groups/{{group.url}}/post">Post to Feed</a></li>
+	  <li><a href="/groups/{{group.url}}/sendmessage">Send Message</a></li>
+	  <li><a href="/groups/{{group.url}}/files">Upload Files</a></li>
+	</ul>
+      </div> 
+    </div>

@@ -1,0 +1,27 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Offer a Book{% endblock %}
+
+{% block content %}
+<h1>Edit Your Offer</h1>
+{% if form.errors %}
+    <p>Please correct the errors on this page.</p>
+{% endif %}
+
+<div style='border: dotted 1px gray; margin-bottom: 5px; padding: 10px'>
+    {% include 'bookinfo.html' %}
+</div>
+
+<p>
+<form action="/editoffer/{{offer_id}}" method="post">
+<p>
+<h3>Modify the description of your book</h3>
+<p>Provide a short written description of your book's condition:</p>
+<p>{{ form.desc }} {{form.errors.desc}} </p>
+
+<h3>Modify the price</h3>
+<p> <b>Price:</b>  ${{ form.price }} <i>e.g. 10.00</i>{{ form.errors.price }} </p>
+<input type="submit" value="Modify This Listing" />
+</form>
+
+{% endblock %}

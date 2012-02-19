@@ -1,0 +1,1 @@
+{% templatetag openbrace %} {% for item in items %}"{{item}}":"{{item}}"{% if not forloop.last %},{% endif %}{%endfor%}{% templatetag closebrace %}

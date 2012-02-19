@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head> 
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <meta name="author" content="Raja Goel, Ming Lu, and Michael Yaroshefsky" />
+ <title>{% block title %}Princeton Facebook{% endblock %}</title>
+ <link href="/media/css/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+ <link href="/media/css/main.css?version=2.1" rel="stylesheet" type="text/css" />
+ <link href="/media/css/lavalamp_test.css" rel="stylesheet" type="text/css" />
+ <link href="/media/css/typo.css" rel="stylesheet" type="text/css" />
+<!--  {% block headercss %}{% endblock %} -->
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+ <script src="/media/js/jquery.easing.min.js" type="text/javascript"></script>
+ <script src="/media/js/jquery.lavalamp.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#topmenu").lavaLamp({
+                fx: "backout",
+                speed: 700,
+                click: function(event, menuItem) {
+                    return true;
+                }
+            });
+        });
+         
+    </script>
+ <script src="/media/js/jquery.ThreeDots.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+  $(document).ready(function () {var the_obj1 = $('.centerellipsis').ThreeDots({max_rows: 1, whole_word: false});});
+  $(document).ready(function () {var the_obj2 = $('.leftellipsis').ThreeDots({max_rows: 1, whole_word:false});});
+  $(document).ready(function () {var the_obj3 = $('.rc_ellipsis').ThreeDots({max_rows: 1, whole_word:false});});
+ </script> 
+ <script src="/media/js/flip.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+$(function() {
+
+    $('.quickflip-wrapper').quickFlip();
+
+});
+
+</script>
+
+
+ <script src="/media/js/jquery.cluetip.min.js" type="text/javascript"></script>
+ <link rel="stylesheet" href="/media/css/jquery.cluetip.css" type="text/css" />
+ 
+ <script src="/media/js/menu.js" type="text/javascript"></script>
+ <link rel="stylesheet" href="/media/css/menu.css" type="text/css" />
+<script type="text/javascript"> 
+$(document).ready(function() {
+  
+  $('.likesearch').cluetip({
+showTitle: false, // hide the clueTip's heading
+splitTitle: '|',
+width: 300,
+positionBy: 'bottomTop',
+topOffset: 5,
+clickThrough: true,
+cluetipClass: 'jtip', 
+arrows: false, 
+dropShadow: true,
+hoverIntent: false,
+sticky: false,
+mouseOutClose: true,
+ 
+  });
+});
+</script>  
+ {% block headerscript %}{% endblock %}
+
+ <!--[if lt IE 8]>
+ <script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
+ <![endif]-->
+</head>
+      
+<body id="{% block id %}base{% endblock %}">
+	<div id="overlay"></div>
+		<div id="container">
+<!-- 
+			<h1 id="header">
+			<a href="/">Princeton Facebook</a>
+			</h1>
+ -->
+   		<table id="nav">
+				<tr>
+				<td>
+				<p style="float: left; color: orange;"><a href="/" style="font-size: 36px; color: #FFF;"><img src="/media/siteimage/Facebook-Logo.png" /></a></p>
+				<ul class="lavaLampWithImage" id="topmenu">
+				 <li style='position: absolute; left: -40px;'><a href="/"></a></li>
+				 <li style="float: right;"><a href="/logout" style="color:#f99c45;">logout</a></li>				 
+				 <li style="float: right; color:#f99c45;" class="current"><a href="/" style="color:#f99c45;">profile</a></li>
+				 <li style="float: right;"><a href="/search" style="color:#f99c45;">search</a></li>
+				
+				</ul>
+				</td>
+				<!-- 
+				<td id="search">
+				<form method="GET" action="/search/">
+				 <p>
+				  <input type="text" name ="query" id="id_q" maxlength="40" />
+				  <input type="submit" value="Quick Search" />
+				 </p>
+				</form>
+				</td>
+				 -->
+				</tr>
+   		</table>  
+  			<div class="clear"></div>
+ 			<div id="content">
+				<!-- 
+				  {% if v_messages %}<div id="message">
+					 {% for msg in v_messages %}<p class="{{msg.type}}">{{msg.vm_contents|safe}}</p>{% endfor %}
+				  </div>{% endif %}
+				 -->
+				<noscript><div id="message"><p class="error">Warning: You have JavaScript disabled. Please enable JavaScript to experience all of our site's features.</p></div></noscript>
+				{% block content %}
+				Welcome to the Facebook!
+				{% endblock %}
+			</div>
+		</div>
+		<div id="footer">
+			<p>
+			 Custom-built for Princeton by Raja Goel, Ming Lu, Michael Yaroshefsky
+			</p>
+			<p>
+			 Original design by <a href="http://www.trinston.com/">Trinston</a>.
+			</p>
+			<p>&copy; 2011 Authors</p>
+		</div>
+	</div> 
+</body>
+</html>

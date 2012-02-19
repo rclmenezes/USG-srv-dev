@@ -1,0 +1,25 @@
+{% extends "card/base_email.html" %}
+
+{% block content %}
+
+<h2>Hi {{ name }}!</h2>
+
+It's the third week of the month, which means the meal exchange period is coming to a close soon! 
+You have open exchanges. In order to complete these exchanges, make sure to eat: <br><br>
+
+{% for ex in hostex %}
+<b>{{ ex.meal_1.meal_type }}</b> at {{ ex.meal_1.guest.club }} with <b>{{ ex.meal_1.guest.full_name }}</b><br>
+{% endfor %}
+
+{% if hostex and guestex %}
+<br>AND<br><br>
+{% endif %}
+
+{% for ex in guestex %}
+<b>{{ ex.meal_1.meal_type }}</b> at {{ ex.meal_1.guest.club }} with <b>{{ ex.meal_1.host.full_name }}</b><br>
+{% endfor %}
+
+<br>
+Finish these exchanges by the end of the month to avoid club charges.<br><br>
+
+{% endblock content %}

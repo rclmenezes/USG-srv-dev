@@ -1,0 +1,12 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX Failure to Purchase - {{ offer.book.title }}{% endblock %}
+
+{% block content %}
+
+<h2>This is your own book.</h2>
+
+<p>You cannot purchase <b>{{ offer.book.title }}</b> from yourself. We apologize,
+but you cannot buy a book from yourself through PTX.</p>
+
+{% endblock %}

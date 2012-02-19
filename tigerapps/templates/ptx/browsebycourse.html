@@ -1,0 +1,40 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Browse Princeton Textbook Exchange{% endblock %}
+{% block id%}browsebycourse{% endblock %}
+
+{% block content %}
+<h2>Browse by Course</h2>
+
+<div class="dept">
+{% for course in course_list %}
+{% if course.hasbooks %}
+{% ifchanged course.dept %}
+</div>
+<div class="dept">
+  <h3>{{course.deptname}}</h3>
+  {% if course.deptcontact %}
+  <div class="deptcontact">
+    {% if course.deptcontact.email %}
+    <p>
+      Representative: <a href="mailto:{{course.deptcontact.email}}">{{course.deptcontact.contact}}</a>
+    </p>
+    {% endif %}
+
+    {% if course.deptcontact.url %}
+    <p>
+      Website: <a href="{{course.deptcontact.url}}">(website)</a>
+    </p>
+    {% endif %}
+  </div>
+  {% endif %}
+{% endifchanged %}
+
+<p class="course">
+  <a href="/browse/{{course.dept|urlencode}}{{course.num|urlencode}}">{{course}}</a>
+  ({{ course.numofferings }})
+</p>
+{% endif %}
+{% endfor %}
+</div>
+{% endblock %}

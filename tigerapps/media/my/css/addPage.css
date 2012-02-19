@@ -1,0 +1,30 @@
+/* ------ Base template css -------- */
+html {
+    overflow-y: hidden;
+}
+
+body {
+	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+	margin: 0;
+	padding: 0;
+}
+
+#inner
+{
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 15px 20px;
+}
+
+h2
+{
+    font-size: 14px;
+}
+
+#submit
+{
+    margin: 10px 0;
+}

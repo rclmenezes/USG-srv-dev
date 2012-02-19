@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block h1 %}TigerAlbum: Search for "<tt>{{ query }}</tt>"{% endblock %}
+
+{% block title %}Search for "{{ query }}" - TigerAlbum{% endblock %}
+
+{% block id %}search{% endblock %}
+
+{% block content %}
+{% if photos %}
+<h2>We found these for you</h2>
+<p>{{ photos|length }} photos matched the query "<tt>{{ query }}</tt>".</p>
+
+<table id="results">
+{% for photo in photos %}
+  <tr>
+    <td><a href="/perma_{{photo.id}}"><img src="/{{ photo.thumbnail }}"></a></td>
+    <td>
+      <table>
+        <tr><td>Caption:</td><td>{{ photo.caption|default:"(<i>none</i>)"|truncatewords_html:50 }}</td></tr>
+        <tr><td>Likes:</td><td>{{ photo.n_likes }}</td></tr>
+        <tr><td>Date uploaded:</td><td>{{ photo.dt_submitted }}</td></tr>
+      </table>
+    </td>
+{% endfor %}
+</table>
+{% else %}
+<h2>We're coming up empty-handed</h2>
+Sorry, no captions or comments matched the query "<tt>{{ query }}</tt>".
+{% endif %}
+{% endblock %}

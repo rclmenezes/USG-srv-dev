@@ -1,0 +1,82 @@
+{% extends "card/base_CAS.html" %}
+
+{% block content %}
+ 
+<h2>Welcome, {{ netid }}.
+{% ifequal days 1 %}
+There is 1 day left in the month!
+{% else %}
+There are {{ days }} days left in the month.
+{% endifequal %}</h2>
+
+{% if not hostExchanges and not guestExchanges and not completeExchanges %}
+<h3>No exchanges this month. </h3>
+{% endif %}
+
+{% if hostExchanges or guestExchanges %}
+<h2>Open Exchanges:</h2>
+{% endif %}
+
+{% if hostExchanges %}
+You should be a Guest at:
+<table border="1">
+<tr><th> Host</th>
+<th> Club </th>
+<th> Date of First Meal </th>
+<th> Meal Type</th></tr> 
+<br>
+{% for exchange in hostExchanges %}
+<tr> 
+   <td>{{ exchange.meal_1.guest.first_name }} {{ exchange.meal_1.guest.last_name }}</td>   
+   <td>{{ exchange.meal_1.guest.club }}</td>
+   <td>{{ exchange.meal_1.date|date:"M d, Y" }}</td> 
+   <td> {{ exchange.meal_1.meal_type }}</td>
+</tr>
+{% endfor %}
+</table>
+<br>
+{% endif %}
+
+{% if guestExchanges %}
+You should Host:
+<table border="1">
+<tr><th> Guest</th>
+<th> Club </th>
+<th> Date of First Meal </th>
+<th> Meal Type</th></tr> 
+<br>
+{% for exchange in guestExchanges %}
+<tr> 
+   <td>{{ exchange.meal_1.host.first_name }}  {{ exchange.meal_1.host.last_name }} </td>
+   <td>{{ exchange.meal_1.host.club }}</td>
+   <td>{{ exchange.meal_1.date|date:"M d, Y" }}</td>
+   <td> {{ exchange.meal_1.meal_type }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if completeExchanges %}
+<h2> Completed Exchanges: </h2>
+<table border="1">
+<tr><th> Date of First Meal</th>
+<th> Host Name </th>
+<th> Date of Second Meal </th>
+<th> Host Name </th>
+<th> Meal Type </th> </tr> 
+<br>
+{% for exchange in completeExchanges %}
+<tr> 
+  <td>{{ exchange.meal_1.date|date:"M d, Y" }}</td> <td>{{ exchange.meal_1.host.first_name }} {{ exchange.meal_1.host.last_name }}</td>
+  <td>{{ exchange.meal_2.date|date:"M d, Y" }} </td><td> {{ exchange.meal_1.guest.first_name }} {{ exchange.meal_1.guest.last_name }}</td> <td>{{ exchange.meal_2.meal_type }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% endblock content %}
+{% block footer %}
+You should be able to see all of this month's exchanges above. Confused? Ask your club manager or click
+{% endblock %}
+{% block path %}per{% endblock %}
+.

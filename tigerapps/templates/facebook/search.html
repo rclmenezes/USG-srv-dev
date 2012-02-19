@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% block title %}Princeton Facebook{% endblock %}
+
+{% block headerscript %}
+<link href="/media/css/autocomplete.css" rel="stylesheet" type="text/css"></link>
+<script src="/media/js/jquery.autocomplete.js" type="text/javascript"></script>
+<script src="/media/js/jquery.bgiframe.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		var new_field = $('form[id="sfield"] > table > tbody > tr:first-child ').clone(true);
+		//
+		$('form[id="sfield"] > table > tbody > tr:first-child > td:last-child').remove();
+	
+		$(".addfield").click(function() {
+			 var cloned_field = new_field.clone(true);
+			 cloned_field.insertAfter('form[id="sfield"] > table > tbody > tr:last-child');
+			 //alert(cloned_field.children('td:nth-child(2)').children('input').attr('value'));
+			 adjustAutocomplete(cloned_field.children('td:nth-child(2)').children('input'),cloned_field.children('td:first-child').children('select').children(':selected').attr('value'));
+			 
+			 //fieldAdded(cloned_field);
+			 return false;
+		});
+		{% if selected_fields %}
+			{% for f in selected_fields %}
+				adjustAutocomplete($('#{{f.2}}'),'{{f.1}}');
+				//alert($('#{{f.2}}').parent().children('td:last-child').toString());
+			{% endfor %}
+		{% else %}
+			adjustAutocomplete($('#q0'),'{{fields.0}}');
+		{% endif %}
+	
+	});
+	function fieldAdded(field)
+	{
+		field.children().last().click(function() {
+				$(this).parent().remove();
+				alert('remove' + $(this).toString());
+			 });
+		//updateField(field);	 
+	}
+	function adjustAutocomplete(field,fclass)
+	{
+			//alert('Autocomplete!1'+fclass);
+	
+		var source_url = null;
+		switch(fclass)
+		{
+			{% for field in ac_field %}case '{{field}}':
+			{% endfor %}
+				source_url = '/autocomplete/'+fclass+'?type=json'
+				break;
+		}
+		if(source_url)
+		{
+// 			if(field instanceof autocomplete)
+			//alert('Autocomplete!2');
+			field.autocomplete({
+				url:source_url,
+				type:'json',
+				fillin:true
+			});
+		}
+	}
+	function updateField(field)
+	{
+		var input_field = $(field).parent().parent().children().children('input');
+		var val = input_field.attr('value');
+		var fval =  field.value;
+//		alert('hi');		
+		var name_select = 'f'+$(field).parent().parent().index();
+		var name_field = 'q'+$(field).parent().parent().index();
+		$(field).attr('name',name_select);
+		var input_div = $(field).parent().parent().children('td').children('.ac_conteiner');		
+		var new_field= $('<input></input>').attr({'type':'text','class':fval,'style':'font-size: 18px; background-color:#000; color:#fff;','value':val,'name':name_field});
+		if(input_div.attr('class')=='ac_conteiner')
+		{
+			new_field.insertAfter(input_div);
+			input_div.remove();
+			
+		}
+		else if(input_field)
+		{
+			new_field.insertAfter(input_field);
+			input_field.remove();
+		}
+		//new_field.css('background-color','#F00');
+		adjustAutocomplete(new_field,fval);
+	}
+</script>
+{% endblock %}
+{% block content %}
+<!-- 
+{% for f in selected_fields %}
+{{f.0}} - {{f.1}} - {{f.2}} - {{f.3}} <br />
+{% endfor %}
+ -->
+<form id="sfield" action="/search" method="get">
+	<table style=" width:70%; padding:6px 12px 0px 12px;">
+		{% if selected_fields %}
+			{% for f in selected_fields %}
+			<tr>
+				<td style="width:17em;">
+					<select name="{{f.0}}" style="font-size: 18px; background-color:#000; color:#fff;" onChange="updateField(this);">
+						{% for field in fields %}
+						<option value="{{ field }}"{% ifequal field f.1%} selected="selected"{% endifequal %} >{{ field }}</option>
+						{% endfor %}
+					</select>
+					&nbsp;is
+				</td>
+				<td style="width:300px;">
+					<input id="{{f.2}}" name="{{f.2}}" type="text" style="font-size: 18px; background-color:#000; color:#fff;" class="acinit" value="{{f.3}}">
+				</td>
+				<td>
+				<span class="remove" onclick="$(this).parent().parent().remove();">remove</span>
+				</td>
+			</tr>
+			{% endfor %}
+		{% else %}
+		<tr>
+			<td style="width:17em;">
+				<select name="f0" style="font-size: 18px; background-color:#000; color:#fff;" onChange="updateField(this);">
+					{% for field in fields %}
+					<option value="{{ field }}" >{{ field }}</option>
+					{% endfor %}
+				</select>
+				&nbsp;is
+			</td>
+			<td style="width:300px;">
+				<input id="q0" name="q0" type="text" style="font-size: 18px; background-color:#000; color:#fff;" class="acinit" value="">
+			</td>
+			<td>
+			<span class="remove">remove</span>
+			</td>
+		</tr>		
+		{% endif %}
+	</table>
+	<span style="padding:12px 12px 0px 18px; cursor: pointer; text-decoration:underline;" class="addfield">Add filter</span>
+	<div style=" padding:6px 12px 0px 12px; width:70%">
+	<input type="submit" value="update results">
+	</div>
+	<!-- 
+<table style=" background-color: #aaa; width:70%; padding:12px;">
+	<tr><td><input type="button" value="update results"></td></tr>
+	</table>	
+ -->
+</form>
+<div style="height: 24px;"></div>
+<hr style="width: 90%; margin-bottom:12px;" />
+<div class="clear"></div>
+{% if results %}
+<p style="margin-left:20px;">Showing {{result_start_count}} to {{result_end_count}} of {{results_count}} result{{results_count|pluralize}} found<br />
+
+{% if page_prev %}
+<a href="/search?{{page_prev}}">Previous </a>
+{% endif %}
+{% if page_prev and page_next %}
+|{% endif %}
+{% if page_next %}
+<a href="/search?{{page_next}}"> Next</a>
+{% endif %}
+</p>
+{% else %}
+<p>No results found</p>
+{% endif %}
+{% for r in results %}
+<div style="margin: 20px; background-color:orange; float:left; height: 200px; width:345px; border-radius: 15px 15px 15px 15px; -moz-border-radius: 15px 15px 15px 15px;-webkit-border-radius: 15px 15px 15px 15px; 	-moz-box-shadow: 3px 3px 4px #000;	-webkit-box-shadow: 3px 3px 4px #000;	box-shadow: 2px 2px 6px #000; border: 1px solid black;" onclick="window.location.href='/p/{{r.user_netid}}'">
+	<div style="background: black; width:345px; height: 15%; color:white; font-size:24px; border-radius: 15px 15px 0 0; -moz-border-radius: 15px 15px 0 0; -webkit-border-radius: 15px 15px 0 0;">
+		<span style="padding: 10px ;"><img src="/media/siteimage/PU-Sig-Facebook.png" style="width: 215px; ;height: 25px;"/></span>
+	</div>
+	<div>
+		<img style="float: left; width: 100px; padding-left: 10px; padding-top: 20px;" src="{{r.photo_url}}"><br />
+	</div>
+	<div style="position:relative; top:0px; left: 6px;">
+		<span style="font-size:14px; font-weight: bold;"><a href="#" style="text-decoration:none;">{{r.first_last_name}}</a></span><br />
+		<span style="font-size:11px;">
+			Class of {{r.user_class}}<br />{{r.user_rescollege}}<br />
+			{{r.dept_long}}
+		</span>
+	</div>
+	<div class="clear"></div>
+</div>
+{% endfor %}
+
+<div class="clear"></div>
+<div style="margin-left:20px;">
+{% if page_prev %}
+<a href="/search?{{page_prev}}">Previous </a>
+{% endif %} 
+{% if page_prev and page_next %}
+|{% endif %}
+{% if page_next %}
+<a href="/search?{{page_next}}"> Next</a>
+{% endif %}
+</p>
+<div class="clear"></div>
+<!-- 
+<p>No results found. Please modify your search criteria.</p>
+ --><!-- 
+
+<div style="background-color:orange; position:relative; top: 0px; left: 0px; height: 180px; width:315px; border-radius: 15px 15px 15px 15px; -moz-border-radius: 15px 15px 15px 15px;-webkit-border-radius: 15px 15px 15px 15px; 	-moz-box-shadow: 3px 3px 4px #000;	-webkit-box-shadow: 3px 3px 4px #000;	box-shadow: 2px 2px 6px #000; border: 1px solid black;" onclick="window.location.href='http://google.com'">
+	<div style="background: black; width:315px; height: 15%; color:white; font-size:24px; border-radius: 15px 15px 0 0; -moz-border-radius: 15px 15px 0 0; -webkit-border-radius: 15px 15px 0 0;">
+		<span style="padding: 10px ;"><img src="/media/siteimage/PU-Sig-Facebook.png" style="width: 215px; ;height: 25px;"/></span>
+	</div>
+	<div>
+		<img style="float: left; width: 100px; padding-left: 10px; padding-top: 20px;" src="/media/userimage/smt.jpg"><br />
+	</div>
+	<div style="position:relative; top:0px; left: 6px;">
+		<span style="font-size:14px; font-weight: bold;"><a href="#" style="text-decoration:none;">Shirley Marie Tilghman</a></span><br />
+		<span style="font-size:11px;">
+			Class of 2012 - Rockefeller College<br />
+			Department of Molecular Biology
+		</span>
+	</div>
+	<div class="clear"></div>
+</div>
+<div style="background-color:orange; position:relative; top: -180px; left: 355px; height: 180px; width:315px; border-radius: 15px 15px 15px 15px; -moz-border-radius: 15px 15px 15px 15px;-webkit-border-radius: 15px 15px 15px 15px; 	-moz-box-shadow: 3px 3px 4px #000;	-webkit-box-shadow: 3px 3px 4px #000;	box-shadow: 2px 2px 6px #000; border: 1px solid black;" onclick="window.location.href='http://google.com'">
+	<div style="background: black; width:315px; height: 15%; color:white; font-size:24px; border-radius: 15px 15px 0 0; -moz-border-radius: 15px 15px 0 0; -webkit-border-radius: 15px 15px 0 0;">
+		<span style="padding: 10px ;"><img src="/media/siteimage/PU-Sig-Facebook.png" style="width: 215px; ;height: 25px;"/></span>
+	</div>
+	<div>
+		<img style="float: left; width: 100px; padding-left: 10px; padding-top: 20px;" src="/media/userimage/smt.jpg"><br />
+	</div>
+	<div style="position:relative; top:0px; left: 6px;">
+		<span style="font-size:14px; font-weight: bold;"><a href="#" style="text-decoration:none;">Shirley Marie Tilghman</a></span><br />
+		<span style="font-size:11px;">
+			Class of 2012 - Rockefeller College<br />
+			Department of Molecular Biology
+		</span>
+	</div>
+	<div class="clear"></div>
+</div>
+<div style="background-color:orange; position:relative; top: -160px; left: 0px; height: 180px; width:315px; border-radius: 15px 15px 15px 15px; -moz-border-radius: 15px 15px 15px 15px;-webkit-border-radius: 15px 15px 15px 15px; 	-moz-box-shadow: 3px 3px 4px #000;	-webkit-box-shadow: 3px 3px 4px #000;	box-shadow: 2px 2px 6px #000; border: 1px solid black;" onclick="window.location.href='http://google.com'">
+	<div style="background: black; width:315px; height: 15%; color:white; font-size:24px; border-radius: 15px 15px 0 0; -moz-border-radius: 15px 15px 0 0; -webkit-border-radius: 15px 15px 0 0;">
+		<span style="padding: 10px ;"><img src="/media/siteimage/PU-Sig-Facebook.png" style="width: 215px; ;height: 25px;"/></span>
+	</div>
+	<div>
+		<img style="float: left; width: 100px; padding-left: 10px; padding-top: 20px;" src="/media/userimage/smt.jpg"><br />
+	</div>
+	<div style="position:relative; top:0px; left: 6px;">
+		<span style="font-size:14px; font-weight: bold;"><a href="#" style="text-decoration:none;">Shirley Marie Tilghman</a></span><br />
+		<span style="font-size:11px;">
+			Class of 2012 - Rockefeller College<br />
+			Department of Molecular Biology
+		</span>
+	</div>
+	<div class="clear"></div>
+</div>
+<div style="background-color:orange; position:relative; top: -340px; left: 355px; height: 180px; width:315px; border-radius: 15px 15px 15px 15px; -moz-border-radius: 15px 15px 15px 15px;-webkit-border-radius: 15px 15px 15px 15px; 	-moz-box-shadow: 3px 3px 4px #000;	-webkit-box-shadow: 3px 3px 4px #000;	box-shadow: 2px 2px 6px #000; border: 1px solid black;" onclick="window.location.href='http://google.com'">
+	<div style="background: black; width:315px; height: 15%; color:white; font-size:24px; border-radius: 15px 15px 0 0; -moz-border-radius: 15px 15px 0 0; -webkit-border-radius: 15px 15px 0 0;">
+		<span style="padding: 10px ;"><img src="/media/siteimage/PU-Sig-Facebook.png" style="width: 215px; ;height: 25px;"/></span>
+	</div>
+	<div>
+		<img style="float: left; width: 100px; padding-left: 10px; padding-top: 20px;" src="/media/userimage/smt.jpg"><br />
+	</div>
+	<div style="position:relative; top:0px; left: 6px;">
+		<span style="font-size:14px; font-weight: bold;"><a href="#" style="text-decoration:none;">Shirley Marie Tilghman</a></span><br />
+		<span style="font-size:11px;">
+			Class of 2012 - Rockefeller College<br />
+			Department of Molecular Biology
+		</span>
+	</div>
+	<div class="clear"></div>
+</div>
+ -->
+ 
+{% endblock %}
+ 

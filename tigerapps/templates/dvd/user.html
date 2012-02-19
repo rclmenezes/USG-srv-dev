@@ -1,0 +1,39 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	{% if rentalList %}
+		<h1><b>Unreturned rentals of {{netid}}</b></h1>
+		<form action="/checkin/dvd" method="post">
+		<table>
+			<tr>
+				<td><b>Check in</b></td>
+				<td class="left"><b>DVD name</b></td>
+				<td class="left"><b>Date rented</b></td>
+				<td class="left"><b>Date returned</b></td>
+				<td><b>Date due</b></td>
+			</tr>
+		{% for rental in rentalList %}
+		    <tr>
+				<td class="left"><input type="checkbox" name="rental" value="{{rental.rentalID}}" /></td>
+				<td class="left">{{rental.dvd.name}}</td>
+				<td class="left">{{rental.dateRented}}</td>
+				<td class="left">{{rental.dateReturned}}</td>
+				<td>{{rental.dateDue}}</td>
+			</tr>
+		{% endfor %}
+		</table> 
+		<input type="hidden" name="netid" value="{{rental.netid}}" />
+		<input type="submit" value="Check-in" />
+		</form>
+		</table>
+	{% else %}
+	    {% if user_info %}
+	        <h1>Strange</h1>
+			<p>We can't find any DVDs that this user has checked out. Maybe those DVDs are already checked-in?</p>
+	    {% else %}
+	        <h1>Whoops</h1>
+			<p>We can't find this user's netid. Maybe it was misspelled? Check it: {{ netid }} </p>
+	    {% endif %}
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "cal/myevents.html" %}
+{% load app_extras %}
+
+{% block title %}Princeton Events Calendar{% endblock %}
+{% block headercss %}<link rel="stylesheet" href="/media/cal/css/coin-slider-styles.css" type="text/css" />{% endblock %}
+
+{% block headerscript %}
+<script type="text/javascript" src="/media/cal/js/coin-slider.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#coin-slider').coinslider({ width: 260, delay: 5000 });
+		$('#coin-slider2').coinslider({ width: 260, delay: 5000 });
+	});
+	
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  $('.rsvp_indicator').cluetip({
+showTitle: true, // hide the clueTip's heading
+splitTitle: '|',
+width: 540,
+clickThrough: true,
+cluetipClass: 'jtip', 
+arrows: false, 
+dropShadow: true,
+hoverIntent: false,
+sticky: false,
+mouseOutClose: true,
+
+  });
+});
+</script>
+<link rel="stylesheet" type="text/css" href="/media/cal/js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="/media/cal/js/shadowbox/shadowbox.js"></script>
+<script type="text/javascript">
+Shadowbox.init();
+</script>
+{% endblock %}
+
+{% block top %}
+
+{% if poster_events %}
+<div style="display: block; padding: 6px;">
+<table style="border-spacing: 30px;">
+<tbody>
+<tr><td style="font-size: 18px; text-align: center;">Upcoming Events</td><td style="font-size: 18px; text-align: center;">Popular Events</td></tr>
+<tr>
+<td>
+<div id='coin-slider' style="width: 260px;">
+{% for pev in poster_events %}
+	<a href="/events/{{pev.pk}}">
+		<img src='/{{pev.event_cluster.cluster_image.thumbnail.url}}' >
+		<span>
+			{{pev.displayname}}
+		</span>
+	</a>
+{% endfor %}
+</div>
+</td>
+<td>
+<div id='coin-slider2' style="width: 260px;">
+{% for pev in hotest_events %}
+	<a href="/events/{{pev.pk}}">
+		<img src='/{{pev.event_cluster.cluster_image.thumbnail.url}}' >
+		<span>
+			{{pev.displayname}}
+		</span>
+	</a>
+{% endfor %}
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/help_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="group_header">
+  <h2>Help: Following Groups</h2>
+</div>
+
+<div class="group_profile">
+
+Princeton Student Groups gives you several tools for keeping track of news, events, and updates for student organizations.  Logged in users can access these via the "Follow Group" menu on the right of each group profile. Users without a netid can view and subscribe to group feeds through RSS.<br/><br/>
+
+<div class="subsection">
+<h3 class="subheader">Newsfeed</h3>
+<p class="subcontent">Each group has a public newsfeed that is published on their profile.  You can subscribe to the group feed using an RSS reader, or peruse past entries by clicking "More" at the bottom of the feed.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Subscribe</h3>
+<p class="subcontent">Users with a netid have the option to subscribe to groups and get email notifications when the group posts to its newsfeed.  Click "Subscribe to Group" in the "Follow Group" menu on the right of the group's profile.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Member List</h3>
+<p class="subcontent">If you are logged in, you can view the members of a group by clicking on "See All" in the "Members" right menu.  You can view and search who belongs to the group.  The member list also links to Princeton Facebook.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Become a Member</h3>
+<p class="subcontent">If you belong to a student organization, you can click "Become a Member" in the "Follow Group" menu to request to join a group.  If you're request is approved, you can view the member message board and receive email notifications on messages and feed posts.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Message Board</h3>
+<p class="subcontent">Group members can view and comment on the group's message board, located at "Message Board" on the "Follow Group" menu.  Messages can be searched by publication date or title.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Membership Settings</h3>
+<p class="subcontent">Subscribers and members of a group can change their email notification settings, group status, or display preferences on the member list.  Access the settings at "Membership Settings" on the "Follow Group" menu.</p>
+</div>
+
+</div>
+
+{% endblock %}

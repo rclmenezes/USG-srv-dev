@@ -1,0 +1,47 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	<h2>Check-out</h2>
+	{% if warningList %}
+		<strong> This person has not yet returned:
+			<ul>
+		{% for warning in warningList %}
+		<li class="list">{{ warning.dvd.name }}, due {{ warning.dateDue }}</li>
+		{% endfor %}</ul></strong>
+
+	
+	{% else %}
+	<div class="editlist">
+		{% if DVD_list %}
+		<form action="/checkout/dvd" method="post">
+			<label for="due" />  Due in how many days? <br />
+			<input type="textbox" name="due" value="2" />
+			<br />
+			<input type="submit" value="Check-out" />
+			<br /><br />
+			<input type="hidden" name="netid" value="{{netid}}">
+			
+			<table>
+			<tr>
+				<td><b>Check out</b></td>
+		        <td><b>DVD name</b></td>
+			</tr>
+			{% for DVD in DVD_list %}
+				<tr>
+				<td class="left"><input type="checkbox" name="dvd" value="{{DVD.dvd_id}}" /></td>
+				<td>{{DVD.sortname}}</td>
+				</tr>
+			{% endfor %}
+			</table>
+			<br />
+			<input type="submit" value="Check-out" />
+			<p> (If you can't find the DVD on this list, you might need to edit that DVD's information, or add it) </p>
+			</form>
+		{% else %}
+			</table>
+			<p>No DVD's detected. Something must be broke. </p>
+		{% endif %}
+		</div>
+	{% endif %}
+	
+{% endblock %}

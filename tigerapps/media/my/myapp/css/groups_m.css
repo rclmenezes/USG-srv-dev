@@ -1,0 +1,152 @@
+body, input, textarea {
+}
+body {
+    color: black;
+    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+a {
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+h2 {
+    margin-bottom: 0.67em; /* 1.5 * 0.67 = 1 */
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h3 {
+    font-weight: bold;
+    margin: 0;
+    font-size: 1.2em;
+    /*margin: 0.42em 0; /* 0.42 * 1.2 = 0.5 */
+    padding-top: 0.5em; /* A little bit more spacing */
+}
+
+h4 {
+    margin: 0.5em 0;
+    padding-top: 1em;
+}
+
+/*#group_feed {
+    margin: auto;
+    width: 95%;
+    margin-top:5px;
+    margin-bottom:5px;
+}*/
+#group_feed .content {
+    background: transparent;
+    /*border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;*/
+}
+#group_feed ul {
+    list-style-type:none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#group_feed li {
+    padding-left:0;
+}
+#group_feed .header {
+    background: url('/media/groups/css/img/sub-nav-pattern.png');
+    background-repeat: repeat-x;
+    background-color: #ffb55d;
+    color: black;
+    height: 40px;
+    /*border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    -webkit-border-radius: 15px 15px 0 0;*/ 
+}
+#group_feed .header h3 {
+    margin-left: 10px;
+}
+#group_feed .header h3 .more {
+    font-size: 10px;
+    float: right;
+    padding-right: 10px;
+    padding-top: 5px;
+    font-weight: normal;
+}
+#group_feed .feed_entry {
+    padding: 5px;
+}
+#group_feed .feed_entry .title {
+    font-size: 16px;
+} 
+#group_feed .feed_entry .author {
+    font-size: 10px;
+    color: #585858;
+}
+#group_feed .feed_entry .text {
+    padding: 10px;
+}
+#group_feed ul.border {
+    
+}
+
+
+.post_event {
+    width: 90%;
+    margin-left: 12px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #C2CFD5;
+}
+.post_event_img {
+    max-height: 100px;
+    max-width: 100px;
+    float: left;
+    padding-right: 10px;
+}
+.post_event_title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.formTable {
+    width: 95%;
+    padding: 10px;
+}
+.formTable tr tr {
+    background: #e0e0e0;
+}
+.formTable tr tr td {
+    padding: 5px;
+    color: black;
+    text-align: left;
+}
+.label {
+   vertical-align:top;
+   color:black;
+}
+.submit {
+    margin: 10px;
+}

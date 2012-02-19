@@ -1,0 +1,16 @@
+{% extends "cal/base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h1 id="title">My Profile</h1>
+{% if user_data %}
+<form action="" method="POST" enctype="multipart/form-data" >
+<table>
+{{ profileForm.as_table }}
+</table>
+<input type="submit" value="Update" />
+</form>
+<p class="note">Your personal calendar: <a href="http://dev.cal.tigerapps.org/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics">webcal://dev.cal.tigerapps.org/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics</a></p>
+{% endif %}
+{% endblock %}

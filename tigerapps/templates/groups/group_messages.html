@@ -1,0 +1,95 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% ifequal user_mship.type 'O' %}
+{% include 'groups/off_sidebar.html' %}
+{% endifequal %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+<div class="group_header">
+  <h2>Message Board</h2>
+</div>
+</li>
+</ul>
+
+<div class="group_profile">
+
+
+  <script> 
+//    $.datepicker.setDefaults($.datepicker.regional['us']);
+    $(function() {
+    $( "#id_date" ).datepicker();
+    });
+  </script>
+
+  <form action="" method="get" id="search_form_id">
+    <ul class="search_form">
+      {{form.as_ul}}
+      <li><input type="submit" value="Search Messages"></li>
+      <input type="hidden" name="page" id="page_input_id" value="{{page.number}}">
+    </ul>
+  </form>
+  <br/>
+
+  {% if messages %}
+  {{page.start_index}}-{{page.end_index}} of {{p.count}} messages
+  <table class="requestTable member_list">
+    <tr>
+      <!--	  <th><input type="checkbox" id="master_check" value="" onclick="check_all(this);"/></th>-->
+      <th>DATE</th>
+      <th>TITLE</th>
+      {% ifequal user_mship.type 'O' %}
+      <th>VIEW</th><th>EDIT</th><th>DELETE</th>
+      {% endifequal %}
+    </tr>
+    {% for m in messages %}
+    <tr>
+      <td>
+	{% for s in m.unread.all %}
+	{% ifequal s user %}<strong style="font-size:12px;">{% endifequal %}
+	  {% endfor %}
+	  {{m.pub_date|date:"fa D M d Y"}}
+	  {% for s in m.unread.all %}
+	  {% ifequal s user %}</strong>{% endifequal %}
+	{% endfor %}
+      </td>
+      <td>
+	{% for s in m.unread.all %}
+	{% ifequal s user %}<strong style="font-size:12px;">{% endifequal %}
+	  {% endfor %}
+	  <a href="/groups/{{group.url}}/messages/{{m.id}}/" id="id_{{m.id}}">{{m.title}}</a>
+	  {% for s in m.unread.all %}
+	  {% ifequal s user %}</strong>{% endifequal %}
+	{% endfor %}
+      </td>
+      {% ifequal user_mship.type 'O' %}
+      <td>{% ifequal m.view_permissions 'O' %}Officers{% else %}Members{% endifequal %}</td>
+      <td><a href="/groups/{{group.url}}/sendmessage/{{m.id}}">Edit</a></td>
+      <td><a href="/groups/{{group.url}}/messages/{{m.id}}/delete" onclick="return confirm('Are you sure you want to delete this message?');">Delete</a></td>
+      {% endifequal %}
+    </tr>
+    {% endfor %}
+  </table>      
+  
+    <ul class="paginate">
+      {% if page.has_previous %}<li><input type="button" value="<< First" name="first" class="prev" onclick="$('#page_input_id').attr('value',1);$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Previous" name="prev" class="prev" onclick="$('#page_input_id').attr('value',{{page.previous_page_number}});$('#search_form_id').submit();"/></li>{% endif %}
+      {% if page.has_next %}
+      <li><input type="button" value="Last >>" name="last" class="next" onclick="$('#page_input_id').attr('value',{{p.num_pages}});$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Next" name="next" class="next" onclick="$('#page_input_id').attr('value',{{page.next_page_number}});$('#search_form_id').submit();"/></li>
+      {% endif %}
+    </ul>
+  {% else %}
+  <h4><em>There are no messages.</em></h4>
+  {% endif %}
+
+</div>
+
+
+{% endblock %}

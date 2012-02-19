@@ -1,0 +1,58 @@
+{% extends "card/base_club_meal.html" %}
+
+{% block content %}
+
+<h2>Edit Meal</h2>
+{% if errmes %}
+<script language="javascript" type="text/javascript"> alert('{{ errmes }}');</script>
+{% endif %}
+{% if msg %}
+<h4>{{ msg}}</h4>
+{% endif %}
+
+<form action="/{{club}}/meals/{{mealid}}/modify/" method="post" name="modForm">
+
+{% for field in form %}
+<div class="row">
+  <span class="label">{{ field.label }}:</span>
+  <span class="formw">{{field}}{% ifequal field.label 'Date' %} <script language="JavaScript">new tcal ({'formname': 'modForm','controlname': 'date'});</script>{% endifequal %}</span>
+{% for error in field.errors %}
+</div><div class="row">
+  <span class="error">{{error}}</span>
+{% endfor %}
+</div>
+{% endfor %}
+
+<!--<div class="row">
+<span class="label">Host:</span>
+   <span class="formw"><input type="text" name="host" value="{{meal.host.netid}}"></span></div>
+<div class="row">
+<span class="label">Guest:</span>
+   <span class="formw"><input type="text" name="guest" value="{{meal.guest.netid}}"></span></div>
+<div class="row">
+<span class="label">Date:</span>
+   <span class="formw"><input type="text" name="date" value="{{ meal.date.month }}/{{meal.date.day}}/{{meal.date.year}}" />
+   <script language="JavaScript">
+   new tcal ({'formname': 'modForm','controlname': 'date'});
+   </script></span></div>
+<div class="row">
+<span class="label">Meal:</span> 
+   <span class="formw"><select name="meal">
+        <option value="Dinner" {% ifequal meal.meal_type 'Dinner' %}selected="selected"{% endifequal %}>Dinner</option>
+        <option value="Lunch" {% ifequal meal.meal_type 'Lunch' %}selected="selected"{% endifequal %}>Lunch</option>
+        <option value="Brunch" {% ifequal meal.meal_type 'Brunch' %}selected="selected"{% endifequal %}>Brunch</option>
+        <option value="Breakfast" {% ifequal meal.meal_type 'Breakfast' %}selected="selected"{% endifequal %}>Breakfast</option>
+        <option value="Other" {% ifequal meal.meal_type 'Other' %}selected="selected"{% endifequal %}>Other</option>
+   </select></span></div>	-->
+<div class="row"> 
+  <span class="formw"><input type="submit" name="Modify" value="Submit Changes" class="button"></span></div>
+<div class="row">  
+ <span class="formw"><input type="submit" name="Remove" value="Remove" class="button" onclick="return confirm('Are you sure you want to remove this meal?  This action may affect existing exchanges.');"></span></div>
+</form>
+<br>
+<br>
+<br>
+<! To do: Add back button, make user confirm removal. >
+
+{% endblock content %}
+

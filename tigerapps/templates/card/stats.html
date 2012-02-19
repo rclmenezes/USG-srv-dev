@@ -1,0 +1,69 @@
+{% extends "card/base_club.html" %}
+
+{% block content %}
+
+<h2>Meal Exchange Statistics</h2> 
+{% if graph %}
+<a href="/{{club}}/stats/list/"> See Tables </a>
+{% else %}
+<a href="/{{club}}/stats/graph/"> See Graphs </a>
+{% endif %}
+
+<h3>Meals as Host this Month: {{ hostnum }} <br></h3>
+
+<h3>Meals as Guest this Month: {{ guestnum }} <br></h3>
+
+<h3>Statistics by Meal:</h3>
+{% if graph %}
+<div id = "mealchart" class="chart"> 
+{% endif %}
+<table border="1">
+<tr><th>Meal</th><th>As Guest</th><th>As Host</th></tr>
+{% for meal in meals %}
+<center>
+<tr><td>{{ meal.type }}</td><td>{{ meal.mealsout }}</td><td>{{ meal.mealsin }}</td></tr>
+</center>
+{% endfor %}
+</table>
+{% if graph %}
+</div>
+{% endif %}
+
+<h3>Statistics by Club Exchanged With:</h3>
+{% if graph %}
+<div id="clubchart" class="chart">
+{% endif %}
+<table border="1">
+<tr><th>Club</th><th>As Guest</th><th>As Host</th></tr>
+{% for clubex in clubmeals %}
+<center>
+<tr><td>{{ clubex.clubname }}</td><td>{{ clubex.mealsout }}</td><td>{{ clubex.mealsin }}</td></tr>
+</center>
+{% endfor %}
+</table>
+{% if graph %}
+</div>
+{% endif %}
+
+<h3>Statistics by Date</h3>
+{% if graph %}
+<div id="datechart" class="chart">
+{% endif %}
+<table border="1">
+<tr><th>Day of Month</th><th>As Guest</th><th>As Host</th></tr>
+{% for dateex in datemeals %}
+<center>
+<tr><td>{{ dateex.day }}</td><td>{{ dateex.mealsout }}</td><td>{{ dateex.mealsin }}</td></tr>
+</center>
+{% endfor %}
+</table>
+{% if graph %}
+</div>
+{% endif %}
+
+
+{% endblock content %}
+
+{% block footer %}
+You can find statistics for meal exchanges your club has been involved in on this page. 
+{% endblock %}

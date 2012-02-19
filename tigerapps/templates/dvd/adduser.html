@@ -1,0 +1,12 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	<h1> Add an admin! </h1>
+	<br /><br />
+	
+	<form action="/adduser" method="post">
+		<label for="netid">Insert netid:</label><br />
+		<input type="textbox" name="netid" />
+		<input type="submit" value="Add user" />
+	</form>
+{% endblock %}

@@ -1,0 +1,135 @@
+/* ------ Base template css -------- */
+html {
+    overflow-x: hidden;
+}
+
+body {
+	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+	margin: 0;
+	padding: 0;
+	font-family: Verdana;
+	background: transparent;
+}
+
+.myapp_added
+{
+    position: absolute;
+    left: 0;
+    width: 27%;
+    height: 90%;
+    overflow: auto;
+    border-right: 1px solid #5B5B5B;
+	-moz-border-radius-topright: 15px;
+	border-top-right-radius: 15px;
+	min-height: 100px;
+}
+
+.myapp_added b
+{
+    margin: 0 0 0 5px;
+    padding: 0;
+}
+
+.myapp_added .remove img.remove
+{
+    margin-right: 5px;
+    margin-bottom: -3px;
+    margin-left: 10px;
+}
+
+.myapp .description p
+{
+    margin: 0;
+    padding: 0;
+}
+
+#myapp_list
+{
+    overflow: auto;
+    position: absolute;
+    width: 72.2%;
+    left: 28%;
+	z-index: 0;
+	margin-right: 8px;
+	height: 100%;
+}
+
+.myapp
+{
+    display: block;
+    border-style: solid;
+    border-color: #5B5B5B;
+    border-width: 0px 1px 1px 1px;
+    margin: 0 0 15px;
+    padding: 0;
+    -moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+.myapp h2
+{
+    background: none repeat scroll 0 0 #5B5B5B;
+    color: white;
+    font-size: 12px;
+    height: 25px;
+    padding: 4px 10px;
+    margin-bottom: 0;
+    margin-bottom: -6px;
+	-moz-border-radius-topleft: 15px;
+	border-top-left-radius: 15px;
+	-moz-border-radius-topright: 15px;
+	border-top-right-radius: 15px;
+}
+
+.description
+{
+    margin: 0;
+    min-height: 75px;
+    padding: 2px;
+    background:#DCE7EC;
+    -moz-border-radius-bttomleft: 15px;
+	border-bottom-left-radius: 15px;
+	-moz-border-radius-bottomright: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+input.add
+{
+    float: right;
+    width: 12%;
+    margin-top: 0px;
+}
+
+#submit-bar
+{
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    width: 27%;
+    height: 10%;
+    text-align: center;
+    margin: 5px 0;
+    border-right: 1px solid #5B5B5B;
+}
+
+#submit
+{
+    position: relative;
+    margin-top: 10px;
+    width: 70px;
+    background: #FF9C26;
+}
+
+#search
+{
+    float: right;
+}
+
+.inner
+{
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+}

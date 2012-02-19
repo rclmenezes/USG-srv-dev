@@ -1,0 +1,51 @@
+{% extends "cal/emailbase.html" %}
+{% load humanize %}
+{% block content %}
+<div style="">
+<table cellspacing="0" cellpadding="8" border="0" summary="" style="width:100%;font-family:Arial,Sans-serif;border:1px Solid #ccc;border-width:1px 2px 2px 1px; background-color: #fff;">
+<tr>
+<td>
+<div style="padding:2px">
+<p style="padding:4px 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;">Dear Elizabeth,<br /><br />
+{{creator.full_name_suffix}} submitted the event below to the <a href="{{ site }}">Princeton Events Calendar</a> and would like to have this included in the weekly events listing.<br /><br />
+Below is the custom message sent by {{creator.casual_name}}:<br />
+<span style="padding: 4px; color: #333; font-style: italic;">{{custommsg|linebreaksbr}}</span><br /><br />
+The full details of the event are listed below.  You can also <a href="{{ eventurl }}">click here</a> to view the event listing on the calendar.<br /><br />
+We have also automatically generated a short URL for this event for you to include in the email: {{bitly_address}}<br /><br />
+If you have any questions, you can reply directly to this message to contact {{creator.casual_name}} via email at {{creator.user_email}}.<br />
+<br />
+Thank you!<br />
+The Princeton Events Calendar Team &amp; The USG
+</p>
+
+<h3 style="padding:20px 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:14px;font-weight:bold;color:#222"><a href="{{ eventurl }}">{{event}}</a></h3>
+<table cellpadding="0" cellspacing="0" border="0" summary="Event details">
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Begins</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.getFormattedStartDate}} at {{event.getTime}}</td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Ends</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% ifnotequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getFormattedEndDate}} at {% endifnotequal %}{{event.getEndTime}}</td>
+  </tr>  
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Where</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% if event.get_event_location_display or event.event_location_details %}{{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}<span dir="ltr">{% else %}No location given {% endif %}</span></td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Description</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.event_cluster.cluster_description|linebreaksbr}}{% if event.event_subdescription %}<br />{{event.event_subdescription|linebreaksbr}}{% endif %}</td>
+  </tr>  
+</table>
+</div>
+</td>
+</tr>
+<tr>
+  <td style="background-color:#f6f6f6;color:#888;border-top:1px Solid #ccc;font-family:Arial,Sans-serif;font-size:11px">
+  <a href="{{ site }}"><img style="float: right; border: none;" src="[IMG_EMBED]media/cal/email/pec_email_logo.png[/IMG_EMBED]" /></a>
+  <p>This email was sent automatically by the <a href="{{ site }}" style="">Princeton Events Calendar</a> by a user logged in with the netid {{creator.user_netid}}.</p>
+</td>
+</tr>
+</table>
+</div>
+{% endblock %}

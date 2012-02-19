@@ -1,0 +1,57 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% ifequal user_mship.type "O" %}
+{% include 'groups/off_sidebar.html' %}
+{% endifequal %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2"><a href="/groups/{{group.url}}/messages">Message Board</a></li>
+<li class="nav_tree_3">
+<div class="message_header">
+  {{message.title}}
+</div>
+<div class="message_author">
+{{message.pub_date|date:"fa, D M d Y"}} by {{message.author.first_name}} {{message.author.last_name}}, <a href="/groups/{{message.group.url}}">{{message.group}}</a>
+</div>
+</li>
+</ul>
+
+<div class="message_text">
+  {% autoescape off %}{{message.text|linebreaksbr}}{% endautoescape %}<br/><br/>
+  {% ifequal user_mship.type 'O' %}<a href="/groups/{{group.url}}/sendmessage/{{message.id}}/">Edit</a> <a href="/groups/{{group.url}}/messages/{{message.id}}/delete/" onclick="return confirm('Are you sure you want to delete this message?');">Delete</a>{% endifequal %}
+</div>
+
+{% ifequal message.comment_permissions 'C' %}
+<em>Comments have been disabled for this message</em>
+{% else %}
+<div id="group_feed">
+  <div class="header">
+    <h3>Comments<span class="more"><a href="comment">Comment on this post</a></span></h3>
+  </div>
+  <div class="content">
+    {% for c in comments|slice:":5" %}
+    <div class="message_comment">
+      <ul>
+	<li class="title">Comment by {{c.comment_author.first_name}} {{c.comment_author.last_name}} at {{c.pub_date|date:"fa, D M d Y"}}:</li>
+	<li class="text">{{c.text|linebreaksbr}}</li>
+	{% ifequal user_mship.type 'O' %}<li><a href="/groups/{{group.url}}/messages/{{message.id}}/comment/{{c.id}}/delete" onclick="return confirm('Are you sure you want to delete this comment?');">Delete</a></li>{% else %}
+	{% ifequal c.comment_author user %}<li><a href="/groups/{{group.url}}/messages/{{message.id}}/comment/{{c.id}}/delete" onclick="return confirm('Are you sure you want to delete this comment?');">Delete</a>{% endifequal %}{% endifequal %}
+      </ul>
+    </div>
+    {% ifequal forloop.counter 5 %}<span class="more_entry"><a href="/groups/{{group.url}}/messages/{{message.id}}/read_comments/">More...</a></span>{% endifequal %}
+    {% empty %}
+    <div class="message_comment">
+      <ul><li><em>There are no comments yet.</em></li></ul>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endifequal %}
+
+{% endblock %}

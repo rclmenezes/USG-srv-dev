@@ -1,0 +1,5 @@
+json = [
+{% for image in image_list %}
+{"src":"http://dev.cal.tigerapps.org/media/{{ image.event_cluster.cluster_image }}", "link":"http://dev.cal.tigerapps.org/events/{{ image.event_id }}", "name":"{{ image.event_cluster.cluster_title }}"}
+{% endfor %}
+]

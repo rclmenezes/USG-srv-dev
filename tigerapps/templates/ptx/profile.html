@@ -1,0 +1,20 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Edit Your Profile{% endblock %}
+
+{% block content %}
+
+<h2>Edit Your Profile</h2>
+{{ message }}
+{% if form.errors %}
+    Please correct the error(s) below
+{% endif %}
+
+<form action="/profile" method="post">
+  <table>
+    {{ form.as_table }}
+  </table>
+  <p><input type="submit" value="Submit" /></p>
+</form>
+
+{% endblock %}

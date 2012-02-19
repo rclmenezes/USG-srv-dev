@@ -1,0 +1,34 @@
+{% extends "cal/base.html" %}
+{% load app_extras %}
+
+{% block title %}{{tabtitle}}{% endblock %}
+
+{% block headerscript %}{% endblock %}
+
+{% block content %}
+<h1 id="title">Quick Response Code</h1>
+<p class="subtitle">{{ event.displayname }}</p>
+
+<p style="width: 540px;">Copy an image code below into your posters, emails, and website. QR codes act like hyperlinks, but you 'click' on them with your camera-enabled smartphone. They are great for around campus. <a target="_blank" href="http://www.nytimes.com/2010/01/11/business/media/cal/11mag.html">Click here to learn more</a></p>
+<p style="width: 540px; font-size: 0.9em; font-style: italic;">There are two QR codes below.  The first is a general link to the event, and the second is a personal link from you which activates an invitation.</p>
+
+
+<div style=" padding: 6px 0 0 6px; width: 540px; height: 376px; background-color: #D0D0F0; border:1px Solid #00009F;border-width:1px 2px 2px 1px;" >
+	<h2 style="font-size: 14px; font-weight: bold; color: #444; text-align: center;">{{ event.displayname }}</h2>
+	<div style="text-align: center; font-size: 0.75em; color: #555;">This is a general-purpose link to the event page.</div>
+	<div style="margin: auto; width: 540px; text-align: center;"><img src="{{ generalqr_url }}" /><input type="text" readonly="readonly" style="font-family: Courier; width:100%; text-align: center; background-color: #D0D0F0; border: none;" onClick="this.focus(); this.select();" value="{{ generalqr_link }}"></input>
+	<a href="{{ generalqr_link }}" style="font-size: 10px; text-decoration: none; color: #999;">Click here to test this general link.</a>
+	</div>
+	<img src="/media/cal/img/design/qr.png" style="position: relative; bottom: 164px; left: 420px;" />
+</div>
+<div style="height: 12px;"> </div>
+<div style=" padding: 6px 0 0 6px; width: 540px; height: 366px; background-color: #F0D0FF; border:1px Solid #00009F;border-width:1px 2px 2px 1px;" >
+	<h2 style="font-size: 14px; font-weight: bold; color: #444; text-align: center;">Personal Invitation from {{ user.full_name_suffix }}<br /><span style="font-size: 0.75em; color: #777;">{{ event.displayname }}</span></h2>
+	<div style="text-align: center; font-size: 0.75em; color: #555;">People opening this link will automatically receive a pending invitation from you.</div>
+	<div style="margin: auto; width: 540px; text-align: center;"><img src="{{ personalqr_url }}" /><input type="text" readonly="readonly" style="font-family: Courier; width:100%; text-align: center; background-color: #F0D0FF; border: none;" onClick="this.focus(); this.select();" value="{{ personalqr_link }}"></input>
+	<span style="font-size: 10px; text-decoration: none; color: #999;">This is a custom short URL just for you.</span>
+	</div>
+	<img src="/media/cal/img/design/qr.png" style="display: block; position: relative; bottom: 163px; left: 420px;" />
+</div>
+
+{% endblock %}

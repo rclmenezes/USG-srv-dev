@@ -1,0 +1,182 @@
+/*Base CSS*/
+html {
+	height: 100%;
+}
+
+body {
+	background: none repeat scroll 0 0 #F96B02;
+    margin: 0;
+    padding: 0;
+	font-family: "Helvetica";
+	font-size: 13px;
+}
+
+.header
+{
+    margin: 0;
+    min-height: 100px;
+    padding: 15px;
+    color: white;
+}
+
+.header img
+{
+    float: left;
+}
+
+h1.title {
+    font-weight: normal;
+    font-size: 50px;
+    margin: 0;
+    padding-top: 25px;
+    padding-left: 200px;
+}
+
+/******************NAVBAR*********************/
+
+.navbar
+{
+    position: relative;
+    height: 20px;
+    background: #7F7F7F;
+    padding: 10px;
+    display: block;
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    padding-left: 10px;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.02, rgb(38,38,38)),
+        color-stop(0.82, rgb(110,109,110)),
+        color-stop(0.81, rgb(42,46,46))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(38,38,38) 2%,
+        rgb(110,109,110) 82%,
+        rgb(42,46,46) 81%
+    );
+}
+
+    #nav a{
+    	margin:0;
+    	float:left;	
+    }
+    
+    #nav a, #subMenusContainer a{
+    	text-decoration:none;
+    	display:block;
+    	padding:7px 20px;
+    	background-color: transparent;
+    	-moz-border-radius: 7px;    
+    	-webkit-border-radius: 7px;
+    }
+
+    .navbar a.menutitle
+    {
+        display: inline;
+        text-decoration: none;
+        color: white;
+        padding: 2px 10px;
+        -moz-box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+    	-khtml-box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+    	-webkit-box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+    	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+    	-moz-border-radius: 5px;
+    	border-radius: 5px;
+    }
+    
+    .navbar a.submenlink
+    {
+        text-decoration: none;
+        color: white;
+    }
+    
+    .navbar a:hover
+    {
+        /*background:	#C0C0C0;*/
+        background: #707070 ;
+    }
+    
+    /* main menu ul or ol elment */
+    #nav{
+    	display:block;
+    	position: absolute;
+    	list-style:none;
+    	margin:0 0 0 0;
+    	top: 3px;
+    	text-align: center;
+    	text-decoration: none;
+        color: white;
+    }
+    
+    #nav li { 
+    	display:block;
+    	list-style:none;
+    	position:relative;
+    	float:left;
+    }
+
+    
+/****************</NAVBAR>*********************/
+    
+.content
+{
+    background-color: white;
+    margin: 0;
+    padding: 15px 40px;
+    min-height: 300px;
+}
+
+.wrapper
+{
+	width: 900px;
+	background-color: #000000;
+	border: 1px solid #7F7F7F;
+	margin: 0 auto;
+	margin-top: 1px;
+	-moz-box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+	-khtml-box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 6px rgba(0,0,0,0.6);
+}
+
+.intro
+{
+    width: 70%;
+    padding: 20px;
+    line-height: 110%;
+    font-size: 14px;
+}
+
+.intro img
+{
+    float: left;
+}
+
+.credits {
+    margin: 0 auto;
+    width: 1000px;
+    font-size: 10px;
+    color: #7F7F7F;
+    padding: 5px;
+}
+
+.footer
+{
+    margin: 0;
+    min-height: 60px;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.links
+{
+    color: white;
+}
+
+
+

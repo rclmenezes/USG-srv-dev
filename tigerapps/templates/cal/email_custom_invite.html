@@ -1,0 +1,88 @@
+{% extends "cal/emailbase.html" %}
+{% load humanize %}
+{% block content %}
+
+<div style="">
+<div style="font-size: 12px; clear: both; padding: 15px 10px; margin-bottom: 20px; background-color: #D8E2F0; border:1px Solid #ccc;border-width:1px 2px 2px 1px;">{{body|linebreaksbr}}</div>
+
+<table cellspacing="0" cellpadding="8" border="0" summary="" style="width:100%;font-family:Arial,Sans-serif;border:1px Solid #ccc;border-width:1px 2px 2px 1px; background-color: #fff;">
+<tr>
+<td>
+<div style="padding:2px">
+<div style="float:right;font-weight:bold;font-size:13px"> <a href="{{ site }}/bulkinvite/{{ event.pk }}-{{ user.pk }}-p" style="color:#20c;white-space:nowrap">more details &raquo;</a><br>
+</div>
+<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:16px;font-weight:bold;color:#222">{{event}}</h3>
+<table cellpadding="0" cellspacing="0" border="0" summary="Event details">
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Begins</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.getFormattedStartDate}} at {{event.getTime}}</td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Ends</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% ifnotequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getFormattedEndDate}} at {% endifnotequal %}{{event.getEndTime}}</td>
+  </tr>  
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Where</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% if event.get_event_location_display or event.event_location_details %}{{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}<span dir="ltr">{% else %}No location given {% endif %}</span></td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Description</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.event_cluster.cluster_description|linebreaksbr}}{% if event.event_subdescription %}<br />{{event.event_subdescription|linebreaksbr}}{% endif %}</td>
+  </tr>  
+  <tr>
+  <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Who</i></div></td>
+  <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">
+  <table cellspacing="0" cellpadding="0">
+    {% ifnotequal sender event.event_cluster.cluster_user_created.user_email %}
+    <tr>
+      <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><span style="font-family:Courier New,monospace">&#x2022;</span></td>
+      <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div>
+          <div style="margin:0 0 0.3em 0">
+          {{ event.event_cluster.cluster_user_created.full_name }} ({{ event.event_cluster.cluster_user_created.user_netid }}@princeton.edu)<span style="font-size:11px;color:#888"> - event organizer</span></div>
+    </div>
+    </td>
+    </tr>    
+    {% endifnotequal %}    
+    <tr>
+      <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><span style="font-family:Courier New,monospace">&#x2022;</span></td>
+      <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div>
+          <div style="margin:0 0 0.3em 0">
+          {{ sender }}<span style="font-size:11px;color:#888"> - person who invited you{% ifequal sender event.event_cluster.cluster_user_created.user_email %} and event organizer{% endifequal %}</span></div>
+    </div>
+    </td>
+    </tr>
+    <tr>
+      <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><span style="font-family:Courier New,monospace">&#x2022;</span></td>
+      <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div>
+          <div style="margin:0 0 0.3em 0">
+          {{ recipient }}<span style="font-size:11px;color:#ff9900;"> - pending invitation</span></div>
+    </div>
+    </td>
+    </tr>
+  </table>
+  </td>
+  </tr>
+    {% ifnotequal event.getAttendeeCount 0 %}
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Who Else</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top"><div style="float:right;font-weight:bold;font-size:13px; padding-left:8px;"><a href="{{ site }}/bulkinvite/{{ event.pk }}-{{ user.pk }}-p#who" style="color:#20c;white-space:nowrap">see who &raquo;</a><br></div>This event has {{ event.getAttendeeCount }} other confirmed attendee{{ event.getAttendeeCount|pluralize }}{% ifnotequal event.getPendingCount 1 %} and {{ event.getPendingCount }} pending invitation{{ event.getPendingCount|pluralize }}{% endifnotequal %}</td>
+  </tr>  
+    {% endifnotequal %}
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Going?</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top"><wbr><strong><a href="{{ site }}/bulkinvite/{{ event.pk }}-{{ user.pk }}-a" style="color:#20c;white-space:nowrap">Yes</a><span style="margin:0 0.4em;font-weight:normal"> - </span><a href="{{ site }}/bulkinvite/{{ event.pk }}-{{ user.pk }}-d" style="color:#20c;white-space:nowrap">No</a></strong></td>
+  </tr>   
+</table>
+</div>
+</td>
+</tr>
+<tr>
+  <td style="background-color:#f6f6f6;color:#888;border-top:1px Solid #ccc;font-family:Arial,Sans-serif;font-size:11px">
+  <a href="{{ site }}"><img style="float: right; border: none;" src="[IMG_EMBED]media/cal/email/pec_email_logo.png[/IMG_EMBED]" /></a>
+  <p>Invitation sent through the <a href="{{ site }}" style="">Princeton Events Calendar</a></p>
+    <p>This email was sent directly at the request of {{ sender }} and is not subject to standard email preferences of the Princeton Events Calendar. To report abuse, please email <a href="mailto:usg@princeton.edu">USG@Princeton.EDU</a></p></td>
+</tr>
+</table>
+</div>
+{% endblock %}
+{% block tip %}The <a href="{{ site }}">Princeton Events Calendar</a> is the best way to get noticed on campus (aside from wearing a mohawk) and to see what's happening.  <a href="{{site}}events/add">Submit your next event</a> or check out <a href="{{site}}week">this week's upcoming events</a>.{% endblock %}

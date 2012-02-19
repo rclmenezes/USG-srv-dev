@@ -1,0 +1,55 @@
+IE bugs:
+   - Forms have borders
+   - gap between nav and account bars
+   - side menu headers too fat
+   - borders on list title items, headers inconsistent
+   - container pushed to far left
+   - browse jump list goes down, not across
+   - width is small (65%)
+   - forms below sidebars
+   - paginate buttons (and inline lists generally) fucked up
+
+BUGS
+   - image upload form out of wack
+   - Message email is same as post email?
+   - Can enter weird values for year, etc.
+   - italicized menu?
+   - FF doesn't space form rows (search forms), Chrome does
+   - FF checkboxes always in the center
+   - "Newer" and "First" terminology mismatch
+
+IDEAS:
+   - email: cal components
+   - info on importing rss to fbook, twitter, whatever
+
+TODO
+   - file uploads (limit uploads to, say, 5; enforce in save)
+   - div for group display in search/browse mode
+      - image thumb
+      - First part of description, categories
+      - icon for group status (subscriber, member, officer, unaffiliated)
+      - button for quickly subscribing
+   - Promote/link form: aesthetics, error messages, required *
+   - Feeds linked to PCal directly (import event model, include in entry)
+      - needs to post event w/ group netid, or officer netid
+      - ajax posts data to secret groups url; groups creates Entry object
+   - email templates
+   - dev facebook: autosuggest, pre-populate fields
+   - Leadership section
+      - link to (and from) ODUS
+   - Banner
+
+   - onclick tr for message board table
+   - Display options global as well
+   - Unread messages, member requests notices on index/account pages
+   - message table: make rows clickable, change color on hover
+   
+   - Upon removal of member, demote to subscriber?
+   - "warning" box for actions that have no effect (eg. demoting members)
+   - url = group name
+
+LATER
+   - Registering a group emails usg@ (or someone)
+   - Widget for group feeds
+   - move to prod
+      - check for any hard-coded urls or email addresses
