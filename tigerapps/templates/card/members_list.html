@@ -1,0 +1,111 @@
+{% extends "card/base_club_mem.html" %}
+
+{% block content %}
+
+<h2>List Members</h2>
+{% if removed %}
+<script language="javascript" type="text/javascript"> alert('Removed member {{ pnetID }}');</script>
+{% endif %}
+
+<form action="/{{ club }}/members/list/" method="get" id="searchform">
+<div class="row">
+<span class="label">First Name:</span>
+    <span class="formw"><input type="text" name="fName" value={{ fName }}></span></div>
+<div class="row">
+<span class="label">Last Name:</span>
+    <span class="formw"><input type="text" name="lName" value={{ lName }}></span></div>
+<div class="row">
+<span class="label">netID:</span>
+    <span class="formw"><input type="text" name="netID" value={{ netID }}></span></div>
+<div class="row">
+<span class="label">Year:</span>
+    <span class="formw"><input type="text" name="year" value={{ Cyear }}></span></div>
+<div class="row">
+<span class="label">Role:</span>    
+<span class="formw">
+    <select name="role">
+    {% ifequal role "Checker" %}
+    <option value="All">All</option>
+    <option value="Checker" selected=true>Checker</option>
+    {% else %}
+    <option value="All" selected=true>All</option>
+    <option value="Checker">Checker</option>
+    {% endifequal %}
+    </select></span></div>
+<div class="row">
+<span class="label">Status:</span>
+    <span class="formw">
+     <select name="status">
+     {% ifequal stat "Inactive" %}
+     <option value="Active">Active</option>
+     <option value="Inactive" selected=true>Inactive</option>
+     <option value="All">All</option>
+     {% else %}{% ifequal stat "All" %}
+     <option value="Active">Active</option>
+     <option value="Inactive">Inactive</option>
+     <option value="All" selected=true>All</option>
+     {% else %}
+     <option value="Active" selected=true>Active</option>
+     <option value="Inactive">Inactive</option>
+     <option value="All">All</option>
+     {% endifequal %}{% endifequal %}
+     </select></span></div>
+<div class="row">
+    <span class="formw"><input type="submit" name="Submit" value="Submit" class="button"></span></div>
+</form>
+
+<br><br>
+
+{% if mes %}
+<script language="javascript" type="text/javascript"> alert('{{ mes }}');</script>
+{% endif %}
+
+
+{% if members %}
+<form method="post" action="/{{ club }}/members/list/">
+<table border="1">
+  <tr>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Year</th>
+    <th>NetID</th>
+    <th>Role</th>
+    <th>Status</th>
+    <th><input type="checkbox" onClick="toggle(this)" /></th>
+  </tr>
+  <br>
+  
+  {% for member in members %}
+    <tr>
+      <td align="center">{{ member.last_name }}</td>
+      <td align="center">{{ member.first_name }}</td>
+      <td align="center">{{ member.year }}</td>
+      <td align="center"><a href="/{{ club }}/members/{{ member.netid }}/modify/">{{ member.netid }}</td>
+      <td align="center">{{ member.access }}</td>
+      {% if member.is_active %}
+      <td align="center">Active</td>
+      {% else %}
+      <td align="center">Inactive</td>
+      {% endif %}
+      <td align="center"><input type="checkbox" name="check" value="{{ member.netid }}"></td>
+    </tr>
+  {% endfor %}
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td align="center"><input type="submit" name="bRole" value="Toggle Role" class="button"></td>
+<td align="center"><input type="submit" name="bStatus" value="Toggle Status" class="button"></td>
+<td align="center"><input type="submit" name="bRemove" value="Remove" class="button"></td>
+</table><br> 
+</form>
+{% endif %}
+
+
+{% endblock content %}
+{% block footer %}
+You can find and modify members here. Confused? Click 
+{% endblock %}
+{% block path %}
+editmem
+{% endblock %}

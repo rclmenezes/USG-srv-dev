@@ -1,0 +1,49 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% include 'groups/off_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+<div class="group_header"><h2>Renew Group</h2></div>
+</li></ul>
+
+  <form class="first_form" id="profile_form" action="" method="POST" enctype="multipart/form-data">    
+    <table class="formTable">
+      {% for field in form %}
+    
+      <tr>
+	<td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:{% if field.field.required %} *{% endif %}</td>
+	<td class="field">{{field}}</td>
+      </tr>
+      <tr>
+	{% ifequal field.label 'Categories'%}
+	<td></td><td class="select_text">{{field.help_text}}</td>
+	{% else %}{% ifequal field.label 'Confirm' %}
+	<td colspan="3" style="padding-left:6px;padding-top:4px;">I hereby certify that "{{group.name}}" is an active, recognized student organization at Princeton University.
+	{% else %}
+	<td class="help">{{field.help_text}}</td>
+	{% endifequal %}{% endifequal %}
+      </tr>
+
+      {% ifequal field.label 'Email' %}
+      <tr><td class="label">Officers:</td>
+	{% for o in officers %}
+	{% if not forloop.first %}<tr><td class="label"></td>{% endif %}
+	<td class="field">{{o.student.first_name}} {{o.student.last_name}}{% if o.title %} ({{o.title}}){% endif %}</td></tr>
+	{% endfor %}
+      <tr><td></td><td style="padding-top:10px;padding-bottom:18px;"><a href="/groups/{{group.url}}/members?renew=True"><strong>Edit Officers</strong></a></td></tr>
+      {% endifequal %}
+      
+      {% endfor %}
+      </table>
+
+     <input type="submit" value="Renew Group" name="submit">
+  </form>
+
+{% endblock %}

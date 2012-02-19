@@ -1,0 +1,20 @@
+{% extends "card/base_help.html" %}
+
+{% block content %}
+Club accounts may view or modify any meals involving members of their club.  To reach the meal editing portion of the site, login and select <b>Meals</b> on the top navigation bar, then <b>Find/Modify Meals</b> on the side navigation bar.
+
+You will see a form allowing you to search for meals by the following criteria:
+<ul>
+<li><b>Member netid:</b> The netid of a member of your club.  This member may have been a host or guest in the meal you are searching for.  If left blank, it will search for any member.
+<li><b>Other netid:</b> The netid of a member of any other club besides your own.  This person may be a host or guest.  If left blank, it will search for any member.
+<li><b>Other club:</b> The other club involved in the exchange.  If left blank, it will search for any club.
+<li><b>Date:</b> The date on which the meal took place.  Select the date using the calendar button on the right.  If left blank, it will search all dates.
+<li><b>Exchange status:</b> Whether the meal belongs to a completed or uncompleted exchange.  Select "Both" if you want all meals.
+<li><b>Meal:</b> Which type of meal it was (e.g. breakfast, lunch, dinner, etc.).  Select "Any" if you want all meals.
+</ul>
+
+After clicking the "Submit" button, all meals that fit the criteria of your search will be displayed under the headings "Incomplete Exchanges" and "Complete Exchanges".  The host, guest, host club, guest club, date, and meal type will be listed for each meal.  To modify a particular meal, click the "Modify" button to the right of its listing.
+<br>
+<br>
+At the <b>Edit Meal</b> page, you may change the host netid, guest netid, date, or meal type by changing the contents of the form and selecting the "Submit Changes" button, or remove the meal entirely by clicking the "Remove" button.  Note that the roles of host and guest must remain that same; that is, if the old host was a member of your club, the new host must also be.  After removing a meal, you will be sent back to the "List and Modify Members" page.
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "elections/base.html" %}
+
+{% block headercss %} <link rel="stylesheet" type="text/css" href="/media/elections/css/reg.css" />{% endblock %}
+
+{% block content %}
+<div class="content">
+	<h1>Register for the USG Election!</h1>
+	{% if changes %} <strong>Your changes have been saved. </strong><br/>{% else %}{% if incomplete %}<br/>{% else %}{% if register %} <strong> You have successfully been registered! </strong><br/> {% endif %}{% endif %}{% endif %}
+	{% if candidate %}
+	{% if not register %}
+		<strong><h3>You are still not registered</h3></strong>
+		<ul>
+			{% if not candidate.name %}
+				<li><strong> Why on earth did you erase your name? </strong></li>
+			{% endif %}
+			{% if not candidate.office %}
+				<li><strong> Generally, in an election, you need to choose an office to run for, champ. </strong></li>
+			{% endif %}
+			{% if not candidate.statement %}
+				<li><strong> You should probably make a statement when you run for office. It's generally a good idea. </strong></li>
+			{% endif %}
+			{% if not candidate.headshot %}
+				<li><strong> You still haven't uploaded a beautiful picture of yourself yet. </strong></li>
+			{% endif %}
+		</ul>
+	{% endif %}
+	<h2> Preview </h2>
+	<div class="office">
+		<div class="officename">{{candidate.office}}</div>
+		<div class="candidate">
+			<div class="photo"><img alt="" src="{{ candidate.headshot.thumbnail.url }}"/></div>
+			<div class="statement">
+				<div class="candidateName">{{candidate}}</div>
+				{{candidate.statement}}
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<br />
+	
+	{% endif %}
+	{% csrf_token %}
+		<div class="register">
+			<h2>Edit Statement</h2>
+			<p> Deadline for registration is {{election.deadline|date:"N d"}} at {{election.deadline|date:" P"}} After that point, you will no longer be allowed to make any changes to your statement.</p>
+			<table class="formTable">
+				<tbody>
+					{% if candidateForm %}
+					<form enctype="multipart/form-data" id="register" action="/" method="post">
+						<input type="hidden" name="formType" value="candidateForm">
+						{% for field1 in candidateForm %}
+						<tr>
+							<th class="tableLabel">{{field1.label_tag}}:</th>
+							<td>{{ field1 }}</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<th></th>
+							<td><input type="submit" class="submit", value="Submit" /></td>
+						</tr>
+					</form>
+					{% else %}
+					<form enctype="multipart/form-data" id="register" action="/" method="post">
+						<input type="hidden" name="formType" value="informationForm">
+						{% for field2 in informationForm %}
+						<tr>
+							<th class="tableLabel">{{field2.label_tag}}:</th>
+							<td>{{ field2 }}</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<th></th>
+							<td><input type="submit" class="submit", value="Submit" /></td>
+						</tr>
+					</form>
+				</tbody>
+			</table>
+			<h2>Edit Picture</h2>
+			<table class="formTable">
+				<tbody>
+					<form enctype="multipart/form-data" id="register" action="/" method="post">
+						<input type="hidden" name="formType" value="headshotForm">
+						{% for field3 in headshotForm %}
+						<tr>
+							<th class="tableLabel">{{field3.label_tag}}:</th>
+							<td>{{ field3 }}</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<th></th>
+							<td><input type="submit" class="submit", value="Submit" /></td>
+						</tr>
+					</form>
+					{% endif %}
+				</tbody>
+			</table>
+		<br /><br />
+		
+		</div>	
+	</form>
+	<script type="text/javascript">
+	$('id_headshot').set('value', '{{candidate.headshot}}')
+	</script>
+</div>
+{% endblock %}

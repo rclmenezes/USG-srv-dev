@@ -1,0 +1,50 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <!-- link calendar files  -->
+    <script language="JavaScript" src="/static/calendar_us.js"></script>
+    <link rel="stylesheet" href="/static/calendar.css">
+
+    <title> Help Menu </title>
+
+
+</head>
+
+<body {% if onload %} onload={{ onload }} {% endif %}>
+    <div class="header">
+        <center>
+	<h1> MealChecker Help </h1>
+	</center>
+    </div>
+
+    <div class="navprim">
+        <center>
+        {% block navprim %}
+	<ul class="navprim">
+	<li class="navprim"><a class="navprim" href="/help/">Help Index</a></li>
+	</ul>
+	{% endblock %}
+	</center>
+    </div>    
+
+    <div class="navsec">
+        <br>
+	<center>
+	{% block navsec %}
+	<ul class="navsec">
+	<li class="navsec"><a class="navsec" href="Javascript:self.close();">Close Window</a></li>
+	</ul>
+	{% endblock %}
+	</center>
+	<br>
+    </div>
+
+    <div class="content">
+        {% block content %}
+	{{ prevpage }}
+	{% endblock %}
+    </div>
+
+</body>
+</html>

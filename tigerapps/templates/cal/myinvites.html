@@ -1,0 +1,50 @@
+{% extends "cal/base.html" %}
+{% load app_extras %}
+
+{% block title %}My Invitations{% endblock %}
+
+{% block content %}
+<h1 id="title">My Invitations</h1>
+<ul class="events">
+{% if pending_invites %}
+<li class="date">Pending Invitations</li>
+{% for invite in pending_invites %}
+<li><ul>
+	<li class="event-title"><a href="/events/{{invite.rsvp_event.event_id}}">{{invite.rsvp_event}}</a></li>
+	<li class="event-time">{{invite.rsvp_event.getTime}}</li>
+	<li class="event-subtext">{{invite.rsvp_event.get_event_location_display}}{% if invite.rsvp_event.event_location_details %} {{invite.rsvp_event.event_location_details}}{% endif %}</li>
+	<li class="event-subtext2">From {{invite.rsvp_referrer.full_name}}.<span class="action"><a href="/user/invitations/{{invite.pk}}/accept/">accept</a> | <a href="/user/invitations/{{invite.pk}}/decline/">decline</a></span></li>
+</ul></li>
+{% endfor %}
+{% endif %}
+
+{% if accepted_invites %}
+<li class="date">Accepted Invitations</li>
+{% for invite in accepted_invites %}
+<li><ul>
+	<li class="event-title"><a href="/events/{{invite.rsvp_event.event_id}}">{{invite.rsvp_event}}</a></li>
+	<li class="event-time">{{invite.rsvp_event.getTime}}</li>
+	<li class="event-subtext">{{invite.rsvp_event.get_event_location_display}}{% if invite.rsvp_event.event_location_details %} {{invite.rsvp_event.event_location_details}}{% endif %}</li>
+	<li class="event-subtext2">From {{invite.rsvp_referrer.full_name}}. <a href="/user/invitations/{{invite.pk}}/decline/">Change to decline?</a></li>
+</ul></li>
+{% endfor %}
+{% endif %}
+
+{% if declined_invites %}
+<li class="date">Declined Invitations</li>
+{% for invite in declined_invites %}
+<li><ul>
+	<li class="event-title"><a href="/events/{{invite.rsvp_event.event_id}}">{{invite.rsvp_event}}</a></li>
+	<li class="event-time">{{invite.rsvp_event.getTime}}</li>
+	<li class="event-subtext">{{invite.rsvp_event.get_event_location_display}}{% if invite.rsvp_event.event_location_details %} {{invite.rsvp_event.event_location_details}}{% endif %}</li>
+	<li class="event-subtext2">From {{invite.rsvp_referrer.full_name}}. <a href="/user/invitations/{{invite.pk}}/accept/">Change to accept?</a></li>
+</ul></li>
+{% endfor %}
+{% endif %}
+{% if not declined_invites and not accepted_invites and not pending_invites %}
+<li>You have no invitations</li>
+{% endif %}
+</ul>
+
+
+{% endblock %}

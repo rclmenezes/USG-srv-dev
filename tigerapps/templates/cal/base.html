@@ -1,0 +1,165 @@
+{% load humanize %}{% load app_extras %}<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <meta name="author" content="Ethan Goldstein, Samantha Hantman, Dana Hoffman, Adriana Susnea, and Michael Yaroshefsky" />
+	<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps,Cal,pCal">
+	<link rel="icon" 
+	      type="image/ico" 
+	      href="/media/images/favicon.ico">
+ <title>{% block title %}Princeton Events Calendar{% endblock %}</title>
+ <link rel="alternate" type="application/rss+xml" title="Princeton Events Calendar" href="/feeds/latest" />
+ <link href="/media/cal/css/main.css?version=2.1" rel="stylesheet" type="text/css" />
+ <link href="/media/cal/css/lavalamp_test.css" rel="stylesheet" type="text/css" />
+ <link href="/media/cal/css/typo.css" rel="stylesheet" type="text/css" />
+ {% block headercss %}{% endblock %}
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+ <script src="/media/cal/js/jquery.easing.min.js" type="text/javascript"></script>
+ <script src="/media/cal/js/jquery.lavalamp.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#topmenu").lavaLamp({
+                fx: "backout",
+                speed: 700,
+                click: function(event, menuItem) {
+                    return true;
+                }
+            });
+        });
+         
+    </script>
+ <script src="/media/cal/js/jquery.ThreeDots.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+  $(document).ready(function () {var the_obj1 = $('.centerellipsis').ThreeDots({max_rows: 1, whole_word: false});});
+  $(document).ready(function () {var the_obj2 = $('.leftellipsis').ThreeDots({max_rows: 1, whole_word:false});});
+  $(document).ready(function () {var the_obj3 = $('.rc_ellipsis').ThreeDots({max_rows: 1, whole_word:false});});
+ </script> 
+ <script src="/media/cal/js/jquery.cluetip.min.js" type="text/javascript"></script>
+ <link rel="stylesheet" href="/media/cal/css/jquery.cluetip.css" type="text/css" />
+ 
+ <script src="/media/cal/js/menu.js" type="text/javascript"></script>
+ <link rel="stylesheet" href="/media/cal/css/menu.css" type="text/css" />
+ 
+ <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8189583-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+ 
+ {% block headerscript %}{% endblock %}
+
+ <!--[if lt IE 8]>
+ <script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
+ <![endif]-->
+</head>
+      
+<body id="{% block id %}base{% endblock %}">
+
+ <div id="overlay"></div>
+	{% include "main/jquery.html" %}
+  <div id="container">
+  <h1 id="header">
+  <a href="/">Princeton Events Calendar</a>
+  </h1>
+   <table id="nav">
+    <tr>
+     <td>
+      <ul class="lavaLampWithImage"{{uses_lava|safe}}>
+       <li{{lavanone|safe}} style='position: absolute; left: -40px;'><a href="/"></a></li>
+       <li{{front|safe}}><a href="/">Front</a></li>
+       <li{{today|safe}}><a href="/today">Today</a></li>
+       <li{{week|safe}}><a href="/week">Week</a></li>
+       <li{{weekend|safe}}><a href="/weekend">Weekend</a></li>
+       <li{{all|safe}}><a href="/all">All</a></li>
+       <li><a href="/feeds/latest"/><img src="/media/cal/css/img/200px-Feed-icon.svg.png" alt="Feed"/></li>
+      </ul>
+     </td>
+     {% if user_data %}
+     <td id="search">
+      <form method="GET" action="/search/">
+       <p>
+        <input type="text" name ="query" id="id_q" maxlength="40" />
+        <input type="submit" value="Search Events" />
+       </p>
+      </form>
+     </td>
+     {% endif %}
+    </tr>
+   </table>  
+   
+   <div id="account">
+   <span style="float:left; padding-left: 18px; display: block;"><a style="text-decoration: none;" href="/today">Today is {% now "l, F jS Y" %}</a></span>
+    <div id="menu">
+     <ul class="menu">
+      {% if user_data %}
+      <li><a href="/logout"><span>Logout</span></a></li>      
+      <li><a href="/user" class="parent"><span>{{user_data.full_name}}{% if umsgs %}<span class="umsgct">{{umsgs.count}}</span>{% endif %}</span></a>
+       <div>
+        <ul>
+		 <li><a href="/user/messages" class="parent"><span>{% if umsgs %}{{umsgs.count|apnumber|capfirst}} New Message{{umsgs.count|pluralize}} {% else %}Personal Messages{% endif %}</span></a></li>
+		 <li><a href="/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics"><span>Synchronize Calendar</span></a></li>
+		 <li><a href="/user"><span>Manage Profile</span></a></li>
+        </ul>
+       </div>
+      </li>                  
+      <li><a href="/user/events" class="parent"><span>My Events{% if my_invites %}<span class="umsgct">{{my_invites.count}}</span>{% endif %}</span></a>
+       <div>
+        <ul>
+         <li><a href="/user/invitations" class="parent"><span>{% if my_invites.count %}{{my_invites.count|apnumber|capfirst}} New Invitation{{my_invites.count|pluralize}}{% else %}My Invitations{% endif %}</span></a>
+          <div>
+           <ul>
+           {% if my_invites %}{% for iv in my_invites %}<li><a href="/events/{{iv.rsvp_event.pk}}?showrsvp=true" class="parent"><span>From: {{iv.rsvp_referrer.full_name}}</span></a></li>{% endfor %}{% endif %}
+          </ul>
+         </div>
+        </li>  
+        <li><a href="/user/events"><span>Upcoming Events</span></a></li>
+        <li><a href="/user/oldevents"><span>Previous Events</span></a></li>    
+       </ul>
+      </div>
+     </li>
+     <li><a href="/events/add" class="parent">Submit Events</a>
+      <div>
+       <ul>
+        <li><a href="/user/eventadmin"><span>Events I've Submitted</span></a></li>
+        <li><a href="/events/add"><span>Submit New Event</span></a></li>
+       </ul>
+      </div>
+     </li>                          
+    {% else %}<li class="last"><a href="/login" class="parent"><span>Log In</span></a></li>{% endif %}
+    </ul>
+   </div>  
+  <div class="clear"></div>
+ </div>
+ <div id="content">
+  {% if v_messages %}<div id="message">
+    {% for msg in v_messages %}<p class="{{msg.type}}">{{msg.vm_contents|safe}}</p>{% endfor %}
+  </div>{% endif %}
+  <noscript><div id="message"><p class="error">Warning: You have JavaScript disabled. Please enable JavaScript to experience all of our site's features.</p></div></noscript>
+  {% if showrightcol %}{% include "cal/modules/rightcol.html" %}{% endif %}
+  {% block content %}{% endblock %} 
+  <div style="clear: both; display: block; height: 8px; width: 100%;"></div>
+  {% include "cal/modules/spotlight.html" %}
+  </div>
+  <div id="footer">
+   <p>
+    Custom-built for Princeton by Ethan Goldstein, Samantha Hantman, Dana Hoffman, Adriana Susnea, and Michael Yaroshefsky
+   </p>
+   <p>
+    Original design by <a href="http://www.trinston.com/">Trinston</a>.
+   </p>
+   <p>&copy; 2010 Princeton USG and Authors</p>
+  </div>
+ </div> 
+</body>
+</html>

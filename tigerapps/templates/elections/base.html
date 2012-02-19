@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Rodrigo Menezes">
+	<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps,Elections">
+	<link rel="icon" 
+	      type="image/ico" 
+	      href="/media/images/favicon.ico">
+	<title> {% block title %}USG Elections Registration{% endblock %}</title>
+	<script src="http://www.google.com/jsapi"></script><script>google.load("mootools", "1.2.1");</script>
+	{% block headercss %}{% endblock %}
+	<link rel="stylesheet" type="text/css" href="/media/elections/css/new-styles.css" />
+</head>
+    
+<body>
+	{% include "main/mootools.html" %}
+	<div class="wrapper">
+		
+    	<!--Header-->
+	    <div class="header">
+	    	<a href="http://usg.princeton.edu" style="display: inline; float: left;"><img src="/media/dvd/images/usg-225-trans.png" height="100" /></a> <h1 style='float: right; font-family: "Trebuchet MS"; font-size: 60px; margin: 15px 0; padding: 0;'>USG Elections</h1>
+	        <!--<div class='usg'>
+				<a href="http://usg.princeton.edu"><img class="header-image" src="/media/dvd/images/usglogo.png" alt=""/></a>
+			</div>-->
+	    </div>
+			
+        <!--Content-->
+		<div class="content">
+			{% block admin %}
+			{% endblock %}
+		 	{% block content %}
+			{% endblock %}
+		</div>
+
+	</div><!--Wrapper-->
+	
+    <div class="footer" style="text-align: center;">
+		<small>&copy;USG 2011 | Made by <a href="mailto:rmenezes[-AT-]princeton[-DOT-]edu" style="color: white;">Rodrigo Menezes</a> | Design by <a href="mailto:rmenezes[-AT-]princeton[-DOT-]edu" style="color: white;">Rodrigo Menezes</a> and Ed Kelley<br/>For questions about elections, please email <a href="mailto:usgvote@princeton.edu" style="color: white;">usgvote@princeton.edu</a></small>
+	</div>
+</body>
+</html>
+

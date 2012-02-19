@@ -1,0 +1,298 @@
+{% extends "cal/base.html" %}
+{% load humanize %}
+{% block title %}{{event.event_cluster.cluster_title}}{% endblock %}
+
+{% block headerscript %}
+<meta property="og:title" content="{{event.event_cluster.cluster_title}} {{event.event_subtitle}}" />
+<meta property="og:description" content="{% ifequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getTime}} to {{event.getEndTime}} on {{event.getFormattedStartDate}}{% else %}{{event.getTime}} {{event.getFormattedStartDate}} to {{event.getEndTime}} {{event.getFormattedEndDate}}{% endifequal %} | {{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}" />
+<meta property="og:image" content="http://dev.cal.tigerapps.org/{{event.event_cluster.cluster_image.thumbnail.url}}" />
+<meta property="og:url" content="http://dev.cal.tigerapps.org/events/{{event.pk}}" />
+<meta property="og:type" content="article" />
+
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+<script type="text/javascript">
+var active_color = '#000'; // Colour of user provided text
+var inactive_color = '#999'; // Colour of default text
+$(document).ready(function() {
+  $("#recipient").html('<p>Submit a NetID or start typing to search by first or last name.</p>');
+  $("input.default-value").css("color", inactive_color);
+  var default_values = new Array();
+  $("input.default-value").focus(function() {
+    if (!default_values[this.id]) {
+      default_values[this.id] = this.value;
+    }
+    if (this.value == default_values[this.id]) {
+      this.value = '';
+      this.style.color = active_color;
+    }
+    $(this).blur(function() {
+      if (this.value == '') {
+        this.style.color = inactive_color;
+        this.value = default_values[this.id];
+      }
+    });
+  });
+});
+
+function suggest_netids() {
+	if($('#invitee').val() == '')
+	{
+		$("#recipient").html('<p>Submit a NetID or start typing to search by first or last name.</p>');
+		return;
+	}
+ 	$("#recipient").load("/ajax/netidlookup", {netid: $('#invitee').val()}); 
+	
+}
+function insert_netid(value) {	
+	$('#invitee').val(value);
+}
+function showAllAttendees(id) {
+	$("#attendees_list").load("/ajax/allguests", {eventid: id}); 
+	$("#show_all_guests").html('');
+}
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="/media/cal/js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="/media/cal/js/shadowbox/shadowbox.js"></script>
+<script type="text/javascript">
+Shadowbox.init();
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div style="display: block;">
+	<div id="detaildisp" class="disp_right">
+		{% if event.event_cluster.cluster_image %}
+		<a rel="shadowbox" href="../{{event.event_cluster.cluster_image.url}}"><img id="poster" src="../{{event.event_cluster.cluster_image.thumbnail.url}}" /></a>
+		{% endif %}
+		
+		{% if user_data.is_site_admin %}
+		<h3>Site Administrator Tools</h3>
+		<div class="content">
+		Hey!  You're a site admin.  Don't you feel special?  <a href="/adminfun">Here's what's happened recently on the calendar</a>.
+		</div>
+		{% endif %}
+		
+		
+		{% if not event.isDeleted %}{% if authorized %}
+		<h3>Event Administrator Tools</h3>
+		<div class="content">
+		<ul>
+			<li style="font-weight: bold; padding: 4px 0;">Publicize</li>
+			<li style="padding-left: 4px;"><a href="/events/{{ event.event_id}}?forwardtoevents">Include in weekly email to whole university</a></li>
+			<li style="padding-left: 4px;"><a href="/events/{{ event.event_id}}/custominvite">Bulk invitation to listserv</a></li>
+			<li style="font-weight: bold; padding: 4px 0;">Manage or Modify</li>
+			<li style="padding-left: 4px;"><a href="/events/{{ event.event_id}}/sendmsg">Email all confirmed attendees</a></li>
+			<li style="padding-left: 4px;"><a href="/events/manage/{{ event.event_id }}">Modify this event</a></li>
+			<li style="padding-left: 4px;"><a href="/events/add/{{ event.event_id }}">Add a related event</a></li>
+			<li style="font-weight: bold; padding: 4px 0;">Cancel or Delete</li>
+			{% if not event.event_cancelled %}<li style="padding-left: 4px;"><a href="/events/cancel/{{ event.event_id }}">Permanently cancel this event</a></li>{% endif %}
+			<li style="padding-left: 4px;"><a href="/events/delete/{{ event.event_id }}">Permanently <span style="font-weight: bold;">delete</span> this event</a></li>
+		</ul>
+		</div>
+		{% endif %}
+		<h3>My Events</h3>
+		<div class="content">
+		{% if users_rsvp %}
+			{% ifequal users_rsvp.rsvp_type 'Accepted' %}
+				{% if users_rsvp.rsvp_referrer %}
+				<div id="cal_status" class="green">Invitation Accepted<div class="sub">From {{users_rsvp.rsvp_referrer.full_name}}</div></div>
+				<a class="cal_action one_action red" href="/user/invitations/{{ users_rsvp.pk }}/decline">Change to Decline</a>
+				{% else %}
+				<div id="cal_status" class="green">Added to My Events</div>
+				<a class="cal_action red one_action" href="/events/{{ event.event_id }}/unconfirm">Remove from My Events</a>
+				{% endif %}
+			{% endifequal %}
+			{% ifequal users_rsvp.rsvp_type 'Pending' %}
+			<div id="cal_status" class="blue enlarged_status">Pending Invitation<div class="sub">From {{users_rsvp.rsvp_referrer.full_name}}</div></div>
+			<a class="cal_action two_actions green" href="/user/invitations/{{ users_rsvp.pk }}/accept/">Accept</a><a class="cal_action two_actions red"href="/user/invitations/{{ users_rsvp.pk }}/decline/">Decline</a>
+			{% endifequal %}
+			{% ifequal users_rsvp.rsvp_type 'Declined' %}
+			<div id="cal_status" class="red">Invitation Declined<div class="sub">From {{users_rsvp.rsvp_referrer.full_name}}</div></div>
+			<a class="cal_action green one_action" href="/user/invitations/{{ users_rsvp.pk }}/accept/">Change to Accept</a>
+			{% endifequal %}
+		{% else %}
+		<div id="cal_status" class="blue">Not Added</div>
+		<a class="cal_action green one_action" href="/events/{{ event.event_id }}/confirm">{% if event.event_cluster.cluster_rsvp_enabled %}RSVP &amp; {% endif %}Add to My Events</a>
+		{% endif %}	
+		<div stle="clear: both;"></div>
+		<div id="ext_cal">Add to External Calendars<br />
+		<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation}}&details={{event.getGCalClusterDes}}<br><br>{{event.getGCalEventDes}}&sprop=name:pcal" target="_blank"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Add to Google Calendar" /></a>
+		<a href="/ical/{{event.event_id}}"><img src="/media/cal/css/img/ical.png" alt="Add to iCal" /></a>
+		</div>
+		</div>
+		<h3>Send Invitation<a name="invite"></a></h3>
+		<div class="content">
+		<form name="invitation" method="post" action="/events/invite">
+				<input name="invitee" id="invitee" class="default-value" value="Enter a NetID" maxlength="24" onkeyup='suggest_netids();'/>
+				<input name="event_id" type="hidden" value="{{ event.pk }}"/>
+				<input type="submit" value="Invite" />
+		</form>
+		<span id="recipient"><p>Enter a NetID</p></span>
+		</div>
+		{% endif %}
+		<h3>Details<a name="details"></a></h3>
+		<div class="content">
+		<ul>
+			<li><span class="field">Category:</span> <a href="/category/{{event.event_cluster.cluster_category}}">{{event.event_cluster.cluster_category}}</a></li>
+			{% if event.event_cluster.cluster_features.all %}
+			<li><span class="field">Features:</span> {% for feature in event.event_cluster.cluster_features.all %}<a href="/features/{{ feature }}">{{ feature }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+			{% endif %}
+			<li><span class="field">Attendees:</span> {{event.getAttendeeCount}}</li>
+			{% if event.event_max_attendance %}<li><span class="field">Max Attendees:</span> {{event.event_max_attendance}}</li>{% endif %}
+			<li><span class="field">RSVP Required:</span> {{event.event_cluster.cluster_rsvp_enabled|yesno:"Yes,No,No"}}</li>
+			{% if event.event_cluster.cluster_rsvp_enabled %}<li><span class="field">RSVP Deadline:</span> {{event.event_date_rsvp_deadline|naturalday|capfirst}}</li>{% endif %}
+			<li><span class="field">Added by:</span> <a href="/eventsby/{{event.event_cluster.cluster_user_created.user_netid}}">{{event.event_cluster.cluster_user_created.full_name_suffix}}</a><a href="mailto:{{event.event_cluster.cluster_user_created.user_email}}"><img style="padding-left: 4px;" src="/media/cal/img/icons/icon_email.png"></a></li>
+			{% if associatedEvents %}
+			<li><span class="field">Related Events:</span></li>
+			<ul>
+			{% for otherevent in associatedEvents %}
+				<li style="padding-bottom: 8px;"><a href="{{otherevent.event_id}}" style="font-size: 1.1em;">{% if otherevent.event_subtitle %}{{otherevent.event_subtitle}}</a><br />{% else %}<a href="{{otherevent.event_id}}">{% endif %}{{otherevent.getFormattedStartDate}}</a></li>
+			{% endfor %}
+			{% endif %}
+			</ul>
+		</ul>
+		</div>
+		{% if not event.isDeleted %}
+		<h3>Share</h3>
+		<div class="content">
+		<ul>
+			<li> <fb:like layout="button_count" width="240" colorscheme="dark"></fb:like></li>
+			<li style="clear: both;"><span class="field">Short URL:</span> <a href="{{bitly_address}}">{{bitly_address}}</a></li>
+			<li><span class="field">QR Code:</span> <a href="/events/{{ event.pk }}/qr">Click for full-size QR codes</a><br />
+			<a href="/events/{{ event.pk }}/qr"><img src="http://qrcode.kaywa.com/img.php?s=1&t=p&d=http%3A%2F%2Fdev.cal.tigerapps.org%2Fevents%2F{{ event.pk }}" style="float: right;" /></a>
+			</li>
+			
+		</ul>
+		</div>
+		{% endif %}
+	</div>
+	
+</div>
+{% if not event.isDeleted %}
+<div id="event_top">
+	{% if event.event_cancelled %}<div class="event_cancelled_extra">Event Cancelled</div>{% endif %}
+	
+	<h1{% if event.event_cancelled %} class="event_cancelled"{% endif %}>{{event.event_cluster.cluster_title}}</h1>{% if event.event_subtitle %}<h2{% if event.event_cancelled %} class="event_cancelled"{% endif %}> {{event.event_subtitle}}</h2>{% endif %}
+	<span id="datetimeloc"{% if event.event_cancelled %} class="event_cancelled"{% endif %} >{% ifequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getTime}} to {{event.getEndTime}} on {{event.getFormattedStartDate}}{% else %}{{event.getTime}} {{event.getFormattedStartDate}} to {{event.getEndTime}} {{event.getFormattedEndDate}}{% endifequal %} | {{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}</span><br />
+</div>
+<div id="event_body">
+{% for feat in event.event_cluster.cluster_features.all %}
+<a href="/features/{{feat.feature_name}}"><img src="/media/cal/{{feat.feature_icon}}" title="{{feat.feature_name}}" alt="{{feat.feature_name}}" style="float: right; height: 24px; width: 24px;"/></a>
+{% endfor %}
+{% if event.event_cluster.cluster_rsvp_enabled %}<span style="color: #777;">This event requires an RSVP. See <a href="#details">below</a> for more information.</span>{% endif %}
+{% if authorized and forwardtoevents %}
+<div id="forwardtocampusevents" style="background-color: #DDD; padding:6px; width:65%;">
+<h3>Want more publicity?</h3>
+<p>You can easily add your event to a weekly email that gets sent to the whole university.<br /><br />Submit this quick form below by 5 p.m. the Sunday before the event in order to have your event sent to the entire school in an email.<br /></p>
+<form name="publicize" method="post" action="/events/forwardtocampusevents">
+		<p style="font-weight: bold;">Enter your custom message below:</p>
+		<textarea name="message" style="width: 90%;"></textarea>
+		<p style="font-style: italic; padding-top: 6px; font-size: 0.8em;">Please include in the box above the sponsoring organization and any other details beyond what is displayed below.<br />
+		When you click submit, an email will be sent with all of the information already on this page about your event to events@princeton.edu with your request. You will receive a cc to {{user_data.user_email}} as confirmation.</p>
+		<input name="event_id" type="hidden" value="{{ event.pk }}"/>
+		<input type="submit" value="Submit Your Event" /><input type="button" value="No thanks" onclick="document.getElementById('forwardtocampusevents').innerHTML=''; document.getElementById('forwardtocampusevents').style.visibility = 'hidden';"/>
+</form>
+</div>
+{% endif %}
+<h3>Description</h3>
+
+<!-- 
+{% for feature in event.event_cluster.cluster_features.all %}{% ifequal feature.feature_name "Free Food" %}<a href="/features/free_food"><img src="/media/cal/img/icons/icon_food.png" style="float: right; height: 24px; width: 24px;" alt="This event features free food" /></a>{% endifequal %}{% ifequal feature.feature_name "Alcoholic Drinks" %}<a href="/features/alcohol"><img src="/media/cal/img/icons/icon_beer.png" style="float: right; height: 24px; width: 24px;" alt="This event features alcoholic drinks" /></a>{% endifequal %}{% ifequal feature.feature_name "Outdoors" %}<a href="/features/outdoors"><img src="/media/cal/img/icons/icon_tree.png" style="float: right; height: 24px; width: 24px;" alt="This event features the outdoors" /></a>{% endifequal %}{% ifequal feature.feature_name "Tiger Tickets" %}<a href="/features/tiger_tickets"><img src="/media/cal/img/icons/icon_ticket.png" style="float: right; height: 24px; width: 24px;" alt="This event accepts Tiger Tickets" /></a>{% endifequal %}{% endfor %}
+ -->
+<p class="descr_text">{{event.event_cluster.cluster_description|linebreaksbr}}</p>
+{% if event.event_subdescription %}<p class="descr_text">{{event.event_subdescription|linebreaksbr}}</p>{% endif %}
+</div>
+<a name="who"></a>
+<h3 name="who">Who's Coming</h3>
+<ul id="attendees_list">
+	{% for rsvp_coming in whoscoming %}<li >{{rsvp_coming.rsvp_user.full_name_suffix}}</li>{% endfor %}
+	{% if whoscoming_extra %}<li class="extra">{% if whoscoming %}And {{whoscoming_extra}} more.{% else %}{{whoscoming_extra}} guest{{whoscoming_extra|pluralize}}.{% endif %}</li>{% endif %}
+</ul>
+{% if show_extra %}<div id="show_all_guests" style="clear: left; padding-top: 8px;"><a style="font-size: 11px; color: #333;" href="#who" onClick="showAllAttendees({{ event.pk }});">Show all</a></div>{% endif %}
+{% ifnotequal open_invites 0 %}<div style="clear: left; padding-top: 8px; font-size: 0.8em;">Plus, there {{ open_invites|pluralize:"is,are" }} {{ open_invites }} invitation{{ open_invites|pluralize }} pending.</div>{% endifnotequal %}
+
+{% ifequal event.getAttendeeCount 0 %}
+No users have added this to their calendar yet.
+{% endifequal %}
+{% if authorized %}
+<p style="clear: left; font-style: italic; padding-top: 6px; font-size: 0.8em;">As an event administrator, you see all confirmed attendees, even those with privacy enabled.<br />You can send an email to all of these attendees by clicking <a href="/events/{{ event.event_id}}/sendmsg">here</a>.</p>
+<p class="download-varwidth" style="width: 60%;">As event administrator, you may also <a href="/events/{{ event.pk }}/attendees.csv">download a full list of attendees</a>.<br /><span style="font-size: 0.8em; color: #555;">File opens in Microsoft Excel</span></p>
+{% endif %}
+
+<div style="clear: left;"></div>
+
+{% if event.event_cluster.cluster_board_enabled %}
+<h3>Message Board</h3>
+
+{% if boardMessages %}
+{% for message in boardMessages %}
+<div class="bm_container">
+<p class="bm_title">Posted by {{message.getPoster}}{% ifequal user_data message.boardmessage_poster %}<a id="bm_tinylink" href="/events/deletebmsg/{{message.pk}}">delete</a>{% else %}<a href="/events/reportmsg/{{message.pk}}" id="bm_tinylink">report</a>{% endifequal %}</p>
+<p class="bm_body">{{message.boardmessage_text}}</p>
+<p class="bm_about">{{message.getFormattedTimePosted}} at {{message.getTime}}</p>
+</div>
+{% endfor %}
+{% endif %}
+<div class="bm_container">
+<form method="post" action="/events/board_message">
+<p class="bm_newpost_title">Post a new message</p>
+<p class="bm_body"><textarea name="message_body" id="message_body" style="width: 100%; height: 60px;"></textarea></p>
+<p class="bm_about"><input type="submit" value="Post Message" class="bm_submit"/>Logged in as: <span class="postauthor">{{user_data.full_name}}</span></p>
+<input name="message_title" type="hidden" id="message_title" value="Unused" /></p>
+<input name="event_id" type="hidden" value="{{ event.pk }}"/>
+</form>
+</div>
+{% if authorized %}
+<p style="clear: left; font-style: italic; padding-top: 6px; font-size: 0.8em;">The Message Board is enabled for this event. If you would like to disable it, <a href="/events/manage/{{ event.event_id }}">click here to modify this event</a>.</p>
+{% endif %}
+{% else %}
+{% if authorized %}
+<h3>Message Board</h3>
+<p style="clear: left; font-style: italic; padding-top: 6px; font-size: 0.8em;">The Message Board is disabled for this event. If you would like to enable it, <a href="/events/manage/{{ event.event_id }}">click here to modify this event</a>.</p>
+{% endif %}
+{% endif %}
+<div style="clear: both; height:20px;"></div>
+<div style="display: block; clear: both; background-color: #DDD; padding: 20px 6px;">
+	<table style="width: 100%;">
+	<tbody>
+		<tr>
+			<td style="width: 33%; background-color: #fff;">
+				Previous Event
+			</td>
+			<td style="width: 34%; background-color: #fff; text-align: center;">
+				Concurrent Events
+			</td>
+			<td style="width: 33%; background-color: #fff; text-align: right;">
+				Next Event
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 33%; background-color: #fff;">
+				<a style="font-size: .75em;" href="{{prev_event.event_id}}">{{prev_event.displayname}}</a>
+			</td>
+			<td style="width: 34%; background-color: #fff; text-align: center;">
+				{% for conc in conc_events %}
+				{% ifnotequal event conc %}
+				<a style="font-size: .75em;" href="{{conc.event_id}}">{{conc.displayname}}</a><br />
+				{% endifnotequal %}
+				{% endfor %}
+			</td>
+			<td style="width: 33%; background-color: #fff; text-align: right;">
+				<a style="font-size: .75em;" href="{{next_event.event_id}}">{{next_event.displayname}}</a>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</div>	
+{% else %}
+<div id="event_top">
+	<div class="event_cancelled_extra">Event Deleted</div>
+	
+	<h1{% if event.event_cancelled %} class="event_cancelled"{% endif %}>{{event.event_cluster.cluster_title}}</h1>{% if event.event_subtitle %}<h2{% if event.event_cancelled %} class="event_cancelled"{% endif %}> {{event.event_subtitle}}</h2>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC %}
+
+{% block title %}Submit - TigerAlbum{% endblock %}
+
+{% block id %}submit{% endblock %}
+
+{% block head %}
+<style type="text/css">
+  	/* These styles are necessary for the map to show up. */
+	body { height: 100%; margin: 0 }
+  	/* Undo the changes from index.css */
+	header { margin-left: 0; margin-right: 0; }
+	#map {
+		height: 60%;
+		width: 100%;
+		border-top: 1px solid #ee7f2d;
+		border-bottom: 1px solid #ee7f2d;
+	}
+</style>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="{{ STATIC }}scripts/submit_update.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="content">
+<h2>Click on a location to place your photo</h2>
+
+{% if photo.location_x and photo.location_y %}
+
+<p>Your photograph was
+already <a href="http://en.wikipedia.org/wiki/Geotagging">geotagged</a>!
+So we took an initial stab at where it should be placed. But feel free
+to drag the image and change it. Our feelings won't be hurt ... too much.</p>
+
+{% else %}
+
+<p>We don't know where your photograph was taken! Help us out and drag the image to the desired location.
+Feel free to zoom into the map to pick a precise location.</p>
+
+{% endif %}
+</div>
+
+<div id="map"></div>
+
+<form method="post" action="/submit/{{ photo.id }}/locate">
+  <input type="hidden" name="xpos" value="{{ photo.location_x|default:'' }}">
+  <input type="hidden" name="ypos" value="{{ photo.location_y|default:'' }}">
+  <input type="hidden" name="thumbnail" value="{{ photo.thumbnail.name }}">
+  <input type="hidden" name="height" value="{{ photo.height }}">
+  <input type="hidden" name="width" value="{{ photo.width }}">
+  <p class="hidden error">Please click on a location.</p>
+  <p align="center"><input type="submit" value="Submit" disabled="disabled"></p>
+  {% csrf_token %}
+</form>
+{% endblock %}
+

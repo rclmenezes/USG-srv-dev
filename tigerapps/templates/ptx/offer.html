@@ -1,0 +1,20 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Offer a Book{% endblock %}
+
+{% block content %}
+
+<h2>Offer a Book</h2>
+{{ message }}
+{% if form.errors %}
+    Please correct the error(s) below
+{% endif %}
+
+<form action="/offer_{{proc}}_{{ticket}}" method="post">
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" value="Next" />
+</form>
+
+{% endblock %}

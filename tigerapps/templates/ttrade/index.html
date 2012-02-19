@@ -1,0 +1,6 @@
+{% extends "ttrade/show_listings.html" %}
+{% load time_difference %}
+
+{% block lastFieldName %}{% ifequal order "N" %}Time Ago{% else %}Remaining{% endifequal %}{% endblock %}
+
+{% block lastField %}{% ifequal order "N" %}{{ listing.posted|time_difference }}{% else %}{{ listing.expire|time_difference }}{% endifequal %}{% endblock %}

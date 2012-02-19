@@ -1,0 +1,66 @@
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
+#toolbar
+{
+    font-family: Helvetica, sans-serif;
+    font-size: 13px;
+    display: block;
+    height: 28px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #262626), color-stop(1, #020202));
+    background: -moz-linear-gradient(top, #262626, #020202);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #262626), color-stop(1, #020202));
+    border-top: 1px solid #3C3C3C;
+    border-bottom: 1px solid #1C1C1C;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    min-width: 700px;
+    z-index: 990;
+    line-height: 1;
+    box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+    -moz-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+ul.sf-menu
+{
+    margin: 0;
+    padding: 0;
+    float: left;
+    display: inline;
+}
+
+ul.sf-menu li
+{
+    float: left;
+    border-right: 1px solid black;
+}
+
+ul.sf-menu li a
+{
+    display: block;
+    width: 40px;
+    height: 28px;
+    padding: 0px 19px;
+}
+
+ul.sf-menu img#usg_logo
+{
+
+    margin: -2px 0 0 0;
+    padding: 0px;
+}
+
+#toolbar:after
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

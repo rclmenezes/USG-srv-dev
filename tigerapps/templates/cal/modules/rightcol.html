@@ -1,0 +1,62 @@
+		<div id="rightcol">
+			<div class="sidebar">
+			  <div class="sidebar-title">
+				<h3><a href="/user/events">My Events</a></h3>
+			  </div>
+			  <div class="sidebar-content">
+				<ul class="sidebar-menu">
+				  {% for e in my_events %}
+				  <li><a class="rc_ellipsis" href="/events/{{e.event_id}}"><span class='ellipsis_text'>{{e}}</span></a></li>
+				  <ul>
+				    <li>{{e.getFormattedStartDate}},{{e.getTime}}</li>
+				  </ul>
+				  {% endfor %}
+
+				  {% if not my_events %}
+				  <p>You have no upcoming events.</p>
+				  {% endif %}	
+				</ul>	
+			  </div>
+			</div>
+			<div class="sidebar">
+			  <div class="sidebar-title">
+				<h3><a href="/user/invitations">Invitations</a></h3>
+		
+			  </div>
+			  <div class="sidebar-content">
+			  	
+				<ul class="sidebar-menu">
+				  {% for e in my_invites_right %}
+				  <li><a class="rc_ellipsis" href="/events/{{e.rsvp_event.event_id}}"><span class='ellipsis_text'>{{e.rsvp_event}}</span></a></li>
+				  <ul>
+				    <li>{{e.rsvp_event.getFormattedStartDate}},{{e.rsvp_event.getTime}}</li>
+				    <li>From {{e.rsvp_referrer}}.<span class="action"><a href="/user/invitations/{{e.pk}}/accept/">accept</a> | <a href="/user/invitations/{{e.pk}}/decline/">decline</a></span></li>
+				  </ul>
+				  {% endfor %}
+				  {% if not my_invites %}
+				  <p>You have no invitations.</p>
+				  {% endif %}
+				  
+			  </div>
+			</div>
+			<div class="sidebar">
+			  <div class="sidebar-title">
+				<h3>Profile</h3>
+			  </div>
+			  <div class="sidebar-content">
+				
+				<ul class="sidebar-menu">
+					<li><a href="/user">Manage Profile</a></li>
+					<li><a href="/user/messages">My Messages{% if n_ur_messages %} ({{ n_ur_messages }}){% endif %}</a></li>
+<!-- 
+					<li><a href="/user/events">See My Events</a></li>
+					<li><a href="/user/eventadmin">Event's I've Created</a></li>
+					<li><a href="/user/invitations">Review Invitations</a></li>
+ -->
+					<li><a href="/events/add">Add an Event</a></li>
+				</ul>
+
+			  </div>
+		
+			</div>
+		</div>

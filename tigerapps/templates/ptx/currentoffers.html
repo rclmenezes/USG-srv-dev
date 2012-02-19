@@ -1,0 +1,32 @@
+<h4>Current Offers</h4>
+<span class="description">This is a list of all of the books that
+you are currently offering. It shows the price, title, and the date
+that you offered the book.</span>
+<br /><br />
+{% if has_open_offers %}
+<table>
+  <td width="40"><b>Date</b></td>
+  <td width="50"><b>Price</b></td>
+  <td width="400"><b>Title</b></td>
+  <td width="250"><b>Action</b></td>
+  {% for offer in open_offers %}
+  <tr>
+    <td>{{ offer.date_open|date:"n/j/y" }}</td>
+    <td>$<b>{{ offer.price }}</b></td>
+    <td>{{ offer.book.title }}</td>
+    <td>
+      <form method="POST">
+	<input type="hidden" name="open_offerid" value="{{ offer.id }}" />
+	<input type="submit" name="edit_open" value="Edit" />
+	<input type="submit" name="delete_open" value="Remove" />
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<br />
+You have <strong>0</strong> current offers.
+<br />
+{% endif %}
+<br />

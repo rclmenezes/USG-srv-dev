@@ -1,0 +1,32 @@
+<html>
+<body>
+
+<h1><center>MealChecker</h1>
+
+{% if errmes %}
+{{ errmes }} <br>
+{% endif %}
+
+<form action="/personal/" method="get">
+    netid:
+    <input type="text" name="netid">
+    <br>
+    password:
+    <input type="password" name="password">
+    <input type="submit" value="Submit">
+</form>
+
+<h1><center>Login as Club</h1>
+
+<form action="/club/" method="get">
+    club:
+    <input type="text" name="club">
+    <br>
+    password:
+    <input type="password" name="clubPassword">
+    <input type="submit" value="Submit">
+</form
+
+
+</body>
+</html>

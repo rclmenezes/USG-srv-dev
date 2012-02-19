@@ -1,0 +1,60 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% ifequal user_mship.type 'O' %}
+{% include 'groups/off_sidebar.html' %}
+{% endifequal %}
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2"><a href="/groups/{{group.url}}/messages">Message Board</a></li>
+<li class="nav_tree_3"><a href="/groups/{{group.url}}/messages/{{message.id}}">{{message.title}}</a></li>
+<li class="nav_tree_4">
+<div class="group_header"><h2>Read Comments</h2></div></li></ul>
+
+  {% if comments %}
+  {{page.start_index}}-{{page.end_index}} of {{p.count}} comments
+<div id="group_feed">
+  <div class="header">
+    <h3><span class="more"><a href="/groups/{{group.url}}/messages/{{message.id}}/comment">Comment on this post</a></span></h3>
+  </div>
+  <div class="content">
+    {% for c in comments %}
+    <div class="message_comment">
+      <ul>
+	<li class="title">Comment by {{c.comment_author.first_name}} {{c.comment_author.last_name}} at {{c.pub_date|date:"fa, D M d Y"}}:</li>
+	<li class="text">{{c.text|linebreaksbr}}</li>
+	{% ifequal user_mship.type 'O' %}<li><a href="/groups/{{group.url}}/messages/{{message.id}}/comment/{{c.id}}/delete?commentpage=True&page={{page.number}}" onclick="return confirm('Are you sure you want to delete this comment?');">Delete</a></li>{% else %}
+	{% ifequal c.comment_author user %}<li><a href="/groups/{{group.url}}/messages/{{message.id}}/comment/{{c.id}}/delete?commentpage=True&page={{page.number}}" onclick="return confirm('Are you sure you want to delete this comment?');">Delete</a>{% endifequal %}{% endifequal %}
+      </ul>
+    </div>
+    {% empty %}
+    <div class="message_comment">
+      <ul><li><em>There are no comments yet.</em></li></ul>
+    </div>
+    {% endfor %}
+
+    <ul class="paginate">
+      {% if page.has_previous %}
+      <li><input type="button" value="<< First" name="first" class="prev" onclick="$('#page_input_id').attr('value',1);$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Newer Comments" name="prev" class="prev" onclick="$('#page_input_id').attr('value',{{page.previous_page_number}});$('#search_form_id').submit();"/></li>
+      {% endif %}
+      {% if page.has_next %}
+      <li><input type="button" value="Last >>" name="last" class="next" onclick="$('#page_input_id').attr('value',{{p.num_pages}});$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Older Comments" name="next" class="next" onclick="$('#page_input_id').attr('value',{{page.next_page_number}});$('#search_form_id').submit();"/></li>
+      {% endif %}
+
+</div>
+</div>
+      
+      <form action="" method="get" id="search_form_id">
+	<input type="hidden" value="{{page.page_number}}" name="page" id="page_input_id">
+      </form>
+
+{% endif %}
+
+{% endblock %}

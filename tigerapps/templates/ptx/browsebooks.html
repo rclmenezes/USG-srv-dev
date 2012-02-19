@@ -1,0 +1,156 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Browse Princeton Textbook Exchange{% endblock %}
+
+{% block content %}
+
+<div class="right">
+  <a href="/browse">Back to course list</a>
+</div>
+
+{% if course %}
+<h2>Books for {{ course }}</h2>
+{% endif %}
+
+{% if st %}
+<h2>Search results for: {{ st }}</h2>
+{% endif %}
+
+{% if showofferings %}
+<h3>Offered Books</h3>
+<p>Here are books that are currently listed for sale.</p>
+<table class="books fancy">
+  <thead>
+  <tr>
+    <th class="prices">Best Price</th>
+    <th>Information</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  {% for book in book_list %}
+  {% if book.hasOfferings %}
+  <tr>
+    <td class="prices">
+      <p>{{book.bestprice}}</p>
+      <p><a href="/wishlist?add={{book.isbn13}}">
+          Add this to my wish&nbsp;list
+      </a></p>
+    </td>
+
+    <td>
+      <div class="title">
+        <a href="/browse/{{book.isbn13}}">
+	  {{book.title}}</a>
+        {% if book.multipleOfferings %}
+        <span>&times; {{book.numOfferings}}</span>
+        {% endif %}
+
+        <div class="byline">
+        <em>{{book.author}}</em>
+        </div>
+      </div>
+
+      <p>{{ book.desc|striptags|slice:":180"}}...</p>
+      <div class="data">
+        <span>ISBN-13: {{ book.isbn13 }}</span>
+        {% if book.edition %}
+        <span class="edition">
+          &bull; Edition {{book.edition}}
+        </span>
+        {% endif %}
+      </p>
+    </td>
+
+    <td class="images">
+      <div class="image">
+        <img src="/media/ptx{{book.imagename}}" alt="(cover)"/>
+      </div>
+    </td>
+  </tr>
+  {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% comment %}####################{% endcomment %}
+
+{% if showunoffered %}
+
+{% if course.dept %}
+  <h3>Previously Offered Books for {{course}}</h3>
+{% else %}
+  <h3>Previously Offered Books</h3>
+{% endif %}
+
+<p>Here are books that have been listed for this course in the past,
+but are not currently being sold by anyone.</p>
+
+{% comment %}
+  Due to the University's contract with Labryinth, we are not allowed to
+  show a link to Amazon. However, you as the maintainer should ensure
+  can reenable them by putting this snippet of code somewhere.
+
+  <a href="{{book.associate_link}}" target="_blank">Buy from Amazon</a>
+
+  You can also use book.list_price to retrieved the listed price on
+  Amazon.
+{% endcomment %}
+
+<table class="books fancy">
+  <thead>
+  <tr>
+    <th class="prices">Wish List</th>
+    <th>Information</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  {% for book in book_list %}
+  {% if not book.hasOfferings %}
+  <tr>
+    <td class="prices">
+      <p><a href="/wishlist?add={{book.isbn13}}">
+          Add this to my wish&nbsp;list
+      </a></p>
+    </td>
+
+    <td>
+      <div class="title">
+        <a href="/browse/{{book.isbn13}}">
+	  {{book.title}}</a>
+        {% if book.multipleOfferings %}
+        <span>&times; {{book.numOfferings}}</span>
+        {% endif %}
+
+        <div class="byline">
+        <em>{{book.author}}</em>
+        </div>
+      </div>
+
+      <p>{{ book.desc|striptags|slice:":180"}}...</p>
+      <div class="data">
+        <span>ISBN-13: {{ book.isbn13 }}</span>
+        {% if book.edition %}
+        <span class="edition">
+          &bull; Edition {{book.edition}}
+        </span>
+        {% endif %}
+      </p>
+    </td>
+
+    <td class="images">
+      <div class="image">
+        <img src="/media/ptx{{book.imagename}}" alt="(cover)"/>
+      </div>
+    </td>
+  </tr>
+  {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

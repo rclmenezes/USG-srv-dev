@@ -1,0 +1,24 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+<h1> Checking-{{choice}} </h1>
+<div class="dvd_list">
+<table>
+    <tr>
+        <td class="left"><b>DVD name</b></td>
+        <td><b>Check-{{choice}}</b></td>
+    </tr>
+{% if DVD_list %}
+	{% for DVD in DVD_list %}
+	    <tr>
+		<td class="left">{{DVD.sortname}}</a></td>
+		<td><a href="check{{choice}}/{{DVD.sortname}}">{{DVD.amountLeft}} of {{DVD.amountTotal}} are available</a></td>
+		</tr>
+	{% endfor %}
+	</table> 
+{% else %}
+    </table> 
+	<p>No DVD's detected. Something must be broke. </p>
+{% endif %}
+</div>
+{% endblock %}

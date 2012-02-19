@@ -1,0 +1,102 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/mship_sidebar.html' %}
+{% include 'groups/off_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+  <script>
+    /*function check_all() {
+    $('.check_approve').attr('checked', 'checked');
+    }
+    function uncheck_all() {
+    $('.check_approve').removeAttr('checked', 'checked');
+    }*/
+
+    function check_all(box) {
+    if(box.checked)
+    $('.check_approve').attr('checked', 'checked');
+    else
+    $('.check_approve').removeAttr('checked', 'checked');
+    }
+  </script>
+<ul class="nav_tree">
+<li class="nav_tree_1"><a href="/groups/{{group.url}}/">{{group.name}}</a></li>
+<li class="nav_tree_2">
+  <div class="group_header">
+    <h2>Approve Membership Requests</h2>
+  </div></li></ul>
+
+  <div class="group_profile">
+
+    <form action="" method="get" id="search_form_id">
+      <table class="search_form_block">
+	{{form.as_table}}
+      </table>
+      <input type="hidden" name="page" id="page_input_id" value="{{page.number}}">
+      <input type="hidden" name="sort" id="sort_input_id" value="{{sort}}">
+      <input type="submit" value="Search">
+    </form><br/>
+
+    {% if mships %}
+  {{page.start_index}}-{{page.end_index}} of {{p.count}} requests
+    <form method="post" class="member_list">
+<!--      <ul>
+	<li><input type="button" value="Check All" onclick="check_all();"/></li>
+	<li><input type="button" value="Uncheck All" onclick="uncheck_all();"/></li>
+      </ul>-->
+      
+      <table class="requestTable">
+	{% if mships %}
+	<tr>
+	  <th><input type="checkbox" id="master_check" value="" onclick="check_all(this);"/></th>
+	  <th name="header" onclick="$('#sort_input_id').attr('value','netid');$('#search_form_id').submit();"/>NETID{% ifequal sort 'netid' %} <img src="/media/groups/sort_arrow.jpeg">{% endifequal %}</th>
+	  <th name="header" onclick="$('#sort_input_id').attr('value','name');$('#search_form_id').submit();">NAME{% ifequal sort 'name' %} <img src="/media/groups/sort_arrow.jpeg">{% endifequal %}</th>
+	  <th name="header" onclick="$('#sort_input_id').attr('value','year');$('#search_form_id').submit();">YEAR{% ifequal sort 'year' %} <img src="/media/groups/sort_arrow.jpeg">{% endifequal %}</th>
+	</tr>
+	{% endif %}
+
+<script>
+  $('th[name="header"]').hover( function() { $(this).toggleClass('hover'); } );
+</script>
+
+	{% for m in mships %}
+<tr name="member">
+	  <td class="check"><input type="checkbox" class="check_approve" name="{{m.student}}" id="{{m.student}}"/></td>
+	  <td  onclick="window.open('{{fbook}}{{m.student.netid}}');">{{m.student}}</td>
+	  <td onclick="window.open('{{fbook}}{{m.student.netid}}');">{{m.student.last_name}}, {{m.student.first_name}}</td>
+	  <td onclick="window.open('{{fbook}}{{m.student.netid}}');">{% if m.student.year %}{{m.student.year}}{% else %}<em>Not Given</em>{% endif %}</td>
+	</tr>
+	{% endfor %}
+      </table>
+      
+<script>
+  $('tr[name="member"]').hover( function() { $(this).toggleClass('td_hover'); } );
+</script>
+
+      <ul>
+	<li><input type="submit" value="Approve" name="approve"/></li>
+	<li><input type="submit" value="Reject" name="reject"/></li>
+      </ul>
+    </form>
+
+      <ul class="paginate">
+	{% if page.has_previous %}
+	<li><input type="button" value="<< First" name="first" class="prev" onclick="$('#page_input_id').attr('value',1);$('#search_form_id').submit();"/></li>
+	<li><input type="button" value="Previous" name="prev" class="prev" onclick="$('#page_input_id').attr('value',{{page.previous_page_number}});$('#search_form_id').submit();"/></li>
+	{% endif %}
+      {% if page.has_next %}
+	<li><input type="button" value="Last >>" name="last" class="next" onclick="$('#page_input_id').attr('value',{{p.num_pages}});$('#search_form_id').submit();"/></li>
+	<li><input type="button" value="Next" name="next" class="next" onclick="$('#page_input_id').attr('value',{{page.next_page_number}});$('#search_form_id').submit();"/></li>
+	{% endif %}
+	<input type="hidden" name="page" value="" id="page_id">
+      </ul>
+    {% else %}
+    <h4><em>There are no membership requests.</em></h4>
+    {% endif %}
+
+    </div>
+
+{% endblock %}

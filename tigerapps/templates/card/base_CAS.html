@@ -1,0 +1,69 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <!-- link calendar files  -->
+    <script language="JavaScript" src="/static/calendar_us.js"></script>
+    <link rel="stylesheet" href="/static/calendar.css">
+    <script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+    <link rel="icon" type="image/png" href="/static/meal.png">
+
+    <title> MealChecker </title>
+
+
+</head>
+
+<body {% if onload %} onload={{ onload }} {% endif %}>
+    <div class="header">
+        <center>
+	<a href="/"><h1 style="color:black;"> MealChecker </h1></a>
+	</center>
+    </div>
+
+    <div class="navprim">
+        <center>
+        {% block navprim %}
+	{% ifnotequal role "M" %}
+	<ul class="navprim">
+	<li class="navprim"><a class="navprim" href="/{{ netid }}/personal">Personal</a></li>
+	<li class="navprim"><a class="navprim" href="/{{ netid }}/checker/session/">Meal Checking</a></li>
+
+{% comment %} MEMBER REGISTRATION FOR CHECKERS DISABLED
+	<li class="navprim"><a class="navprim" href="/{{ netid }}/checker/register">Add Members</a></li>
+{% endcomment %}
+
+	{% endifnotequal %}
+	</ul>
+	{% endblock %}
+	</center>
+    </div>    
+
+    <div class="navsec">
+        <br>
+	<center>
+	{% block navsec %}
+	<ul class="navsec">
+	<li class="navsec"><a class="navsec" href="/logout_cas">logout</a></li>
+	</ul>
+	{% endblock %}
+	</center>
+	<br>
+    </div>
+
+    <div class="content">
+        {% block content %}
+	{% endblock %}
+	<br>
+	<br>
+	<!hr>
+	<div class="footer">
+	{% block footer %}
+	This is the MealChecker website. Confused? Ask your club manager or click  
+	{% endblock %}
+	<a href="/help/{% block path %}{% endblock %}" onclick="window.open(this.href);return false;">Help!</a> 	
+	</div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/media/my/myapp/css/groups_m.css" type="text/css" media="screen" charset="utf-8" />
+	<title>Student Groups</title>
+</head>
+<body>
+  <div id="group_feed">
+    <div class="header">
+      <h3><a target="_blank" href="{{feed}}">Recent News <img src="/media/groups/css/img/200px-Feed-icon.svg.png" alt="Feed"/></a> <span class="more"><a target="_blank" href="{{groups_url}}">Main Site</a></span></h3>
+    </div>
+    <div class="content">
+      {% for e in entries %}
+      <div class="feed_entry">
+	<ul>
+	  <li class="title"><strong>{{e.title}}</strong></li>
+	  {% autoescape off %}
+	  <li class="author">Posted by <a target="_blank" href="{{groups_url}}groups/{{e.group.url}}/">{{e.group}}</a> on {{e.pub_date|date:"D d, M Y"}}</li>
+	  <li class="text">{{e.text|linebreaksbr}}</li>
+	  {% endautoescape %}
+
+	  {% if e.event %}
+	  <div class="post_event">
+	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="/{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
+	    <span class="post_event_title">Event: <a target="_blank" href="{{e.event.get_absolute_url}}">{{e.event}}</a></span><br/>
+	    <span class="post_event_description"><strong>Description:</strong> {{e.event.event_cluster.cluster_description|slice:":80"}}{% if e.event.event_cluster.cluster_description|slice:"80:" %} ...{% endif %}</span>
+	    {% if e.event.event_cluster.cluster_image %}<div class="clear"></div>{% else %}<br/>{% endif %}
+	    <span class="post_event_time"><strong>Time:</strong> {% ifequal e.event.getFormattedStartDate e.event.getFormattedEndDate %}{{e.event.getTime}} to {{e.event.getEndTime}} on {{e.event.getFormattedStartDate}}{% else %}{{e.event.getTime}} {{e.event.getFormattedStartDate}} to {{e.event.getEndTime}} {{e.event.getFormattedEndDate}}{% endifequal %}</span>
+	    <br/><span class="post_event_loc"><strong>Location:</strong> {{e.event.getGCalLocation|default:"Unspecified"}}</span>
+	  </div>
+	  {% endif %}
+	</ul>
+      </div>
+      {% empty %}
+      <div class="feed_entry">
+	<ul><li><em>There are no entries to display.</em></li></ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

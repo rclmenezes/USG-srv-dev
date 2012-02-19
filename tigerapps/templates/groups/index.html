@@ -1,0 +1,66 @@
+{% extends "groups/base.html" %}
+
+{% block rightcol %}
+
+      <div class="sidebar"> 
+	<div class="sidebar-title"> 
+	  <h3>Categories</h3> 
+	</div> 
+	<div class="sidebar-content"> 
+	  <ul class="sidebar-menu">
+	    {% for c in categories %}
+	    <a href="/category/{{c.category}}/">{{ c }}</a><br/>
+	    {% endfor %}
+	  </ul>
+	</div> 
+      </div>
+    
+{% endblock %}
+
+{% block content %}
+  
+    <h2>Welcome to Princeton Student Groups</h2>
+
+<div class="group_profile">
+Princeton Student Groups is a forum for the many different student-run organizations at Princeton University.  Participating groups have a profile containing a variety of information, including the group description, officers, and a public newsfeed.  The site provides tools both for non-members (to keep abreast of the latest updates) as well as for members of student organizations (to communicate and coordinate group activities).<br/><br/>
+
+<strong>Browse</strong> Princeton's student-run organizations by clicking "Browse Groups" in the top menu.  Students can <strong>log in</strong> and access their profiles in the top right corner.  For more detailed information, please read the Princeton Student Groups <a href="/help/"><strong>Help Menu</strong></a>.</div><br/><br/> 
+
+    <div id="group_feed">
+      <div class="header">
+	<h3><a href="/feeds/latest/">Recent News <img src="/media/groups/css/img/200px-Feed-icon.svg.png" alt="Feed"/></a></h3>
+      </div>
+      <div class="content">
+	{% for e in entries %}
+	<div class="feed_entry">
+	  <ul>
+	    <li class="title"><strong>{{e.title}}</strong></li>
+	    {% autoescape off %}
+	    <li class="author">Posted by <a href="/groups/{{e.group.url}}/">{{e.group}}</a> on {{e.pub_date|date:"D d, M Y"}}</li>
+	    <li class="text">{{e.text|linebreaksbr}}</li>
+	    {% endautoescape %}
+	    
+	    {% if e.event %}
+	    <div class="post_event">
+	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="/{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
+	    <span class="post_event_title">Event: <a target="_blank" href="{{e.event.get_absolute_url}}">{{e.event}}</a></span><br/>
+	    <span class="post_event_description"><strong>Description:</strong> {{e.event.event_cluster.cluster_description|slice:":80"}}{% if e.event.event_cluster.cluster_description|slice:"80:" %} ...{% endif %}</span>
+	    {% if e.event.event_cluster.cluster_image %}<div class="clear"></div>{% else %}<br/>{% endif %}
+	    <span class="post_event_time"><strong>Time:</strong> {% ifequal e.event.getFormattedStartDate e.event.getFormattedEndDate %}{{e.event.getTime}} to {{e.event.getEndTime}} on {{e.event.getFormattedStartDate}}{% else %}{{e.event.getTime}} {{e.event.getFormattedStartDate}} to {{e.event.getEndTime}} {{e.event.getFormattedEndDate}}{% endifequal %}</span>
+	    <br/><span class="post_event_loc"><strong>Location:</strong> {{e.event.getGCalLocation|default:"Unspecified"}}</span>
+	  </div>
+	  {% endif %}
+
+	    </ul></div>
+
+	{% empty %}
+	<div class="feed_entry">
+	  <ul><li><em>There are no entries to display.</em></li></ul>
+	</div>
+	{% endfor %}
+      </div>
+
+    </div>
+
+
+{% endblock %}

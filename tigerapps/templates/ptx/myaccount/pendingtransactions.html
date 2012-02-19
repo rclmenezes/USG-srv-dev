@@ -1,0 +1,113 @@
+<h4>Pending Sales</h4>
+<p class="description">
+  <b>Pending transactions</b> apply to your transactions &mdash; sales
+  or purchases &mdash; that have occurred online and that have not
+  taken place yet. Once you make the exchange on campus, you can press
+  the "Closed" button to mark the transaction as completed.
+</p>
+
+{% if has_pending_offers %}
+
+<table id="pending-offers" class="fancy">
+  <thead>
+    <th>Date</th>
+    <th>Price ($)</th>
+    <th>Buyer</th>
+    <th>Title</th>
+    <th style="min-width: 8em;">Status</th>
+  </thead>
+  {% for offer in pending_offers %}
+  <tr>
+    <td>{{ offer.date_pending|date:"n/j/y" }}</td>
+    <td>$<b>{{ offer.price }}</b></td>
+    <td><a href="mailto:{{offer.buyerid}}@princeton.edu">{{ offer.buyerid|slice:":13" }}</a></td>
+    <td>{{ offer.book.title }}</td>
+    <td>
+      <form method="post">
+	<input type="hidden" name="pending_offerid" value="{{ offer.id }}" />
+	<input type="submit" name="pending_closed" value="Close" />
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  {% for offer in completed_offers %}
+  {% if offer.is_pending %}
+  <tr>
+    <td>{{ offer.date_pending|date:"n/j/y" }}</td>
+    <td>$<b>{{ offer.price }}</b></td>
+    <td><a href="mailto:{{offer.buyerid}}@princeton.edu">{{ offer.buyerid|slice:":13" }}</a></td>
+    <td>{{ offer.book.title }}</td>
+    {% if offer.has_rated %}
+    <td>Waiting for buyer confirmation...</td>
+  </tr>
+
+  {% else %}
+    <td>
+      Rate this buyer:
+      <form method="post">
+	<input type="hidden" name="rater_pending_offer_id" value="{{ offer.id }}" />
+	<input type="submit" name="rate_buyer_up" value="Up" />
+	<input type="submit" name="rate_buyer_down" value="Down" />
+      </form>
+    </td>
+  </tr>
+  {% endif %}
+  {% endif %}
+
+  {% endfor %}
+</table>
+{% else %}
+<p>You have <strong>0</strong> pending sales.</p>
+{% endif %}
+
+<h4>Pending Purchases</h4>
+{% if has_pending_reqs %}
+<table class="fancy">
+  <thead>
+    <th>Date</th>
+    <th>Price ($)</th>
+    <th>Buyer</th>
+    <th>Title</th>
+    <th style="min-width: 8em">Status</th>
+  </thead>
+
+  <tbody>
+  {% for request in pending_requests %}
+  <tr>
+    <td>{{ request.date_pending }}</td>
+    <td>{{ request.maxprice }}</td>
+    <td><a href="mailto:{{request.offer.user.net_id}}@princeton.edu">
+	{{ request.offer.user.net_id }}</a></td>
+    <td>{{ request.book.title }}</td>
+
+    {% ifequal request.status "p" %}
+    <td>
+      <form method="post">
+	<input type="hidden" name="pending_requestid" value="{{ request.id }}" />
+	<input type="submit" name="pending_req_closed" value="Close" />
+      </form>
+    </td>
+    {% else %}
+      {% if request.has_rated %}
+      <td>
+        Waiting for confirmation&hellip;
+      </td>
+
+      {% else %}
+      <td>
+        Rate the seller:
+        <form method="post">
+          <input type="hidden" name="rater_pending_request_id" value="{{ request.id }}" />
+          <input type="submit" name="rate_seller_up" value="Up" />
+          <input type="submit" name="rate_seller_down" value="Down" />
+        </form>
+      </td>
+      {% endif %}
+    {% endifequal %}
+  </tr>
+  </tbody>
+  {% endfor %}
+</table>
+{% else %}
+<p>You have <strong>0</strong> pending purchases.</p>
+{% endif %}

@@ -1,0 +1,11 @@
+#!/bin/bash
+SHELL=/bin/sh
+USER=atrippe
+PATH=/usr/bin:/bin
+PWD=/n/fs/class/users/atrippe
+SHLVL=1
+HOME=/home/atrippe
+LOGNAME=atrippe
+_=/usr/bin/env
+
+/usr/bin/python /home/atrippe/Student_Groups/inactive_email.py

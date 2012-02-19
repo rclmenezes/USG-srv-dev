@@ -1,0 +1,14 @@
+{% extends "dvd/base.html" %}
+
+{% block title %}USG DVD Service{% endblock %}
+
+{% block headercss %} <link rel="stylesheet" type="text/css" href="/media/dvd/css/dvd.css" />{% endblock %}
+
+{% block logo %}<a href="http://usg.princeton.edu" style="display: inline; float: left;"><img src="/media/dvd/images/usg-225-trans.png" height="100" /></a> <h1 style='float: right; font-family: "Trebuchet MS"; font-size: 60px; margin: 15px 30px 15px 0; padding: 0;'>USG DVD</h1>{% endblock %}
+
+{% block admin %}
+<div id="admin-stuff" style="text-align: right; display: block;">
+<a class="admin" id="admin" href="/admin">Admin Home</a>
+<a class="admin" id="logout" href="/logout">Logout</a>
+</div>
+{% endblock %}

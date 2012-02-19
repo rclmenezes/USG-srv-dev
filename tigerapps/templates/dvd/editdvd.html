@@ -1,0 +1,42 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+
+<script type="text/javascript">
+function confirmPost()
+{
+var agree=confirm("This will delete this DVD. Are you sure?");
+if (agree)
+return true ;
+else
+return false ;
+}
+</script>
+
+
+<h1>Editing {{dvd.name}} </h1>
+{% if change %}
+	<strong>Your changes have been made. </strong>
+{% endif %}
+
+<form action="/edit/{{dvd.dvd_id}}" method="post">
+	<input type="textbox" name="name" value ="{{dvd.name}}"/>
+	<label for="name">Name</label><br />
+	<input type="textbox" name="sortname" value ="{{dvd.sortname}}"/>
+	<label for="sortname">Sort Name (name used in alphabetical list)</label><br />
+	<input type="textbox" name="amountTotal" value ="{{dvd.amountTotal}}"/>
+	<label for="amountTotal">Amount we should have </label><br />
+	<input type="textbox" name="amountLeft" value ="{{dvd.amountLeft}}"/>
+	<label for="amountLeft">Amount in the office</label><br />
+	<input type="textbox" name="imdbID" value ="{{dvd.imdbID}}"/>
+	<label for="imdbID">IMDB ID (Ex: tt0093779 in http://www.imdb.com/title/tt0093779/)</label><br />
+	<input type="hidden" name="edit" value="edit"/>
+	<input type="submit" value="Edit DVD" />
+</form>
+<br />
+<br />
+<form action="/delete/{{dvd.dvd_id}}" method="post">
+<input type="submit" value="Delete DVD" onClick="return confirmPost()" />
+</form>
+
+{% endblock %}

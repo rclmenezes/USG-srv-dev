@@ -1,0 +1,13 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+<h1>Admin page</h1>
+<p>Welcome to the admin page!</p>
+<h3>Content:</h3>
+<a href="/checkin"><p>Check-in a DVD</p></a>
+<a href="/checkout"><p>Check-out a DVD</p></a>
+<a href="/outstanding"><p>See unreturned rentals</p></a>
+<a href="/adduser"><p>Add a new admin</p></a>
+<a href="/edit"><p>Remove/Edit DVD</p></a>
+<a href="/adddvd"><p>Add a DVD</p></a>
+{% endblock %}

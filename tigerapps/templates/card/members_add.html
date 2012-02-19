@@ -1,0 +1,123 @@
+{% extends "card/base_club_mem.html" %}
+
+{% block content %}
+
+<style>
+    #columns {
+        width: 800px;
+    }
+    #columns .column {
+        position: relative;
+        //width: 46%;
+        padding: 1%;
+        //border: solid 1px #000;
+    }
+    #columns .left {
+        float: left;
+	width: 350px
+    }
+    #columns .right {
+        float: left;
+	width: 350px;
+    }
+    #clear {
+    clear: both;
+    }
+</style>
+
+<script>
+function card_parse(element)
+// Parse PUID from card swipe input, and set element's value to the PUID
+// If input doesn't match that of a prox, clear element and alert the user
+{
+raw_text = element.value;
+split_text = raw_text.split(";601621");  // text before puid on prox
+
+if (split_text.length != 2)  // invalid input
+{
+element.value = "";
+alert("Invalid card input. Please try again.");
+return;
+}
+
+puid = split_text[1].slice(0, 9);  // puid is 9 digits
+//element.value = puid;
+document.getElementById("instruct_id").innerHTML = "";
+document.getElementById("input_id").submit();
+
+return;
+}
+</script>
+
+<script>
+//function select_elem()
+// Function to select particular elements at load time
+//{
+
+//}
+</script>
+
+<h2>Add Members</h2>
+{% if errmes %}    
+<script language="javascript" type="text/javascript"> alert('{{ errmes }}');</script>
+
+{% else %}
+{% if confirm %}
+<h4>{{ confirm }}</h4>
+{% endif %}
+{% endif %}
+
+<div id="columns">
+
+  <div class="left column">
+    <h3>Swiping Prox</h3>
+    <form name="input_form" id="input_id"  method="post" action="/{{club}}/members/add/">
+      <div class="row">
+	<span class="form2">
+	  <input type="password" name="input_field" id="input_field_id" onchange="card_parse(this)" onblur="document.getElementById('instruct_id').innerHTML = '<span style=&quot;color:red;&quot;>Select Here to Swipe</span>';" onfocus="document.getElementById('instruct_id').innerHTML = 'Swipe card';"></span>
+	<span class="label2"><label for="input_field" name="instruct" id="instruct_id">
+	    {% if not mem %} Swipe card {% endif %}
+      </label></span></div>
+    </form>
+    <div class="row">
+      <form method="post" action="/{{club}}/members/add/">
+	<input type="submit" value="Reset" name="reset" class="button"></div>
+    </form>
+  </div>
+
+  <div class="right column">
+    <h3>Manually</h3>
+    <form action="/{{ club }}/members/add/" method="post">
+      {% for field in form %}
+      <div class="row">
+	<span class="label">{{ field.label }}:</span>
+	<span class="formw">{{field}}</span>
+	{% for error in field.errors %}
+      </div><div class="row">
+	<span class="error">{{error}}</span>
+	{% endfor %}
+      </div>
+      {% endfor %}
+      <div class="row">
+	<span class="formw"><input type="submit" value="Submit" class="button"></span></div>
+    </form>
+  </div>
+</div>
+
+<div style="clear:both;"></div>
+
+<script>
+  {% if focus_id %}
+  document.getElementById("{{focus_id}}").focus();
+  {% else %}
+  document.getElementById("input_field_id").focus();
+  {% endif %}
+</script>
+
+{% endblock content %}
+{% block footer %}
+You can add new members to your club here. Confused? Click 
+{% endblock %}
+{% block path %}
+register
+{% endblock %}

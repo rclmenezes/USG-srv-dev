@@ -1,0 +1,10 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	<form action="/checkin/user/" method="get">
+		<br />
+		<label for="netid">NetID: </label>
+		<input type="textbox" name="netid" /><br />
+		<input type="submit" value="Find rentals" />
+	</form>
+{% endblock %}

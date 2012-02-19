@@ -1,0 +1,166 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+
+{% if user %}
+{% include 'groups/mship_sidebar.html' %}
+{% endif %}
+
+{% ifequal user_mship.type "O" %}
+{% include 'groups/off_sidebar.html' %}
+{% endifequal %}
+
+    <div class="sidebar"> 
+      <div class="sidebar-title"> 
+	<h3>Officers</h3> 
+      </div> 
+      <div class="sidebar-content"> 
+	<ul class="sidebar-menu">
+	  {% for m in officers %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>{% if m.title %}<span class="office">{{m.title}}</span>{% endif %}
+	  {% ifequal m user_mship %}</strong>{% endifequal %}
+	  {% empty %}
+	  <li><em>There are no officers listed</em></li>
+	  {% endfor %}
+	</ul>
+      </div> 
+    </div>
+    
+    {% if user %}{% if group.show_members %} 
+    <div class="sidebar"> 
+      <div class="sidebar-title"> 
+	<h3>Members<span class="more"><a href="/groups/{{group.url}}/memberslist/">See All</a></span></h3> 
+      </div> 
+      <div class="sidebar-content"> 
+	<ul class="sidebar-menu">
+	  {% for m in mships %}
+
+	  {% ifequal m.display 'A' %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>
+	  {% ifequal m user_mship %}</strong>{% endifequal %}
+
+	  {% else %}{% ifequal m.display 'S' %}{% if user_mship %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>
+	  {% ifequal m user_mship %}</strong>{% endifequal %}{% endif %}
+
+	  {% else %}{% if user_mship %}{% ifnotequal user_mship.type 'S' %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>
+	  {% ifequal m user_mship %}</strong>{% endifequal %}{% endifnotequal %}{% endif %}
+
+	  {% endifequal %}
+	  {% endifequal %}
+
+	  {% empty %}
+	  <li><em>There are no members listed</em></li>
+	  {% endfor %}
+	</ul>
+      </div> 
+    </div>
+    {% else %}{% if user_mship %}{% ifnotequal user_mship.type 'S' %}
+    <div class="sidebar"> 
+      <div class="sidebar-title"> 
+	<h3>Members<span class="more"><a href="/groups/{{group.url}}/memberslist/">See All</a></span></h3> 
+      </div> 
+      <div class="sidebar-content"> 
+	<ul class="sidebar-menu">
+	  {% for m in mships %}
+
+	  {% ifequal m.display 'A' %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>
+	  {% ifequal m user_mship %}</strong>{% endifequal %}
+
+	  {% else %}{% ifequal m.display 'S' %}{% if user_mship %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>
+	  {% ifequal m user_mship %}</strong>{% endifequal %}{% endif %}
+
+	  {% else %}{% if user_mship %}{% ifnotequal user_mship.type 'S' %}
+	  {% ifequal m user_mship %}<strong>{% endifequal %}
+	  <li>{{ m.student.first_name }} {{ m.student.last_name }}</li>
+	  {% ifequal m user_mship %}</strong>{% endifequal %}{% endifnotequal %}{% endif %}
+
+	  {% endifequal %}
+	  {% endifequal %}
+
+	  {% empty %}
+	  <li><em>There are no members listed</em></li>
+	  {% endfor %}
+	</ul>
+      </div> 
+    </div>
+    {% endifnotequal %}{% endif %}{% endif %}{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+      <span style="font-size:10px;float:right;"><em>Last updated on {{group.last_update|date:"d M Y"}}</em></span>
+      {% ifequal group.active_status 'I' %}<span style="font-weight:bold;color:red;">Inactive since {{group.date_last_active|date:"F Y"}}</span>{% endifequal %}
+  <div class="group_header">
+    <h2>{{group}}</h2>
+  </div>
+  {% if user_req %}
+  <span style="color:red;"><em>Your membership request is pending approval</em></span>
+  {% endif %}
+  {% ifequal user_mship.type 'O' %}{% if reactivate_req %}
+  <span style="color:red;"><em>Your reactivation request is pending approval</em></span>
+  {% endif %}{% endifequal %}
+
+  <div class="group_profile">
+    <strong>Description:</strong> {{group.description|linebreaksbr}}<br/><br/>
+    <strong>Categories:</strong> {% for c in group.categories.all %}{% if not forloop.first %}, {% endif %}{{c}}{% endfor %}<br/><br/>
+    {% if group.site %}<strong>Website:</strong> <a href="{{group.site}}">{{group.site}}</a><br/><br/>{% endif %}
+    {% if links %}<table style="color:black;"><tr><td><strong>Links:</strong></td>{% for l in links %}{% if not forloop.first %}<tr><td></td>{% endif %}<td style="padding-left:10px;"><a href="{{l.url}}">{{l}}</a></td></tr>{% endfor %}</table><br/>{% endif %}
+    {% if group.email %}<strong>Email:</strong> <a href="mailto:{{group.email}}">{{group.email}}</a><br/><br/>{% endif %}
+    {% if primary %}<strong>{% if primary.title %}{{primary.title}}:{% else %}Primary Officer:{% endif %}</strong> {{primary.student.first_name}} {{primary.student.last_name}}, <a href="mailto:{{primary.student.email}}">{{primary.student.email}}</a><br/><br/>{% endif %}
+    {% if files %}<table style="color:black;"><tr><td><strong>Files:</strong></td>{% for f in files %}{% if not forloop.first %}<tr><td></td>{% endif %}<td style="padding-left:10px;"><a href="/media/{{f.file}}">{{f}}</a></td></tr>{% endfor %}</table><br/>{% endif %}
+  </div>
+
+{% if group.image %}<div class="group_img"><a href="/{{group.image.url}}"><img src="/{{group.image.url}}"/></a></div>{% endif %}
+
+  <div id="group_feed">
+    <div class="header">
+      <h3><a href="/feeds/groups/{{group.url}}">Recent News <img src="/media/groups/css/img/200px-Feed-icon.svg.png" alt="Feed"/></a></h3>
+    </div>
+    <div class="content">
+      {% for e in entries %}
+      <div class="feed_entry">
+	<ul>
+	  <li class="title"><strong>{{e.title}}</strong></li>
+	  {% autoescape off %}
+	  <li class="author">Posted by <a href="/groups/{{group.url}}/">{{e.group}}</a> on {{e.pub_date|date:"D d, M Y"}}</li>
+	  <li class="text">{{e.text|linebreaksbr}}</li>
+	  {% endautoescape %}
+
+	  {% if e.event %}
+	  <div class="post_event">
+	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="/{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
+	    <span class="post_event_title">Event: <a target="_blank" href="{{e.event.get_absolute_url}}">{{e.event}}</a></span><br/>
+	    <span class="post_event_description"><strong>Description:</strong> {{e.event.event_cluster.cluster_description|slice:":80"}}{% if e.event.event_cluster.cluster_description|slice:"80:" %} ...{% endif %}</span>
+	    {% if e.event.event_cluster.cluster_image %}<div class="clear"></div>{% else %}<br/>{% endif %}
+	    <span class="post_event_time"><strong>Time:</strong> {% ifequal e.event.getFormattedStartDate e.event.getFormattedEndDate %}{{e.event.getTime}} to {{e.event.getEndTime}} on {{e.event.getFormattedStartDate}}{% else %}{{e.event.getTime}} {{e.event.getFormattedStartDate}} to {{e.event.getEndTime}} {{e.event.getFormattedEndDate}}{% endifequal %}</span>
+	    <br/><span class="post_event_loc"><strong>Location:</strong> {{e.event.getGCalLocation|default:"Unspecified"}}</span>
+	  </div>
+	  {% endif %}
+
+	  {% ifequal user_mship.type 'O' %}<li><a href="/groups/{{group.url}}/post/{{e.id}}">Edit</a> <a href="/groups/{{group.url}}/post/{{e.id}}/delete" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a></li>{% endifequal %}
+	</ul>
+      </div>
+      {% if forloop.last %}
+      <span class="more_entry"><a href="/groups/{{group.url}}/feed">More...</a></span>
+      {% endif %}
+      {% empty %}
+      <div class="feed_entry">
+	<ul><li><em>There are no entries to display.</em></li></ul>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+{% endblock %}

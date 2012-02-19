@@ -1,0 +1,38 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Offer a Book{% endblock %}
+
+{% block content %}
+
+<h2>Offer a Book</h2>
+<h3>Complete Listing Details</h3>
+{% if form.errors %}
+    <p>Please correct the errors on this page.</p>
+{% endif %}
+
+<div style='border: dotted 1px gray; margin-bottom: 5px; padding: 10px'>
+    {% include 'bookinfo.html' %}
+</div>
+
+<p>
+<form action="/offer_{{proc}}_{{ticket}}" method="post">
+<p>
+<h3>Enter the condition of your book</h3>
+<p>Choose one of the following conditions:</p>
+<p>{{ form.condition }} {{form.errors.condition}} </p>
+<p>Also, please provide a short written description of your book's condition:</p>
+<p>{{ form.desc }} {{form.errors.desc}} </p>
+
+<h3>Enter the semester during which you used this book</h3>
+<p>Classes may use different books from semester to semester. In
+which semester and year did you use this particular book?</p>
+<p><b>Semester:</b> {{ form.semester }}{{form.errors.semester}}</p>
+<p><b>Year:</b> {{ form.year }} <i>e.g. 2009</i> {{form.errors.year}} </p>
+
+
+<h3>Enter the price</h3>
+<p> <b>Price:</b>  ${{ form.price }} <i>e.g. 10.00</i>{{ form.errors.price }} </p>
+<input type="submit" value="List this Book" />
+</form>
+
+{% endblock %}

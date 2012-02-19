@@ -1,0 +1,135 @@
+{% extends "cal/base.html" %}
+
+{% block title %}{% if flag_custom_invite %}Send Invitation to Custom Address or List{% else %}Email attendees{% endif %}{% endblock %}
+
+{% block content %}
+<h1 id="title">{% if flag_custom_invite %}Send Invitation to Custom Address or List{% else %}Message All Attendees{% endif %}</h1>
+{% if flag_custom_invite %}
+<form method="post" action="/events/{{event.event_id}}/custominvitesent">
+{% else %}
+<form method="post" action="/events/{{event.event_id}}/msgsent">
+{% endif %}
+<div style="width: {% if flag_custom_invite %}640px{% else %}540px{% endif %}; background: {% if flag_custom_invite %}#fff{% else %}#e0e0e0{% endif %};">
+	<div style="text-align: center; padding-bottom: 6px; font-weight: bold;">{% if flag_custom_invite %}Send Invitation to {% else %}Message to Attendees of {% endif %}{{event.event_cluster.cluster_title}}{% if event.event_subtitle %}: {{event.event_subtitle}}{% endif %}</div>
+	<table>
+	<tbody>
+	<tr>
+	<td style="width: 130px; text-align: right; padding-right: 4px;">To:</td>
+	<td style="width: 390px;">
+	{% if flag_custom_invite %}
+	<input name="to" value="" style="width: 60%;"/> <span style="color: #999; font-size: 0.75em;">e.g. List address</span>
+	{% else %}
+	<input readonly="readonly" value="{% for rsvp_coming in whoscoming %}{{rsvp_coming.rsvp_user.full_name}} <{{rsvp_coming.rsvp_user.user_email}}>{% if not forloop.last %}; {% endif %}{% endfor %}" style="width: 100%; background: #eee;"/>	
+	{% endif %}
+	</td>
+	</tr>
+	<tr>
+	<td style="width: 130px; text-align: right; padding-right: 4px;">From:</td>
+	<td style="width: 390px;">
+	{% if flag_custom_invite %}
+	<input name="from" value="{{user_data.user_email}}"  style="width: 60%;"/> <span style="color: #999; font-size: 0.75em;">e.g. Authorized sender</span>
+	{% else %}
+	<input readonly="readonly" value="{{user_data.full_name}} <{{user_data.user_email}}>"  style="width: 100%; background: #eee;"/>
+	{% endif %}
+	</td>
+	</tr>
+	<tr>
+	<td style="width: 130px; text-align: right; padding-right: 4px;">Subject:</td>
+	<td style="width: 390px;"><input name="subject" id="subject"  style="width: 100%;"/></td>
+	</tr>
+	</tbody>
+	</table>
+	{% if flag_custom_invite %}
+	<div style="margin: auto; color: #999; text-align: center; font-size: 0.75em; padding: 4px;">Enter your custom message in the blue box below.<br />Below is a rough preview of how the message will appear.<br />Links have been disabled in this preview.</div>
+	<div style="border:2px Solid #003;">
+	<div style="margin: 4px;">
+	<div style=""><textarea name="message" style="width:606px; padding: 15px 10px; height: 180px; font-size: 12px; clear: both; background-color: #D8E2F0; border:1px Solid #ccc;border-width:1px 2px 2px 1px;" ></textarea></div>
+	<table cellspacing="0" cellpadding="8" border="0" summary="" style="width:100%;font-family:Arial,Sans-serif;border:1px Solid #ccc;border-width:1px 2px 2px 1px; background-color: #fff; padding: 15px 10px;">
+	<tr>
+	<td>
+	<div style="padding:2px">
+	<div style="float:right;font-weight:bold;font-size:13px"> <a href="#" style="color:#20c;white-space:nowrap">more details &raquo;</a><br>
+	</div>
+	<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:16px;font-weight:bold;color:#222">{{event}}</h3>
+	<table cellpadding="0" cellspacing="0" border="0" summary="Event details">
+	  <tr>
+		<td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Begins</i></div></td>
+		<td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.getFormattedStartDate}} at {{event.getTime}}</td>
+	  </tr>
+	  <tr>
+		<td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Ends</i></div></td>
+		<td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% ifnotequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getFormattedEndDate}} at {% endifnotequal %}{{event.getEndTime}}</td>
+	  </tr>  
+	  <tr>
+		<td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Where</i></div></td>
+		<td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% if event.get_event_location_display or event.event_location_details %}{{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}<span dir="ltr">{% else %}No location given {% endif %}</span></td>
+	  </tr>
+	  <tr>
+		<td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Description</i></div></td>
+		<td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.event_cluster.cluster_description|linebreaksbr}}{% if event.event_subdescription %}<br />{{event.event_subdescription|linebreaksbr}}{% endif %}</td>
+	  </tr>  
+	  <tr>
+	  <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Who</i></div></td>
+	  <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">
+	  <table cellspacing="0" cellpadding="0">
+
+		<tr>
+		  <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><span style="font-family:Courier New,monospace">&#x2022;</span></td>
+		  <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div>
+			  <div style="margin:0 0 0.3em 0">
+			  {{ event.event_cluster.cluster_user_created.full_name }} ({{ event.event_cluster.cluster_user_created.user_netid }}@princeton.edu)<span style="font-size:11px;color:#888"> - event organizer</span></div>
+		</div>
+		</td>
+		</tr>     
+		<tr>
+		  <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><span style="font-family:Courier New,monospace">&#x2022;</span></td>
+		  <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div>
+			  <div style="margin:0 0 0.3em 0">
+			  (( "From" address you enter above )) <span style="font-size:11px;color:#888"> - person who invited you</span></div>
+		</div>
+		</td>
+		</tr>
+		<tr>
+		  <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><span style="font-family:Courier New,monospace">&#x2022;</span></td>
+		  <td style="padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div>
+			  <div style="margin:0 0 0.3em 0">
+			  (( "To" address you enter above )) <span style="font-size:11px;color:#ff9900;"> - pending invitation</span></div>
+		</div>
+		</td>
+		</tr>
+	  </table>
+	  </td>
+	  </tr>
+		{% ifnotequal event.getAttendeeCount 0 %}
+	  <tr>
+		<td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Who Else</i></div></td>
+		<td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top"><div style="float:right;font-weight:bold;font-size:13px; padding-left:8px;"><a href="#" style="color:#20c;white-space:nowrap">see who &raquo;</a><br></div>This event has {{ event.getAttendeeCount }} other confirmed attendee{{ event.getAttendeeCount|pluralize }}{% ifnotequal event.getPendingCount 1 %} and {{ event.getPendingCount }} pending invitation{{ event.getPendingCount|pluralize }}{% endifnotequal %}</td>
+	  </tr>  
+		{% endifnotequal %}
+	  <tr>
+		<td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Going?</i></div></td>
+		<td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top"><wbr><strong><a href="#" style="color:#20c;white-space:nowrap">Yes</a><span style="margin:0 0.4em;font-weight:normal"> - </span><a href="#" style="color:#20c;white-space:nowrap">No</a></strong></td>
+	  </tr>   
+	</table>
+	</div>
+	</td>
+	</tr>
+	<tr>
+	  <td style="background-color:#f6f6f6;color:#888;border-top:1px Solid #ccc;font-family:Arial,Sans-serif;font-size:11px">
+	  <a href="#"><img style="float: right; border: none;" src="/media/cal/email/pec_email_logo.png" /></a>
+	  <p>Invitation sent through the <a href="#" style="">Princeton Events Calendar</a></p>
+		<p>This email was sent directly at the request of {{ sender }} and is not subject to standard email preferences of the Princeton Events Calendar. To report abuse, please email <a href="#">USG@Princeton.EDU</a></p></td>
+	</tr>
+	</table>
+	</div>
+	</div>
+	<div style="height: 10px;" ></div>
+	{% else %}
+	<textarea name="message" id="email" style="width: 520px; height: 180px; margin: 0 10px;"/></textarea>
+	{% endif %}
+	<input type="submit" value="Send" style="margin: 2px 0 10px 10px; width: 120px; height: 40px;" />
+	<input type="button" value="Cancel and Return" style="margin: 2px 0 10px 10px; width: 160px; height: 40px;" onClick="document.location.href='/events/{{ event.pk }}';"/>
+	<br /><span style="padding: 2px 0 10px 10px; color:#777; font-size: 10px;">Please click "Send" only once: this could take up to a minute or so.</span>
+</div>
+</form>
+{% endblock %}

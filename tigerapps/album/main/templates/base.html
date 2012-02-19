@@ -1,0 +1,41 @@
+<!doctype html>
+{% load static %}
+{% get_static_prefix as STATIC %}
+
+<html>
+<head>
+  <title>{% block title %}ARGH YOU FORGOT A TITLE{% endblock %}</title>
+  <link rel="stylesheet" href="{{ STATIC }}styles/reset.css">
+  <link rel="stylesheet" href="{{ STATIC }}styles/index.css">
+  <link rel="icon" href="{{ STATIC }}favicon.ico">
+  <script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC }}scripts/jquery.placeholder.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC }}scripts/jquery.history.js"></script>
+  {% block head %}{% endblock %}
+</head>
+<body id="{% block id %}{% endblock %}" onload="{% block onload %}{% endblock %}">
+  <header>
+    <table>
+      <tr>
+        <td>
+          <h1><a href="/">{% block h1 %}TigerAlbum{% endblock %}</a></h1>
+        </td>
+        <td class="center">
+          {% block center %}{% endblock %}
+        </td>
+        <td class="last">
+            <a class="submit" href="/submit/">Submit</a> /
+            <a href="/help/">Help</a> /
+            <form action="/search" method="get" style="display: inline">
+              <input type="search" name="q" placeholder="Search" maxlength="100">
+            </form>
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <script>$('input, textarea').placeholder()</script>
+</body>
+</html>

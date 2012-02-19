@@ -1,0 +1,30 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Offer a Book{% endblock %}
+
+{% block content %}
+
+<h2>Offer a Book</h2>
+{{ message }}
+{% if form.errors %}
+    Please correct the error(s) below
+{% endif %}
+
+<div align="center">
+<h3>Please verify that this is the correct book.</h3>
+
+<div style='border: dotted 1px gray; margin-bottom: 5px; padding: 10px'>
+{% include 'bookinfo.html' %}
+</div>
+
+If this book is correct, click "Next" to continue your listing. Otherwise, please go back and
+try a different ISBN.
+
+<table>
+<tr>
+    <td> <form action="/offer" method="post"> <input type="submit" value="Start Over" /> </form> </td>
+    <td> <form action="/offer_{{proc}}_{{ticket}}" method="post"> <input type="submit" value="Next" /> </form> </td>
+</tr>
+</table>
+
+{% endblock %}

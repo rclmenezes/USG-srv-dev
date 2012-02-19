@@ -1,0 +1,91 @@
+<!-- Checkout http://benkreeger.com/post/312292823/django-and-the-admin-datetime-picker -->
+
+
+{% extends "cal/base.html" %}
+
+{% block title %}Manage Event{% endblock %}
+
+{% block headercss %}
+<link rel="stylesheet" type="text/css" href="/media/cal/css/anytime.css" />
+{% endblock %}
+
+{% block headerscript %}
+   <script type="text/javascript" src="/admin/jsi18n/"></script>
+   <script type="text/javascript" src="/media/cal/js/core.js"></script>
+   <script type="text/javascript" src="/media/cal/js/admin/RelatedObjectLookups.js"></script>
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/ui.all.css" rel="stylesheet" type="text/css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="/media/cal/js/jquery.ui.datetimepicker.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+           $('#id_event_date_rsvp_deadline').datepicker();
+           $('#id_event_date_time_start').datetimepicker();
+           $('#id_event_date_time_end').datetimepicker();
+        });
+    </script>  
+
+
+
+   {{ eventForm.media }}
+{% endblock %}
+
+{% block content %}
+<h1 id="title">Modify Event</h1>
+
+{% if clusterForm.errors or eventForm.errors %}
+There was an error with the submission.<br /><br />
+{% endif %}
+
+<form action="" method="POST" enctype="multipart/form-data" >
+
+<table class="formTable">
+
+      {% for field in clusterForm %}
+         <tr>
+            <th class="tableLabel">{{ field.label_tag }}: 
+            {% if field.field.required %}<br /><span class="required">Required<br />&nbsp;</span>{% endif %} </th>
+            <td>{% if field.errors %}
+               <ul class="errorlist">
+               {% for error in field.errors %}
+               <li>{{ error }}</li>
+               {% endfor %}
+               </ul>
+               {% endif %}
+               {{ field }}
+               {% if field.help_text %}
+               <br />
+               {{ field.help_text }}
+               {% endif %}</td>
+         </tr>
+      {% endfor %}
+
+
+      {% for field in eventForm %}
+         <tr>
+            <th class="tableLabel">{{ field.label_tag }}: 
+            {% if field.field.required %}<br /><span class="required">Required<br />&nbsp;</span>{% endif %} </th>
+            <td>{% if field.errors %}
+               <ul class="errorlist">
+               {% for error in field.errors %}
+               <li>{{ error }}</li>
+               {% endfor %}
+               </ul>
+               {% endif %}
+               {{ field }}
+               {% if field.help_text %}
+               <br />
+               {{ field.help_text }}
+               {% endif %}</td>
+         </tr>
+      {% endfor %}
+
+</table>
+<input type="submit" value="Update Event and Notify Attendees" name="submit" />
+<input type="submit" value="Update Event and Skip Notification" name="submitnonotify" />
+<input type="button" value="Cancel and Return" onClick="document.location.href='/events/{{ event.pk }}';"/>
+<!-- input type="reset" value="Reset" name="reset" / -->
+</form>
+
+		
+{% endblock %}
+

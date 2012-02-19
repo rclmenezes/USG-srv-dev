@@ -1,0 +1,34 @@
+<div class="bookinfo">
+  <div class="bookinfo-image">
+    <img src="/media/ptx{{book.imagename}}" alt="{{book.title}}"/>
+  </div>
+
+  <p class="bookinfo-title">
+    <em>{{book.title}}</em>
+  </p>
+
+  <p>
+    {{book.author}}
+    ({{book.publisher}}, {{book.year}})
+  </p>
+
+  <p>
+    ISBN: {{book.isbn13}}
+  </p>
+
+  <p>
+    {% if book.edition %}Edition: {{book.edition}}{% endif %}
+  </p>
+
+  {% ifnotequal book.list_price None %}
+  <p>
+    List Price: ${{book.list_price|floatformat:2}}
+  </p>
+  {% else %}
+  <p>
+    List Price: (unavailable)
+  </p>
+  {% endifnotequal %}
+
+  <div class="clear"></div>
+</div>

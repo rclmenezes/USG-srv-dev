@@ -1,0 +1,18 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX Purchase - {{ offer.book.title }}{% endblock %}
+
+{% block content %}
+
+<h2>Thank you for your purchase.</h2>
+
+<p>You have just purchased <strong>{{ offer.book.title }}</strong>
+for <strong>${{ offer.price }}</strong> from <strong>{{offer.user.net_id}}</strong>. Both you and the seller should receive an email confirmation with each other's contact information.</p>
+
+<p>Sometimes are email server gets a little buggy, so please contact {{offer.user.net_id}}@princeton.edu to make sure that both of you are in contact. Sorry for the inconvenience.</p>
+
+<p>It is up to you and the seller to follow through with the transaction. After completing the transaction, please return and rate the seller!</p>
+
+<p>Thanks for using PTX!</p>
+
+{% endblock %}

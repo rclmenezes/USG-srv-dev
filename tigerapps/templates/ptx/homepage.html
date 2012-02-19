@@ -1,0 +1,92 @@
+{% extends "ptx/base.html" %}
+
+{% block id%}homepage{% endblock %}
+
+{% block title %}Princeton Textbook Exchange{% endblock %}
+
+{% block content %}
+
+<h2>Welcome to the Princeton USG Textbook Exchange</h2>
+
+<p>PTX offers the easiest and fastest way to sell and buy used
+textbooks on Princeton's campus. It's a quick and painless way to
+avoid the outrageous costs that often come with buying new or used
+through other services. When you buy or sell a book, we'll send an
+email to both parties to set up an efficient and cheap
+student-to-student transaction.</p>
+
+{% if logged_in %}
+<h3>Welcome{% if name %}, {{name}} {% endif %}</h3>
+<ul>
+{% if num_pending_trans %}
+    <li>You have <strong>{{ num_pending_trans }}</strong> pending
+    transaction{{num_pending_trans|pluralize}}. <a href="/account?t=pending">Manage
+    your transactions</a>.</li>
+{% endif %}
+
+{% if num_open_offers %}
+    <li>You have <strong>{{num_open_offers}}</strong>
+    book{{num_open_offers|pluralize}} listed for
+    sale. <a href="/account?t=basicinfo">Manage your
+    inventory</a>.</li>
+{% endif %}
+</ul>
+<ul>
+<li><a href="browse">Start looking</a> for books or <a href="offer">offer</a> yours to sell.</li>
+<li>Can't find what you're looking for? <a href="wishlist">Create a wishlist</a>.</li>
+<li>Learn about <a href="http://bucks.blogs.nytimes.com/2010/08/03/how-to-find-cheaper-college-textbooks/">other cheap textbook options</a> like free books or renting.</li>
+<li>Need more help? Check out the <a href="help">help</a> page or <a href="mailto:usg@princeton.edu">contact us</a>.</li>
+</ul>
+{% else %}
+<h3>Getting Started</h3>
+<ol>
+<li><a href="login">Login</a> with your Princeton netID.</li>
+<li><a href="profile">Fill out</a> your account information.</li>
+<li><a href="browse">Start looking</a> for books or <a href="offer">offer</a> yours to sell.</li>
+<li>Can't find what you're looking for? <a href="wishlist">Create a wishlist</a>.</li>
+<li>Learn about <a href="http://bucks.blogs.nytimes.com/2010/08/03/how-to-find-cheaper-college-textbooks/">other cheap textbook options</a> like free books or renting.</li>
+</ol>
+
+<p>Need more help? Check out the <a href="help">help</a> page or <a href="mailto:usg@princeton.edu">contact us</a>.</p>
+{% endif %}
+
+
+<h3>New Books for Sale</h3>
+<table>
+<tr>
+{% for book in new_books_offered %}
+    <td>
+        <p><a href="browse/{{book.isbn13}}">
+          <img src="/media/ptx{{ book.imagename }}" alt="(cover)" />
+        </a></p>
+        <p><a href="browse/{{book.isbn13}}">
+          {{book.title|truncatewords:5}}
+        </a></p>
+    </td>
+{% endfor %}
+</tr></table>
+
+{% if logged_in %}
+    <h3>Available Books from Your Wishlist</h3>
+    {% if req_with_offers %}
+    <p>Here are the books on your wishlist that are currently available to be purchased.</p>
+    <table>
+    {% for request in req_with_offers %}
+    <tr>
+        <td>
+          <img src="/media/ptx{{ request.book.imagename }}" alt="(cover)" />
+        </td>
+        <td>
+          <a href="browse/{{ request.book.isbn13 }}">{{request.book.title}}</a>
+          <p><em>{{request.book.author}}</em></p>
+          <p>Best Price: {{request.book.bestprice}}</p>
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% else %}
+    <p>Nothing in your wishlist is currently available.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
