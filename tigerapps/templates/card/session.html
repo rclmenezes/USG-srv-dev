@@ -1,0 +1,35 @@
+{% extends 'card/base_checker.html' %}
+
+{% block content %} 
+
+<h2>Welcome to {{ club }}. <br></h2>
+
+<h4>Begin a meal checking session below to begin adding meals or registering members.</h4>
+
+<form action="/{{netid}}/checker/session" method="post">
+<input type="hidden" name="netid" value={{ netid }}>
+Enter Meal Type: 
+<select name="meal">
+<option value="Dinner" selected=true> Dinner</option>
+<option value="Lunch"> Lunch </option>
+<option value="Brunch"> Brunch </option>
+<option value="Breakfast">Breakfast </option>
+<option value="Other">Other</option>
+</select><br>
+<br>
+
+<input type="submit" value="Begin Meal Checking Session" class="button">
+</form>
+
+<br>
+<br>
+Warning: If you start a session, you will no longer have access to your personal information.
+
+{% endblock content %}
+
+{% block footer %}
+To begin a mealchecking session, use the menu above. Confused? Ask your club manager or click
+{% endblock %}
+{% block path %}
+mealcheck
+{% endblock %}

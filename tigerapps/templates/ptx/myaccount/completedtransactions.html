@@ -1,0 +1,76 @@
+<h4>Completed Sales</h4>
+<p class="description">
+  <strong>Completed transactions</strong> are all transactions that
+  are recorded as having actually occurred. Once you completed a
+  transaction, you can rate the user that you had the transaction with
+  (thumbs up or down). This will change their user rating.
+</p>
+
+{% if has_completed_offers %}
+<table class="fancy">
+  <thead>
+    <th>Date</th>
+    <th>Price ($)</th>
+    <th>Buyer</th>
+    <th>Title</th>
+    <th style="min-width: 8em;">Status</th>
+  </thead>
+
+  <tbody>
+  {% for offer in completed_offers %}
+  {% if not offer.is_pending %}
+  <tr>
+    <td>{{ offer.date_closed|date:"n/j/y" }}</td>
+    <td>${{ offer.price }}</td>
+    <td><a href="mailto:{{offer.buyerid}}@princeton.edu">{{ offer.buyerid }}</a></td>
+    <td>{{ offer.book.title }}</td>
+    <td>
+      {% if not offer.has_rated %}
+      Rate the buyer:
+      <form method="post">
+	<input type="hidden" name="rater_offer_id" value="{{ offer.id }}" />
+	<input type="submit" name="rate_buyer_up" value="Up" />
+	<input type="submit" name="rate_buyer_down" value="Down" />
+      </form>
+      {% else %}
+      Closed
+      {% endif %}
+    </td>
+  </tr>
+  {% endif %}
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>You have <strong>0</strong> completed sales.</p>
+{% endif %}
+
+<h4>Completed Purchases</h4>
+{% if has_completed_reqs %}
+<table class="fancy">
+  <thead>
+    <th>Date</th>
+    <th>Price ($)</th>
+    <th>Buyer</th>
+    <th>Title</th>
+  </thead>
+
+  <tbody>
+  {% for request in completed_requests %}
+  <tr>
+    <td>{{ request.date_closed|date:"n/j/y" }}</td>
+    <td>{{ request.maxprice }}</td>
+    <td><a href="mailto:{{request.offer.user.net_id}}@princeton.edu">
+	{{request.offer.user.net_id|slice:":13" }}</a></td>
+    <td>{{ request.book.title }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>You have <strong>0</strong> completed purchases.</p>
+{% endif %}
+
+<h4>Statistics</h4>
+<p>Total earned: <b>${{user_data.dollars_earned}}</b></p>
+<p>Total spent: <b>${{user_data.dollars_spent}}</b></p>

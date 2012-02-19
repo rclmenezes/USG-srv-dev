@@ -1,0 +1,20 @@
+<title>Contact Moderators</title>
+<body> 
+<p><pre>Contact Moderators              <a href="/mod">Moderator Home</a>       <a href="logout">Logout</a></pre></p><hr>
+<table border="1" cellpadding="10px">
+  <tbody>
+    <tr>
+      <td> <strong>Username</strong> </td>
+      <td> <strong>Name</strong> </td>
+      <td> <strong>Email</strong> </td>
+    </tr>
+    {% for mod in mods %}
+    <tr>
+      <td> {{mod.username}} </td>
+      <td>{{mod.first_name}} {{mod.last_name}}</td>
+      <td><a href="mailto:{{mod.email}}">{{mod.email}}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</body>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>{% if title %}{{ title }}{% else %}Princeton University Student Groups{% endif %}</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Aaron Trippe">
+	<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps,Student,Groups">
+	<link rel="icon" 
+	      type="image/ico" 
+	      href="/media/images/favicon.ico">
+
+    <!-- CSS -->
+    <link href="/media/groups/css/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="/media/groups/css/main.css?version=2.1" rel="stylesheet" type="text/css" />
+    <link href="/media/groups/css/lavalamp_test.css" rel="stylesheet" type="text/css" />
+    <link href="/media/groups/css/typo.css" rel="stylesheet" type="text/css" />
+    <!-- /CSS -->
+
+    <script type="text/javascript" src="/media/groups/js/jquery-1.4.2.min.js"></script>
+
+<!-- Jquery UI Datepicker -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all" /> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js" type="text/javascript"></script> 
+
+  </head>
+
+  <body>
+	{% include "main/jquery.html" %}
+    {% block menu %} 
+    <div id="overlay"> 
+    </div> 
+ 
+    <div id="container">
+      <h1 id="header"><a href="/">Princeton Student Groups</a></h1>
+
+      <!--<h1 id="header"> 
+	  <a href="/">Princeton Student Groups</a>
+      </h1>--> 
+
+
+      <table id="nav"><tr> 
+	  <td> 
+	    <ul class="lavaLampWithImage" id="topmenu">  
+	      <li><a href="/">Home</a></li>
+	      <li><a href="/groups/">Browse Groups</a></li>
+	      <li><a href="/leadership/">Leadership</a></li>
+	    </ul>
+	  </td>
+	  
+	  <td id="search"> 
+	    <form method="get" action="/search"> 
+	      <p> 
+		<input name="search" id="id_s" /> 
+		<input type="submit" value="Search Groups" /> 
+	      </p> 
+	    </form> 
+	  </td> 
+      </tr></table> 
+      
+      <div id="account">
+	{% if user %}
+	<p>Welcome, {{ user.first_name }}!</p>
+	<a href="/logout/" class="parent"><span>Log Out</span></a>
+	<a href="/account/manage/" class="parent"><span>Manage Account</span></a>
+	<a href="/account/groups/" class="parent"><span>My Groups</span></a>
+	{% else %}
+	<p>You are not currently logged in.</p>
+	<a href="/accounts/login/" class="parent"><span>Log In</span></a>
+	{% endif %}
+	
+	<div class="clear"></div> 
+      </div> 
+      {% endblock %}
+      
+      <div id="content">
+
+	<div id="rightcol">
+	{% block rightcol %}
+	{% endblock %}
+	</div>
+
+	{% block message %}
+	{% if confirm_msg %}
+	<div id="confirm_box">
+	  {{ confirm_msg }}
+	</div><br/>
+	{% endif %}
+	{% if err_msg %}
+	<div id="err_box">
+	  {{ err_msg }}
+	  {% for field in form %}{% for error in field.errors %}<br/>
+	   <strong>{{field.label}}</strong>: {{error}}
+	  {% endfor %}{% endfor %}
+	   {% for form in formset.forms %}
+	   {% for field in form %}{% for error in field.errors %}<br/>
+	   <strong>{{field.label}}</strong>: {{error}}
+	   {% endfor %}{% endfor %}{% endfor %}
+	</div><br/>
+	{% endif %}
+	{% endblock %}
+
+
+
+	{% block content %} 
+	{% endblock %}
+	<div class="clear"></div>
+      </div>
+
+      {% block footer %} 
+      <div class="clear"></div>
+
+      <div id="footer"> 
+	<p>Created by Aaron Trippe</p> 
+	<p>Original design by <a href="http://www.trinston.com/">Trinston</a>.</p> 
+	<p>&copy; 2011 Princeton USG</p>
+      </div> 
+    </div>
+    {% endblock %}
+
+  </body>
+</html>

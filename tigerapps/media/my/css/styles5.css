@@ -1,0 +1,324 @@
+/* ------ Base template css -------- */
+html {
+}
+
+body {
+	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+	margin: 0;
+	padding: 0;
+	font-family: Verdana;
+	background: none repeat scroll 0 0 #FF9C26;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+p {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.top
+{
+    position: relative;
+    margin: 0 auto;
+}
+
+.header
+{
+    display: block;
+    padding: 40px 0 0 0;
+    margin-bottom: -40px;
+    min-height: 120px;
+}
+
+.logo
+{
+    z-index: 1;
+    position: absolute;
+    top: 40px;
+    left: 0;
+}
+
+.right
+{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+    .right .logout
+    {
+        position: absolute;
+        right: 20px;
+        top: 0px;
+    }
+    
+    .right .logout a:hover
+    {
+        color: orange;
+    }
+    
+    .right .searchbar
+    {
+        position: absolute;
+        right: 0px;
+        top: 60px;
+        margin-right: -100px;
+    }
+
+.header table, tr, td
+{
+    border: none;
+}
+	
+/******************NAVBAR*********************/
+.navbar {
+    background: white;
+	display: block;
+	position: relative;
+	height: 48px;
+	padding: 0;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #DCE7EC;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#nav a{
+	text-decoration:none;
+	display:block;
+	padding:2px 0px;
+	background-color: transparent;
+	-moz-border-radius: 7px;    
+	-webkit-border-radius: 7px;
+}
+
+.navbar ul {  
+    margin: 0 auto;
+    width: 80%;
+    list-style: none;
+}
+
+.navbar ul li {
+	float: left;
+}
+
+.navbar ul li: hover
+{
+	float: left;
+	background: #E56717 no-repeat;
+}
+
+	.navbar ul li a {
+		display: block;
+		padding-right: 20px;
+			width: 150px;
+		font-size: 14px;
+		line-height: 44px;
+		text-align: center;
+		text-decoration: none;
+		color: black;
+	}
+	
+/****************</NAVBAR>*********************/
+
+/****************<COLUMNS>*********************/
+
+.column{
+	margin-right: 1%;
+	margin-left: 1%;
+	margin-top: 1%;
+	padding: 0px;
+	min-height:300px;
+	float: left;
+	z-index: 4;
+}
+
+#column1, #column3
+{
+    width: 24%;
+}
+
+#column2
+{
+    width: 46%;
+}
+
+.column .dragbox{
+	margin-bottom: 20px;
+	padding: 0px;
+	background: transparent;
+	-moz-box-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+	box-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+}
+
+#column1 .dragbox, #column3 .dragbox
+{
+    -moz-border-radius-topleft: 10px;
+   	border-top-left-radius: 10px;
+   	-moz-border-radius-topright: 10px;
+   	border-top-right-radius: 10px;
+   	padding: 0;
+}
+
+#column1 .dragbox h2, #column3 .dragbox h2
+{
+    -moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+}
+
+#column2 .dragbox, #column2 .dragbox h2
+{
+    -moz-border-radius-topleft: 20px 10px;
+	border-top-left-radius: 20px 10px;
+	-moz-border-radius-topright: 20px 10px;
+	border-top-right-radius: 20px 10px;
+}
+
+.column .dragbox h2{
+	font-size:12px;
+	padding:3px 1% 3px 1%;
+	margin: 0;
+	background: #5B5B5B;
+	color:#fff;
+	cursor:move;
+	-moz-box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+}
+
+.dragbox-content{
+	background:#E3ECF0;
+	min-height:90px;
+	padding: 5px 1% 10px;
+	margin-bottom:5px;
+	font-family:'Lucida Grande', Verdana; font-size:0.8em; line-height:1.5em;
+}
+.column .placeholder{
+	background: transparent;
+	border:1px dashed black;
+}
+
+.dragbox img
+{
+    float: right;
+}
+
+.dragbox h2.collapse{
+	background:#E56717;
+}
+
+.dragbox h2 .configure {
+    float:right;
+}
+
+.dragbox h2 .configure a{
+	font-size:11px; 
+	font-weight:normal;
+	margin-right: 5px;
+	margin-bottom: px;
+	padding-bottom: 0px;
+}
+
+.dragbox h2 img{
+    margin-top: -5px; 
+}
+
+/***************</COLUMNS>*********************/
+
+.moveable
+{
+    min-height: 30px;
+}
+
+#wrapper
+{
+    width: 83%;
+    margin: 0 auto;
+    padding: 0 20px 100px 20px;
+    background: white;
+    -moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+}
+
+#wrapper:after
+{
+    clear:both;
+    content: ".";
+    display: block;
+    height: 0px;
+    visibility: hidden;
+}
+
+.add
+{
+    width: 160px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.add small
+{
+    width: 140px;
+    font-size: 13px;
+    color: #9C9C9C;
+    margin: 0 auto;
+}
+
+.footer
+{
+    min-height: 10px;
+    margin: 0 10%;
+    padding: 30px 0px 20px;
+    margin: 0 auto;
+    width: 500px;
+}
+
+.footer small
+{
+    width: 500px;
+    color: white;
+}
+
+#console
+{
+    position: absolute;
+    right: 15px;
+    top: 13px;
+    font-size: 15px;
+}
+
+#tabs
+{
+    position: absolute;
+    top: 20%;
+    left: 4.6%;
+}
+
+.tab
+{
+    background: white;
+    height: 100px;
+    width: 35px;
+    border: 1px solid black;
+    
+}

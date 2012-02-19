@@ -1,0 +1,29 @@
+{% extends "card/base_help.html" %}
+
+{% block content %}
+Welcome to the MealChecker help documentation! An index of the available help topics is shown below. <br>
+<br>
+<b>Help Topics</b><br><br>
+
+<!ul>
+<!li><a href="/help/login/"> Login </a></li><br>
+<!li><a href="/help/member/"> Members </a>
+<ul>
+<li><a href="/help/per"> Personal Page </a>
+<li><a href="/help/registerme"> Signing Up </a>
+</ul>
+<!li><a href="/help/checker"> Meal Checkers </a>
+<ul>
+<li><a href="/help/mealcheck"> MealChecking HowTo </a>
+<li><a href="/help/register"> Registration HowTo </a> 
+</ul>
+<!li><a href="/help/club"> Club Managers </a>
+<ul>
+<li><a href="/help/mealcheck"> MealChecking HowTo </a>
+<li><a href="/help/register"> Registration HowTo </a>
+<li><a href="/help/editmem"> Edit a Member </a>
+<li><a href="/help/editmeal"> Edit a Meal </a>
+</ul>
+<!li><a href="/help/about"> About </a>
+<!/ul>
+{% endblock %}

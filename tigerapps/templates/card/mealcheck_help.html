@@ -1,0 +1,22 @@
+{% extends "card/base_help.html" %}
+
+{% block content %}
+Meal checkers can perform two main functions: they can check in a newly exchanged meal, and they can register members of their club with the MealChecker's database.  These functions are performed within a meal checking session, which is a time period for meal checking for a particular meal and day.  Meal checking sessions are locked; once you enter a session, you will no longer be able to access your personal exchange data.  To exit a session, you must logout of MealChecker.
+
+<h4>Opening a Session</h4>
+<p>Click on the "Meal Checking" button on the upper navbar.  You will be presented with a page where you can select the meal during which you're checking meals.<p>
+
+<h4>Checking Meal Exchanges</h4>
+<p>Within a session, click on the "Add Meals" button on the left navbar to go to the meal checking page.  Meals can be added either by manually entering the host/guest's netids (right side of page) or by swiping their prox cards (left side of page).</p>
+
+<b>By Swiping Prox:</b> Upon navigating to the "Add Meals" page, you will be set up to enter meals by swipe.  Make sure your browser is focused on the host field (the text field next to the instructions "Swipe Host Card").  Swipe the host's prox and make sure their puid shows up in the field.  Next swipe the guest's prox.  The host and guest's name and information will be displayed at the bottom of the screen.  Check that the information is correct, and then click "confirm" to enter the meal in the database.<br/>
+
+<b>Manually:</b> Enter the host and guest's netids into the appropriate fields and submit the data. The host and guest's name and information will be displayed at the bottom of the screen.  Click "confirm" to add the meal exchange to the database.
+
+<h4>Registering Members</h4>
+Within a session, click on the "Register Members" button on the left navbar to go to the appropriate page.  Members can be added either by manually entering their information (right side of page) or by swiping their prox cards (left side of page).</p>
+
+<b>By Swiping Prox:</b> Make sure your browser is focused on the swiping text field.  Swipe the prox.  The appropriate information will be displayed at the bottom of the screen. Have the new member verify it, and then press "confirm" to add the member to the database.<br/>
+
+<b>Manually:</b> Enter the new member's information.  Make sure to fill out all of the fields in the form.  Netid should be in all lowercase, and the year should be in mm/dd/yyyy format.
+{% endblock %}

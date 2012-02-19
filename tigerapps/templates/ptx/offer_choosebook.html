@@ -1,0 +1,40 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Offer a Book{% endblock %}
+
+{% block content %}
+
+<h2>Offer a Book</h2>
+<h3>Select a New Book</h3>
+{{ message }}
+
+{% if form.errors %}
+<p class="error">
+  Please correct the error(s) below.
+</p>
+{% endif %}
+
+<div>
+  Enter the ISBN of the book you want to list{% if book_list %}, or
+  select a book from the list below{% endif %}.
+
+  <form action="/offer_{{proc}}_{{ticket}}" method="post">
+    {{ default_form.as_p }}
+    <input type="submit" value="Next" />
+  </form>
+</div>
+
+{% if book_list %}
+<h3>Select an Already-Listed Book</h3>
+{% for book, form in book_list %}
+<div class="book">
+  {% include 'bookinfo.html' %}
+  <form action="/offer_{{proc}}_{{ticket}}" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Choose" />
+  </form>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

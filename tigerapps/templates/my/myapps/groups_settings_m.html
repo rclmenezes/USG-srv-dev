@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/media/my/myapp/css/groups_m.css" type="text/css" media="screen" charset="utf-8" />
+	<title>Student Groups</title>
+</head>
+<body>
+  <div id="group_feed">
+    <div class="header">
+      <h3>Settings</h3>
+    </div>
+    <div class="content">
+      <form method="post" action="">
+	<table class="formTable">
+	  {% for field in form %}
+	  <tr id="row_id_{{field.html_name}}">
+	    <td class="label{% if field.errors %} error{% endif %}">{{field.label_tag}}:</td>
+	    <td class="field">{{field}}</td>
+	  </tr>
+	  <tr>
+	    {% ifequal field.label 'Categories'%}
+	    <td></td><td class="select_text">{{field.help_text}}</td>
+	    {% else %}
+	    <td class="help">{{field.help_text}}</td>
+	    {% endifequal %}
+	  </tr>
+	  {% endfor %}
+	  
+	</table>
+	<input type="submit" name="submit" value="Submit" class="submit"/>
+      </form>
+    </div>
+  </div>
+  <script>
+    $('option').removeAttr('selected');
+    $('option[value="{{show_posts}}"]').attr('selected',true);
+    $('option[value="{{posts_on_page}}"]').attr('selected',true);
+  </script>
+</body>
+</html>

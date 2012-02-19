@@ -1,0 +1,9 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+	<form action="/checkout/user" method="get">
+		<label for="netid">NetID: </label>
+		<input type="textbox" name="netid" /><br />
+		<input type="submit" value="Submit" />
+	</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+h2.postTitle
+{
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+}
+
+em.date
+{
+    margin: 0;
+    padding: 0;
+    font-style: italic;
+    font-size: 13px;
+}
+
+p, a
+{
+    margin: 0;
+    padding: 0;
+}
+
+p.img
+{
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+}
+
+ul, li
+{
+    background: none;
+    background-image: none;
+}

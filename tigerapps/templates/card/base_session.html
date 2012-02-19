@@ -1,0 +1,59 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="icon" type="image/png" href="/static/meal.png">
+    <script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+    <title> MealChecker </title>
+</head>
+
+<body {% if onload %} onload={{ onload }} {% endif %}>
+    <div class="header">
+        <center>
+	<a href="/"><h1 style="color:black;"> MealChecker </h1></a>
+	</center>
+    </div>
+
+    <div class="navprim">
+        <center>
+        {% block navprim %}
+	<ul class="navprim">
+	</ul>
+	{% endblock %}
+	</center>
+    </div>    
+
+    <div class="navsec">
+        <br>
+	<center>
+	{% block navsec %}
+	<ul class="navsec">
+
+	  {% comment %} MEMBER REGISTRATION FOR CHECKERS DISABLED
+	<li class="navsec"><a class="navsec" href="/{{netid}}/session/add/">Add Meals</a></li><br>
+	<li class="navsec"><a class="navsec" href="/{{netid}}/session/register/">Add Members</a></li><br>
+	{% endcomment %}
+
+	<li class="navsec"><a class="navsec" href="/logout_cas">logout</a></li>
+	</ul>
+	{% endblock %}
+	</center>
+	<br>
+    </div>
+
+
+    <div class="content">
+        {% block content %}
+	{% endblock %}
+	<div class="footer">
+	{% block footer %}
+	Exchange meals manually or by swiping. Confused? Ask your club manager or click 
+	{% endblock %}
+        <a href="/help/{% block path %}mealcheck{% endblock %}" target="_blank">Help!</a>
+	</div>
+
+    </div>
+
+</body>
+</html>
+

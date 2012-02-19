@@ -1,0 +1,48 @@
+{% extends "cal/emailbase.html" %}
+{% load humanize %}
+{% block content %}
+
+<div style="">
+<table cellspacing="0" cellpadding="8" border="0" summary="" style="width:100%;font-family:Arial,Sans-serif;border:1px Solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;">
+<tr>
+<td>
+<div style="padding:2px">
+<div style="float:right;font-weight:bold;font-size:13px"> <a href="{{ eventurl }}" style="color:#20c;white-space:nowrap">event details &raquo;</a><br>
+</div>
+<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial,Sans-serif;font-size:16px;font-weight:bold;color:#0066FF"><strong>Modified</strong>: <span style="text-decoration: italic;">{{event}}</span></h3>
+<h4 style="padding:0 0 12px 0;margin:0;font-family:Arial,Sans-serif;font-size:12px;font-weight:normal;color:#888">This event was just modified. Check the event details below for any updates.</h4>
+<table cellpadding="0" cellspacing="0" border="0" summary="Event details">
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Begins</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.getFormattedStartDate}} at {{event.getTime}}</td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Ends</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% ifnotequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getFormattedEndDate}} at {% endifnotequal %}{{event.getEndTime}}</td>
+  </tr>  
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Where</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{% if event.get_event_location_display or event.event_location_details %}{{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}<span dir="ltr">{% else %}No location given {% endif %}</span></td>
+  </tr>
+  <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Description</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">{{event.event_cluster.cluster_description|linebreaksbr}}{% if event.event_subdescription %}<br />{{event.event_subdescription|linebreaksbr}}{% endif %}</td>
+  </tr>    
+   <tr>
+    <td style="padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap" valign="top"><div><i style="font-style:normal">Who</i></div></td>
+    <td style="padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign="top">Modified by {{ modifier.full_name }} ({{ modifier.user_netid }}@princeton.edu)</td>
+  </tr> 
+</table>
+</div>
+</td>
+</tr>
+<tr>
+  <td style="background-color:#f6f6f6;color:#888;border-top:1px Solid #ccc;font-family:Arial,Sans-serif;font-size:11px">
+  <a href="{{ site }}"><img style="float: right; border: none;" src="[IMG_EMBED]media/cal/email/pec_email_logo.png[/IMG_EMBED]" /></a>
+  <p>Event modification notification from <a href="{{ site }}" style="">Princeton Events Calendar</a></p>
+    <p>You are receiving this email to {{ user.user_email }} because you are a registered attendee for this event and {{ modifier.full_name }} just modified it.  You can change your attendance status by visiting <a href="{{ eventurl }}">the event page</a> and logging in with your NetID, {{ user.user_netid }}.</p>  
+    <p>To change your other notification settings, please log in to <a href="{{ site }}user">the profile page</a> to manage your profile.</p></td>
+</tr>
+</table>
+</div>
+{% endblock %}

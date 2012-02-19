@@ -1,0 +1,179 @@
+{% extends "cal/base.html" %}
+{% load app_extras %}
+{% load search %}
+
+{% block title %}Search Events{% endblock %}
+
+{% block headerscript %}
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  $('.rsvp_indicator').cluetip({
+showTitle: true, // hide the clueTip's heading
+splitTitle: '|',
+width: 540,
+clickThrough: true,
+cluetipClass: 'jtip', 
+arrows: false, 
+dropShadow: true,
+hoverIntent: false,
+sticky: false,
+mouseOutClose: true,
+
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+{% block top %}{% endblock %}
+<br>
+
+<form method="GET" action="">
+Your Search <input type="text" name="query" id="id_q" {% if query %}value="{{query}}"{% endif %} maxlength="40"/>
+
+<select name="fcat">
+	<option value="cat_all">All Categories</option>
+	{% for cat in cat_opts %}
+	<option{% ifequal cat category %} selected="selected"{% endifequal %} value="{{cat}}">{{cat}}</option>
+	{% endfor %}
+</select>
+
+<select name="ffeat">
+	<option value="feat_all">All Features</option>
+	{% for feat in feat_opts %}
+	<option{% ifequal feat feature %} selected="selected"{% endifequal %} value="{{feat}}">{{feat}}</option>
+	{% endfor %}
+</select>
+
+<input type="submit" value="Search Events">
+</form>
+Leave search blank to filter on all events
+<br><br>
+
+{% ifequal timeselect 'today' %}Today
+{% else %}
+<a href="/search/?query={{query}}&fcat={{category}}&ffeat={{feature}}&timeselect=today">Today</a>
+{% endifequal %}&nbsp|&nbsp
+
+{% ifequal timeselect 'week' %}Week
+{% else %}
+<a href="/search/?query={{query}}&fcat={{category}}&ffeat={{feature}}&timeselect=week">Week</a>
+{% endifequal %}&nbsp|&nbsp
+
+{% ifequal timeselect 'weekend' %}Weekend
+{% else %}
+<a href="/search/?query={{query}}&fcat={{category}}&ffeat={{feature}}&timeselect=weekend">Weekend</a>
+{% endifequal %}&nbsp|&nbsp
+
+{% ifequal timeselect 'future' %}Future
+{% else %}
+<a href="/search/?query={{query}}&fcat={{category}}&ffeat={{feature}}&timeselect=future">Future</a>
+{% endifequal %}&nbsp|&nbsp
+
+{% ifequal timeselect 'past' %}Past
+{% else %}
+<a href="/search/?query={{query}}&fcat={{category}}&ffeat={{feature}}&timeselect=past">Past</a>
+{% endifequal %}&nbsp|&nbsp
+
+{% ifequal timeselect 'all' %}All
+{% else %}
+<a href="/search/?query={{query}}&fcat={{category}}&ffeat={{feature}}&timeselect=all">All</a>
+{% endifequal %}
+
+<br>
+
+{% if errorMessage %}
+{{errorMessage}}
+{% else %}
+{% with events_on_date|length as events_on_date_count %}
+<p>{{events_on_date_count|default:"No"}} event{{ events_on_date_count|pluralize}} found
+{% if query %}for &ldquo;{{query}}&rdquo;{% endif %}
+{% endwith %}
+{% endif %}
+
+<ul class="events">
+{% for date in all_my_dates %}
+<li>{{date}}</li>
+{% for event,rsvp in events_on_date|dict_get:date %}
+
+<ul>
+{% if user_data %}
+<div id="menu_ev">
+	<ul class="menu_ev flevel">
+		<li><a href="#" class="parent"><span>Menu</span></a>
+			<div class="seclvl"><ul>
+			<li><a href="/events/{{event.event_id}}"><span>View Details</span></a></li>
+			{% if rsvp %}
+				{% ifequal rsvp.rsvp_type 'Accepted' %}
+					<li><a href="/user/invitations/{{rsvp.pk}}/decline/"><span>Decline Invitation</span></a></li>
+				{% endifequal %}	
+				{% ifequal rsvp.rsvp_type 'Declined' %}
+					<li><a href="/user/invitations/{{rsvp.pk}}/accept/"><span>Accept Invitation</span></a></li>
+				{% endifequal %}
+				{% ifequal rsvp.rsvp_type 'Pending' %}
+					<li><a href="/user/invitations/{{rsvp.pk}}/accept/"><span>Invitation from {{rsvp.rsvp_referrer.casual_name}}</span></a>
+					<div><ul>
+						<li><a href="/user/invitations/{{rsvp.pk}}/accept/"><span>Accept Invitation</span></a></li>
+						<li><a href="/user/invitations/{{rsvp.pk}}/decline/"><span>Decline Invitation</span></a></li>
+					</ul></div>
+					</li>
+					
+				{% endifequal %}
+			{% else %}
+				<li><a href="/events/{{event.event_id}}/confirm"><span>Add to My Events</span></a></li>
+			{% endif %}
+			{% ifequal event.event_cluster.cluster_user_created user_data %}
+			<li><a href="/events/manage/{{event.event_id}}"><span>Modify Event</span></a></li>
+			<li><a href="/events/delete/{{event.event_id}}"><span>Delete Event</span></a></li>
+			{% endifequal %}
+			</ul></div>
+		</li>
+	</ul>
+</div>
+{% endif %}
+
+<li class="event-title"><a {% ifequal user_data event.event_cluster.cluster_user_created %}class="event_owner" {% endifequal %}href="/events/{{event.event_id}}">{% highlight keywords %}{% autoescape off %}{{event|striptags}}{% endautoescape %} {% endhighlight %}</a></li>
+
+
+<li class="event-time"><span{% if rsvp %} style="border-bottom: 2px dotted {% ifequal rsvp.rsvp_type 'Accepted' %}green;{% endifequal %}{% ifequal rsvp.rsvp_type 'Declined' %}red;{% endifequal %}{% ifequal rsvp.rsvp_type 'Pending' %}orange;{% endifequal %}"{% endif %}><a {% if rsvp %}class="rsvp_indicator" title="<span style='letter-spacing: 0.05em;'>{{event}}</span>|{% ifequal rsvp.rsvp_type 'Accepted' %}You've added this event to your calendar.{% endifequal %}{% ifequal rsvp.rsvp_type 'Declined' %}You've declined {{rsvp.rsvp_referrer.full_name}}'s invitation to this event.{% endifequal %}{% ifequal rsvp.rsvp_type 'Pending' %}{{rsvp.rsvp_referrer.full_name}} has invited you to this event.{% endifequal %}"{% endif %}style="text-decoration: none;" href="/events/{{event.event_id}}">{{event.getTime}}</a></span></li>
+
+<li style="font-size: 11px; color: #333; padding-left: 110px; padding-bottom: 8px; margin-top: -10px;">
+{% highlight keywords %}
+{% searchexcerpt keywords 4 %}
+{% autoescape off %}
+{{event.event_cluster.cluster_description|striptags }}
+{% endautoescape %}
+{% endsearchexcerpt %}
+{% endhighlight %}
+</li>
+
+{% if event.event_subdescription %}
+<li style="font-size: 11px; color: #333; padding-left: 110px; padding-bottom: 8px; margin-top: -10px;">
+{% highlight keywords %}
+{% searchexcerpt keywords 5 %}
+{% autoescape off %}
+{{event.event_subdescription|striptags }}
+{% endautoescape %}
+{% endsearchexcerpt %}
+{% endhighlight %}
+{% endif %}
+
+
+<li class="event-subtext" style="padding-bottom: 8px;">{{event.get_event_location_display}} {{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}</li>
+
+
+
+</ul>
+{% endfor %}
+{% endfor %}
+</ul>
+{% if show_prev %}
+<p>
+<br />
+<h1><a href="/user/oldevents">See Previous Events I've Attended</a></h1>
+</p>
+{% endif %}
+
+
+{% endblock %}

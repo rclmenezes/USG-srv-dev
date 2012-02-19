@@ -1,0 +1,87 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}PTX - Wishlist{% endblock %}
+{% block id %}wishlist{% endblock %}
+
+{% block content %}
+
+<h2>Wishlist</h2>
+<p class="description">
+  Enter the ISBN of a book to add it to your wishlist.
+</p>
+
+{% if add_error %}
+<div class="error">
+  {{ add_error }}
+</div>
+{% endif %}
+
+<form action="/wishlist" method="get">
+  {{ add_form.as_p }}
+  <input type="submit" value="Add to Wishlist" />
+</form>
+
+{% if book %}
+<h3>The Book You Chose</h3>
+<div class="book">
+  {% include 'ptx/bookinfo.html' %}
+</div>
+{% endif %}
+
+<h3>Your Wishlist</h3>
+{% if req_list %}
+<table class="fancy">
+  <thead>
+    <tr>
+      <th>Title and Description</th>
+      <th>List Price ($)</th>
+      <th>Best Price ($)</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for req in req_list %}
+  <tr>
+    <td>
+      <p class="title">
+        <a href="/browse/{{req.book.isbn13}}">
+          {{req.book.title}}
+        </a>
+      </p>
+
+      <p>
+        {% if req.book.author %}
+        {{req.book.author}}
+        {% else %}
+        (Author unknown)
+        {% endif %}
+        (ISBN {{req.book.isbn13}})
+      </p>
+
+      {% comment %}
+      Due to the University's contract with Labryinth, we are not
+      allowed to show a link to Amazon. However, you as the
+      maintainer should ensure that associate_links are still kept
+      up to date in case one day they are allowed.
+      <a href="{{req.book.associate_link}}" target="_blank">Buy from Amazon</a>
+      {% endcomment %}
+    </td>
+
+    <td>{{req.book.list_price}}</td>
+    <td>{{req.book.bestprice}}</td>
+    <td>
+      <p>
+        <a href="/wishlist?delete={{req.id}}">
+          Delete
+        </a>
+      </p>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Your wishlist is currently empty.</p>
+{% endif %}
+
+{% endblock %}

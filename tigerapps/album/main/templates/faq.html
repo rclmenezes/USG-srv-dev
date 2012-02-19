@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block h1 %}TigerAlbum: A Helpful Manual{% endblock %}
+
+{% block title %}Help - TigerAlbum{% endblock %}
+
+{% block id %}faq{% endblock %}
+
+{% block content %}
+<div id="content">
+<h3>Table of contents</h3>
+<ol>
+  <li><a href="#interface">Interface</a></li>
+  <li><a href="#submission">Submission</a></li>
+  <li><a href="#faqsection">FAQ</a></li>
+</ol>
+
+<h3 id="interface">1. Interface</h3>
+
+  <p>The TigerAlbum interface is centered around the map of Princeton and is simple
+  and intuitive to use! You can interact with the map just the way you interact with
+  Google Maps -- scrolling corresponds to zooming in/out of the map. Zooming can also
+  be controlled using the zoom slider on the side. You can drag the map using the
+  hand-shaped cursor in order to change which part of the map you are viewing at a
+  given time.</p>
+
+  <p>Recently submitted/popular photos are posted on the map as thumbnails at the
+  respective locations they were posted from. You can click on these to view them in
+  normal size, view how popular they are in terms of likes and view comments associated
+  with them. You can also comment on or like a photo yourself. Right underneath the photo,
+  you are given a permalink in case you want to share it with friends. You are also given
+  a report link in case you find the photo offensive/disturbing and wish to bring this to
+  the moderators' attention. Finally, closing the photo box brings you back to the map
+  you were originally looking at.</p>
+
+<h3 id="submission">2. Submission</h3>
+
+  <p>You can submit a photograph by clicking on the submit button on the upper right
+  corner of the TigerAlbum home page. This will redirect you to a submission page where
+  you can upload a photograph and caption it if you so desire. Please note that at this
+  point, we are only able to accept JPEG files, so all other formats will be rejected.
+  Once you have successfully uploaded a photo, click on the submit photo button to
+  proceed.</p>
+
+  <p>The next step to your submission is associating your photo with a location. If
+  your photo had geotagged data associated with it (for instance, if you had taken the
+  photograph using a smartphone), TigerAlbum does the best it can to place your photo
+  on the map at the appropriate location. You are still free to place it somewhere else
+  if you think we got it wrong, before you make your final move to submit. If however
+  we could not find any location data off your photo, you will need to click on the map
+  to place your photo at a certain location before you submit.</p>
+
+  <p>Once you submit, you will be taken back to the homepage. Don't be sad if you can't
+  spot your photo right away! You must wait for it to be moderated before it shows up on
+  the map. Your photo should show up within a day, and you're good to go!</p>
+
+<h3 id="faqsection">3. Frequently asked questions</h3>
+
+<dl>
+  <dt><b>I submitted my photo correctly, why isn't it showing up on the map?</b></dt>
+  <dd>All submissions are moderated. Give us time, we usually approve
+  photos within a day. And thanks for submitting, we think you're
+  awesome.</dd>
+
+  <dt><b>Can I submit photos outside Princeton's campus boundaries?</b></dt>
+  <dd>For now, we're only accepting photo submissions taken on and
+  near the campus. We're hoping to expand out in the future,
+  however!</dd>
+
+  <dt><b>Can I upload a bunch of photos to TigerAlbum all at once?</b></dt>
+  <dd>In order to prevent spam, we limit you to a maximum of 3 photo
+  uploads every 10 minutes. Sorry for any inconvenience this may cause!</dd>
+</dl>
+</div>
+{% endblock %}

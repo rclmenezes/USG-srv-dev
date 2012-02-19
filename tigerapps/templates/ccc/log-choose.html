@@ -1,0 +1,17 @@
+{% extends "ccc/base.html" %}
+
+{% block content %}
+	<div style="text-align: center;" class="main-box">
+	    <h2 id="postTitle" style="text-align: center;">Log Hours</h2>
+		<p>You have already logged {{ hours }} hour(s)</p><br/>
+		<p>Click here for an already recognized form of service:</p>
+		<div class="button-row" style="width: 100%; display: block; height: 50px; padding-top: 20px;">
+			<a href="/log_pace" class="button">Pace, SVC or CH service</a>
+		</div>
+		<br/>
+		<p>Otherwise, click here:</p>
+		<div class="button-row" style="width: 100%; display: block; height: 50px; padding-top: 20px;">
+			<a href="/log_request" class="button">Other form of service</a>
+		</div>
+	</div>
+{% endblock %}

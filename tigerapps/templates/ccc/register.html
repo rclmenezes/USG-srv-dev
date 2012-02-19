@@ -1,0 +1,117 @@
+{% extends "ccc/base.html" %}
+
+{% block content %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+	   		$('#btnAdd').click(function() {
+			    var num     = $('.clonedInput').length;
+                var newNum  = new Number(num + 1);
+
+                var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+
+                newElem.children(':first').attr('id', 'name' + newNum).attr('name', 'name' + newNum);
+                $('#input' + num).after(newElem);
+                $('#btnDel').attr('disabled','');
+
+                if (newNum == 24)
+                    $('#btnAdd').attr('disabled','disabled');
+
+				$('#inputNum').val($('.clonedInput').length);
+            });
+
+            $('#btnDel').click(function() {
+                var num = $('.clonedInput').length;
+
+                $('#input' + num).remove();
+                $('#btnAdd').attr('disabled','');
+
+                if (num-1 == 1)
+                    $('#btnDel').attr('disabled','disabled');
+
+				$('#inputNum').val($('.clonedInput').length);
+            });
+
+            $('#btnDel').attr('disabled','disabled');
+
+			$('input#create_team').bind('keyup paste',function (){
+				$('img#team_name_check').attr('src', '/media/ccc/images/loading.gif');
+			   	$.post("/check_name", { name: $(this).val() }, 
+					function(data) {
+						if (data=="true")
+						{
+							$('img#team_name_check').attr('src', '/media/ccc/images/green-checkmark.jpg');
+							$('small#create-error').html('');
+						}
+						else if (data=="empty")
+						{
+							$('img#team_name_check').attr('src', '/media/ccc/images/red-x.png');
+							$('small#create-error').html('Team name cannot be empty.');
+						}
+						else
+						{
+							$('img#team_name_check').attr('src', '/media/ccc/images/red-x.png');
+							$('small#create-error').html('This username is already taken.');
+						}
+				});
+			});
+			
+			$('input#join_query').bind('keyup paste',function (){
+				var field = $("input[name=search-field]:checked").val();
+			   	$.post("/search_team", $("#join_form").serialize(), 
+					function(json) {
+						$('#search-results').html(json);
+				});
+			});
+
+		});
+		
+	</script>
+
+	<h3 id="top">You're already signed up! To join or create a team, follow the instructions below:</h3>
+	<div id="join-team" style="float: left; width: 48%;">
+		<h2 style="text-align: center;">Join a team</h2>
+		<p style="margin: 0; padding: 0;"> Search by team name or participant: </p>
+		<form id="join_form">
+			<input type="text" name="join_query" id="join_query" size="50" style="font-weight: 14px;" /> <br/>
+			By participant netid: <input type="radio" value="P" name="search-field" checked="checked" /><br/>
+			By team name: <input type="radio" value="T" name="search-field" />
+		</form>
+		<small id="search-error"></small>
+		<br/>
+		<p style="margin: 0; padding: 0;"> Live results: </p>
+		<div id="search-results" style="display: block; height: 300px;">
+			
+		</div>
+		
+	</div>
+	
+	<div id="create-team" style="float: right; width: 48%; border-left: 4px dotted #80c080; padding-left: 20px;">
+		<form>
+		<h2 style="text-align: center;">Create a team</h2>
+		<p style="margin: 0; padding: 0;"> Team Name: </p>
+		<input type="text" id="create_team" size="40" style="font-weight: 14px;" />
+		<img id="team_name_check" src="/media/ccc/images/red-x.png" width="20" height="20" style="margin-bottom: -5px;"/>
+		<br/>
+		<small id="create-error" style="color: red; margin-bottom: 10px;">Team name cannot be empty.</small>
+		<br/>
+		<p style="margin: 0; padding: 0;"> Invite others: </p>
+		<div id="invitees" style="min-height: 300px;">
+			<div id="input1" style="margin-bottom:4px;" class="clonedInput">
+			    Netid: <input type="text" name="name1" id="name1" />
+		    </div>
+		    <div>
+		        <input type="button" id="btnAdd" value="add another name" />
+		        <input type="button" id="btnDel" value="remove name" />
+				<input type="hidden" id="inputNum" value="1" />
+		    </div>
+		</div>
+		</form>
+	</div>
+	
+	<div class="clear"></div>
+	<div class="button-row" style="width: 100%;">
+		<a class="smaller-button" style="float: left; margin-left: 100px;">Join Team</a>
+		<a class="smaller-button" style="float: right; margin-right: 100px;">Create Team</a>
+	</div>
+
+{% endblock %}

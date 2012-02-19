@@ -1,0 +1,33 @@
+{% extends "card/base_login.html" %}
+
+{% block content %}
+<center>
+
+{% if errmes %}
+{{ errmes }} <br>
+{% endif %}
+
+{% if logged_in %}
+<h2>Enter the site</h2>
+or
+<a href="logout"><b>Logout</b></a><br/>
+{% else %}
+<h2>Please log in to enter the site.</h2>
+{% endif %}
+
+<br/>
+<h3>As a member or meal checker:  </h3>
+
+<form action="/cas/" method="get">
+    <input type="submit" value="Member/Checker Login" class="button">
+</form>
+
+<br>
+<br>
+<h3>As a club manager:  </h3>
+
+<form action="/club/" method="get">
+    <input type="submit" value="Club Account Login" class="button">
+</form
+</center><br><br>
+{% endblock %}

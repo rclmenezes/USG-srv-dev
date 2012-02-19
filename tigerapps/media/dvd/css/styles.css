@@ -1,0 +1,79 @@
+/*Base CSS*/
+html {
+
+}
+
+body {
+	background: none repeat scroll 0 0 #FF9C26;
+    margin: 0;
+    padding: 0;
+	font-family: "Helvetica";
+	font-size: 13px;
+}
+
+.header
+{
+    margin: 0 50px;
+    min-height: 100px;
+    padding: 25px 8px 0;
+    display: block;
+    width: 90%;
+}
+
+.header .usg
+{
+    float: right;
+}
+
+h1.title {
+    font-weight: normal;
+    font-size: 60px;
+    margin: 0;
+    padding-top: 20px;
+    padding-left: 140px;
+}
+
+.wrapper
+{
+	width: 950px;
+    margin: 0 auto;
+    padding: 0 20px 100px 20px;
+    background: white;
+    -moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+}
+
+.wrapper:after
+{
+    clear:both;
+    content: ".";
+    display: block;
+    height: 0px;
+    visibility: hidden;
+}
+
+.footer
+{
+    min-height: 10px;
+    padding: 30px 0px 20px;
+    margin: 0 auto;
+    width: 500px;
+}
+
+.footer small
+{
+    width: 500px;
+    color: white;
+}
+
+.footer a
+{
+    text-decoration: none;
+}
+
+.footer a:hover
+{
+    text-decoration: underline;
+}

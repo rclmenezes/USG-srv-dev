@@ -1,0 +1,11 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+<h1>Error</h1>
+<p> {{ error }} </p>
+<ul>
+	{% for dvdName in errorDVD %}
+	<li class="list">{{ dvdName }}</li>
+	{% endfor %}
+</ul>
+{% endblock %}

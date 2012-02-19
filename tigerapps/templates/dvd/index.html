@@ -1,0 +1,33 @@
+{% extends "dvd/base.html" %}
+
+{% block title %}USG DVD Service{% endblock %}
+
+{% block headercss %} <link rel="stylesheet" type="text/css" href="/media/dvd/css/dvd.css" />{% endblock %}
+
+{% block logo %}<a href="http://usg.princeton.edu" style="display: inline; float: left;"><img src="/media/dvd/images/usg-225-trans.png" height="100" /></a> <h1 style='float: right; font-family: "Trebuchet MS"; font-size: 60px; margin: 15px 30px 15px 0; padding: 0;'>USG DVD</h1>{% endblock %}
+
+{% block content %}
+<div class="intro" style="margin: 0 auto;">
+    <p> Who needs Netflix, anyway? The USG is in the DVD rental business! Stop by the USG office (204 Frist). You can rent any of these popular movies for two days, FOR FREE. Then just drop your movie back off through the mail slot by 2PM on the due date and you're good to go! This page shows which DVDs are available to rent, and if all the copies of a movie are being rented, you can choose to be notified by email when a copy comes back in. It couldn't be simpler!</p>
+</div>
+
+<div class="list">
+<table style="margin: 0 auto;">
+    <tr>
+        <td class="left"><b>DVD name</b></td>
+        <td><b>Amount Available</b></td>
+    </tr>
+{% if DVD_list %}
+	{% for DVD in DVD_list %}
+	    <tr>
+		<td class="left">{%if DVD.imdbID %}<a href="http://www.imdb.com/title/{{DVD.imdbID}}">{% endif %}{{DVD.sortname}}{%if DVD.imdbID %}</a>{% endif %}</td>
+		<td>{{DVD.amountLeft}} of {{DVD.amountTotal}} {% ifequal DVD.amountLeft 0 %} <a href="/notify/{{DVD.dvd_id}}">(Email me when it becomes available)</a>{% else %} (Email me when it becomes available) {% endifequal %}</td>
+		</tr>
+	{% endfor %}
+	</table> 
+{% else %}
+    </table> 
+	<p>No DVD's detected. Something must be broke. </p>
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "cal/base.html" %}
+{% load app_extras %}
+
+{% block title %}Cool Stuff{% endblock %}
+
+{% block headerscript %}{% endblock %}
+
+{% block content %}
+<h1 id="title">Cool Stuff</h1>
+
+<ul>
+{% for time,hap in happenings %}
+<li style="padding-bottom: 6px;">{{ hap }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

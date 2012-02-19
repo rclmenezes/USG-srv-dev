@@ -1,0 +1,118 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Browse Princeton Textbook Exchange{% endblock %}
+{% block id %}book{% endblock %}
+
+{% block content %}
+
+<p id="breadcrumb">
+  Back to:
+
+  {% for course in book.course.all %}
+  <a href="/browse/{{course.dept|urlencode}}{{course.num|urlencode}}">
+      {{course}}</a>{% if not forloop.last %},{% endif %}
+  {% endfor %}
+</p>
+
+<h3>{{ book.title }}</h3>
+<div class="book">
+<div class="bookinfo">
+  <div class="bookinfo-image">
+    <img src="/media/ptx{{book.imagename}}"
+         alt="Book cover for &quot;{{ book.title }}&quot;" />
+  </div>
+
+  {% if book.author %}
+  <p class="bookinfo-title">{{book.author}}</p>
+  {% else %}
+  <p class="bookinfo-title">Author unknown</p>
+  {% endif %}
+
+  {% if book.publisher %}
+  <p>{{book.publisher}}{% if book.year %}, {{book.year}}{% endif %}</p>
+  {% endif %}
+
+  {% if book.edition %}
+  <p>Edition: {{book.edition}}</p>
+  {% endif %}
+
+  <p>
+    ISBN-13: {{ book.isbn13 }};
+    ISBN-10: {{ book.isbn10 }}
+  </p>
+
+  {% if book.list_price %}
+  <p>
+    List Price: <strong>${{book.list_price}}</strong>
+  </p>
+  {% endif %}
+
+  {% comment %}
+  Due to the University's contract with Labryinth, we are not allowed
+  to show a link to Amazon. However, you as the maintainer should
+  ensure that associate_links are still kept up to date in case one
+  day they are allowed.
+
+  {% if book.labyrinth_price %}
+  Labyrinth: <b>${{book.labyrinth_price}}</b><br />
+  {% endif %}
+
+  <a href="{{book.associate_link}}" target="_blank" >Buy it from Amazon</a>
+  {% endcomment %}
+
+  {% if logged_in %}
+  <p><a href="/wishlist?add={{book.isbn13}}">Add to my wishlist</a></p>
+  {% endif %}
+
+  <div class="clear"></div>
+</div>
+</div>
+
+<h3>Current Offers</h3>
+{% if book.hasOfferings %}
+<table class="books fancy">
+  <thead>
+  <tr>
+    <th>Price ($)</th>
+    <th>Condition</th>
+    <th>Seller Description</th>
+    <th>Buy</th>
+  </tr>
+  </thead>
+
+  {% for offer in offer_list %}
+  <tr>
+    <td>{{ offer.price }}</td>
+    <td>{{ offer.get_condition_display }}</td>
+    <td>
+      <p>{{ offer.desc }}</p>
+
+      <ul>
+        <li>
+          Used: <strong>{{offer.get_semester_display}} {{ offer.year }}</strong>
+        </li>
+        <li>
+          Seller Rating: <strong>{{ offer.user.getRating }}</strong>
+        </li>
+      </ul>
+    </td>
+    <td>
+      <form method="POST" action="/buy/confirm">
+	<input type="hidden" name="offer_id" value="{{offer.id}}"/>
+	<input type="submit" name="buy_btn" value="Buy This Book" />
+      </form>
+    </td>
+  </tr>
+
+  {% endfor %}
+</table>
+{% else %}
+<p>There are no current offers for this book.</p>
+{% endif %}
+
+<h3>Description</h3>
+<p>From Amazon.com:</p>
+<blockquote>
+  <p>{{ book.desc|safe }}</p>
+</blockquote>
+{% endblock %}

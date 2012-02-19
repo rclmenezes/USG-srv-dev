@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_static_prefix as STATIC %}
+
+{% block title %}
+TigerAlbum
+{% endblock %}
+
+{% block id %}main{% endblock %}
+
+{% block head %}
+<style type="text/css">
+  	/* These styles are necessary for the map to show up. */
+	body { height: 100%; margin: 0 }
+  	/* Undo the changes from index.css */
+	header { margin-left: 0; margin-right: 0; margin-bottom: 1em; }
+	#map_canvas {
+		height: 80%;
+		width: 100%;
+		border-top: 1px solid #ee7f2d;
+		border-bottom: 1px solid #ee7f2d;
+	}
+        header table td {
+            width: 33%;
+        }
+</style>
+<script type="text/javascript" src="{{ STATIC}}scripts/jquery.DOMWindow.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="{{ STATIC }}scripts/index.js"></script>
+<script type="text/javascript" src="{{ STATIC }}scripts/details.js"></script>
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+{% endblock %}
+
+{% block onload %}initialize(){% endblock %}
+
+{% block center %}
+Show photos from
+<select name="time">
+  <option value="recent">recently</option>
+  <option value="week">past week</option>
+  <option value="month">past month</option>
+  <option value="year">past year</option>
+  <option value="all">ALL TIME</option>
+</select>
+{% endblock %}
+
+{% block content %}
+{% if alert %}
+<p id="alert">
+  Thanks for your submission! Please give us a day to approve your
+  photo.
+</p>
+{% else %}{% if feedback %}
+<p id="alert">
+  Thanks for your feedback! We'll look in to it as soon as possible.
+</p>
+{% endif %}{% endif %}
+
+<div id="map_canvas" class=map></div>
+<div id="hidden_details" class="hidden"></div>
+<footer>
+  <a href="/contact/">Contact Us</a>
+</footer>
+{% endblock %}

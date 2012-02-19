@@ -1,0 +1,31 @@
+{% extends "card/base_login.html" %}
+
+{% block content %}
+<center>
+{% if errmes %}
+{{ errmes }} <br>
+{% endif %}
+
+<h3>Club Account Login</h3>
+
+<form action="/club/" method="post">
+Username:
+    <input type="text" name="club"><br>
+<br>Password:
+    <input type="password" name="clubPassword"><br>
+    <br>
+    <input type="submit" value="Submit" class="button">
+</form>
+
+<br>
+<form action="/index/" method="get">
+    <input type="submit" value="Back" class="button">
+</form>
+</center>
+
+{% endblock %}
+{% block footer %}
+This is the login screen for club managers. If you are not a club manager, please click 'Back'.
+{% endblock %}
+{% block path %}login
+{% endblock %}

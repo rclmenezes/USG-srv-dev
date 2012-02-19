@@ -1,0 +1,110 @@
+{% extends 'groups/account.html' %}
+
+{% block content %}
+
+  <div class="group_header">
+    <h2>My Groups</h2>
+  </div>
+
+  <div class="group_profile">
+
+  <ul class="list" style="padding-left:15px;width:97%;">
+    {% for m in mships_off %}
+    {% if forloop.first %}
+    <li class="title"><strong>Officer</strong></li> 
+    <li><ul>
+	{% endif %}
+	<div class="group_box">
+	  <a href="/groups/{{m.group.url}}">{% if m.group.image %}<img class="group_box_pic" src="/{{m.group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
+	  <div class="group_box_right">
+	    <span class="group_box_status">
+
+	    </span>
+	  <span class="group_box_title"><a href="/groups/{{m.group.url}}">{{ m.group }}</a></span><br/>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  </div>
+	  <div style="clear:left;"></div>
+	</div>
+<!--	<li class="item notitle"><a href="/groups/{{m.group.url}}">{{ m.group }}</a></li>-->
+	{% if forloop.last %}
+    </ul></li>
+    <br/>
+    {% endif %}
+    {% endfor %} 
+
+    {% for m in mships_mem %}
+    {% if forloop.first %}
+    <li class="title"><strong>Member</strong></li> 
+    <li><ul>
+	{% endif %}
+	<div class="group_box">
+	  <a href="/groups/{{m.group.url}}">{% if m.group.image %}<img class="group_box_pic" src="/{{m.group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
+	  <div class="group_box_right">
+	    <span class="group_box_status">
+
+	    </span>
+	  <span class="group_box_title"><a href="/groups/{{m.group.url}}">{{ m.group }}</a></span><br/>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  </div>
+	  <div style="clear:left;"></div>
+	</div>
+<!--	<li class="item notitle"><a href="/groups/{{m.group.url}}">{{ m.group }}</a></li>-->
+	{% if forloop.last %}
+    </ul></li>
+    <br/>
+    {% endif %}
+    {% endfor %} 
+
+    {% for m in mships_sub %}
+    {% if forloop.first %}
+    <li class="title"><strong>Subscriber</strong></li> 
+    <li><ul>
+	{% endif %}
+	<div class="group_box">
+	  <a href="/groups/{{m.group.url}}">{% if m.group.image %}<img class="group_box_pic" src="/{{m.group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
+	  <div class="group_box_right">
+	    <span class="group_box_status">
+
+	    </span>
+	  <span class="group_box_title"><a href="/groups/{{m.group.url}}/">{{ m.group }}</a></span><br/>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  </div>
+	  <div style="clear:left;"></div>
+	</div>
+<!--	<li class="item notitle"><a href="/groups/{{m.group.url}}/">{{ m.group }}</a></li>-->
+	{% if forloop.last %}
+    </ul></li>
+    <br/>
+    {% endif %}
+    {% endfor %} 
+
+    {% for m in mships_req %}
+    {% if forloop.first %}
+    <li class="title"><strong>Pending Requests</strong></li> 
+    <li><ul>
+	{% endif %}
+	<div class="group_box">
+	  <a href="/groups/{{m.group.url}}/">{% if m.group.image %}<img class="group_box_pic" src="/{{m.group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
+	  <div class="group_box_right">
+	    <span class="group_box_status">
+
+	    </span>
+	  <span class="group_box_title"><a href="/groups/{{m.group.url}}/">{{ m.group }}</a></span><br/>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  </div>
+	  <div style="clear:left;"></div>
+	</div>
+<!--	<li class="item notitle"><a href="/groups/{{m.group.url}}/">{{ m.group }}</a></li>-->
+	{% if forloop.last %}
+    </ul></li>
+    <br/>
+    {% endif %}
+    {% endfor %} 
+
+    {% if not mships_off and not mships_mem and not mships_req and not mships_sub %}<em>You have no group affiliations.</em>{% endif %}
+
+  </ul>
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+{% include 'groups/help_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="group_header">
+  <h2>Help: Personal Account</h2>
+</div>
+
+<div class="group_profile">
+
+Your personal account contains your personal information (email, class year, name), your group affiliations, and your global preferences.  You can access it via the menu items in the top right corner ("Log in","My Groups","Manage Account").
+
+<div class="subsection">
+<h3 class="subheader">Log in</h3>
+<p class="subcontent">You must be logged in to Princeton Student Groups (with a Princeton netid and password) to access your account.  Click "Log in" in the top right corner.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">My Groups</h3>
+<p class="subcontent">Click "My Groups" in the top right corner to view your group affiliations, including subscriptions, officerships, memberships, and pending requests.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Account Settings</h3>
+<p class="subcontent">Click "Manage Account" in the top right corner to access your account settings.  You can edit your personal information or your global notification preferences using this form.</p>
+</div>
+
+<div class="subsection">
+<h3 class="subheader">Register Group</h3>
+<p class="subcontent">If you want to register profile on Princeton Student Groups for your organization, you can submit a request by clicking "Manage Account" in the top left corner and then "Register Group" in the righthand menu.</p>
+</div>
+
+</div>
+
+{% endblock %}

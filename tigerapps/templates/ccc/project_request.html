@@ -1,0 +1,34 @@
+{% extends "ccc/base.html" %}
+
+{% block content %}
+	<script type="text/javascript" src="/media/cal/js/datetimepicker_css.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			date_start = $("input[name*='date_start']");
+			date_start.after("<a href=\"javascript:NewCssCal('" + date_start.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+			date_end = $("input[name*='date_end']");
+			date_end.after("<a href=\"javascript:NewCssCal('" + date_end.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+		});
+	</script>
+	<div class="main-box" style="width: 90%;">
+	    <h2 id="postTitle" style="text-align: center;">Log Hours</h2>
+		<form name="pace_form" method="post">
+		<p style="text-align: left;">Please fill out the following fields so we can recognize your project. Once its approved, we'll let you know so you can log your hours.</p>
+		<table>
+		{% for field in project_request_form %}
+			<tr id="row_{{field.auto_id}}">
+				<th id="th_{{field.auto_id}}" class="tableLabel">{{field.label_tag}}:</th>
+				<td>{{ field }}</td>
+				{% if field.errors %}
+           		{% for error in field.errors %}
+               	<td style="color: red;">&bull; {{ error }}</td>
+               	{% endfor %}
+				{% endif %}
+			</tr>
+		{% endfor %}
+		</table>
+		<br/>
+		<input type="submit" href="/log_pace" class="button" />
+		</form>
+	</div>
+{% endblock %}

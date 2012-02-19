@@ -1,0 +1,59 @@
+{% extends 'groups/base.html' %}
+
+{% block rightcol %}
+
+      <div class="sidebar"> 
+	<div class="sidebar-title"> 
+	  <h3>Categories</h3> 
+	</div> 
+	<div class="sidebar-content"> 
+	  <ul class="sidebar-menu">
+	    {% for c in categories %}
+	    <a href="/category/{{c.category}}">{{ c }}</a><br/>
+	    {% endfor %}
+	  </ul>
+	</div> 
+      </div>
+
+{% endblock %}
+
+{% block content %}
+
+<form action="" method="get" id="search_form_id">
+<ul class="search_form">
+{{form.as_ul}}
+<li><input type="submit" value="Search"></li>
+<input type="hidden" name="page" id="page_input_id" value="{{page.number}}">
+</ul>
+</form>
+
+{% if groups %}<em>{{page.start_index}}-{{page.end_index}} of {{p.count}} results</em>
+{% else %}<em>There were no matches for your search.</em>
+{% endif %}
+<br/><br/>
+<ul class="list">
+{% for group in groups %}
+	<div class="group_box">
+	  <a href="/groups/{{group.url}}">{% if group.image %}<img class="group_box_pic" src="/{{group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
+	  <div class="group_box_right">
+	    {% if user %}<span class="group_box_status">
+	      {% for key, value in affil.items %}{% ifequal key group.id %}{% autoescape off %}{{value}}{% endautoescape %}{% endifequal %}{% endfor %}
+	    </span>{% endif %}
+	  <span class="group_box_title"><a href="/groups/{{group.url}}">{{ group }}</a></span><br/>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{group.description|slice:":80"}}{% if group.description|slice:"80:" %} ...{% endif %}</span>
+	  </div>
+	  <div style="clear:left;"></div>
+	</div>
+{% endfor %}
+</ul>
+<br/>
+    <ul class="paginate">
+      {% if page.has_previous %}<li><input type="button" value="<< First" name="first" class="prev" onclick="$('#page_input_id').attr('value',1);$('#search_form_id').submit();"/></li>
+      <li><input type="button" value="Previous" name="prev" class="prev" onclick="$('#page_input_id').attr('value',{{page.previous_page_number}});$('#search_form_id').submit();"/></li>{% endif %}
+      {% if page.has_next %}
+      <li style="width:65%;"><input type="button" value="Last >>" name="last" class="next" onclick="$('#page_input_id').attr('value',{{p.num_pages}});$('#search_form_id').submit();"/></li>      
+      <li style="width:65%;"><input type="button" value="Next" name="next" class="next" onclick="$('#page_input_id').attr('value',{{page.next_page_number}});$('#search_form_id').submit();"/></li>
+      {% endif %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Princeton Textbook Exchange{% endblock %}
+
+{% block content %}
+
+<h2>{{ header_text }}</h2>
+
+<p>You must be logged in to view this page. Please
+<a href="/login?redirect={{redirect_url}}">log in</a>.</p>
+
+{% endblock %}

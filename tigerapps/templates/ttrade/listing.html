@@ -1,0 +1,94 @@
+{% extends "ttrade/base.html" %}
+
+
+{% block content %}
+	<script type="text/javascript">
+	function confirmSubmit()
+	{
+	var agree=confirm("Are you sure?");
+	if (agree)
+		return true ;
+	else
+		return false ;
+	}
+	</script>
+	<div id="main_listing">
+		<div class="listings">
+			<div class="white"><h3>{{listing.title}}</h3></div>
+			{% if edit %}
+			<span id="left"><a id="edit" href= "/edit/{{listing.listingID}}"> Edit information </a></span>
+			<span id="right"><a id="edit" href= "/expiration/{{listing.listingID}}"> Change expiration </a></span>
+			{% endif %}
+			
+			{% if message %}
+				<br/><p>{{message}}</p>
+			{% endif %}
+			
+			<div class="box"><h3>Listing Information</h3> 
+			
+			<div class="box_inner">
+			<table id="info">
+				<tr>
+					<td align=right>Listing Type:</td> 
+					<td>{{listing.get_listingType_display}}</td>
+				</tr>
+				<tr>
+					<td align=right>Category: </td>
+					<td>{{listing.get_category_display}}</td>
+				</tr>
+				<tr>
+					<td align=right>Method: </td>
+					<td>{{listing.get_method_display}}</td>
+				</tr>
+				<tr>
+					<td align=right>Posted: </td>
+					<td>{{listing.posted|date:"P, N d Y"}}</td>
+				</tr>
+				<tr>
+					<td align=right>Expires: </td>
+					<td>{{listing.expire|date:"P, N d Y"}}</td>
+				</tr>
+				<tr>
+					<td align=right>Lister's Email:<br/>(For questions) </td>
+					<td>{% if logged_in %}<a href="mailto:{{listing.user.email}}">{{listing.user.email}}</a>{% else %} Log-in to see the lister's email!{% endif %}</td>
+				</tr>
+				{% ifequal listing.method "Fi"%}
+				<tr>
+					<td align=right>Price: </td>
+					<td>${{listing.price}}</td>
+				</tr>
+				{% endifequal %}
+				{% ifequal listing.method "Au"%}
+				<tr>
+					<td align=right>Current Price: </td>
+					<td>${{listing.price}}</td>
+				</tr>
+				{% endifequal %}
+			</table>
+			{% ifequal listing.method "Au"%}
+				<small>Tip: Once auctions expire, both the winner and the lister will be notified within ten minutes of expiration!</small>
+			{% endifequal %}
+			{% ifequal listing.method "Mu"%}
+				{% if edit %}
+				<small>Tip: As the lister of multiple items, you can accept multiple offers!</small>
+				{% endif %}
+			{% endifequal %}
+			</div>
+			
+			</div>
+			{% if listing.description %}
+			<div class="box"><h3>Description</h3> 
+				<div class="box_inner"><p style="margin-top: 0;">{{ listing.description|linebreaksbr }}</p></div>
+			</div>
+			{% endif %}
+			{% if listing.picture %}
+			<div id="picture">
+				<img src="/media/{{listing.picture}}" />
+			</div>
+			{% endif %}
+			
+			{% block fixed %}{% endblock %}
+		</div>
+	</div>
+	
+{% endblock %}

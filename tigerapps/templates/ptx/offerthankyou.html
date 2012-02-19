@@ -1,0 +1,18 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Your Book Has Been Listed{% endblock %}
+
+{% block content %}
+
+<h2>Your Book Has Been Listed</h2>
+
+<p><strong>{{offer.book.title}}</strong> has been listed for
+${{offer.price|floatformat:2}}.</p>
+
+<p>You will receive an email notification when someone purchases your
+book. You can now <a href='/offer?course={{course|urlencode}}'>list
+another book for {{course}}</a>,
+or <a href='/account?t=current'>manage your current listings</a>.
+Thank you for using the Princeton Textbook Exchange!</p>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "dvd/baseadmin.html" %}
+
+{% block content %}
+
+	<h1> Add a DVD</h1>
+	{% if previous %}
+		<strong>{{previous.name}} has been added</strong>
+	{% endif %}
+	
+	<form action="/adddvd" method="post">
+		<input type="textbox" name="name" />
+		<label for="name">Name</label><br />
+		<input type="textbox" name="sortname" />
+		<label for="sortname">Sort Name (name used in alphabetical list)</label><br />
+		<input type="textbox" name="amountTotal" />
+		<label for="amountTotal">Amount Overall </label><br />
+		<input type="textbox" name="amountLeft" />
+		<label for="amountLeft">Amount in the office</label><br />
+		<input type="textbox" name="imdbID" />
+		<label for="imdbID">IMDB ID (Ex: tt0093779 in http://www.imdb.com/title/tt0093779/)</label><br />
+		<input type="submit" value="Add DVD" />
+	</form>
+{% endblock %}

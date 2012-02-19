@@ -1,0 +1,27 @@
+{% extends 'groups/base.html' %}
+
+{% block content %}
+
+{% if not done %}
+
+  <div class="group_header">
+    <h2>Request</h2>
+  </div>
+
+  <div class="group_profile">
+    <strong>Name:</strong> {{request.group.name}}<br/><br/>
+    <strong>Description:</strong> {{request.group.description}}<br/><br/>
+    <strong>Categories:</strong> {% for c in request.group.categories.all %}{% if not forloop.first %}, {% endif %}{{c}}{% empty %}<em>None</em>{% endfor %}<br/><br/>
+    {% if request.group.site %}<strong>Website:</strong> <a href="{{request.group.site}}">{{request.group.site}}</a><br/><br/>{% endif %}
+    {% if request.group.email %}<strong>Email:</strong> <a href="mailto:{{request.group.email}}">{{request.group.email}}</a><br/><br/>{% endif %}
+    <strong>Reason: </strong>{{request.reason}}<br/><br/>
+  </div>
+
+  <form action="" method="post">
+    <input type="submit" name="confirm" value="Accept">
+    <input type="submit" name="reject" value="Reject">
+  </form>
+
+{% endif %}
+
+{% endblock %}

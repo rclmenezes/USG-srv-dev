@@ -1,0 +1,129 @@
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+    <!-- link calendar files  -->
+    <script language="JavaScript" src="/static/calendar_us.js"></script>
+    <link rel="stylesheet" href="/static/calendar.css">
+    <link rel="icon" type="image/png" href="/static/meal.png">
+
+<script language="JavaScript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('check');
+  for(var i in checkboxes)
+    checkboxes[i].checked = source.checked;
+}
+</script>
+
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  // Load the Visualization API and the piechart package.
+  google.load('visualization', '1', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+   //data for chart by meal
+    var data = new google.visualization.DataTable();
+
+    data.addColumn('string', 'Meal');
+    data.addColumn('number', 'Meals Out');
+    data.addColumn('number', 'Meals In');
+
+    {% for meal in meals %}        
+    data.addRow(['{{ meal.type }}', {{ meal.mealsout }}, {{ meal.mealsin }}]);
+    {% endfor %}
+    
+    var chart = new google.visualization.BarChart(document.getElementById('mealchart'));
+    chart.draw(data, {title: 'Meals by Meal Type', hAxis: {title: 'Number of Meals'}, vAxis: {title: 'Type of Meal'}});
+
+    //data for chart by club
+      
+     var data2 = new google.visualization.DataTable();
+
+     data2.addColumn('string', 'Club');
+     data2.addColumn('number', 'Meals Out');
+     data2.addColumn('number', 'Meals In');
+
+     {% for clubex in clubmeals %}        
+     data2.addRow(['{{ clubex.clubname }}', {{ clubex.mealsout }}, {{ clubex.mealsin }}]);
+     {% endfor %}
+
+     var chart2 = new google.visualization.BarChart(document.getElementById('clubchart'));
+     chart2.draw(data2, {title: 'Meals by Club', hAxis: {title: 'Number of Meals'}, vAxis: {title: 'Club'}});
+
+    //data for chart by date
+      
+     var data3 = new google.visualization.DataTable();
+
+     data3.addColumn('string', 'Day of Month');
+     data3.addColumn('number', 'Meals Out');
+     data3.addColumn('number', 'Meals In');
+
+     {% for dateex in datemeals %}        
+     data3.addRow(['{{ dateex.day }}', {{ dateex.mealsout }}, {{ dateex.mealsin }}]);
+     {% endfor %}
+
+     var chart3 = new google.visualization.BarChart(document.getElementById('datechart'));
+     chart3.draw(data3, {title: 'Meals by Date', hAxis: {title: 'Number of Meals'}, vAxis: {title: 'Day of Month'}});
+
+  }
+
+  
+</script>
+
+
+    <title> MealChecker </title>
+</head>
+
+<body {% if onload %} onload={{ onload }} {% endif %}>
+    <div class="header">
+        <center>
+	<a href="/"><h1 style="color:black;"> MealChecker </h1></a>
+	</center>
+    </div>
+
+    <div class="navprim">
+        <center>
+        {% block navprim %}
+	<ul class="navprim">
+	<li class="navprim"><a class="navprim" href="/{{ club }}/members/add">Members</a></li>
+	<li class="navprim"><a class="navprim" href="/{{ club }}/meals/add">Meals</a></li>
+	<li class="navprim"><a class="navprim" href="/{{ club }}/stats/graph/">Statistics</a></li>
+	<li class="navprim"><a class="navprim" href="/{{ club }}/account">Account</a></li>
+	</ul>
+	{% endblock %}
+	</center>
+    </div>    
+
+    <div class="navsec">
+        <br>
+	<center>
+	{% block navsec %}
+	<ul class="navsec">
+	<li class="navsec"><a class="navsec" href="/logout_club">logout</a></li>
+	</ul>
+	{% endblock %}
+	</center>
+	<br>
+    </div>
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+	<br>
+	<br>
+	<!hr>
+	<div class="footer">
+	{% block footer %}
+	This is the club section of the website. Confused? Ask your club manager or click 
+	{% endblock %}
+	<a href="/help/{% block path %}{% endblock %}" onclick="window.open(this.href);return false;">Help!</a>
+	 </div>
+
+    </div>
+
+</body>
+</html>

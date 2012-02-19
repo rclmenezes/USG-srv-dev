@@ -1,0 +1,22 @@
+{% extends "ptx/base.html" %}
+
+{% block title %}Browse Princeton Textbook Exchange Requests{% endblock %}
+
+{% block content %}
+
+<h1>{{ browse_header }}</h1>
+
+<br />
+
+<div class="courselist">
+  {% for course in course_list %}
+  {% if course.hasrequests %}
+  <div class="course">
+    <a href="/browse/{{course.dept}}{{course.num}}">{{course.dept}} {{course.num}}</a>
+    ({{ course.numrequests }})
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+
+{% endblock %}
