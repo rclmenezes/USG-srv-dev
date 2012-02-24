@@ -13,8 +13,11 @@ urlpatterns = patterns('',
     (r'^(?P<month>\d+)/(?P<day>\d+)/(?P<year>\d+)/$', 'social.views.night'),
     (r'^search$', 'social.views.search'),
     (r'^event/(?P<event_id>\d+)/?$', 'social.views.event'),
+    (r'^event_edit/(?P<event_id>\d+)/?$', 'social.views.event_edit'),
+    (r'^event_delete/(?P<event_id>\d+)/?$', 'social.views.event_delete'),
+    (r'^club/(?P<club_name>\w+)/?$', 'social.views.club'),
     (r'^admin/', include(admin.site.urls)),
-    (r'^(?P<club>\w+)/?$', 'social.views.club'),
+    (r'^event_add/?$', 'social.views.event_add'),
     
     # Admin
     (r'^login/?$', 'django_cas.views.login'),
