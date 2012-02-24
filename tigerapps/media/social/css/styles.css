@@ -104,6 +104,13 @@ small.enlarge
 .event_description
 {
     margin-top: 10px;
+    font-size: 14px;
+    line-height: 120%;
+}
+
+.event_title
+{
+    padding-bottom: 3px;
 }
 
 .clearfix:after {
@@ -113,3 +120,81 @@ small.enlarge
     clear: both;
     visibility: hidden;
 }
+
+div.ui-tooltip-content
+{
+    padding: 10px;
+}
+
+div.ui-tooltip-titlebar
+{
+    font-size: 16px;
+}
+
+div.ui-tooltip-titlebar:hover, .event_title:hover, h2#today:hover, a.club-link:hover, a.event-link:hover, a.date-link:hover, a.event-edit:hover, a.event-delete:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a.event-link:hover
+{
+    text-decoration: underline;
+}
+
+span.required
+{
+    font-size: 11px;
+    color: orange;
+}
+
+span.help-text
+{
+    font-size: 12px;
+}
+
+tr.field > th, tr.field > td
+{
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+ul.errorlist li
+{
+    font-size: 12px;
+    color: red;
+}
+
+a#exit-overlay:hover
+{
+    cursor: pointer;
+}
+
+a.event-edit
+{
+    color: orange;
+    margin-top: 20px;
+}
+
+a.event-delete
+{
+    color: orange;
+}
+
+
+.event_description a
+{
+     text-decoration: underline;
+}
+
+.event_description a:hover
+{
+     color: orange;
+}
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }

@@ -12,8 +12,8 @@ class SocUser(models.Model):
 class Club(models.Model):
     club_id = models.AutoField(primary_key=True)
     name = models.CharField("Name", max_length=30)
-    nickname = models.CharField("Nickname", max_length=30, null=True, blank=True)
-    slug = models.CharField("Slug", max_length=30, unique=True)
+    nickname = models.CharField("Nickname", help_text="Used for default names", max_length=30, null=True, blank=True)
+    slug = models.CharField("Slug", help_text="Used for URLs", max_length=30, unique=True)
     about = models.TextField("About", null=True, blank=True)
     left_offset = models.IntegerField("Left offset")
     top_offset = models.IntegerField("Top offset")
@@ -30,7 +30,7 @@ class Club(models.Model):
 ACCESS_CHOICES = (
     (u'Pu', u'PUID'),
     (u'Pa', u'Pass'),
-    (u'Me', u'Members'),
+    (u'Me', u'Members only'),
     (u'Mp', u'Members + '),
     (u'Gu', u'Guestlist'),
     (u'Cu', u'Custom'),
@@ -40,8 +40,8 @@ class Event(models.Model):
     event_id = models.AutoField(primary_key=True)
     club = models.ForeignKey('Club')
     entry = models.CharField('Entry', max_length=2, choices=ACCESS_CHOICES)
-    entry_description = models.CharField("Entry Description", help_text="Pass description or Members + No.", max_length=40, null=True, blank=True)
-    title = models.CharField("Title", max_length=40, null=True, blank=True)
+    entry_description = models.CharField("Entry Description", help_text="Useful for describing passes or members +.", max_length=40, null=True, blank=True)
+    title = models.CharField("Title", help_text="Default is clubname + weekday", max_length=40, null=True, blank=True)
     description = models.TextField("Description", null=True, blank=True)
     poster = StdImageField('Event Poster (optional)', upload_to='social/images/', size=(400,600), thumbnail_size=(250, 375), blank=True, null=True)
     time_start = models.DateTimeField('Start datetime')
@@ -50,4 +50,4 @@ class Event(models.Model):
     def __unicode__(self):
         if self.title:
             return self.title
-        return self.club.name
+        return self.club.name + " " + self.time_start.strftime("%A")
