@@ -73,7 +73,7 @@ MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
 #STATIC_ROOT = CURRENT_DIR + "/media" #TODO: this doesn't work
-STATIC_URL = "/media/"
+STATIC_URL = "/media"
 STATICFILES_DIRS = (
     CURRENT_DIR + "/media",
 )
