@@ -1,22 +1,31 @@
 from django.conf import settings
-import re
 
 class SubdomainsMiddleware:
     def process_request(self, request):
+        #Find the subdomain
         request.domain = request.META['HTTP_HOST']
-        request.subdomain = ''
         parts = request.domain.split('.')
 
-        # xxx.tigerapps.org or xxx.localhost:8000
-        if len(parts) == 4 or (re.match("^localhost", parts[-1]) and len(parts) == 2):
-            request.subdomain = parts[1]
-            request.domain = '.'.join(parts[1:])
+        if parts[0] == "dev":
+            if len(parts) == 4:
+                # dev.___.tigerapps.org
+                request.subdomain = parts[1]
+                request.domain = '.'.join(parts[2:])
+            elif len(parts) == 3:
+                # dev.tigerapps.org
+                request.subdomain == 'www'
+        else:
+            if len(parts) == 3:
+                # ___.tigerapps.org
+                request.subdomain = parts[0]
+                request.domain = '.'.join(parts[1:])
+            else:
+                request.subdomain == 'www'
+
 
         # set the right urlconf
-        if request.subdomain == "":
-            request.subdomain == 'index'
-            
-        settings.ROOT_URLCONF = request.subdomain + ".urls"
+        request.urlconf = request.subdomain + ".urls"
+
 
         ### INTRODUCING....
         ###
