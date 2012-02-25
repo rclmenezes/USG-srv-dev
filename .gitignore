@@ -24,6 +24,7 @@ dist/
 # Private files #
 #################
 local_settings.py
+apache2.conf
 
 # Temp files #
 ##############
