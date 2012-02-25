@@ -3,9 +3,9 @@ import os
 import sys
 # Email/Database settings (sensitive info)
 try:
-    from local_settings import *
+    import local_settings
 except ImportError, exp:
-    print "Couldn't import local_settings: Passwords may be missing"
+    print "Error: Couldn't import local_settings; missing passwords and other local data"
 
 
 
@@ -18,14 +18,16 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
-
-DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'tigerapps'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'tigerapps'             # Not used with sqlite3.
-#DATABASE_PASSWORD = HIDDEN; see imports
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'tigerapps',             # Or path to database file if using sqlite3.
+        'USER': 'tigerapps',             # Not used with sqlite3.
+        'PASSWORD': local_settings.DATABASE_PASSWORD,
+        'HOST': '',             # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',             # Set to empty string for default. Not used with sqlite3.
+    }
+}
 
 
 os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs' 
@@ -35,7 +37,7 @@ if CURRENT_DIR == '/':
 
 SITE_ID = 1
 # Make this unique, and don't share it with anybody.
-#SECRET_KEY = HIDDEN; see imports
+SECRET_KEY = local_settings.SECRET_KEY
 
 
 
