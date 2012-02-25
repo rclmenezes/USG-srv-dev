@@ -9,9 +9,8 @@ except ImportError, exp:
     print "Couldn't import local_settings: Passwords may be missing"
 
 
-#HI YARO! HI MING!
-
-DEBUG = True
+import socket
+DEBUG = (socket.gethostname() != 'USG')
 TEMPLATE_DEBUG = DEBUG 
 
 #PROJECT_ROOT = os.path.dirname(__file__)

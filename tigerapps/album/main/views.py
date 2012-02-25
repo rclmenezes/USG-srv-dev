@@ -16,8 +16,8 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.core.mail import send_mail
 
-from tigeralbum.main.models import Photo, Comment
-from tigeralbum.gpsinfo import parse_gps_info, GPSInfoError
+from album.main.models import Photo, Comment
+from album.gpsinfo import parse_gps_info, GPSInfoError
 
 class JPEGField(forms.ImageField):
     """An image field for JPEG images"""
@@ -135,7 +135,7 @@ def submit(request):
                   n_likes=0,
                   ip=ip)
     photo.save_with(photograph)
-    return redirect('tigeralbum.main.views.submit_update', id=photo.id)
+    return redirect('album.main.views.submit_update', id=photo.id)
 
 def submit_update(request, id):
     """Asks the user to click on the map and select a location for his
