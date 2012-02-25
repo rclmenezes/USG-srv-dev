@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-import os.path
 
 from ptx.offer import *
 #from ptx.request import *

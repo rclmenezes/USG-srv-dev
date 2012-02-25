@@ -1,5 +1,6 @@
 # Django settings for tigerapps project.
 import os
+import sys
 # Email/Database settings (sensitive info)
 try:
     from local_settings import *
@@ -7,14 +8,16 @@ except ImportError, exp:
     print "Couldn't import local_settings: Passwords may be missing"
 
 
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Rodrigo Menezes', 'rmenezes@princeton.edu')
+    ('Rodrigo Menezes', 'rmenezes@princeton.edu'),
 )
-
 MANAGERS = ADMINS
+
+
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'tigerapps'             # Or path to database file if using sqlite3.
@@ -23,7 +26,16 @@ DATABASE_USER = 'tigerapps'             # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
+
+
 os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs'
+CURRENT_DIR = os.getcwd()
+
+SITE_ID = 1
+# Make this unique, and don't share it with anybody.
+#SECRET_KEY = HIDDEN; see imports
+
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -38,28 +50,33 @@ TIME_ZONE = 'America/New_York'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
+
+
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = "/srv/tigerapps/media"
-
+#MEDIA_ROOT = CURRENT_DIR + "/media/"
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'media/'
+#MEDIA_URL = 'NOTUSED'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+#TODO: doesn't work since django.contrib.staticfiles added
+ADMIN_MEDIA_PREFIX = '/admin_media/'
 
-# Make this unique, and don't share it with anybody.
-#SECRET_KEY = HIDDEN; see imports
+#STATIC_ROOT = CURRENT_DIR + "/media" #TODO: this doesn't work
+STATIC_URL = "/media/"
+STATICFILES_DIRS = (
+    CURRENT_DIR + "/media",
+)
+
+
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -79,7 +96,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    '/srv/tigerapps/templates',
+    CURRENT_DIR + '/templates',
 )
 
 INSTALLED_APPS = (
@@ -90,6 +107,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
+    'django.contrib.staticfiles',
     'cal',
     'dvd',
     'ptx',

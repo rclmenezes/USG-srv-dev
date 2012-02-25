@@ -1,8 +1,9 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from datetime import date
-admin.autodiscover()
 
+
+admin.autodiscover()
 today = date.today()
 
 urlpatterns = patterns('',
@@ -23,3 +24,4 @@ urlpatterns = patterns('',
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
 )
+
