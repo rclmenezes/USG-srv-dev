@@ -22,7 +22,7 @@ def outstanding(request):
     
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def checkout(request, choice):
+def checkout(request):
     return render_to_response('dvd/checkout.html')
     
 @login_required
