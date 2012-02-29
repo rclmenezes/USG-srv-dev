@@ -4,7 +4,7 @@ Development version of the Princeton USG's Tigerapps!
 
 This repo currently only contains a subset of the apps currently hosted on the dev server. But it works!
 
-Here's the steps to get a local clone of the Django projects in this to run on the USG dev server:
+Here's the steps to get a local clone of the Django projects in this to run on the USG dev server (do a git pull first):
 1) Run scripts/copy_local_settings.sh to copy private files (ie passwords) not hosted on Github from /srv to your personal clone of the repo.
 2) Change to the tigerapps folder, and execute: manage.py runserver 0.0.0.0:PORT, where PORT is a number preferably in the 8000's
 3) You can now visit your app at http://dev.*.tigerapps.org:PORT (e.g. dev.tigerapps.org:8010, dev.social.tigerapps.org:8010)
