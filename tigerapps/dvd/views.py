@@ -53,27 +53,30 @@ def checkin_dvd(request):
     #rental_list = Rental.objects.filter(dateReturned=None)
     
     if request.method == "POST" and 'dvd' in request.POST:
-        dvd_list = request.POST.getlist('dvd')
+        dvd_list = request.POST.getlist('dvd') #list of dvd's checked
         ambiguous_list = [] # When more than one copy is checked out
         checked_list = []
         for dvd_id in dvd_list:
             dvd = DVD.objects.get(pk=dvd_id)
             dvd.amountLeft += 1
-            #dvd.save()
+            dvd.save()
             
+            #if there's copies of dvd_id still checked out
             if dvd.amountTotal - dvd.amountLeft > 1:
                 ambiguous_list.append(dvd)
+            #if all of the copies of dvd_id are checked in
             else:
                 checked_list.append(dvd)
                 rental_list = Rental.objects.filter(dateReturned=None, dvd=dvd)
                 for rental in rental_list:
                     rental.dateReturned = datetime.datetime.now()
-                    #rental.save()
+                    rental.save()
                 
         if len(ambiguous_list) == 0:
             confirm = "The following DVDs have been checked in: " + str(checked_list)
             return render_to_response('dvd/confirm.html', {'title': "Success!", 'confirm': confirm})
         else:
+            #This allows the person checking in the dvd to select which copy was checked in
             return render_to_response('dvd/ambiguous.html', {'ambiguous_list': ambiguous_list, 'checked_list': checked_list})
     
     dvd_list = DVD.objects.all()
@@ -118,6 +121,7 @@ def checkin_dvd(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def checkin_dvdlist(request):
+    #2/28/2012: Doesn't work, purpose unclear
     dvdList = DVD.objects.filter(amountLeft__lt=amountTotal)
 
     return render_to_response('dvd/checkindvd.html', {'dvdList': dvdList})
