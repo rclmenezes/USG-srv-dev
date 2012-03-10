@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
+	<title>USG</title>
+	<script>
+		function getDayHelper()
+		{
+			getDay($('#weekday').val(), $('#term').val());
+		}
+	
+		function getDay(day, index)
+		{
+			var terms = {% autoescape off %}{{ json }}{% endautoescape %};
+			var term = terms[index];
+			var schedule = ""
+			term[day].sort(function(a,b) { return parseInt(a.sort_time) - parseInt(b.sort_time) });
+			$.each(term[day], function(k, v) {
+			    schedule += "<div class=\"slot\"><b>" + v.title + "</b><br/>" + v.type + "<br/>" + v.time + "</div><br/>"
+			});
+			$('#schedule').html(schedule)
+		}
+	
+		$(document).ready(function() {
+	   		var terms = {% autoescape off %}{{ json }}{% endautoescape %};
+			$.each(terms, function(index, term) {
+				if (index.charAt(0) == 'F')
+				{
+					$('#term').append("<option value=\"" + index + "\" SELECTED>" + index + "</option>");
+				}
+				else
+				{
+					$('#term').append("<option value=\"" + index + "\">" + index + "</option>");
+				}
+				getDay(0, index);
+			});
+	 	});
+	</script>
+</head>
+<body>
+	<select id="term" onchange="getDayHelper();">
+	</select>
+	<select id="weekday" onchange="getDayHelper();">
+		<option value="0" {% ifequal weekday 0 %}SELECTED{% endifequal %}{% ifequal weekday 5 %}SELECTED{% endifequal %}{% ifequal weekday 6 %}SELECTED{% endifequal %}>Monday</option>
+		<option value="1" {% ifequal weekday 1 %}SELECTED{% endifequal %}>Tuesday</option>
+		<option value="2" {% ifequal weekday 2 %}SELECTED{% endifequal %}>Wednesday</option>
+		<option value="3" {% ifequal weekday 3 %}SELECTED{% endifequal %}>Thursday</option>
+		<option value="4" {% ifequal weekday 4 %}SELECTED{% endifequal %}>Friday</option>
+	</select>
+	<div id="schedule" style="padding: 0 5px;"></div>
+</body>
+</html>

@@ -24,6 +24,10 @@ dist/
 # Private files #
 #################
 local_settings.py
+<<<<<<< HEAD
+=======
+apache2.conf
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # Temp files #
 ##############

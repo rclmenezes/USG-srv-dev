@@ -11,7 +11,11 @@ from django.shortcuts import (render_to_response,
                               get_object_or_404)
 from django.views.decorators.csrf import csrf_exempt
 
+<<<<<<< HEAD
 from tigeralbum.main.models import Photo, Comment
+=======
+from album.main.models import Photo, Comment
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # Number of photos photos() (a.k.a. 'api/photos.json') can return
 # at any one time.

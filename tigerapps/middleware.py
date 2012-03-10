@@ -1,4 +1,5 @@
 from django.conf import settings
+<<<<<<< HEAD
 import re
 
 class SubdomainsMiddleware:
@@ -17,6 +18,35 @@ class SubdomainsMiddleware:
             request.subdomain == 'index'
             
         settings.ROOT_URLCONF = request.subdomain + ".urls"
+=======
+
+class SubdomainsMiddleware:
+    def process_request(self, request):
+        #Find the subdomain
+        request.domain = request.META['HTTP_HOST']
+        parts = request.domain.split('.')
+
+        if parts[0] == "dev":
+            if len(parts) == 4:
+                # dev.___.tigerapps.org
+                request.subdomain = parts[1]
+                request.domain = '.'.join(parts[2:])
+            elif len(parts) == 3:
+                # dev.tigerapps.org
+                request.subdomain == 'www'
+        else:
+            if len(parts) == 3:
+                # ___.tigerapps.org
+                request.subdomain = parts[0]
+                request.domain = '.'.join(parts[1:])
+            else:
+                request.subdomain == 'www'
+
+
+        # set the right urlconf
+        request.urlconf = request.subdomain + ".urls"
+
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
         ### INTRODUCING....
         ###
@@ -67,4 +97,8 @@ class SubdomainsMiddleware:
             settings.CAS_LOGOUT_COMPLETELY = True
             settings.CAS_IGNORE_REFERER = True
             settings.SITE_URL = 'http://dev.' + request.subdomain + '.tigerapps.org/'
+<<<<<<< HEAD
             settings.CAS_REDIRECT_URL = settings.SITE_URL
+=======
+            settings.CAS_REDIRECT_URL = settings.SITE_URL
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457

@@ -13,7 +13,12 @@ urlpatterns = patterns('',
     url(r'^confirmMyApps/(?P<orderNo>\d)/(?P<colID>\w)/?$', 'my.views.confirmMyApps', name="confirmMyApps"),
     url(r'^addPage/?$', 'my.views.addPage', name="addPage"),
     url(r'^loading/?$', 'my.views.loading', name="loading"),
+<<<<<<< HEAD
     url(r'^myapps/(?P<relationID>\d+)/?$', 'myapps.views.get_myapp', name="get_myapp"),
+=======
+    url(r'^(?P<relationID>\d+)/(?P<location>\w+)/?$', 'myapps.views.get_myapp', name="get_myapp", kwargs={'settings': False}),
+    url(r'^(?P<relationID>\d+)/(?P<location>\w+)/settings/?$', 'myapps.views.get_myapp', name="get_myapp", kwargs={'settings': True}),
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
     url(r'^refreshApps/?$', 'my.views.refreshApps', name="refreshApps"),
     url(r'^removePage/?$', 'my.views.removePage', name="removePage"),
     url(r'^saveMyApps/(?P<orderNo>\d)/?$', 'my.views.saveMyApps', name="saveMyApps"),

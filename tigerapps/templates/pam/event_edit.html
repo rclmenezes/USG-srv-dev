@@ -1,0 +1,50 @@
+<form id="event_response" action="/event_edit">
+{{ event_form.non_field_errors }}
+<table class="formTable">
+	{% for field in event_form %}
+	<tr class="field">
+        <th class="tableLabel">{{ field.label_tag }}: 
+        {% if field.field.required %}<br /><span class="required">Required<br />&nbsp;</span>{% endif %} </th>
+        <td class="field">{% if field.errors %}
+           <ul class="errorlist">
+           {% for error in field.errors %}
+           <li>{{ error }}</li>
+           {% endfor %}
+           </ul>
+           {% endif %}
+           {{ field }}
+           {% if field.help_text %}
+           <br />
+           <span class="help-text">{{ field.help_text }}</span>
+           {% endif %}</td>
+     </tr>
+	{% endfor %}
+</table>
+<input id="event-add-submit" type="submit" value="Submit" />
+</form>
+
+<script>
+	$('input#id_time_start').datetimepicker({
+		ampm: true,
+		hour: 23
+	});
+	$('input#id_time_end').datetimepicker({
+		ampm: true,
+		hour: 2
+	});
+	/*var startfield = $("input[name*='time_start']");
+	startfield.after("<a href=\"javascript:NewCssCal('" + startfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'true', '12', 'true')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+	var endfield = $("input[name*='time_end']");
+	endfield.after("<a href=\"javascript:NewCssCal('" + endfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'true', '12', 'true')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");*/
+	
+	$(document).ready(function() { 
+	    // bind 'myForm' and provide a simple callback function 
+		$('form#event_response').ajaxForm({
+			url: "/event_add", 
+			success: function(html) { 
+	        	$('#overlay-inside').html(html);
+			}
+	    }); 
+	});
+	
+</script>
