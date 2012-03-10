@@ -88,6 +88,61 @@ def log_hours(request):
 # For non-blog posts    
 def view_404(request):
     return render_to_response('elections/404.html')
+    
+def top(request):
+    # Nicer than a tuple, methinks
+    class Volunteer:
+        def __init__(self, user, hours):
+            self.user = user
+            self.hours = hours
+    
+    volunteers = []
+    logs = LogCluster.objects.order_by('user__username')
+    prev_user = None
+    prev_hours = 0
+    for log in logs:
+        user = log.user
+        if user != prev_user:
+            if prev_user is not None:
+                volunteers.append(Volunteer(prev_user, prev_hours))
+                #value += prev_user.username + " " + str(prev_hours) + "<br/>"
+            prev_user = user
+            prev_hours = log.hours
+        else:
+            prev_hours += log.hours
+    volunteers = sorted(volunteers, key=lambda volunteer: -volunteer.hours)[:20]
+
+    return render_to_response('ccc/top.html', {'volunteers': volunteers})
+
+def all_hours(request):
+    # Nicer than a tuple, methinks
+    class Volunteer:
+        def __init__(self, user, hours):
+            self.user = user
+            self.hours = hours
+    
+    volunteers = []
+    logs = LogCluster.objects.order_by('user__username')
+    prev_user = None
+    prev_hours = 0
+    for log in logs:
+        user = log.user
+        if user != prev_user:
+            if prev_user is not None:
+                volunteers.append(Volunteer(prev_user, prev_hours))
+                #value += prev_user.username + " " + str(prev_hours) + "<br/>"
+            prev_user = user
+            prev_hours = log.hours
+        else:
+            prev_hours += log.hours
+    volunteers = sorted(volunteers, key=lambda volunteer: -volunteer.hours)
+    
+    value = ""
+    for volunteer in volunteers:
+        value += volunteer.user.username + " " + str(volunteer.hours) + "<br/>"
+
+    return HttpResponse(value)
+    #return render_to_response('ccc/top.html', {'volunteers': volunteers})
   
 '''
 OLD CODE BEFORE THEY CHANGED THE SPECS >:|

@@ -15,14 +15,14 @@ class LogClusterAdmin(admin.ModelAdmin):
         (None, {'fields': ['user', 'date_start', 'date_end', 'project', 'hours']})
     ]
     list_display = ('user', 'project', 'date_start', 'hours')
-    search_fields = ['project', 'user']
+    search_fields = ['user__username']
             
 class ProjectRequestAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['user', 'project', 'description', 'coordinator_name', 'coordinator_email']})
     ]
     list_display = ('project', 'user')
-    search_fields = ['project', 'user']
+    search_fields = ['project']
     actions = ['approve_project']
     
     def approve_project(self, request, queryset):
