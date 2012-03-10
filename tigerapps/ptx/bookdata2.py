@@ -15,8 +15,18 @@ from django.conf import settings
 from ptx.models import Offer, Book, Course, User
 from ptx.labyrinth import labyrinthprice
 
+<<<<<<< HEAD
 ACCESS_KEY = 'AKIAI3TICBLED3J2YH6A'
 SECRET_KEY = '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'
+=======
+try:
+    from ptx.local_settings import *
+except ImportError, exp:
+    print "Couldn't import local_settings: Passwords may be missing"
+
+#ACCESS_KEY = HIDDEN; see imports
+#SECRET_KEY = HIDDEN; see imports
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # Fill in the ISBN in keys "ItemId" and "Keywords".
 BY_ISBN = dict(Service='AWSECommerceService',

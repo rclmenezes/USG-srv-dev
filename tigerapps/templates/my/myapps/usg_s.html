@@ -2,14 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<<<<<<< HEAD
 	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+=======
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
 	<link rel="stylesheet" href="/media/my/myapp/css/usg_s.css" type="text/css" media="screen" charset="utf-8" />
 	<title>USG</title>
 	<script>
 		function get_rss_feed() {
 			//use the JQuery get to grab the URL from the selected item, put the results in to an argument for parsing in the inline function called when the feed retrieval is complete
+<<<<<<< HEAD
 	$.get('/proxy?url=http://usg.princeton.edu/index.php?format=feed&type=rss&amp;chan=y&amp;desc=1', function(d) {
+=======
+	$.get('http://my.tigerapps.org/proxy?url=http://usg.princeton.edu/index.php?format=feed&type=rss&amp;chan=y&amp;desc=1', function(d) {
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 				var i = 0;
 				$('#loading').hide();
 					//find each 'item' in the file and parse it
