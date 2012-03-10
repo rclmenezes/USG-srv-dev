@@ -59,7 +59,7 @@ def checkin_dvd(request):
         for dvd_id in dvd_list:
             dvd = DVD.objects.get(pk=dvd_id)
             dvd.amountLeft += 1
-            #dvd.save()
+            dvd.save()
             
             if dvd.amountTotal - dvd.amountLeft > 1:
                 ambiguous_list.append(dvd)
@@ -68,7 +68,7 @@ def checkin_dvd(request):
                 rental_list = Rental.objects.filter(dateReturned=None, dvd=dvd)
                 for rental in rental_list:
                     rental.dateReturned = datetime.datetime.now()
-                    #rental.save()
+                    rental.save()
                 
         if len(ambiguous_list) == 0:
             confirm = "The following DVDs have been checked in: " + str(checked_list)
