@@ -1,12 +1,12 @@
 {# Event poster #}
 
 {% if club.picture %}
-<div class="club_picture" style="text-align: center; float: left; width: 300px;"><img class="picture" alt="" src="http://social.tigerapps.org/{{ club.picture.url }}" style="display: block;"/></div>
+<div class="club_picture" style="text-align: center; float: left; width: 300px;"><img class="picture" alt="" src="http://pam.tigerapps.org/{{ club.picture.url }}" style="display: block;"/></div>
 {% endif %}
 
 <div class="club_about" style="float: right; width: 550px;">
 	<h3 style="font-weight: bold; font-size: 18px; padding-bottom: 5px;">About</h3>
-	{{ club.about|linebreaksbr }}
+	{{ club.about|safe }}
 	<br/>
 	<h3 style="font-weight: bold; font-size: 18px; padding-bottom: 5px;">Upcoming Events</h3>
 	<table>

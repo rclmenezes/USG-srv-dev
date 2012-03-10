@@ -1,4 +1,4 @@
-{% extends "social/base.html" %}
+{% extends "pam/base.html" %}
 
 {% block javascript %}
 	$('.club').each(function() {
@@ -130,7 +130,7 @@
 		<div class="clearfix"></div>
 		<div id="overlay-inside"></div>
 	</div>
-	<img src="/media/social/images/map.png" style="margin: 0; border: solid 1px black; position: relative;"/>	<br/>
+	<img src="/media/pam/images/map.png" style="margin: 0; border: solid 1px black; position: relative;"/>	<br/>
 
 	{% for key, entry in club_list.items %}
 		<div class="club" id="{{ entry.0.name }}" style="position: absolute; left: {{ entry.0.left_offset }}px; top: {{ entry.0.top_offset }}px; z-index: 20;">
