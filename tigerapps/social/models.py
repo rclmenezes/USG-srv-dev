@@ -8,6 +8,7 @@ class SocUser(models.Model):
     pustatus = models.CharField(max_length=20, null=True, blank=True) # undergraduate or graduate
     puclassyear = models.IntegerField('Class Year', null=True, blank=True) # puclassyear
     officer_at = models.ForeignKey('Club', null=True, blank=True)
+    is_president = models.BooleanField(default=False)
 
 class Club(models.Model):
     club_id = models.AutoField(primary_key=True)

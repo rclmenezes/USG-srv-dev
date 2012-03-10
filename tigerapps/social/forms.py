@@ -10,7 +10,7 @@ class EventForm(forms.ModelForm):
     
     class Meta:
         model=Event
-        fields = ('entry', 'entry_description', 'title', 'description', 'poster', 'time_start', 'time_end')
+        fields = ('entry', 'entry_description', 'time_start', 'time_end', 'title', 'description', 'poster')
         
     def clean_time_start(self):
         time_start = self.cleaned_data['time_start']

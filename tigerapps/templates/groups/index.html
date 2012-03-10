@@ -42,7 +42,7 @@ Princeton Student Groups is a forum for the many different student-run organizat
 	    
 	    {% if e.event %}
 	    <div class="post_event">
-	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="/{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
+	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
 	    <span class="post_event_title">Event: <a target="_blank" href="{{e.event.get_absolute_url}}">{{e.event}}</a></span><br/>
 	    <span class="post_event_description"><strong>Description:</strong> {{e.event.event_cluster.cluster_description|slice:":80"}}{% if e.event.event_cluster.cluster_description|slice:"80:" %} ...{% endif %}</span>
 	    {% if e.event.event_cluster.cluster_image %}<div class="clear"></div>{% else %}<br/>{% endif %}

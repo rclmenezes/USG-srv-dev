@@ -165,7 +165,7 @@ ul.errorlist li
     color: red;
 }
 
-a#exit-overlay:hover
+a#exit-overlay:hover, a.about-link:hover
 {
     cursor: pointer;
 }
