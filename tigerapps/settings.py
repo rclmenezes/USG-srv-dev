@@ -124,5 +124,5 @@ INSTALLED_APPS = (
     'elections',
     'facebook',
     'album',
-    'social'
+    'pam'
 )
