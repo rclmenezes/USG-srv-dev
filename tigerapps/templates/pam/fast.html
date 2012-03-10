@@ -1,0 +1,150 @@
+<script>
+	$(document).ready(function() {
+		$('.club').each(function() {
+			$this = $(this);
+			if ($this.find('.events').length != 0)
+			{
+				if ($this.find('.event_poster').length != 0)
+				{
+					$this.addClass("poster");
+				}
+				else
+				{
+					$this.addClass("no_poster");
+				}
+			}
+		});
+	
+		$('div.poster').each(function() {
+			$(this).qtip({
+		        content: {
+					text: $(this).find('.events').html(),
+					title: {
+						text: "<a class='club-link' value='" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
+					    button: "X"
+					}
+				},
+				position: {
+					adjust: {
+						method: "flip flip"
+					},
+					at: "right center",
+					my: "left center",
+					viewport: $(window)
+				},
+				show: {
+					solo: true,
+					event: "mouseover"
+				},
+				hide: {
+					delay: 150,
+					fixed: true,
+					event: "mouseout"
+				},
+				style: {
+					width: 550,
+					tip: true,
+					classes: "ui-tooltip-light"
+				},
+				events: {
+					render: function (event, api) { api.elements.content.find('a.poster').fancybox().click(api.hide); }
+				}
+			 });
+		});
+
+		$('div.no_poster').each(function() {
+			$(this).qtip({
+		        content: {
+					text: $(this).find('.events').html(),
+					title: {
+						text: "<a class='club-link' value='" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
+					    button: "X"
+					}
+				},
+				position: {
+					adjust: {
+						method: "flip flip"
+					},
+					at: "right center",
+					my: "left center",
+					viewport: $(window)
+				},
+				show: {
+					solo: true,
+					event: "mouseover"
+				},
+				hide: {
+					delay: 150,
+					fixed: true,
+					event: "mouseout"
+				},
+				style: {
+					width: 300,
+					tip: true,
+					classes: "ui-tooltip-light"
+				},
+				events: {
+					render: function (event, api) { api.elements.content.find('a.poster').fancybox().click(api.hide); }
+				}
+			 });
+		});
+
+		$('.club').hover(function(){
+			$(this).find('img.selected').css('display', 'block');
+			$(this).find('img.default').css('display', 'none');
+		}, function() {
+			$(this).find('img.selected').css('display', 'none');
+			$(this).find('img.default').css('display', 'block');
+		});
+	});
+</script>
+
+{% for key, entry in club_list.items %}
+	<div class="club" id="{{ entry.0.name }}" style="position: absolute; left: {{ entry.0.left_offset }}px; top: {{ entry.0.top_offset }}px; z-index: 20;">
+	{% if entry.1 %}
+		<div class="events">
+			{% for event in entry.1 %}
+				{# Event poster #}
+				{% if event.poster %}
+				<div class="event_poster" style="text-align: center;"><a class="poster" href="http://pam.tigerapps.org/{{ event.poster.url }}"><img class="poster" alt="" src="http://pam.tigerapps.org/{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
+				{% endif %}
+
+				{# Event title #}
+				{% if event.title %}
+					<div class="event_title"><a class="event-link" value="{{ event.event_id }}" >{{ event.title }}</a></div>
+				{% else %}
+					<div class="event_title"><a class="event-link" value="{{ event.event_id }}" >{{ event.club.name }} {{ event.time_start|date:"l" }}</a></div>
+				{% endif %}
+
+				{# Event time #}
+				<div class="event_time">{{ event.time_start|time:"P" }} - {{ event.time_end|time:"P" }}</div>
+
+				{# Event entry information #}
+				{% ifnotequal event.entry 'Cu' %}<div class="event_entry">{{ event.get_entry_display }}{% if event.entry_description %}{% ifequal event.entry 'Pa' %}: {{ event.entry_description }}{% endifequal %}{% ifequal event.entry 'Mp' %}{{ event.entry_description }}{% endifequal %}{% endif %}</div>{% endifnotequal %}
+
+				{# Pass description #}
+				{% ifnotequal event.entry 'Mp' %}
+					{% ifnotequal event.entry 'Pa' %}
+					<div class="event_entry_description">{{ event.entry_description }}</div>
+					{% endifnotequal %}
+				{% endifnotequal %}
+
+				{# Event description #}
+				<div class="event_description">{{ event.description|linebreaksbr }}</div>
+				
+				{% ifequal user.officer_at event.club %}
+				<br/>
+				<a class="event-edit" value="{{ event.event_id }}">Edit this event</a><br/>
+				<a class="event-delete" value="{{ event.event_id }}" onclick="confirm_delete({{ event.event_id }})">Delete this event</a>
+				{% endifequal %}
+				
+			{% endfor %}
+		</div>
+		<img class="default" src="http://pam.tigerapps.org/{{ entry.0.active.url }}" width={{ entry.0.width }}px  />
+		<img class="selected" src="http://pam.tigerapps.org/{{ entry.0.active_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+	{% else %}
+		<img class="default" src="http://pam.tigerapps.org/{{ entry.0.inactive.url }}" width={{ entry.0.width }}px  />
+		<img class="selected" src="http://pam.tigerapps.org/{{ entry.0.inactive_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+	{% endif %}
+	</div>
+{% endfor %}

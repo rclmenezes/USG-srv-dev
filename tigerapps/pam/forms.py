@@ -1,5 +1,5 @@
 from django import forms
-from social.models import *
+from pam.models import *
 from datetime import datetime, timedelta
 
 goodInputs = ('%m/%d/%Y %I:%M %p','%m/%d/%Y %I:%M%p', '%m/%d/%Y')

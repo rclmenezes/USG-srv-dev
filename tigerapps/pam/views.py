@@ -1,6 +1,6 @@
-from social.models import *
+from pam.models import *
 from ttrade.search import get_query
-from social.forms import EventForm
+from pam.forms import EventForm
 from dsml import gdi
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, HttpResponseForbidden
@@ -25,7 +25,7 @@ def check_undergraduate(username):
 @login_required  
 def search(request):
     # Check if user can be here
-    if not check_undergraduate(request.user.username) or not request.is_ajax():
+    if not check_undergraduate(request.user.username):# or not request.is_ajax():
         return HttpResponseForbidden()
         
     if 'search' in request.GET:
@@ -33,7 +33,7 @@ def search(request):
         if query != "" and query.strip() != "": 
             event_list = Event.objects.filter(get_query(query, ['title', 'description', 'club__name'])).order_by('-time_start')
             
-            return render_to_response('social/search.html', {'event_list': event_list})
+            return render_to_response('pam/search.html', {'event_list': event_list})
         
     return HttpResponseForbidden()
 
@@ -75,7 +75,7 @@ def night(request, month, day, year):
     next_week = target_day + timedelta(days=7)
     prev_week = target_day - timedelta(days=7)
     
-    return render_to_response('social/base.html', {'club_list': club_list, 'next_week': next_week, 'prev_week': prev_week, 'target_day': target_day, 'days': days, 'user': user})
+    return render_to_response('pam/base.html', {'club_list': club_list, 'next_week': next_week, 'prev_week': prev_week, 'target_day': target_day, 'days': days, 'user': user})
 
 @login_required  
 def fast(request, month, day, year):
@@ -115,7 +115,7 @@ def fast(request, month, day, year):
     next_week = target_day + timedelta(days=7)
     prev_week = target_day - timedelta(days=7)
 
-    return render_to_response('social/fast.html', {'club_list': club_list, 'next_week': next_week, 'prev_week': prev_week, 'days': days, 'user': user})
+    return render_to_response('pam/fast.html', {'club_list': club_list, 'next_week': next_week, 'prev_week': prev_week, 'days': days, 'user': user})
 
 
 @login_required  
@@ -126,7 +126,7 @@ def event(request, event_id):
         
     event = Event.objects.get(event_id=event_id)
     
-    return render_to_response('social/event.html', {'event': event, 'user': user})
+    return render_to_response('pam/event.html', {'event': event, 'user': user})
     
 @login_required  
 def club(request, club_name):
@@ -138,12 +138,12 @@ def club(request, club_name):
     now = datetime.now()
     event_list = Event.objects.filter(club=club, time_end__gt=now)
 
-    return render_to_response('social/club.html', {'club': club, 'event_list': event_list, 'user': user})
+    return render_to_response('pam/club.html', {'club': club, 'event_list': event_list, 'user': user})
     
 @login_required  
 def event_add(request):
     user = check_undergraduate(request.user.username)
-    if not user or not request.is_ajax() or not user.officer_at:
+    if not user:# or not request.is_ajax() or not user.officer_at:
         return HttpResponseForbidden()
     
     event_form = EventForm()
@@ -153,14 +153,14 @@ def event_add(request):
             event = event_form.save(commit=False)
             event.club = user.officer_at
             event.save()
-            return render_to_response('social/event.html', {'event': event, 'user': user})
+            return render_to_response('pam/event.html', {'event': event, 'user': user})
 
-    return render_to_response('social/event_add.html', {'user': user, 'event_form': event_form})
+    return render_to_response('pam/event_add.html', {'user': user, 'event_form': event_form})
     
 @login_required  
 def event_edit(request, event_id):
     user = check_undergraduate(request.user.username)
-    if not user or not request.is_ajax() or not user.officer_at:
+    if not user:# or not request.is_ajax() or not user.officer_at:
         return HttpResponseForbidden()
         
     event = get_object_or_404(Event, event_id=event_id, club=user.officer_at)
@@ -168,26 +168,66 @@ def event_edit(request, event_id):
         event_form = EventForm(request.POST, request.FILES, instance=event)
         if event_form.is_valid():
             event = event_form.save()
-            return render_to_response('social/event.html', {'event': event, 'user': user})
+            return render_to_response('pam/event.html', {'event': event, 'user': user})
     
     event_form = EventForm(instance=event)
-    return render_to_response('social/event_add.html', {'user': user, 'event': event, 'event_form': event_form})
+    return render_to_response('pam/event_add.html', {'user': user, 'event': event, 'event_form': event_form})
     
 @login_required  
 def event_delete(request, event_id):
     user = check_undergraduate(request.user.username)
-    if not user or not request.is_ajax() or not user.officer_at:
+    if not user:# or not request.is_ajax() or not user.officer_at:
         return HttpResponseForbidden()
 
-    event = get_object_or_404(Event, event_id=event_id, club=user.officer_at)
+    event = Event.objects.get(event_id=event_id)
 
     event.delete()
 
     return HttpResponse("Your event has been deleted.")
-
+    
 @login_required
 def about(request):
-    return render_to_response('social/about.html')
+    return render_to_response('pam/about.html')
 
-def forbidden(request):
-    return HttpResponse("Nein!")
+'''
+# See description and picture and picture
+# If officer, see edit description and add event
+@login_required  
+def club(request, club):
+    # Check if user can be here
+    if not check_undergraduate(request.user.username):
+        return HttpResponseForbidden()
+    
+    club = Club.objects.get(slug=club)
+    return HttpResponse(club.name + "<br/>" + club.about)
+    
+@login_required  
+def event(request, event_id):
+    # Check if user can be here
+    if not check_undergraduate(request.user.username):
+        return HttpResponseForbidden()
+        
+    days = []
+    target_day = datetime.now()
+    if target_day.weekday() != 6:
+        week_start = target_day - timedelta(days=target_day.weekday() + 1)
+    else:
+        week_start = target_day
+    for i in range(0,7):
+        if target_day.weekday() == i-1 or (target_day.weekday() == 6 and i == 0):
+            days.append((week_start + timedelta(days=i), True))
+        else:
+            days.append((week_start + timedelta(days=i), False))
+
+    next_week = target_day + timedelta(days=7)
+    prev_week = target_day - timedelta(days=7)
+    
+    return render_to_response('pam/event.html', {'next_week': next_week, 'prev_week': prev_week, 'days': days})
+        
+@login_required  
+def add_event(request, event_id):
+    # Check if user can be here
+    if not check_undergraduate(request.user.username):
+        return HttpResponseForbidden()
+    return HttpResponse()
+'''

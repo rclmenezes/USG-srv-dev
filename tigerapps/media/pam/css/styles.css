@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background: #3c3c3c;
-    background-image: url("/media/social/images/image1.jpeg"), url("/media/social/images/image2.jpeg");
+    background-image: url("/media/pam/images/image1.jpeg"), url("/media/pam/images/image2.jpeg");
     background-repeat: repeat-x, repeat;
 }
 
@@ -190,6 +190,11 @@ a.event-delete
 .event_description a:hover
 {
      color: orange;
+}
+
+.club > img
+{
+    cursor: pointer;
 }
 
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
