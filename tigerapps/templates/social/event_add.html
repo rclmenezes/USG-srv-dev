@@ -1,4 +1,4 @@
-<form id="event_response" action="/event_add">
+<form id="event_response" method="post" action="{% if event %}/event_edit/{{ event.event_id }}{% else %}/event_add{% endif %}">
 {{ event_form.non_field_errors }}
 <table class="formTable">
 	{% for field in event_form %}
@@ -40,7 +40,7 @@
 	$(document).ready(function() { 
 	    // bind 'myForm' and provide a simple callback function 
 		$('form#event_response').ajaxForm({
-			url: "/event_add", 
+			url: "{% if event %}/event_edit/{{ event.event_id }}{% else %}/event_add{% endif %}", 
 			success: function(html) { 
 	        	$('#overlay-inside').html(html);
 			}
