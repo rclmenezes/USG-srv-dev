@@ -11,6 +11,37 @@
 
 	<!-- Add ALLLLL THE JAVASCRIPT!
 	http://s3.amazonaws.com/kym-assets/photos/images/original/000/140/938/responsibility12%28alternate%29.png?1309207929-->
+<<<<<<< HEAD
+	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript" src="/media/my/js/jquery-ui-1.7.2.custom.min.js" ></script>
+	<script type="text/javascript" src="/media/my/js/jquery.json-2.2.min.js" ></script>
+	<script type="text/javascript" src="/media/my/js/common.js"></script>
+	<script type="text/javascript" src="/media/my/js/subModal.js"></script>
+
+	<!-- Adding CSS -->
+	<link rel="stylesheet" type="text/css" href="/media/my/css/styles4.css" />
+	<link rel="stylesheet" type="text/css" href="/media/my/css/subModal.css" />
+	
+	<!-- Navbar -->
+	<script type="text/javascript"> 
+
+	    $(document).ready(function(){ 
+	        $("ul.sf-menu").supersubs({ 
+	            minWidth:    12,   // minimum width of sub-menus in em units 
+	            maxWidth:    27,   // maximum width of sub-menus in em units 
+	            extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+	                               // due to slight rounding differences and font-family 
+	        }).superfish({
+			speed: 'fast',
+			animation:   {opacity:'show'},
+			delay: 600
+				});  // call supersubs first, then superfish, so that subs are 
+	                         // not display:none when measuring. Call before initialising 
+	                         // containing tabs for same reason. 
+	    }); 
+
+	</script>
+=======
 	<script src="https://www.google.com/jsapi?key=ABQIAAAAdM_LVdzsW817YZhfP6Ms8xR6AUB8qP4LzdJteVVizcDpTMPGVxTeDcFdeP-MfQzuVcAXw5uIOc4ybQ" type="text/javascript"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
@@ -19,6 +50,7 @@
 	<!-- Adding CSS -->
 	<link rel="stylesheet" type="text/css" href="/media/my/css/styles4.css" />
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 	<!-- Adding javascript--> 
 	<script type="text/javascript" >
@@ -71,6 +103,9 @@
 			placeholder: 'placeholder',
 			forcePlaceholderSize: true,
 			opacity: 0.4,
+<<<<<<< HEAD
+			start: function(event, ui){  
+=======
 			start: function(event, ui){ 
 				$('.dragbox-content').each(function(i) {
 					//var current = "<!--" + $(this).html() + "-->";
@@ -83,6 +118,7 @@
 				/*$('body').css('background', 'green');*/
 				//add a mask over the Iframe to prevent IE from stealing mouse events
 				 
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 				//Firefox, Safari/Chrome fire click event after drag is complete, fix for that.
 				/*if($.browser.mozilla || $.browser.safari)  
 				{
@@ -101,6 +137,10 @@
 				}*/
 			},
 			stop: function(event, ui){  
+<<<<<<< HEAD
+				ui.item.css({'top':'0','left':'0'}); //Opera fix  
+				updateWidgetData();  
+=======
 				$('.mask').each(function(i) {
 					//alert($(this).html())
 					$(this).remove()
@@ -108,12 +148,26 @@
 				//$(ui.item).find('h2').click();
 				ui.item.css({'top':'0','left':'0'}); //Opera fix
 				updateWidgetData(); 
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 				
 				// Make sure collapse and configure are gone (Firefox fix)
 				//$(ui.item).find('h2').removeClass('collapse');
 				//$(ui.item).find('.configure').css('visibility', 'hidden');
 				
 				// Change iFrame
+<<<<<<< HEAD
+				var iframe = ui.item.find('iframe');
+				var source = iframe.attr('src')
+				var root = source.substring(0, source.indexOf('?'));
+				var newColumn = ui.item.parents('.column').attr('id');
+				root = root + "?" + newColumn + "=True";
+				if (source.search("&settings=True") != -1)
+					root = root + "&settings=True";
+				iframe.attr('src', root);
+				
+				// Swap height with other if necessary
+				if ((source.search("M=True") != -1) != (newColumn == 'M'))
+=======
 				// Ugly code is better than code that doesn't work.
 				var iframe = ui.item.find('iframe');
 				var source = iframe.attr('src');
@@ -129,6 +183,7 @@
 				
 				// Swap height with other if necessary
 				if ((source.search("/M") != -1) != (newColumn == 'M'))
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 				{
 					var height = ui.item.find('.dragbox-content').css('height');
 					var newHeight = ui.item.find('.other').html();
@@ -140,6 +195,20 @@
 		})
 		.disableSelection();
 		
+<<<<<<< HEAD
+		//////// Submodal  /////////
+		$('.add').click(function(){
+			var colID = $(this).parents('.column').attr('id');
+			showPopWin('/addMyApp/{{ orderNo }}/' + colID, 600, 500, returnRefresh);
+		});
+		$('#page_plus').click(function(){
+			showPopWin('/addPage', 275, 175, function() {
+				showPopWin('/addMyApp', 600, 500, function(){
+					var order = {{ pages }};
+					window.top.location.href = "/page/" + order;
+				});	
+			});
+=======
 		//////// modal  /////////
 		$('.add').click(function(){
 			var url = '/addMyApp/{{ orderNo }}/' + $(this).parents('.column').attr('id');
@@ -173,6 +242,7 @@
 						}
 					});
 			$("#jqui-add-page>#ifrm").attr("src", "/addPage");
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 		});
 		
 		//////// Icon actions /////////
@@ -195,6 +265,15 @@
 			var content = $(this).parents('.dragbox').find('.dragbox-content');
 			var scrolling = $(this).parents('.dragbox').find('iframe').attr('scrolling');
 			var source = $(this).parents('.dragbox').find('iframe').attr('src');
+<<<<<<< HEAD
+			if (endsWith(source, '&settings=True'))
+			{
+				source = chop(source, '&settings=True');
+				content.html('<iframe src="' + source + '" class="myapp" style="width:100%;height:100%;background-color:transparent;" scrolling="' + scrolling + '" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>');
+			}
+			else
+				content.html('<iframe src="' + source + '&settings=True" class="myapp" style="width:100%;height:100%;background-color:transparent;" scrolling="' + scrolling + '" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>');
+=======
 			if (endsWith(source, '/settings'))
 			{
 				source = chop(source, '/settings');
@@ -202,6 +281,7 @@
 			}
 			else
 				content.html('<iframe src="' + source + '/settings" class="myapp" style="width:100%;height:100%;background-color:transparent;" scrolling="' + scrolling + '" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>');
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 		});
 		
 		/////// PAGE CHANGING ////////
@@ -238,6 +318,8 @@
 					$('#clickEdit').focus();
 				}
 			}
+<<<<<<< HEAD
+=======
 			else
 			{
 				var answer = confirm("Remove this page?");
@@ -250,6 +332,7 @@
 					});
 				}
 			}
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 		});
 		
 		/////// PAGE REMOVAL//////
@@ -258,6 +341,20 @@
 		}, function(){
 			$('img.page_remove').css('visibility', 'hidden');
 		});
+<<<<<<< HEAD
+		$('img.page_remove').click(function(){
+			var answer = confirm("Remove this page?");
+			if (answer)
+			{
+				$.post('/removePage', 'orderNo={{ orderNo }}', function(response)
+				{
+					if (response=="success") 
+						window.top.location.href = "/";
+				});
+			}
+		});
+=======
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	});
 	
 	function changePageName(tabName, remove)
@@ -265,7 +362,11 @@
 		var inputValue = $('#clickEdit').attr('value');
 		// Add img if necessary
 		if (remove)
+<<<<<<< HEAD
+			var tab = '<img style="display:none;" class="page_remove" src="/media/my/images/SmallX.gif"/><span id="tabName">';
+=======
 			var tab = '<img style="visibility: hidden;" class="page_remove" src="/media/my/images/SmallX.gif"/><span id="tabName">';
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 		else
 			var tab = '<span id="tabName">';
 			
@@ -333,22 +434,28 @@
 	function returnRefresh() {
 		window.top.location.href = window.top.location.href;
 	}
+<<<<<<< HEAD
+=======
 	
 	function hideProgress(id){
 	        document.getElementById(id).style.display = 'none';
 	}
 	
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 </script>
 </head>
 
 <body>
 	{% include "main/jquery.html" %}
+<<<<<<< HEAD
+=======
 	
 	<div id="jqui-add-myapp" title="Add a MyApp" style="padding: 0; margin: 0;">
 	</div>
 	<div id="jqui-add-page" title="Add a Page" style="padding: 0; margin: 0;">
 	</div>
 	
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	<div id="wrapper">
 		<div class="top">
 			<div id="header">
@@ -373,6 +480,15 @@
 					{% for relation in column.relations %}
 					<div class="dragbox" id="{{ relation.relationID }}" >
 						<h2>
+<<<<<<< HEAD
+							<div class="arrow"><img class="is_collapsed" src="{% if relation.collapsed %}/media/my/images/right.png{% else %}/media/my/images/down.png{% endif %}" /></div>
+							<div class="title">{% if relation.myapp.link %} <a href="{{relation.myapp.link}}" style="color:white;"> {% endif %}{{ relation.myapp.name }}{% if relation.myapp.link %} </a> {% endif %} </div>
+							<span class="configure" ><img class="refresh" src="/media/my/images/refresh.png" alt="Refresh" /><img class="trash" src="/media/my/images/trash.png" alt="Remove" />{% if relation.myapp.settings %}<img class="settings" src="/media/my/images/settings.png" alt="Settings" />{% endif %}</span>
+						</h2>
+						<div class="dragbox-content" style="display:{% if relation.collapsed %}none{% endif %}; height:{% ifequal column.location 'M' %}{{ relation.myapp.mHeight }}{% else %}{{ relation.myapp.sHeight }}{% endifequal %}px;">
+							<iframe src="/myapps/{{ relation.relationID }}/?{{ column.location }}=True" class="myapp" style="width:100%;height:100%;background-color:transparent;padding:0;margin: 0;" scrolling="{% if relation.myapp.scrolling %}auto{% else %}no{% endif %}" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>
+							<!--Storage--><div class="other" style="display: none;">{% ifequal column.location 'M' %}{{ relation.myapp.sHeight }}{% else %}{{ relation.myapp.mHeight }}{% endifequal %}px</div>
+=======
 							<div class="arrow"><img class="is_collapsed" src="{% if relation.collapsed %}/media/my/images/right.png{% else %}/media/my/images/down.png{% endif %}" width="20" height="30" /></div>
 							<div class="title">{% if relation.myapp.link %} <a href="{{relation.myapp.link}}" style="color:white;"> {% endif %}{{ relation.myapp.name }}{% if relation.myapp.link %} </a> {% endif %} </div>
 							<span class="configure" ><img class="refresh" src="/media/my/images/refresh.png" alt="Refresh" /><img class="trash" src="/media/my/images/trash.png" alt="Remove" />{% if relation.myapp.settings %}<img class="settings" src="/media/my/images/settings.png" alt="Settings" />{% endif %}</span>
@@ -383,6 +499,7 @@
 							
 							<iframe src="http://my.tigerapps.org/{{ relation.relationID }}/{{ column.location }}" class="myapp" style="background-color:transparent; padding:0; margin: -2px 0 0 0;" scrolling="{% if relation.myapp.scrolling %}auto{% else %}no{% endif %}" frameborder="0" allowtransparency="true" width="100%" height="100%" onload="hideProgress('loader_{{ relation.relationID }}')"></iframe>
 							<div class="other" style="display: none;">{% ifequal column.location 'M' %}{{ relation.myapp.sHeight }}{% else %}{{ relation.myapp.mHeight }}{% endifequal %}px</div>
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 						</div>
 					</div>
 					{% endfor %}
@@ -394,7 +511,11 @@
 	</div><!--wrapper-->
 	
 	<div class="footer">
+<<<<<<< HEAD
+		<small>&copy;USG 2011 | Made by Rodrigo Menezes | Design by Rodrigo Menezes and Ed Kelley</small>
+=======
 		<small>&copy;USG 2011 | Made by <a href="mailto:rmenezes@princeton.edu" style="color:white;">Rodrigo Menezes</a> <br/> Design by Rodrigo Menezes and Ed Kelley</small>
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	</div>
 </body>
 </html>

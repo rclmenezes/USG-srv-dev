@@ -1,0 +1,178 @@
+{% extends "social/base.html" %}
+
+{% block javascript %}
+	$('.club').each(function() {
+		$this = $(this);
+		if ($this.find('.events').length != 0)
+		{
+			if ($this.find('.event_poster').length != 0)
+			{
+				$this.addClass("poster");
+			}
+			else
+			{
+				$this.addClass("no_poster");
+			}
+		}
+	});
+	
+	var qtip_poster_style = {
+	    width: 550,
+	    tip: true,
+	    padding: 11,
+        name: 'light',
+        border: {
+	        width: 5,
+	        radius: 5,
+	        color: 'orange'
+	    },
+    };
+
+	var qtip_no_poster_style = {
+	    width: 300,
+	    tip: true,
+	    padding: 11,
+        name: 'light',
+        border: {
+	        width: 5,
+	        radius: 5,
+	        color: 'orange'
+	    },
+    };
+
+	var qtip_show = {
+        when: 'mouseover',
+        solo: true
+    };
+
+	var qtip_hide = {
+ 	    delay: 150,
+ 	    fixed: true,
+        when: {
+	        event: 'mouseout'
+	    }
+    };
+
+	var qtip_position = {
+        corner: {
+            target: 'bottomMiddle', // Position the tooltip above the link 
+            tooltip: 'topMiddle'
+        },
+        adjust: {
+            screen: true // Keep the tooltip on-screen at all times
+        }
+    };
+	
+	$('.poster').each(function() {
+		$(this).qtip({
+	        content: {
+		        text: $(this).find('.events').html(),
+		        title: {
+			        text: "<a href='/club/" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
+				    button: "X"
+		        }
+		    },
+		    style: qtip_poster_style,
+		    show: qtip_show,
+		    hide: qtip_hide,
+		    position: qtip_position,
+			api: {
+			    onRender: function() {
+			        this.elements.content.find('a.poster').fancybox().click(this.hide); // Something like this
+			    }
+			}
+		 });
+	});
+	
+	$('.no_poster').each(function() {
+		$(this).qtip({
+	        content: {
+		        text: $(this).find('.events').html(),
+		        title: {
+			        text: "<a href='/club/" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
+				    button: "X"
+		        }
+		    },
+		    style: qtip_no_poster_style,
+		    show: qtip_show,
+		    hide: qtip_hide,
+		    position: qtip_position,
+			api: {
+			      onRender: function() {
+			         this.elements.content.find('.group.iframe').fancybox().click(this.hide); // Something like this
+			      }
+			}
+		 });
+	});
+	
+	// Hover over
+	$('.club').hover(function(){
+		$(this).find('img.selected').css('display', 'block');
+		$(this).find('img.default').css('display', 'none');
+	}, function() {
+		$(this).find('img.selected').css('display', 'none');
+		$(this).find('img.default').css('display', 'block');
+	});
+	
+	$('a#exit-overlay').click(function(){
+		$('#overlay').hide();
+	});
+	
+{% endblock %}
+			
+
+{% block frame %}
+
+<div id="relative" style="position: relative;">
+	<div id="overlay" style="display: block; height: 322px; width: 888px; position: absolute; background: white; z-index: 40; padding: 7px; display: none; overflow : auto;">
+		<div id="overlay-title" style="float: left;"></div>
+		<a href="#" id="exit-overlay" style="float: right;">X</a>
+		<div class="clearfix"></div>
+		<div id="overlay-inside"></div>
+	</div>
+	<img src="/media/social/images/map.png" style="margin: 0; border: solid 1px black; position: relative;"/>	<br/>
+
+	{% for key, entry in club_list.items %}
+		<div class="club" id="{{ entry.0.name }}" style="position: absolute; left: {{ entry.0.left_offset }}px; top: {{ entry.0.top_offset }}px; z-index: 20;">
+		{% if entry.1 %}
+			<div class="events">
+				{% for event in entry.1 %}
+					{# Event poster #}
+					{% if event.poster %}
+					<div class="event_poster" style="text-align: center;"><a class="poster" href="/{{ event.poster.url }}"><img class="poster" alt="" src="/{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
+					{% endif %}
+		
+					{# Event title #}
+					{% if event.title %}
+						<div class="event_title"><a href="/event/{{ event.event_id }}">{{ event.title }}</a></div>
+					{% else %}
+						<div class="event_title">{{ event.club.name }} {{ event.time_start|date:"l" }}</div>
+					{% endif %}
+			
+					{# Event time #}
+					<div class="event_time">{{ event.time_start|time:"P" }} - {{ event.time_end|time:"P" }}</div>
+			
+					{# Event entry information #}
+					{% ifnotequal event.entry 'Cu' %}<div class="event_entry">{{ event.get_entry_display }}{% if event.entry_description %}{% ifequal event.entry 'Pa' %}: {{ event.entry_description }}{% endifequal %}{% ifequal event.entry 'Mp' %}{{ event.entry_description }}{% endifequal %}{% endif %}</div>{% endifnotequal %}
+			
+					{# Pass description #}
+					{% ifnotequal event.entry 'Mp' %}
+						{% ifnotequal event.entry 'Pa' %}
+						<div class="event_entry_description">{{ event.entry_description }}</div>
+						{% endifnotequal %}
+					{% endifnotequal %}
+			
+					{# Event description #}
+					<div class="event_description">{{ event.description|safe }}</div>
+				{% endfor %}
+			</div>
+			<img class="default" src="/{{ entry.0.active.url }}" width={{ entry.0.width }}px  />
+			<img class="selected" src="/{{ entry.0.active_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+		{% else %}
+			<img class="default" src="/{{ entry.0.inactive.url }}" width={{ entry.0.width }}px  />
+			<img class="selected" src="/{{ entry.0.inactive_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+		{% endif %}
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
