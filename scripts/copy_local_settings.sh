@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Enter your username:"
+echo "Enter your username on this server:"
 read username
 home="/home/$username/USG-srv-dev"
 echo "This may overwrite any existing local_settings.py files in all subdirectories of $home. Continue? [y/n]"

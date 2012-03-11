@@ -6,10 +6,15 @@ settings.log = logging.getLogger(__name__)
 import os.path as paths
 
 ROOT = paths.dirname(__file__)
+<<<<<<< HEAD
+DEBUG = True
+TEMPLATE_DEBUG = False
+=======
 
 import socket
 DEBUG = (socket.gethostname() != 'USG')
 TEMPLATE_DEBUG = DEBUG
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 settings.CAS = 'https://fed.princeton.edu/cas/'
 LOG = '[%(asctime)s %(name)s %(levelname)s] %(message)s'
 

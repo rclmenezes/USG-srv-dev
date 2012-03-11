@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/media/my/myapp/css/printer_s.css" type="text/css" media="screen" charset="utf-8" />
+	<title>USG</title>
+	<script>
+		function get_rss_feed() {
+			//use the JQuery get to grab the URL from the selected item, put the results in to an argument for parsing in the inline function called when the feed retrieval is complete
+	$.get('http://my.tigerapps.org/proxy?url=http://campuscgi.princeton.edu/~clusters/clusterinfo.pl', function(d) {
+				var count = 0;
+				$('#loading').hide();
+				$('#feed').append(d);
+				$('#feed').find('table').hide();
+				$('#feed').find('td').each(function() {
+					if (count > 3)
+					{
+						if (count % 4 == 0)
+						{
+							
+						}
+						else if (count % 4 == 1 )
+						{
+							$('#feed').append("<div class='building'><b>" + $(this).html() + "</b></div>");
+						}
+						else if (count % 4 == 2)
+						{
+							$('#feed').append("<div class='room'>" + $(this).html() + "</div>");
+						}
+						else
+						{
+							$('#feed').append("<div class='status'>" + $(this).html() + "</div><br/>");
+						}
+					}
+					count++;
+				});
+				
+				
+					//find each 'item' in the file and parse it
+				/*$(d).find('td').each(function() {
+					$(this).find('td').each(function() {
+						var html = ""
+						if (count % 4 == 0)
+						{
+							
+						}
+						else if (count % 4 == 1) {
+							html = '<div class="building">' + $(this).html() + '</div><br/>';
+						}
+						else if (count % 4 == 2) {
+							html = '<div class="location">' + $(this).html() + '</div><br/>';
+						}
+						else {
+							html = '<div class="status">' + $(this).html() + '</div><br/><br/>';
+						}
+						alert(html);
+						$('#feed').append(html); 
+						count++;
+					});
+					/*name the current found item this for this particular loop run
+					var $item = $(this);
+					// grab the post title
+					var title = $item.find('title').text();
+					// grab the post's URL
+					var link = $item.find('guid').text();
+					// next, the description
+					var description = $item.find('description').text();
+					$('.description img').removeAttr('height');
+					$('.description img').attr('width', '400');
+					$('object').removeAttr('height');
+					$('object').attr('width', '400');
+					$('embed').removeAttr('height');
+					$('embed').attr('width', '400');
+
+					// now create a var 'html' to store the markup we're using to output the feed to the browser window
+					var html = "<a href=\"" + link + "\" target=\"_blank\"><div class=\"entry\"><h2 class=\"postTitle\">" + title + "</h2>";
+					html += "<\/div><\/a>";
+				
+					//put that feed content on the screen!
+					if (i < 10)
+						$('#feed').append($(html)); 
+					i++; */
+			});		
+		};
+		
+		$(document).ready(function() {
+	   		get_rss_feed();
+	
+			$(".building").click(function() {
+			  $("html").animate({ scrollTop: $(document).height() }, "slow");
+			  return false;
+			});
+	
+	 	});
+	</script>
+</head>
+<body>
+	<div id="feed"><img id="loading" src="/media/my/images/loading_transparent.gif" style="display: block; margin: 100px auto;" /></div>
+</body>
+</html>

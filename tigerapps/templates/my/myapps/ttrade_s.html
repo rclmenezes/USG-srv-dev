@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="/media/my/myapp/css/usg_s.css" type="text/css" media="screen" charset="utf-8" />
+	<title>USG</title>
+	<script>
+		function get_rss_feed() {
+			//use the JQuery get to grab the URL from the selected item, put the results in to an argument for parsing in the inline function called when the feed retrieval is complete
+	$.get('http://my.tigerapps.org/proxy?url=http://ttrade.tigerapps.org/feeds/new', function(d) {
+				var i = 0;
+				$('#loading').hide();
+					//find each 'item' in the file and parse it
+				$(d).find('item').each(function() {
+
+					//name the current found item this for this particular loop run
+					var $item = $(this);
+					// grab the post title
+					var title = $item.find('title').text();
+					// grab the post's URL
+					var link = $item.find('guid').text();
+					// next, the description
+					var description = $item.find('description').text();
+					$('.description img').removeAttr('height');
+					$('.description img').attr('width', '400');
+					$('object').removeAttr('height');
+					$('object').attr('width', '400');
+					$('embed').removeAttr('height');
+					$('embed').attr('width', '400');
+					//don't forget the pubdate
+					var pubDate = $item.find('pubDate').text();
+					var s_length = pubDate.length;
+					pubDate = pubDate.substring(0, s_length-5);
+
+					// now create a var 'html' to store the markup we're using to output the feed to the browser window
+					var html = "<a href=\"" + link + "\" target=\"_blank\"><div class=\"entry\"><h2 class=\"postTitle\">" + title + "</h2>";
+					html += "<em class=\"date\">" + pubDate + "</em><br/>";
+					html += "<\/div><\/a>";
+				
+					//put that feed content on the screen!
+					if (i < 10)
+						$('#feed').append($(html)); 
+					i++; 
+				});
+			});		
+		};
+		
+		$(document).ready(function() {
+	   		get_rss_feed();
+	 	});
+	</script>
+</head>
+<body>
+	<div id="feed"><img id="loading" src="/media/my/images/loading_transparent.gif" style="display: block; margin: 100px auto;" /></div>
+</body>
+</html>
