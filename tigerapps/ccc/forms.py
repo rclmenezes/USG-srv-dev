@@ -3,7 +3,11 @@ from ccc.models import *
 from datetime import date, timedelta
 
 DateInputs = ('%m/%d/%Y',)
+<<<<<<< HEAD
+ccc_start = date(month=10, day=10, year=2011)
+=======
 ccc_start = date(month=10, day=29, year=2011)
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
  
 class LogClusterForm(forms.ModelForm):
     date_start = forms.DateField(label='Start Date', input_formats=DateInputs, widget=forms.DateInput(format='%m/%d/%Y'))

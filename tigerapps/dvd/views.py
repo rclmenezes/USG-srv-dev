@@ -71,7 +71,6 @@ def checkin_dvd(request):
                 for rental in rental_list:
                     rental.dateReturned = datetime.datetime.now()
                     rental.save()
-                
         if len(ambiguous_list) == 0:
             confirm = "The following DVDs have been checked in: " + str(checked_list)
             return render_to_response('dvd/confirm.html', {'title': "Success!", 'confirm': confirm})
@@ -121,7 +120,6 @@ def checkin_dvd(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def checkin_dvdlist(request):
-    #2/28/2012: Doesn't work, purpose unclear
     dvdList = DVD.objects.filter(amountLeft__lt=amountTotal)
 
     return render_to_response('dvd/checkindvd.html', {'dvdList': dvdList})

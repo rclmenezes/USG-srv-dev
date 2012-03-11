@@ -88,6 +88,8 @@ def log_hours(request):
 # For non-blog posts    
 def view_404(request):
     return render_to_response('elections/404.html')
+<<<<<<< HEAD
+=======
     
 def top(request):
     # Nicer than a tuple, methinks
@@ -143,6 +145,7 @@ def all_hours(request):
 
     return HttpResponse(value)
     #return render_to_response('ccc/top.html', {'volunteers': volunteers})
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
   
 '''
 OLD CODE BEFORE THEY CHANGED THE SPECS >:|
