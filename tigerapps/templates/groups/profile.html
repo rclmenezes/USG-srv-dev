@@ -121,11 +121,7 @@
     {% if files %}<table style="color:black;"><tr><td><strong>Files:</strong></td>{% for f in files %}{% if not forloop.first %}<tr><td></td>{% endif %}<td style="padding-left:10px;"><a href="/media/{{f.file}}">{{f}}</a></td></tr>{% endfor %}</table><br/>{% endif %}
   </div>
 
-<<<<<<< HEAD
-{% if group.image %}<div class="group_img"><a href="/{{group.image.url}}"><img src="/{{group.image.url}}"/></a></div>{% endif %}
-=======
 {% if group.image %}<div class="group_img"><a href="{{group.image.url}}"><img src="{{group.image.url}}"/></a></div>{% endif %}
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
   <div id="group_feed">
     <div class="header">
@@ -143,11 +139,7 @@
 
 	  {% if e.event %}
 	  <div class="post_event">
-<<<<<<< HEAD
-	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="/{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
-=======
 	    {% if e.event.event_cluster.cluster_image %}<a target="_blank" href="{{e.event.get_absolute_url}}"><img src="{{e.event.event_cluster.cluster_image.thumbnail.url}}" class="post_event_img"/></a>{% endif %}
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	    <span class="post_event_title">Event: <a target="_blank" href="{{e.event.get_absolute_url}}">{{e.event}}</a></span><br/>
 	    <span class="post_event_description"><strong>Description:</strong> {{e.event.event_cluster.cluster_description|slice:":80"}}{% if e.event.event_cluster.cluster_description|slice:"80:" %} ...{% endif %}</span>
 	    {% if e.event.event_cluster.cluster_image %}<div class="clear"></div>{% else %}<br/>{% endif %}

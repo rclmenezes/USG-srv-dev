@@ -18,11 +18,7 @@
 	{% for group in groups %}
 	{% ifequal group.sort_letter letter %}	
 	<div class="group_box">
-<<<<<<< HEAD
-	  <a href="/groups/{{group.url}}/">{% if group.image %}<img class="group_box_pic" src="/{{group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
-=======
 	  <a href="/groups/{{group.url}}/">{% if group.image %}<img class="group_box_pic" src="{{group.image.thumbnail.url}}">{% else %}<img src="/media/groups/noimage.jpeg" width="100" height="75" class="group_box_pic">{% endif %}</a>
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	  <div class="group_box_right">
 	    {% if user %}<span class="group_box_status">
 	      {% for key, value in affil.items %}{% ifequal key group.id %}{% autoescape off %}{{value}}{% endautoescape %}{% endifequal %}{% endfor %}

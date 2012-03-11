@@ -1,9 +1,5 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-<<<<<<< HEAD
-import os.path
-=======
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 from ptx.offer import *
 #from ptx.request import *

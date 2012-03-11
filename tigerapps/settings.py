@@ -1,12 +1,5 @@
 # Django settings for tigerapps project.
 import os
-<<<<<<< HEAD
-# Email/Database settings (sensitive info)
-try:
-    from local_settings import *
-except ImportError, exp:
-    pass
-=======
 import sys
 # Email/Database settings (sensitive info)
 try:
@@ -14,28 +7,12 @@ try:
 except ImportError, exp:
     print "Error: Couldn't import local_settings; missing passwords and other local data"
 
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-<<<<<<< HEAD
-    ('Rodrigo Menezes', 'rmenezes@princeton.edu')
-)
-
-MANAGERS = ADMINS
-
-DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'tigerapps'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'tigerapps'             # Not used with sqlite3.
-#DATABASE_PASSWORD = HIDDEN; see imports
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
-os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs'
-=======
     ('Rodrigo Menezes', 'rmenezes@princeton.edu'),
 )
 MANAGERS = ADMINS
@@ -63,7 +40,6 @@ SITE_ID = 1
 SECRET_KEY = local_settings.SECRET_KEY
 
 
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -78,22 +54,6 @@ TIME_ZONE = 'America/New_York'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-<<<<<<< HEAD
-SITE_ID = 1
-
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
-USE_I18N = True
-
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = "/srv/tigerapps/media"
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'media/'
-=======
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = False
@@ -107,17 +67,10 @@ MEDIA_ROOT = CURRENT_DIR + "/media/"
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-<<<<<<< HEAD
-ADMIN_MEDIA_PREFIX = '/media/'
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '99rbp*vbxo&websxyh^^zr1_ygly&1&2qr#^1d3c8ca2e+z1@x'
-=======
 #TODO: doesn't work since django.contrib.staticfiles added
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
@@ -128,7 +81,6 @@ STATICFILES_DIRS = (
 )
 
 
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -141,21 +93,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-<<<<<<< HEAD
-=======
 #    'django.contrib.csrf.CsrfViewMiddleware',
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
     'middleware.SubdomainsMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-<<<<<<< HEAD
-    '/srv/tigerapps/templates',
-=======
     CURRENT_DIR + '/templates',
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 )
 
 INSTALLED_APPS = (
@@ -166,10 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.humanize',
-<<<<<<< HEAD
-=======
     'django.contrib.staticfiles',
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
     'cal',
     'dvd',
     'ptx',
@@ -182,9 +124,5 @@ INSTALLED_APPS = (
     'elections',
     'facebook',
     'album',
-<<<<<<< HEAD
-    'social'
-=======
     'pam'
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 )
