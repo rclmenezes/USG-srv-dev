@@ -2,7 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<<<<<<< HEAD
+	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+=======
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 	<script type="text/javascript" src="/media/my/myapp/js/slider.js" ></script>
 	<link rel="stylesheet" href="/media/my/css/myapp.css" type="text/css" media="screen" charset="utf-8" />
 	<link rel="stylesheet" href="/media/my/myapp/css/usg_m.css" type="text/css" media="screen" charset="utf-8" />
@@ -11,6 +15,13 @@
 	<script>
 		json = [
 		{% for image in image_list %}
+<<<<<<< HEAD
+			{"src":"http://dev.cal.tigerapps.org/media/{{ image.event_cluster.cluster_image }}", "link":"http://dev.cal.tigerapps.org/events/{{ image.event_id }}", "name":"{{ image.event_cluster.cluster_title }}"},
+		{% endfor %}
+		]
+	
+		$(document).ready(function() {
+=======
 			{"src":"http://cal.tigerapps.org/media/{{ image.event_cluster.cluster_image }}", "link":"http://cal.tigerapps.org/events/{{ image.event_id }}", "name":"{{ image.event_cluster.cluster_title }}"},
 		{% endfor %}
 		]
@@ -59,6 +70,7 @@
 	
 		$(document).ready(function() {
 			get_rss_feed();
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 			var slider = new Slider('#sliderContainer').setDuration(3000);
 		    slider.setSize(412, 227);
 		    slider.setPhotos(json);
@@ -67,6 +79,12 @@
 </head>
 <body>
 	<div id="sliderContainer" style="margin: 2px auto 0; display: block; width: 412px;"></div>
+<<<<<<< HEAD
+	<div id="event_list" style="margin: 5px 10px 0;">
+		
+	</div>
+=======
 	<div id="feed" style="margin: 5px 10px 0;"><img id="loading" src="/media/my/images/loading_transparent.gif" style="display: block; margin: 100px auto;" /></div>
+>>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 </body>
 </html>
