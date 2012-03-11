@@ -7,14 +7,13 @@
 	<link rel="icon" 
 	      type="image/ico" 
 	      href="/media/images/favicon.ico">
-	<title>Prospect Social Map</title>
+	<title>USG Social Map</title>
 
 	<!-- Adding CSS -->
-	<link rel="stylesheet" type="text/css" href="/media/social/css/default.css" /><!-- Browser compatibility -->
+	<link rel="stylesheet" type="text/css" href="/media/social/css/default.css" />
 	<link rel="stylesheet" type="text/css" href="/media/social/css/styles.css" />
-	<link rel="stylesheet" type="text/css" href="/media/social/css/jquery.qtip.css" />
+	<!--<link rel="stylesheet" type="text/css" href="/media/social/css/jquery.qtip.css" />-->
 	<link rel="stylesheet" href="/media/social/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" type="text/css" media="screen" />
 	<!--[if IE]>
 	<style type="text/css">
 	  .clearfix {
@@ -23,13 +22,10 @@
 	</style>
 	<![endif]-->
 	
-		<script src="http://www.google.com/jsapi"></script>
-		<script>google.load("jquery", "1");</script>
-		<script>google.load("jqueryui", "1");</script>
-		<script type="text/javascript" src="/media/social/js/jquery.qtip.min.js"></script>
+	<!-- Load the Mootools Framework -->
+		<script src="http://www.google.com/jsapi"></script><script>google.load("jquery", "1");</script>
+		<script type="text/javascript" src="/media/social/js/tooltip.js"></script>
 		<script type="text/javascript" src="/media/social/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-		<script type="text/javascript" src="/media/social/js/jquery-ui-timepicker-addon.js"></script>
-		<script type="text/javascript" src="/media/social/js/jquery.form.js"></script>
 		<script type="text/javascript">
 		
 		function handleKeyPress(e,input)
@@ -42,24 +38,10 @@
 				  data: "search=" + input,
 				  success: function(html){
 					$('#overlay-inside').html(html);
-					$('h2#overlay-title').html("Search Results");
+					$('h2#overlay-title').html("Search");
 				    $('#overlay').show();
 				  }
 				});
-			}
-		}
-		
-		function confirm_delete(event_id)
-		{
-			var r=confirm("Are you sure you want to delete this event?");
-			if (r==true)
-			 {
-			      $.ajax({
-				  url: "/event_delete/" + event_id,
-				  success: function(html){
-					window.location.reload();
-				  	}
-				  });
 			}
 		}
 		
@@ -80,76 +62,91 @@
 				}
 			});
 
-			$('div.poster').each(function() {
+			var qtip_poster_style = {
+			    width: 550,
+			    tip: true,
+			    padding: 11,
+		        name: 'light',
+		        border: {
+			        width: 5,
+			        radius: 5,
+			        color: 'orange'
+			    },
+		    };
+
+			var qtip_no_poster_style = {
+			    width: 300,
+			    tip: true,
+			    padding: 11,
+		        name: 'light',
+		        border: {
+			        width: 5,
+			        radius: 5,
+			        color: 'orange'
+			    },
+		    };
+
+			var qtip_show = {
+		        when: 'mouseover',
+		        solo: true
+		    };
+
+			var qtip_hide = {
+		 	    delay: 150,
+		 	    fixed: true,
+		        when: {
+			        event: 'mouseout'
+			    }
+		    };
+
+			var qtip_position = {
+		        corner: {
+		            target: 'rightMiddle', // Position the tooltip above the link 
+		            tooltip: 'leftMiddle'
+		        },
+		        adjust: {
+		            screen: true // Keep the tooltip on-screen at all times
+		        }
+		    };
+
+			$('.poster').each(function() {
 				$(this).qtip({
 			        content: {
-						text: $(this).find('.events').html(),
-						title: {
-							text: "<a class='club-link' href='#' value='" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
+				        text: $(this).find('.events').html(),
+				        title: {
+					        text: "<a href='/club/" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
 						    button: "X"
-						}
-					},
-					position: {
-						adjust: {
-							method: "flip flip"
-						},
-						at: "right center",
-						my: "left center",
-						viewport: $(window)
-					},
-					show: {
-						solo: true,
-						event: "mouseover"
-					},
-					hide: {
-						delay: 150,
-						fixed: true,
-						event: "mouseout"
-					},
-					style: {
-						width: 550,
-						tip: true,
-						classes: "ui-tooltip-light"
-					},
-					events: {
-						render: function (event, api) { api.elements.content.find('a.poster').fancybox().click(api.hide); }
+				        }
+				    },
+				    style: qtip_poster_style,
+				    show: qtip_show,
+				    hide: qtip_hide,
+				    position: qtip_position,
+					api: {
+					    onRender: function() {
+					        this.elements.content.find('a.poster').fancybox().click(this.hide); // Something like this
+					    }
 					}
 				 });
 			});
 
-			$('div.no_poster').each(function() {
+			$('.no_poster').each(function() {
 				$(this).qtip({
 			        content: {
-						text: $(this).find('.events').html(),
-						title: {
-							text: "<a class='club-link' href='#' value='" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
+				        text: $(this).find('.events').html(),
+				        title: {
+					        text: "<a href='/club/" + $(this).attr('id') +"'>" + $(this).attr('id') + "</a>",
 						    button: "X"
-						}
-					},
-					position: {
-						adjust: {
-							method: "flip flip"
-						},
-						at: "right center",
-						my: "left center",
-						viewport: $(window)
-					},
-					show: {
-						solo: true,
-						event: "mouseover"
-					},
-					hide: {
-						delay: 150,
-						fixed: true,
-						event: "mouseout"
-					},
-					style: {
-						width: 300,
-						tip: true,
-						classes: "ui-tooltip-light"
-					},
-					events: {
-						render: function (event, api) { api.elements.content.find('a.poster').fancybox().click(api.hide); }
+				        }
+				    },
+				    style: qtip_no_poster_style,
+				    show: qtip_show,
+				    hide: qtip_hide,
+				    position: qtip_position,
+					api: {
+					      onRender: function() {
+					         this.elements.content.find('.group.iframe').fancybox().click(this.hide); // Something like this
+					      }
 					}
 				 });
 			});
@@ -177,56 +174,6 @@
 				$(this).css('border-color', 'gray');
 			});
 			
-			$('a.event-link').live('click', function() {
-				var event_id = $(this).attr('value');
-				var event_name = $(this).html()
-				$.ajax({
-				  url: "/event/" + event_id,
-				  success: function(html){
-					$('#overlay-inside').html(html);
-					$('h2#overlay-title').html(event_name);
-				    $('#overlay').show();
-				  }
-				});
-			});
-
-			$('a.club-link').live('click', function() {
-				var club_name = $(this).html()
-				$.ajax({
-				  url: "/club/" + club_name,
-				  success: function(html){
-					$('#overlay-inside').html(html);
-					$('h2#overlay-title').html(club_name);
-				    $('#overlay').show();
-				  }
-				});
-			});
-			
-			$('a.event-edit').live('click', function() {
-				var event_id = $(this).attr('value');
-				$.ajax({
-				  url: "/event_edit/" + event_id,
-				  success: function(html){
-					$('#overlay-inside').html(html);
-					$('h2#overlay-title').html(club_name);
-				    $('#overlay').show();
-				  }
-				});
-			});
-			
-			{% if user.officer_at %}
-			$('h2#today').live('click', function() {
-				$.ajax({
-				  url: "/event_add",
-				  success: function(html){
-					$('#overlay-inside').html(html);
-					$('h2#overlay-title').html("Add an Event");
-				    $('#overlay').show();
-				  }
-				});
-			});
-			{% endif %}
-			
 		});
 		</script>
 </head>
@@ -236,17 +183,17 @@
 
 <div id="frame" style="margin: 70px auto; padding: 4px 6px 4px 4px; position: relative; width: 900px; height: 454px; border: solid 2px black; background: orange;">
 	<div id="top-bar" style="display: block; margin: 5px 5px 7px;">
-		<h1 style="font-size: 30px; display: inline;"><a href="/">Prospect Social Map</a></h1>
-		<div style="float: right;"><h2 id="today" style="margin: 9px 2px 0; font-size: 20px;">{% if user.officer_at %}Add an event{% else %}<a href="/">{% now "N jS" %}</a>{% endif %}</h2></div>
+		<h1 style="font-size: 30px; display: inline;">USG Social Map</h1>
+		<h2 style="float: right; margin: 9px 2px 0; font-size: 20px;"> {% now "N jS" %}</h2>
 	</div>
 	<div id="relative" style="position: relative;">
-		<div id="overlay" style="display: block; height: 322px; width: 886px; position: absolute; background: white; z-index: 40; padding: 7px; display: none; overflow : auto; border: solid 1px black;">
-			<h2 id="overlay-title" style="float: left; font-size: 24px; margin-bottom: 5px; font-weight: bold;"></h2>
-			<a id="exit-overlay" style="float: right;">X</a>
+		<div id="overlay" style="display: block; height: 320px; width: 886px; position: absolute; background: white; z-index: 40; padding: 7px; display: none; overflow : auto; border: solid 1px black;">
+			<h2 id="overlay-title" style="float: left; font-size: 24px; margin-bottom: 5px;"></h2>
+			<a href="#" id="exit-overlay" style="float: right;">X</a>
 			<div class="clearfix"></div>
 			<div id="overlay-inside"></div>
 		</div>
-		<img src="/media/social/images/map.png" style="margin: 0; border: solid 1px black; position: relative;" height="336" width="900" />	<br/>
+		<img src="/media/social/images/map.png" style="margin: 0; border: solid 1px black; position: relative;" height="336" width="902" />	<br/>
 
 		{% for key, entry in club_list.items %}
 			<div class="club" id="{{ entry.0.name }}" style="position: absolute; left: {{ entry.0.left_offset }}px; top: {{ entry.0.top_offset }}px; z-index: 20;">
@@ -255,14 +202,14 @@
 					{% for event in entry.1 %}
 						{# Event poster #}
 						{% if event.poster %}
-						<div class="event_poster" style="text-align: center;"><a class="poster" href="/{{ event.poster.url }}"><img class="poster" alt="" src="{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
+						<div class="event_poster" style="text-align: center;"><a class="poster" href="/{{ event.poster.url }}"><img class="poster" alt="" src="/{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
 						{% endif %}
 
 						{# Event title #}
 						{% if event.title %}
-							<div class="event_title"><a class="event-link" value="{{ event.event_id }}" >{{ event.title }}</a></div>
+							<div class="event_title"><a href="/event/{{ event.event_id }}">{{ event.title }}</a></div>
 						{% else %}
-							<div class="event_title"><a class="event-link" value="{{ event.event_id }}" >{{ event.club.name }} {{ event.time_start|date:"l" }}</a></div>
+							<div class="event_title">{{ event.club.name }} {{ event.time_start|date:"l" }}</div>
 						{% endif %}
 
 						{# Event time #}
@@ -282,11 +229,11 @@
 						<div class="event_description">{{ event.description|safe }}</div>
 					{% endfor %}
 				</div>
-				<img class="default" src="{{ entry.0.active.url }}" width={{ entry.0.width }}px  />
-				<img class="selected" src="{{ entry.0.active_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+				<img class="default" src="/{{ entry.0.active.url }}" width={{ entry.0.width }}px  />
+				<img class="selected" src="/{{ entry.0.active_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
 			{% else %}
-				<img class="default" src="{{ entry.0.inactive.url }}" width={{ entry.0.width }}px  />
-				<img class="selected" src="{{ entry.0.inactive_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+				<img class="default" src="/{{ entry.0.inactive.url }}" width={{ entry.0.width }}px  />
+				<img class="selected" src="/{{ entry.0.inactive_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
 			{% endif %}
 			</div>
 		{% endfor %}
@@ -299,9 +246,7 @@
 		{% endfor %}
 		<a href="/{{ next_week|date:"n"}}/{{ next_week|date:"d"}}/{{ next_week|date:"Y"}}/" style="display: inline-block;">Next <br/> Week</a>
 
-		<div id="search" style="float: right;"><!-- <h3 style="text-align: right; margin: 4px 12px 3px;">Search:</h3>--><input type="text" id="search" value="Search" onclick="this.value = (this.value == 'Search') ? '' : this.value;" onfocus="this.select();" onblur="this.value = !this.value ? 'Search' : this.value;" onkeypress="handleKeyPress(event,this.value)" width=180px />
-		</div>
-		
+		<div id="search" style="float: right;"><!--<h3 style="text-align: right; margin: 4px 12px 3px;">Search:</h3>--><input type="text" id="search" value="Search" onclick="this.value='';" onfocus="this.select();" onblur="this.value == !this.value ? 'Search' : this.value;" onkeypress="handleKeyPress(event,this.value)" width=180px /></div>
 	</div>
 </div>
 </body>

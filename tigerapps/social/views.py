@@ -1,6 +1,5 @@
 from social.models import *
 from ttrade.search import get_query
-from social.forms import EventForm
 from dsml import gdi
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, HttpResponseForbidden
@@ -20,8 +19,8 @@ def check_undergraduate(username):
         user.save()
         
     if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
-        return user
-    return None
+        return True
+    return False
     
 @login_required  
 def search(request):
@@ -41,8 +40,7 @@ def search(request):
 @login_required  
 def night(request, month, day, year):
     # Check if user can be here
-    user = check_undergraduate(request.user.username)
-    if not user:
+    if not check_undergraduate(request.user.username):
         return HttpResponseForbidden()
     
     # Initialize club list
@@ -76,85 +74,8 @@ def night(request, month, day, year):
     next_week = target_day + timedelta(days=7)
     prev_week = target_day - timedelta(days=7)
     
-    return render_to_response('social/base.html', {'club_list': club_list, 'next_week': next_week, 'prev_week': prev_week, 'days': days, 'user': user})
+    return render_to_response('social/base.html', {'club_list': club_list, 'next_week': next_week, 'prev_week': prev_week, 'days': days})
 
-@login_required  
-def event(request, event_id):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return HttpResponseForbidden()
-    
-    if not request.is_ajax():
-        return HttpResponseForbidden()
-        
-    event = Event.objects.get(event_id=event_id)
-    
-    return render_to_response('social/event.html', {'event': event, 'user': user})
-    
-@login_required  
-def club(request, club_name):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return HttpResponseForbidden()
-
-    if not request.is_ajax():
-        return HttpResponseForbidden()
-
-    club = Club.objects.get(name=club_name)
-    now = datetime.now()
-    event_list = Event.objects.filter(club=club, time_end__gt=now)
-
-    return render_to_response('social/club.html', {'club': club, 'event_list': event_list, 'user': user})
-    
-@login_required  
-def event_add(request):
-    user = check_undergraduate(request.user.username)
-    if not user:# or not request.is_ajax() or not user.officer_at:
-        return HttpResponseForbidden()
-    
-    event_form = EventForm()
-    if request.method == 'POST':
-        event_form = EventForm(request.POST, request.FILES)
-        if event_form.is_valid():
-            event = event_form.save(commit=False)
-            event.club = user.officer_at
-            event.save()
-            return render_to_response('social/event.html', {'event': event, 'user': user})
-
-    return render_to_response('social/event_add.html', {'user': user, 'event_form': event_form})
-    
-@login_required  
-def event_edit(request, event_id):
-    user = check_undergraduate(request.user.username)
-    if not user:# or not request.is_ajax() or not user.officer_at:
-        return HttpResponseForbidden()
-        
-    event=Event.objects.get(event_id=event_id)
-
-    event_form = EventForm(instance=event)
-    if request.method == 'POST':
-        event_form = EventForm(request.POST, request.FILES, instance=event)
-        if event_form.is_valid():
-            event = event_form.save(commit=False)
-            event.club = user.officer_at
-            event.save()
-            return render_to_response('social/event.html', {'event': event, 'user': user})
-
-    return render_to_response('social/event_add.html', {'user': user, 'event_form': event_form})
-    
-@login_required  
-def event_delete(request, event_id):
-    user = check_undergraduate(request.user.username)
-    if not user:# or not request.is_ajax() or not user.officer_at:
-        return HttpResponseForbidden()
-
-    event = Event.objects.get(event_id=event_id)
-
-    event.delete()
-
-    return HttpResponse("Your event has been deleted.")
-
-'''
 # See description and picture and picture
 # If officer, see edit description and add event
 @login_required  
@@ -195,4 +116,3 @@ def add_event(request, event_id):
     if not check_undergraduate(request.user.username):
         return HttpResponseForbidden()
     return HttpResponse()
-'''

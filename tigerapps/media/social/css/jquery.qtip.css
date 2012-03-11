@@ -18,6 +18,9 @@
 	left: -28000px;
 	top: -28000px;
 	display: none;
+
+	max-width: 280px;
+	min-width: 50px;
 	
 	font-size: 10.5px;
 	line-height: 12px;
@@ -180,8 +183,7 @@
 /*! Light tooltip style */
 .ui-tooltip-light .ui-tooltip-titlebar,
 .ui-tooltip-light .ui-tooltip-content{
-	border-color: #858585;
-	border-width: 1px;
+	border-color: #E2E2E2;
 	color: #454545;
 }
 
@@ -190,7 +192,7 @@
 	}
 
 	.ui-tooltip-light .ui-tooltip-titlebar{
-		background-color: orange;
+		background-color: #f1f1f1;
 	}
 
 

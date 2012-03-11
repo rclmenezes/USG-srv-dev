@@ -1,28 +1,7 @@
-{# Event poster #}
+{% extends "social/base.html" %}
 
-<a class="club-link" value="{{ event.club.name }}">{{ event.club.name }}</a>
-
-{% if event.poster %}
-<div class="event_poster" style="text-align: center;"><a class="poster" href="/{{ event.poster.url }}"><img class="poster" alt="" src="/{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
-{% endif %}
-
-{# Event time #}
-<div class="event_time">{{ event.time_start|time:"P" }} - {{ event.time_end|time:"P" }}</div>
-
-{# Event entry information #}
-{% ifnotequal event.entry 'Cu' %}<div class="event_entry">{{ event.get_entry_display }}{% if event.entry_description %}{% ifequal event.entry 'Pa' %}: {{ event.entry_description }}{% endifequal %}{% ifequal event.entry 'Mp' %}{{ event.entry_description }}{% endifequal %}{% endif %}</div>{% endifnotequal %}
-
-{# Pass description #}
-{% ifnotequal event.entry 'Mp' %}
-	{% ifnotequal event.entry 'Pa' %}
-	<div class="event_entry_description">{{ event.entry_description }}</div>
-	{% endifnotequal %}
-{% endifnotequal %}
-
-{# Event description #}
-<div class="event_description">{{ event.description|safe }}</div>
-
-{% ifequal user.officer_at event.club %}
-<a class="event-edit" value="{{ event.event_id }}">Edit this event</a><br/>
-<a class="event-delete" value="{{ event.event_id }}" onclick="confirm_delete({{ event.event_id }})">Delete this event</a>
-{% endifequal %}
+{% block frame %}
+<div id="relative" style="position: relative; width=452; height: 354; background: white; display: block;">
+	!
+</div>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.contrib import admin
 class SocUserAdmin(admin.ModelAdmin):
     list_display = ('netid', 'firstname', 'lastname')
     fieldsets = [
-        (None, {'fields': ['netid', 'firstname', 'lastname', 'pustatus', 'puclassyear', 'officer_at']})
+        (None, {'fields': ['netid', 'firstname', 'lastname', 'pustatus', 'puclassyear']})
     ]
 
 class ClubAdmin(admin.ModelAdmin):
