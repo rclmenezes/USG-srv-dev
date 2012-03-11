@@ -53,48 +53,29 @@ def checkin_dvd(request):
     #rental_list = Rental.objects.filter(dateReturned=None)
     
     if request.method == "POST" and 'dvd' in request.POST:
-<<<<<<< HEAD
-        dvd_list = request.POST.getlist('dvd')
-=======
         dvd_list = request.POST.getlist('dvd') #list of dvd's checked
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
         ambiguous_list = [] # When more than one copy is checked out
         checked_list = []
         for dvd_id in dvd_list:
             dvd = DVD.objects.get(pk=dvd_id)
             dvd.amountLeft += 1
-<<<<<<< HEAD
-            #dvd.save()
-            
-            if dvd.amountTotal - dvd.amountLeft > 1:
-                ambiguous_list.append(dvd)
-=======
             dvd.save()
             
             #if there's copies of dvd_id still checked out
             if dvd.amountTotal - dvd.amountLeft > 1:
                 ambiguous_list.append(dvd)
             #if all of the copies of dvd_id are checked in
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
             else:
                 checked_list.append(dvd)
                 rental_list = Rental.objects.filter(dateReturned=None, dvd=dvd)
                 for rental in rental_list:
                     rental.dateReturned = datetime.datetime.now()
-<<<<<<< HEAD
-                    #rental.save()
-=======
                     rental.save()
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
-                
         if len(ambiguous_list) == 0:
             confirm = "The following DVDs have been checked in: " + str(checked_list)
             return render_to_response('dvd/confirm.html', {'title': "Success!", 'confirm': confirm})
         else:
-<<<<<<< HEAD
-=======
             #This allows the person checking in the dvd to select which copy was checked in
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
             return render_to_response('dvd/ambiguous.html', {'ambiguous_list': ambiguous_list, 'checked_list': checked_list})
     
     dvd_list = DVD.objects.all()
@@ -139,10 +120,6 @@ def checkin_dvd(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def checkin_dvdlist(request):
-<<<<<<< HEAD
-=======
-    #2/28/2012: Doesn't work, purpose unclear
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
     dvdList = DVD.objects.filter(amountLeft__lt=amountTotal)
 
     return render_to_response('dvd/checkindvd.html', {'dvdList': dvdList})
