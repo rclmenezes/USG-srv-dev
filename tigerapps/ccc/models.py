@@ -15,7 +15,15 @@ class LogCluster(models.Model):
     date_start = models.DateField(help_text="Date when service started")
     date_end = models.DateField(default=datetime.datetime.now(), help_text="Date when service ended")
     project = models.ForeignKey('ProjectOrOrganization', help_text="Project or organization the service was done with")
-    hours = models.IntegerField(help_text="Total new hours since you last logged")
+    hours = models.IntegerField()
+    year = models.IntegerField(max_length=4, choices=(("2012",2012), ("2013", 2013), ("2014", 2014), ("2015", 2015)))
+    
+    res_college = models.CharField("Residential College", max_length=10, choices=(("Forbes","Forbes"), ("Whitman", "Whitman" ),
+                                                                   ("Rockefeller", "Rockefeller"), ("Mathey", "Mathey"),
+                                                                   ("Wilson", "Wilson"), ("Butler", "Butler")))
+    eating_club = models.CharField(max_length=10, choices=(("Cannon","Cannon"),("Cap and Gown","Cap and Gown"),("Tower","Tower"),
+                                                           ("Ivy","Ivy"),("Tiger Inn","Tiger Inn"),("Cottage","Cottage"),
+                                    ("Cloister","Cloister"),("Charter","Charter"),("Colonial","Colonial"),("Quadrangle","Quadrangle"),("Terrace","Terrace")))
     user = models.ForeignKey(User, related_name="cluster_user")
     
     def __unicode__(self):
