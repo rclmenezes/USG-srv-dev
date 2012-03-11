@@ -1,0 +1,20 @@
+<table>
+	<tr>
+	<th style="width: 250px;">Name</th>
+	<th style="width: 100px;">Club</th>
+	<th style="width: 100px;">Date</th>
+	</tr>
+	{% for event in event_list %}
+	<tr>
+	<td><a class="event-link" value="event/{{ event.event_id }}" href="#">{% if event.title %}{{ event.title }}{% else %}{{ event.club.name }} {{ event.time_start|date:"l" }}{% endif %}</a></td>
+	<td><a class="club-link" value="/club/{{ event.club.name }}" href="#">{{ event.club.name }}</a></td>
+	<td><a href="/{{ event.time_start|date:"n"}}/{{ event.time_start|date:"d"}}/{{ event.time_start|date:"Y"}}/">{{ event.time_start|date:"N jS" }}</a></td>
+	</tr>
+	{% empty %}
+	<tr>
+	<td>No results</td>
+	<td></td>
+	<td></td>
+	</tr>
+	{% endfor %}
+</table>
