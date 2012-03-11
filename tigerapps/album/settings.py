@@ -10,11 +10,7 @@ import os
 
 # Sensitive info (passwords)
 try:
-<<<<<<< HEAD
-    from local_settings import *
-=======
     from album.local_settings import *
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 except ImportError, exp:
     pass
 
@@ -91,11 +87,7 @@ STATIC_ROOT = path('sitestatic/')
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-<<<<<<< HEAD
-SECRET_KEY = 'isypg-zd*c$q&po!8t%65%!8ofwnia_h^1xri!69s8yveen3l#'
-=======
 #SECRET_KEY = HIDDEN; see imports
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

@@ -25,11 +25,7 @@ def getPage(request, orderNo):
     pages = len(account.pages.all())
     colList = page.getMyApps()
     pageBar = account.getPageBar(page)
-<<<<<<< HEAD
-    return render_to_response('my/home2.html', {'colList': colList, 'pageBar': pageBar, 'orderNo': orderNo, 'pages': pages})
-=======
     return render_to_response('my/home.html', {'colList': colList, 'pageBar': pageBar, 'orderNo': orderNo, 'pages': pages})
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
   
 ### AJAX VIEWS ###  
   
@@ -62,16 +58,9 @@ def saveMyApps(request, orderNo):
     return HttpResponse("success")
     
 # Proxy for RSS feeds :p 
-<<<<<<< HEAD
-@login_required
-def proxy(request):
-    if not request.is_ajax():
-        raise Http404
-=======
 def proxy(request):
     #if not request.is_ajax():
     #    raise Http404
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
     if request.method == 'GET' and 'url' in request.GET:
         url = request.GET['url']

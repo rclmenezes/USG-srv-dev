@@ -1,24 +1,4 @@
 from django.conf import settings
-<<<<<<< HEAD
-import re
-
-class SubdomainsMiddleware:
-    def process_request(self, request):
-        request.domain = request.META['HTTP_HOST']
-        request.subdomain = ''
-        parts = request.domain.split('.')
-
-        # xxx.tigerapps.org or xxx.localhost:8000
-        if len(parts) == 4 or (re.match("^localhost", parts[-1]) and len(parts) == 2):
-            request.subdomain = parts[1]
-            request.domain = '.'.join(parts[1:])
-
-        # set the right urlconf
-        if request.subdomain == "":
-            request.subdomain == 'index'
-            
-        settings.ROOT_URLCONF = request.subdomain + ".urls"
-=======
 
 class SubdomainsMiddleware:
     def process_request(self, request):
@@ -46,7 +26,6 @@ class SubdomainsMiddleware:
         # set the right urlconf
         request.urlconf = request.subdomain + ".urls"
 
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
         ### INTRODUCING....
         ###
@@ -97,8 +76,4 @@ class SubdomainsMiddleware:
             settings.CAS_LOGOUT_COMPLETELY = True
             settings.CAS_IGNORE_REFERER = True
             settings.SITE_URL = 'http://dev.' + request.subdomain + '.tigerapps.org/'
-<<<<<<< HEAD
             settings.CAS_REDIRECT_URL = settings.SITE_URL
-=======
-            settings.CAS_REDIRECT_URL = settings.SITE_URL
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457

@@ -3,11 +3,6 @@ import sys
 import logging
 # Django settings for newfacebook project.
 
-<<<<<<< HEAD
-#HI YARO! HI MING!
-
-DEBUG = True
-=======
 try:
     from facebook.local_settings import *
 except ImportError, exp:
@@ -16,7 +11,6 @@ except ImportError, exp:
 
 import socket
 DEBUG = (socket.gethostname() != 'USG')
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 TEMPLATE_DEBUG = DEBUG 
 
 #PROJECT_ROOT = os.path.dirname(__file__)
@@ -78,11 +72,7 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-<<<<<<< HEAD
-SECRET_KEY = '6n)#&m049-4^&_zg&lmx1+*aozn=p84maxoki_!9x#hl^qc2)z'
-=======
 #SECRET_KEY = HIDDEN; see imports
->>>>>>> 1994cf8d56d0192da28cf65baa61dffc0640b457
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
