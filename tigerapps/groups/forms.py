@@ -26,7 +26,7 @@ class RenewGroupForm(ModelForm):
     confirm = forms.BooleanField()
     class Meta:
         model = Group
-        fields = ('name','description','categories', 'site', 'email')
+        fields = ('name', 'description','categories', 'site', 'email')
 
 class ReactivateGroupForm(ModelForm):
     reason_for_reactivation = forms.CharField(max_length=5000, widget=forms.Textarea)
@@ -128,7 +128,7 @@ class MembershipAdminFormSet(BaseInlineFormSet):
             qs = super(MembershipAdminFormSet, self).get_queryset().filter(type__in=['O','M'])[:15]
             self._queryset = qs
         return self._queryset
-
+        
 class WidgetSettingsForm(forms.Form):
     show_posts = forms.ChoiceField(choices=(('A','From all groups'),('S','Only from groups I\'m affiliated with')))
     posts_on_page = forms.ChoiceField(choices=(('3','3'),('5','5'),('7','7'),('10','10'),('12','12'),('15','15'),))

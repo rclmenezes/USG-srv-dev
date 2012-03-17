@@ -566,7 +566,7 @@ def files(request, group):
     except:
         user_mship = None
     
-    return render_to_response('upload_files.html', 
+    return render_to_response('groups/upload_files.html', 
                               {'user':request.session['user'],
                                'categories':request.session['categories'],
                                'group':g,

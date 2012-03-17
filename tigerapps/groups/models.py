@@ -38,6 +38,29 @@ MEM_TYPE_CHOICES = (
     ('O', 'Officer'),
 )
 
+# Define CATEGORIES
+GROUP_CATEGORIES = (
+    ('ETH', 'Ethnic/Cultural'),
+    ('SER', 'Service'),
+    ('SI', 'Special Interest'),
+    ('REL', 'Religious'),
+    ('PUB', 'Publication'),
+    ('POL', 'Political'),
+    ('EDU', 'Educational'),
+    ('ENV', 'Environmental'),
+    ('PER', 'Performing Arts'),
+    ('TH', 'Theatre'),
+    ('DAN', 'Dance'),
+    ('MUS', 'Music'),
+    ('SOC', 'Social'),
+    ('CAR', 'Career'),
+    ('AC', 'A Capella'),
+    ('ACA', 'Academic'),
+    ('M', 'Media'),
+    ('G', 'Games'),
+    ('O', 'Other'),
+ )
+
 # choices for display as a group member
 DISPLAY_CHOICES = (
     ('A', 'Any Princeton student'),
@@ -132,7 +155,7 @@ class Group(models.Model):
         ok_list = []
         for l in ascii_lowercase:
             ok_list.append(l)
-        ok_list.append('-')
+        #ok_list.append('-')
         self.url = self.sort_name.lower().strip().replace(' ','_')
         rm_list = []
         for l in self.url:
