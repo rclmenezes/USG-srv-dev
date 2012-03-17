@@ -19,22 +19,22 @@ urlpatterns = patterns('',
                        (r'^test/?$', 'groups.test.login'),
                        
                        # browsing groups
-                       (r'^groups/?$', 'groups.groups.list'),
-                       (r'^category/(?P<category>\w+)/?$', 'groups.groups.category'),
+                       (r'^groups/?$', 'groups.group.list'),
+                       (r'^category/(?P<category>\w+)/?$', 'groups.group.category'),
 
                        # group profile, membership options
-                       (r'^groups/(?P<group>\w+)/?$', 'groups.groups.profile'),
-                       (r'^groups/(?P<group>\w+)/request/?$', 'groups.groups.request'),
-                       (r'^groups/(?P<group>\w+)/withdraw/?$', 'groups.groups.withdraw'),
-                       (r'^groups/(?P<group>\w+)/subscribe/?$', 'groups.groups.subscribe'),
+                       (r'^groups/(?P<group>\w+)/?$', 'groups.group.profile'),
+                       (r'^groups/(?P<group>\w+)/request/?$', 'groups.group.request'),
+                       (r'^groups/(?P<group>\w+)/withdraw/?$', 'groups.group.withdraw'),
+                       (r'^groups/(?P<group>\w+)/subscribe/?$', 'groups.group.subscribe'),
                        (r'^groups/(?P<group>\w+)/settings/?$', 'groups.mship.settings'),
-                       (r'^groups/(?P<group>\w+)/memberslist/?$', 'groups.groups.member_list'),
+                       (r'^groups/(?P<group>\w+)/memberslist/?$', 'groups.group.member_list'),
                        
                        # leadership section
                        (r'^leadership/?$', 'groups.leadership.leadership'),
 
                        # search
-                       (r'^search/?$', 'groups.groups.search'),
+                       (r'^search/?$', 'groups.group.search'),
                        
                        # Editing groups
                        (r'^groups/(?P<group>\w+)/edit/?$', 'groups.edit.edit_profile'),

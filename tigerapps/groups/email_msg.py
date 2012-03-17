@@ -26,7 +26,7 @@ This was an automated message from Princeton Student Groups.
 
 GROUP_REQUEST_REJECT_EMAIL = """Your request to create a new profile for "%s" on Princeton Student Groups has been denied.
 
-If you believe this decision was in err, please contact the site administrator at %s.
+If you believe this decision was in error, please contact the site administrator at %s.
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
@@ -54,7 +54,7 @@ View this post at %sgroups/%s/feed/
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s','%s','%s',SITE_URL,'%s',SITE_URL)
@@ -69,7 +69,7 @@ View and comment on this message at %sgroups/%s/messages/%s
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s','%s','%s',SITE_URL,'%s','%s',SITE_URL)
@@ -86,7 +86,7 @@ The Princeton Student Groups Team
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s','%s',SITE_URL,'%s',SITE_URL)
@@ -99,7 +99,7 @@ You can access member features, such as email notification settings and the grou
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s',SITE_URL,'%s',SITE_URL)
@@ -108,7 +108,7 @@ MSHIP_REQUEST_REJECT_EMAIL = """Your membership request for "%s" has been reject
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s',SITE_URL)
@@ -121,7 +121,7 @@ You can access the group managment tools available to officers, including editin
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s','%s',SITE_URL,'%s',SITE_URL)
@@ -136,7 +136,7 @@ You can access the group managment tools available to officers, including editin
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s','%s','%s',SITE_URL,'%s',SITE_URL)
@@ -145,7 +145,7 @@ MSHIP_DEMOTE_EMAIL = """You have been demoted from officership in %s on Princeto
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s',SITE_URL)
@@ -158,7 +158,7 @@ If you wish to remain subscribed to the group, you can resubscribe on the group 
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s',SITE_URL,'%s',SITE_URL)
@@ -167,7 +167,7 @@ MSHIP_LEAVE_EMAIL = """You have successfully left "%s" on Princeton Student Grou
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s',SITE_URL)
@@ -179,7 +179,7 @@ New Status: %s
 
 ------------------------------------------------------------
 This was an automated message from Princeton Student Groups. 
-If you do not want to recieve these messages, please change 
+If you do not want to receive these messages, please change 
 your membership settings.
 %s
 """ % ('%s','%s','%s',SITE_URL)

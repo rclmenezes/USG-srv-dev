@@ -15,7 +15,7 @@ def login(request):
             request.session['user'] = s
             return redirect_index(request)
     
-    return render_to_response('groups/test.html')
+    return render_to_response('test.html')
     
 
                                    

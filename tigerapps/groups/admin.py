@@ -15,10 +15,12 @@ class GroupMembershipInline(admin.TabularInline):
     formset = MembershipAdminFormSet
     extra = 3
     template = '/srv/tigerapps/templates/groups/admin/group_mship_inline.html'
+#    fields = ('student','type','student.email')
 
 class StudentMembershipInline(admin.TabularInline):
     model = Membership
     exclude = ('officer_order','has_order','display','feed_notifications','message_notifications','mship_notifications','request_notifications')
+#    raw_id_fields = ('student','group')
     extra = 3
 
 # Student admin
@@ -67,7 +69,7 @@ class GroupAdmin(admin.ModelAdmin):
 
 # Entry admin
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ('title','pub_date','group','event')
+    list_display = ('title','pub_date','group')
     exclude = ('pub_date','group')
     search_fields = ('title','group__name')
     list_filter = ('pub_date',)
