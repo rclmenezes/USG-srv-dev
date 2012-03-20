@@ -1,0 +1,24 @@
+{% extends "courses/base.html" %}
+{% block title %}Course Search Results for {{ q }}{% endblock %}
+
+{% block middle %}
+
+    {% if courses %}
+        {% regroup courses by dep as grouped %}
+        <ul>
+        {% for group in grouped %}
+            <li><a href="/courses/dept/{{ group.grouper }}">{{ group.grouper }}</a>
+            <ul>
+                {% for c in group.list %}
+                <li>
+                {{ c.quick_summary }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+        </ul>
+    {% else %}
+    No search results
+    {% endif %}
+
+{% endblock %}

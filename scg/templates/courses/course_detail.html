@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block id %}course-detail{% endblock %}
+{% block title %}{{ c.dep }} {{ c.num }}{% endblock %}
+
+{% block middle %}
+
+<table width="100%">
+<tr>
+<td width="43%">
+
+<span style="font-size:smaller;">
+{% if c.offered %}
+{{ c.official_info|default:"No info found."|safe }}
+{% else %}
+<h2>{{c.dep}} {{c.num}}: {{c.title}}</h2>
+<p>Not offered in {{ NEXT_SEMESTER }} {{ NEXT_YEAR }}.</p>
+<p>{{ c.quick_summary }}</p>
+{% endif %}
+
+<ul>
+{% for section in sections %}
+    <li>{{ section.detail_in_list|safe }}</li>
+{% endfor %}
+</ul>
+</span>
+
+<p>
+    <strong>BlackBoard<sup>TM</sup></strong> <a style="font-size:.3em;" href="/about/blackboard/">What is this?</a>
+    <img id="throbber" style="display:none;float:right;" src="/images/throbber.gif" />
+</p>
+<div class="board">
+    <textarea id="board" class="board">
+    </textarea>
+</div>
+<script>
+$(document).ready(function() {
+    $().ajaxStart(function() { $("#throbber").css("display", ""); });
+    $().ajaxStop(function() { $("#throbber").css("display", "none"); });
+
+    initialize_board($("#board"), "/courses/{{ c.cid }}/blackboard/", "/courses/{{ c.cid }}/blackboard/", 30000);
+});
+</script>
+
+</td>
+<td width="57%">
+
+
+<ul>
+  <li>
+    <a href="http://ptx.tigerapps.org/">
+      Find books for this course on the Princeton Textbook Exchange
+    </a>
+  </li>
+  <li>
+    <a href="http://registrar1.princeton.edu/course/upcome/level/Results.cfm?DEPT={{ c.dep }}&CRSNUM1={{ c.num }}">
+      Official Registrar Info
+    </a>
+  </li>
+
+  {% ifnotequal NEXT_SEMESTER THIS_SEMESTER %}
+  <li>
+    <a href="/students/add_mycourse/{{ c.cid }}/{{ NEXT_SEMESTER }}/{{ NEXT_YEAR }}/">
+      Add to My Courses for <em>Next</em> Semester ({{ NEXT_SEMESTER }} {{ NEXT_YEAR }})
+    </a>
+  </li>
+  {% endifnotequal %}
+
+  <li>
+    <a href="/students/add_mycourse/{{ c.cid }}/{{ THIS_SEMESTER }}/{{ THIS_YEAR }}/">
+      Add to My Courses for <em>This</em> Semester ({{ THIS_SEMESTER }} {{ THIS_YEAR }})
+    </a>
+  </li>
+</ul>
+
+<div class="reviews review">
+
+<h2 id='review_this_course'>
+    <a href="/reviews/post/?cid={{ c.cid }}{% for p in c.professors.all %}&pid={{ p.pid }}{% endfor %}">
+        Write a Review
+</a></h2>
+
+<p>
+{% ifnotequal 0 c.num_reviews %}
+    <a href="/reviews/course/{{ c.cid }}/">
+    <strong>Read {{ c.num_reviews }} Review(s)</strong></a>
+    for <strong>{{ c }}</strong>
+{% else %}
+    No reviews
+    for <strong>{{ c }}</strong>
+{% endifnotequal %}
+</p>
+
+<p class="professors">
+    <table>
+    {% for offering in c.offering_set.all %}
+    <tr><td><strong>{{ offering.semester }} {{ offering.year }}:</strong></td></tr>
+    <tr>
+    {% for p in offering.professors.all %}
+        <td class="professor_image">
+        <a href="/reviews/professor/{{ p.pid }}/">
+        <img src="{{ p.picture_url }}" height="114" width="105" />
+        </a>
+        <p>
+        {% ifnotequal 0 p.num_reviews %}
+            <a href="/reviews/professor/{{ p.pid }}/">
+            <strong>Read {{ p.num_reviews }} Review(s)</strong></a>
+            for <strong>{{ p }}</strong>
+            <a href="/reviews/post/?pid={{ p.pid }}" style="font-size:smaller;">[review]</a>
+        {% else %}
+            No reviews
+            for <strong>{{ p }}</strong>
+            <a href="/reviews/post/?pid={{ p.pid }}" style="font-size:larger;">[review]</a>
+        {% endifnotequal %}
+        </p>
+        <a href="http://www.princeton.edu/main/tools/search/index.xml?area=people&query={{ p }}" style="font-size:smaller;">(contact)</a>
+        </td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+    </table>
+</p>
+
+<p> </p>
+
+<p>
+    <strong>Professor Review(s):</strong>
+{% for offering in c.offering_set.all %}
+    {% ifequal offering.year NEXT_YEAR %}
+    {% ifequal offering.semester NEXT_SEMESTER %}
+        {% for p in offering.professors.all %}
+
+            {% for review in p.professorreview_set.all %}
+                {% include "reviews/professor_review.html" %}
+            {% endfor %}
+
+        {% endfor %}
+    {% endifequal %}
+    {% endifequal %}
+{% endfor %}
+</p>
+
+<p>
+{% if course_reviews %}
+    <strong>Course Review(s):</strong>
+    {% for review in course_reviews %}
+        {% include "reviews/course_review.html" %}
+    {% endfor %}
+{% else %}
+    No Course Reviews...
+    <a href="/reviews/post/?cid={{ cid }}">Add a Course Review</a>
+{% endif %}
+</p>
+</div>
+
+</td>
+</tr>
+</table>
+
+{% endblock %}

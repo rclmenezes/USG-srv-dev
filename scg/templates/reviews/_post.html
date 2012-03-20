@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% block title %}Write Review{% endblock %}
+
+{% block middle %}
+<form action="" method="POST">
+<table class="review" width="100%">
+<tr>
+<td>
+<h1>Required:</h1>
+</td>
+</tr>
+
+
+<tr>
+{{ professor_form.error_dict }}
+{{ professor_form.errors }}
+{{ course_form.error_dict }}
+{{ course_form.errors }}
+Reviewing does not work right now.  I will send out an email once this is fixed.
+</tr>
+
+
+<tr>
+<td width="50%">
+    Your Class:
+    <select id="cid" name="cid" class="required" style="width: 70mm">
+        <option value=""></option>
+        {% for c in courses %}
+        {% ifequal c.cid request.GET.cid %}
+            <option value="{{ c.cid }}" selected>{{ c }}</option>
+        {% else %}
+            <option value="{{ c.cid }}">{{ c }}</option>
+        {% endifequal %}
+        {% endfor %}
+    </select>
+
+    <br />
+    Your Term:
+    <select id="year" name="year" class="required">
+    <option value="" />
+    <option value="2006">2006</option>
+    <option value="2005">2005</option>
+    <option value="2004">2004</option>
+    <option value="2003">2003</option>
+    <option value="2002">2002</option>
+    <option value="2002">2001</option>
+    </select>
+
+    <select id="term" name="term" class="required">
+    <option value=""></option>
+    <option value="F">Fall</option>
+    <option value="S">Spring</option>
+    </select>
+    <br />
+</td>
+<td width="50%">
+    Your Home Department:
+    <select id="department" name="department" class="required">
+        <option value=""></option>
+        {% for d in departments %}
+            {% ifequal department d %}
+                <option SELECTED value="{{ d }}">{{ d }}</option>
+            {% else %}
+                <option value="{{ d }}">{{ d }}</option>
+            {% endifequal %}
+        {% endfor %}
+    </select>
+
+    <br />
+    Your Professor:
+    <select id="pid" name="pid" class="required">
+        <option value=""></option>
+        {% for p in professors %}
+            {% ifequal p.pid pids.0 %}
+                <option SELECTED value="{{ p.pid }}">{{ p }}</option>
+            {% else %}
+                <option value="{{ p.pid }}">{{ p }}</option>
+            {% endifequal %}
+        {% endfor %}
+    </select>
+</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td width="50%" class="review">
+    <h1>Review This Course:</h1>
+    1. Quality or appeal of the content, regardless of the professor's presentation of it:
+    <select id="course_q1" name="course_q1" class="course">
+    <option value="" selected /><option value='4.0'>A+ Stellar</option><option value='4.0'>A </option><option value='3.7'>A- </option><option value='3.3'>B+ </option><option value='3.0'>B </option><option value='2.7'>B- </option><option value='2.3'>C+ </option><option value='2.0'>C </option><option value='1.7'>C- </option><option value='1.0'>D </option><option value='0.0'>F Poor</option>    </select>
+    
+    <br />
+
+    <br />
+    2. Amount of time per week you spent on this class, relative to the other courses you took in the same semester:
+    <select id="course_q2" name="course_q2" class="course" >
+    <option value="" selected /><option value='4.0'>A lot less </option><option value='3.0'>A little less </option><option value='2.0'>Average </option><option value='1.0'>A little more </option><option value='0.0'>A lot more </option>    </select>
+
+    <br />
+    <br />
+    3. Overall, how would you recommend this course to a friend?
+    <select id="course_q3" name="course_q3" class="course" >
+    <option value="" selected /><option value='4.0'>A+ Insist on your friend enrolling</option><option value='4.0'>A </option><option value='3.7'>A- </option><option value='3.3'>B+ </option><option value='3.0'>B </option><option value='2.7'>B- </option><option value='2.3'>C+ </option><option value='2.0'>C </option><option value='1.7'>C- </option><option value='1.0'>D </option><option value='0.0'>F Discourage your friend from taking it</option>    </select>
+
+    <br />
+    <br />
+    Please elaborate on your responses to the questions above or share any comments about the course that these questions did not cover (e.g., fairness of grading, quality of feedback on work, value of class for subsequent related study):
+    <br />
+    <textarea id="course_comment" name="course_comment"  class="course" rows='1' cols='60'></textarea>
+    <br />
+    <br />
+    What advice would you give to someone who is considering taking this course?
+    <br />
+    <textarea id="course_advice" name="course_advice" class="course"  rows='1' cols='60'></textarea>
+    <br />
+
+
+</td>
+<td width="50%" class="review">
+    <h1>Review This Professor:</h1>
+    1.  Professor's ability to structure and organize the course effectively (i.e., covering relevant material, timing major assignments, establishing a greater context of further study):
+    <select name="professor_q1" id="professor_q1" class="professor" >
+    <option value="" selected /><option value='4.0'>A+ Outstanding</option><option value='4.0'>A </option><option value='3.7'>A- </option><option value='3.3'>B+ </option><option value='3.0'>B </option><option value='2.7'>B- </option><option value='2.3'>C+ </option><option value='2.0'>C </option><option value='1.7'>C- </option><option value='1.0'>D </option><option value='0.0'>F Unacceptable</option>    </select>
+
+    
+    <br />
+    <br />
+    2.  Accessibility of professor (both practicality of office hours and personal demeanor):
+    <select name="professor_q2" id="professor_q2" class="professor" >
+    <option value="" selected /><option value='4.0'>A+ Flexible hours/loved seeing students</option><option value='4.0'>A </option><option value='3.7'>A- </option><option value='3.3'>B+ </option><option value='3.0'>B </option><option value='2.7'>B- </option><option value='2.3'>C+ </option><option value='2.0'>C </option><option value='1.7'>C- </option><option value='1.0'>D </option><option value='0.0'>F Professor wasn't able to/didn't want to meet</option>    </select>
+
+    <br />
+    <br />
+    3.  Ability of professor to engage your interest:
+    <select name="professor_q3" id="professor_q3" class="professor" >
+    <option value="" selected /><option value='4.0'>A+ Completely Engaging</option><option value='4.0'>A </option><option value='3.7'>A- </option><option value='3.3'>B+ </option><option value='3.0'>B </option><option value='2.7'>B- </option><option value='2.3'>C+ </option><option value='2.0'>C </option><option value='1.7'>C- </option><option value='1.0'>D </option><option value='0.0'>F Sorely Lacking</option>    </select>
+
+    <br />
+    <br />
+    4.  Your overall rating of this professor:
+    <select name="professor_q4" id="professor_q4" class="professor" >
+    <option value="" selected /><option value='4.0'>A+ Absolutely Fantastic</option><option value='4.0'>A </option><option value='3.7'>A- </option><option value='3.3'>B+ </option><option value='3.0'>B </option><option value='2.7'>B- </option><option value='2.3'>C+ </option><option value='2.0'>C </option><option value='1.7'>C- </option><option value='1.0'>D </option><option value='0.0'>F Truly Disappointing</option>    </select>
+
+    <br />
+    <br />
+    Please use the space below to share further thoughts about this professor:
+    <br />
+    <textarea name="professor_comment" id="professor_comment"  class="professor" rows='1' cols='60'></textarea>
+
+<br />
+<br />
+<br />
+<strong>
+Please fill out the reviews for a professor and/or the course which he or she taught.
+</strong>
+
+
+</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+    <td style="text-align:center;">
+        <strong>Although your netid is recorded, all reviews are published confidentially.</strong>
+        <br />
+        <br />
+        <strong>Thank you.</strong>
+        <br />
+        <br />
+        <input disabled="true" id="submit" name="submit" type="submit" value="Submit Review">
+        <br />
+        <br />
+    </td>
+</tr>
+</table>
+
+</form>
+
+{% endblock %}
+{% block under_body %}
+<script>
+function fields_filled_in(fields)
+{
+    for(i=0; i<fields.length; i++) if(fields[i].value == '') return false;
+    return true;
+}
+
+function fields_all_empty(fields)
+{
+    for(i=0; i<fields.length; i++) if(fields[i].value != '') return false;
+    return true;
+}
+
+function minimum_length(fields, length)
+{
+    for(i=0; i<fields.length; i++)
+    {
+        if(fields[i].type == "textarea")
+        {
+            if(fields[i].value.length < length) 
+                return false;
+        }
+    }
+    return true;
+}
+
+function fields_consistent(fields)
+{
+    return (fields_all_empty(fields) || 
+            (fields_filled_in(fields) && minimum_length(fields, 50)) );
+}
+
+
+textarea_fields = $$("textarea");
+required_fields = $$(".required");
+course_fields = $$(".course");
+professor_fields = $$(".professor");
+
+function set_submit_button()
+{
+    if(fields_filled_in(required_fields) && 
+    (fields_filled_in(course_fields) || fields_filled_in(professor_fields)) && 
+    (fields_consistent(course_fields) && fields_consistent(professor_fields)))
+        $('submit').disabled = false;
+    else
+        $('submit').disabled = true;
+}
+
+textarea_fields.each( function(item) {
+    Event.observe(item, 'focus', function(){ item.rows='10';})
+});
+
+$$("select").each( function(field) {
+    Event.observe(field, "change", set_submit_button)
+});
+
+textarea_fields.each( function(field) {
+    Event.observe(field, "keyup", set_submit_button)
+});
+
+/*
+Event.observe($("submit"), "mouseover", function(){ alert("Please answer all questions in the course review and/or the professor review and make sure that all of the comment sections are sufficiently long and thorough before submitting."); });
+*/
+
+set_submit_button();
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "students/base.html" %}
+{% block title %}My Courses{% endblock %}
+
+{% block middle %}
+{% if mycourses %}
+
+<h1>My Courses</h1>
+
+<h2>This Semester ({{ THIS_SEMESTER }}{{ THIS_YEAR }}):</h2>
+<ul>
+{% for myc in mycourses %}
+    {% ifequal THIS_YEAR myc.offering.year %}
+    {% ifequal THIS_SEMESTER myc.offering.semester %}
+    <li>
+        <a href="{{ myc.offering.course.get_absolute_url }}">
+            {{ myc.offering.course.dep }} {{ myc.offering.course.num }}:
+            {{ myc.offering.course.title }}
+            {% if myc.offering.course.high_grade %}<strong>A+</strong>{% endif %}
+            ({{ myc.offering.course.num_reviews }})
+            {% if myc.offering.course.dr %}
+            [{{ myc.offering.course.dr }}]
+            {% endif %}
+        <a href="/students/remove_mycourse/{{ myc.id }}/" style="font-size:smaller;">[remove]</a>
+    </li>
+    {% endifequal %}
+    {% endifequal %}
+{% endfor %}
+</ul>
+
+{% ifnotequal THIS_SEMESTER NEXT_SEMESTER %}
+<h2>Next Semester ({{ NEXT_SEMESTER }}{{ NEXT_YEAR }}):
+  <a href="/students/nextsemester/email/"><span style="font-size:smaller;">[email]</span></a>
+</h2>
+
+<ul>
+{% for myc in mycourses %}
+    {% ifequal NEXT_YEAR myc.offering.year %}
+    {% ifequal NEXT_SEMESTER myc.offering.semester %}
+    <li>
+        <a href="{{ myc.offering.course.get_absolute_url }}">
+            {{ myc.offering.course.dep }} {{ myc.offering.course.num }}:
+            {{ myc.offering.course.title }}
+            {% if myc.offering.course.high_grade %}<strong>A+</strong>{% endif %}
+            ({{ myc.offering.course.num_reviews }})
+            {% if myc.offering.course.dr %}
+            [{{ myc.offering.course.dr }}]
+            {% endif %}
+        <a href="/students/remove_mycourse/{{ myc.id }}/" style="font-size:smaller;">[remove]</a>
+    </li>
+    <ul>
+        {% for section in myc.offering.section_set.all %}
+            <li>{{ section }} <a href="/students/mysections/add/{{ section.sid }}/" style="font-size:smaller;">[add]</a> </li>
+        {% endfor %}
+    </ul>
+    {% endifequal %}
+    {% endifequal %}
+{% endfor %}
+</ul>
+{% endifnotequal %}
+
+<!--code for the finals schedule-->
+<form name="Chk" action="http://registrar1.princeton.edu/exams/c_result.cfm" method="post">
+</form>
+<!--end code for the finals-->
+
+<!--code for the finals-->
+<form name="Chk" action="http://registrar1.princeton.edu/exams/c_result.cfm" method="post">
+  <div id="finals" class="final_schedule" style="display:none;">
+  <select name="SelCrs" Multiple>
+      {% spaceless %}
+      {% for myc in mycourses %}
+          {% ifequal THIS_YEAR myc.offering.year %}
+          {% ifequal THIS_SEMESTER myc.offering.semester %}
+          <option value="'{{ myc.offering.course.dep }} {{ myc.offering.course.num }}'" SELECTED />
+          {% endifequal %}
+          {% endifequal %}
+      {% endfor %}
+      {% endspaceless %}
+  </select>
+  </div>
+  <input type="Submit" value="Get My Finals Schedule" name="Submit" />
+</form>
+<!--end code for the finals-->
+
+{% else %}
+You have not added any courses to your list.
+<a href="/courses/dept/ALL/">Find</a> your course and then click "Add to My Courses".
+{% endif %}
+{% endblock %}

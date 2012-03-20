@@ -1,0 +1,24 @@
+div.board {
+    text-align:center;
+    border: thick solid #CC7F32;
+    width: 90%;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 10px;
+}
+
+textarea.board {
+    border-width: 0;
+    color: white;
+    text-align:center;
+    width: 100%;
+    height: 600px;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+textarea.board, div.board {
+    font-family: purisa, comic sans, cursive, sans serif;
+    background-color: #202020;
+    color: white;
+}

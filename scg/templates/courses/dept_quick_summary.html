@@ -1,0 +1,18 @@
+{% if not offered %}<span class="not_offered">{% endif %}
+
+<a href="{{d.get_absolute_url}}">{{d.dep}} {{d.num}}: {{d.title}}
+
+{% if high_grade %}
+    <strong>A+</strong>
+    <span style="font-size:smaller;">({{d.num_reviews}})</span>
+{% endif %}
+
+[{{d.dr|default:"?"}}]</a>
+
+{% if not offered %}
+<em>not offered next semester</em>
+{% endif %}
+
+{{d.description}}
+
+{% if not offered %}</span>{% endif %}

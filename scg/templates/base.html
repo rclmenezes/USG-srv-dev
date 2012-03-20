@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+
+  <link rel="shortcut icon" href="http://point.princeton.edu/favicon.ico" type="image/x-icon" />
+  <head>
+    <title>Princeton University SCG: {% block title %}Student Course Guide{% endblock %}</title>
+    <link rel="stylesheet" href="/media/css/scg.css?ver=2.01" media="screen, projection" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="/media/js/boards.js"></script>
+    {% block head %}{% endblock %}
+  </head>
+
+  <body id="{% block id %}body{% endblock %}">
+    {% include "main/jquery.html" %}
+    <table class="header"><tr>
+      <td class="header-left">
+      <a href="/">
+        <div class="logo"><h1>Princeton University Student Course Guide</h1></div>
+      </a>
+      </td>
+
+      <td class="header-right">
+      {% include "courses/search_bar.html" %}
+
+      <div class="navlinks">
+        <ul>
+	  <li><a href="/" title="SCG Home">Home</a></li>
+	  <li><a href="/about/" title="About the SCG">About</a></li>
+	  <li><a href="http://reg-web.princeton.edu/course/course.cfm" title="Registrar's Office">Registrar</a></li>
+	  <li><a href="https://point.princeton.edu/" title="Point">Point</a></li>
+	  <li><a href="http://ptx.tigerapps.org/" title="Princeton Textbook Exchange">PTX</a></li>
+	  <li><a href="/cas/logout/" title="Log out of SCG">Log Out ({{ request.user.username }})</a></li>
+        </ul>
+
+        <ul class="my-depts">
+          <li><strong>My Departments:</strong></li>
+          {% for d in request.user.recent_departments %}
+          <li><a href="/courses/dept/{{ d }}/">{{ d }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      </td>
+    </tr></table>
+
+    <div class="content">
+      {% block middle %}{% endblock %}
+
+      <div class="credits">
+        Website by <a href="http://www.jperla.com/blog/">Joe Perla</a>.
+        Initial design
+        by <a href="http://webscript.princeton.edu/~studage/design">Student
+          Design Agency</a>.
+      </div>
+    </div>
+  </body>
+
+  {% block under_body %}
+  {% endblock %}
+  <script>
+    $(document).ready(function() {
+      $('#navsearchInput').focus(function() { $(this).val(''); });
+    });
+  </script>
+</html>

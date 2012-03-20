@@ -1,0 +1,30 @@
+{% extends "courses/base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+<!--
+<link rel="stylesheet" type="text/css" href="/admin_media/css/login.css" />
+-->
+{% endblock %}
+
+{% block middle %}
+<div class="login-box" id="content-main">
+    <form action="" method="post" id="login-form">
+        <div class="form-row">
+            <label for="id_username">netid: </label> <input type="text" name="username" id="id_username" />
+        </div>
+        <div class="form-row">
+
+            <label for="id_password">password:</label> <input type="password" name="password" id="id_password" />
+            <input type="hidden" name="this_is_the_login_form" value="1" />
+            <input type="hidden" name="post_data" value="" /> 
+        </div>
+        <div class="submit-row">
+            <label>&nbsp;</label><input type="submit" value="Log in" />
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        document.getElementById('id_username').focus()
+    </script>
+</div>
+{% endblock %}
