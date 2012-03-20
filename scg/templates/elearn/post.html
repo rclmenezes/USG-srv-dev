@@ -1,0 +1,17 @@
+{% extends "elearn/base.html" %}
+
+{% block middle %}
+<ul>
+{% for file in files %}
+    <li><a href="/{{ file }}">{{ file }}</a></li>
+{% endfor %}
+</ul>
+<form enctype="multipart/form-data" method="post" action="">
+
+<input type="file" id="id_file_file" class="vFileUploadField" name="file_file" />
+<input type="hidden" id="id_file" name="file" value="" /> 
+
+
+<input type="submit" />
+</form>
+{% endblock %}

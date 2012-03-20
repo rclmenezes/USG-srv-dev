@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block middle %}
+
+{% if reviews %}
+    {% for review in reviews %}
+        {% include "reviews/course_review.html" %}
+    {% endfor %}
+{% else %}
+No Reviews...
+<a href="/reviews/post/?cid={{ cid }}">Add a Course Review</a>
+{% endif %}
+
+{% endblock %}

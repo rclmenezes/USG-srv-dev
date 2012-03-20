@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block id %}home{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block middle %}
+
+<p class="hello">
+  Welcome to the <strong>Princeton USG Student
+    Course Guide</strong>, a member
+    of <a href="http://tigerapps.org/">TigerApps</a>.
+    You can <a href="/courses/dept/ALL/">browse by
+    department</a>
+    or <a href="/courses/dr/ALL/">distribution
+    requirement</a>.
+
+We've moved to a new URL and server!
+You are excited; we have the technology to detect that.
+Please kindly update your bookmarks to "scg.tigerapps.org".
+</p>
+
+{% if mycourses %}
+<table><tr><td>
+    <p>
+    <strong>This Semester ({{ THIS_SEMESTER }} {{ THIS_YEAR }}):</strong>
+    <a href="/students/email_courses/{{ THIS_SEMESTER }}/{{ THIS_YEAR }}/"><span style="font-size:smaller;">[email to me]</span></a>
+    <ul>
+    {% for myc in mycourses %}
+        {% ifequal THIS_YEAR myc.offering.year %}
+        {% ifequal THIS_SEMESTER myc.offering.semester %}
+        <li>
+            <a href="{{ myc.offering.course.get_absolute_url }}">
+                {{ myc.offering.course.dep }} {{ myc.offering.course.num }}:
+                {{ myc.offering.course.title }}
+                {% if myc.offering.course.high_grade %}<strong>A+</strong>{% endif %}
+                ({{ myc.offering.course.num_reviews }})
+                {% if myc.offering.course.dr %} [{{ myc.offering.course.dr }}]{% endif %}</a>
+
+            <a href="/students/class_roster/{{ myc.offering.course.cid }}/" style="font-size:smaller;">[class roster]</a>
+            <a href="/students/remove_mycourse/{{ myc.id }}/" style="font-size:smaller;">[remove]</a>
+        </li>
+        {% endifequal %}
+        {% endifequal %}
+    {% endfor %}
+    </ul>
+    </p>
+</td>
+<td width="50%">
+  <p>
+    {% ifnotequal THIS_SEMESTER NEXT_SEMESTER %}
+    <strong>Next Semester ({{ NEXT_SEMESTER }} {{ NEXT_YEAR }}):</strong>
+    <a href="/students/email_courses/{{ NEXT_SEMESTER }}/{{ NEXT_YEAR }}/"><span style="font-size:smaller;">[email to me]</span></a>
+    <ul>
+    {% for myc in mycourses %}
+        {% ifequal NEXT_YEAR myc.offering.year %}
+        {% ifequal NEXT_SEMESTER myc.offering.semester %}
+        <li>
+            <a href="{{ myc.offering.course.get_absolute_url }}">
+                {{ myc.offering.course.dep }} {{ myc.offering.course.num }}:
+                {{ myc.offering.course.title }}
+                {% if myc.offering.course.high_grade %}<strong>A+</strong>{% endif %}
+                ({{ myc.offering.course.num_reviews }})
+                {% if myc.offering.course.dr %}
+                [{{ myc.offering.course.dr }}]
+                {% endif %}
+            <a href="/students/remove_mycourse/{{ myc.id }}/" style="font-size:smaller;">[remove]</a>
+        </li>
+        {% endifequal %}
+        {% endifequal %}
+    {% endfor %}
+    </ul>
+    {% endifnotequal %}
+  </p>
+</td>
+</tr>
+</table>
+{% else %}
+    <p class="hello">
+      You have not added any courses to your list.
+      <a href="/courses/dept/ALL/">Find</a> your course and
+      then click <strong>"Add to My Courses"</strong>.
+    </p>
+{% endif %}
+
+{% if recent_courses %}
+<table>
+<tr>
+<td>
+    <p><strong>Princeton's Most Popular Courses <span style="font-size:smaller;">(by page views)</span>:</strong>
+    <ol>
+        {% for c in popular_courses %}
+        <li>
+            <a href="{{ c.get_absolute_url }}">
+                {{ c.dep }} {{ c.num }}: {{ c.title }}
+                {% if c.high_grade %}<strong>A+</strong>{% endif %}
+                ({{ c.num_reviews }}) {% if c.dr %}[{{ c.dr }}]{% endif %}
+        </a></li>
+        {% endfor %}
+    </ol></p>
+</td>
+<td width="50%">
+
+    <p><strong>My Recently Viewed Courses:</strong>
+    {% regroup recent_courses by dep as grouped %}
+    <ul>
+        {% for group in grouped %}
+        {% for c in group.list %}
+        <li>
+            <a href="{{ c.get_absolute_url }}">
+                {{ c.dep }} {{ c.num }}: {{ c.title }}
+                {% if c.high_grade %}<strong>A+</strong>{% endif %}
+                ({{ c.num_reviews }}) {% if c.dr %}[{{ c.dr }}]{% endif %}
+        </a></li>
+        {% endfor %}
+        {% endfor %}
+    </ul></p>
+</td>
+</tr>
+</table>
+{% endif %}
+{% endblock %}

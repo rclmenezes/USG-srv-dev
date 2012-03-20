@@ -1,0 +1,22 @@
+{% extends "students/base.html" %}
+{% block title %}Class Roster {% endblock %}
+
+{% block middle %}
+
+<h1>Class Roster</h1>
+
+{% if students %}
+    {% for s in students %}
+    <ul>
+        <li>
+            <a href="http://www.princeton.edu/main/tools/search/?query={{ s.username }}&app=search&type=and&db=Main&magic_roxen_automatic_charset_variable=%E5%E4%F6%u829F@UTF-8&area=people">
+            {{ s.username }}
+            </a>
+        </li>
+    </ul>
+    {% endfor %}
+{% else %}
+    No students have added this to their course list yet on the SCG for this semester.
+{% endif %}
+
+{% endblock %}

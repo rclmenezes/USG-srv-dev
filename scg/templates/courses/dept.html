@@ -1,0 +1,113 @@
+{% extends "courses/base.html" %}
+{% block title %}Departments{% if department %} - {{ department }}{% endif %}{% endblock %}
+
+{% block middle %}
+    {% comment %}
+    <ul class="long">
+        {% for d in departments %}
+        <li><a href='../{{ department }}/'>{{ d }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endcomment %}
+
+    <table class="long" width="100%">
+    <tr>
+    <td><a href="/courses/dept/AAS/">AAS</a></td>
+    <td><a href="/courses/dept/APC/">APC</a></td>
+    <td><a href="/courses/dept/CEE/">CEE</a></td>
+    <td><a href="/courses/dept/CLA/">CLA</a></td>
+    <td><a href="/courses/dept/DAN/">DAN</a></td>
+    <td><a href="/courses/dept/EGR/">EGR</a></td>
+    <td><a href="/courses/dept/FIN/">FIN</a></td>
+    <td><a href="/courses/dept/HEB/">HEB</a></td>
+    <td><a href="/courses/dept/HUM/">HUM</a></td>
+    <td><a href="/courses/dept/KOR/">KOR</a></td>
+    <td><a href="/courses/dept/MAT/">MAT</a></td>
+    <td><a href="/courses/dept/NES/">NES</a></td>
+    <td><a href="/courses/dept/PHY/">PHY</a></td>
+    <td><a href="/courses/dept/REL/">REL</a></td>
+    <td><a href="/courses/dept/STC/">STC</a></td>
+    <td><a href="/courses/dept/VIS/">VIS</a></td>
+    </tr>
+    <tr>
+    <td><a href="/courses/dept/AFS/">AFS</a></td>
+    <td><a href="/courses/dept/ARA/">ARA</a></td>
+    <td><a href="/courses/dept/CHE/">CHE</a></td>
+    <td><a href="/courses/dept/CLG/">CLG</a></td>
+    <td><a href="/courses/dept/EAS/">EAS</a></td>
+    <td><a href="/courses/dept/ELE/">ELE</a></td>
+    <td><a href="/courses/dept/FRE/">FRE</a></td>
+    <td><a href="/courses/dept/HIN/">HIN</a></td>
+    <td><a href="/courses/dept/ITA/">ITA</a></td>
+    <td><a href="/courses/dept/LAS/">LAS</a></td>
+    <td><a href="/courses/dept/MED/">MED</a></td>
+    <td><a href="/courses/dept/ORF/">ORF</a></td>
+    <td><a href="/courses/dept/POL/">POL</a></td>
+    <td><a href="/courses/dept/RUS/">RUS</a></td>
+    <td><a href="/courses/dept/SWA/">SWA</a></td>
+    <td><a href="/courses/dept/WOM/">WOM</a></td>
+    </tr>
+    <tr>
+    <td><a href="/courses/dept/AMS/">AMS</a></td>
+    <td><a href="/courses/dept/ARC/">ARC</a></td>
+    <td><a href="/courses/dept/CHI/">CHI</a></td>
+    <td><a href="/courses/dept/COM/">COM</a></td>
+    <td><a href="/courses/dept/ECO/">ECO</a></td>
+    <td><a href="/courses/dept/ENG/">ENG</a></td>
+    <td><a href="/courses/dept/FRS/">FRS</a></td>
+    <td><a href="/courses/dept/HIS/">HIS</a></td>
+    <td><a href="/courses/dept/JDS/">JDS</a></td>
+    <td><a href="/courses/dept/LAT/">LAT</a></td>
+    <td><a href="/courses/dept/MOL/">MOL</a></td>
+    <td><a href="/courses/dept/PAW/">PAW</a></td>
+    <td><a href="/courses/dept/POP/">POP</a></td>
+    <td><a href="/courses/dept/SLA/">SLA</a></td>
+    <td><a href="/courses/dept/THR/">THR</a></td>
+    <td><a href="/courses/dept/WRI/">WRI</a></td>
+    </tr>
+    <tr>
+    <td><a href="/courses/dept/ANT/">ANT</a></td>
+    <td><a href="/courses/dept/ART/">ART</a></td>
+    <td><a href="/courses/dept/CHM/">CHM</a></td>
+    <td><a href="/courses/dept/COS/">COS</a></td>
+    <td><a href="/courses/dept/ECS/">ECS</a></td>
+    <td><a href="/courses/dept/ENV/">ENV</a></td>
+    <td><a href="/courses/dept/GEO/">GEO</a></td>
+    <td><a href="/courses/dept/HLS/">HLS</a></td>
+    <td><a href="/courses/dept/JPN/">JPN</a></td>
+    <td><a href="/courses/dept/LIN/">LIN</a></td>
+    <td><a href="/courses/dept/MSE/">MSE</a></td>
+    <td><a href="/courses/dept/PER/">PER</a></td>
+    <td><a href="/courses/dept/POR/">POR</a></td>
+    <td><a href="/courses/dept/SOC/">SOC</a></td>
+    <td><a href="/courses/dept/TPP/">TPP</a></td>
+    <td><a href="/courses/dept/WWS/">WWS</a></td>
+    </tr>
+    <tr>
+    <td><a href="/courses/dept/AOS/">AOS</a></td>
+    <td><a href="/courses/dept/AST/">AST</a></td>
+    <td><a href="/courses/dept/CHV/">CHV</a></td>
+    <td><a href="/courses/dept/CWR/">CWR</a></td>
+    <td><a href="/courses/dept/EEB/">EEB</a></td>
+    <td><a href="/courses/dept/EPS/">EPS</a></td>
+    <td><a href="/courses/dept/GER/">GER</a></td>
+    <td><a href="/courses/dept/HOS/">HOS</a></td>
+    <td><a href="/courses/dept/JRN/">JRN</a></td>
+    <td><a href="/courses/dept/MAE/">MAE</a></td>
+    <td><a href="/courses/dept/MUS/">MUS</a></td>
+    <td><a href="/courses/dept/PHI/">PHI</a></td>
+    <td><a href="/courses/dept/PSY/">PSY</a></td>
+    <td><a href="/courses/dept/SPA/">SPA</a></td>
+    <td><a href="/courses/dept/TUR/">TUR</a></td>
+    </tr>
+    </table>
+
+
+    <ul>
+    {% for c in courses %}
+        <li>
+        {{ c.quick_summary }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

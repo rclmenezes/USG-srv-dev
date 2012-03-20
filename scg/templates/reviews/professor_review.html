@@ -1,0 +1,17 @@
+<div class='comment' id="review_{{ review.id }}">
+<b>{{ review.average }}</b>
+<div class='grade_breakdown'>(Organization: {{ review.q1 }} • Accessibility: {{ review.q2 }} • Appeal: {{ review.q3 }} • Overall: {{ review.q4 }})</div>
+<br />
+{{ review.term }} {{ review.year }}
+<br />
+<b>Professor {{ review.professor }}</b>
+<br />
+{{ review.course }}
+{% comment %}
+{% if review.user.department.department %}
+<br />
+Reviewer's Home Department: <strong>{{ review.user.department.department }}</strong>
+{% endif %}
+{% endcomment %}
+{{ review.comment|escape|linebreaks }}
+</div>

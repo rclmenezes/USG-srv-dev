@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block middle %}
+
+{% if reviews %}
+    {% for review in reviews %}
+        {% include "reviews/professor_review.html" %}
+    {% endfor %}
+{% else %}
+    No Reviews...
+    <a href="/reviews/post/?pid={{ pid }}">Add a Professor Review</a>
+{% endif %}
+
+{% endblock %}

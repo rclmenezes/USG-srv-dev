@@ -1,0 +1,288 @@
+@import "/css/boards.css";
+
+html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;
+    font-size: 15px;
+}
+
+body {
+    background: #4B4B4B url(/media/images/metal.png) repeat-y top center;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+    position: relative;
+    min-height: 100%;
+    height: 100%;
+    margin-bottom: 1px;
+}
+
+a {
+    color: #144B9D;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.login-box {
+    width: 10em;
+    margin: 0 auto;
+    position: relative;
+    text-align: left;
+    height: auto;
+    padding: 20px 0 20px 0;
+}
+
+.errorlist {
+    color: red;
+}
+
+.content {
+    /* if you change these, change them in the formula below */
+    min-width: 800px;
+    max-width: 1250px;
+
+    margin: 0 10%;
+    text-align: left;
+    height: auto;
+    padding: 20px;
+    background: white;
+}
+
+/* The two layout tables: one for saved courses, one for most popular
+   courses. */
+.content > table {
+    width: 100%;
+}
+
+.credits {
+    font: 8pt verdana;
+    text-transform: lowercase;
+    text-align: center;
+    margin: 2em 0;
+    margin-bottom: -0.5em;
+    color: #aaaaaa;
+}
+
+.credits a {
+    color: #FCB21D;
+    text-decoration: none;
+}
+
+.clear { clear: both; }
+
+/****************************
+* Inner Formatting
+*****************************/
+
+h1 {
+    clear: left;
+    color: #fca000;
+    font-size: x-large;
+    font-weight: normal;
+    margin: 0 0 15px 0;
+}
+
+.comment {
+    background-color: #FFE1B3; /* pinkish light orange */
+    border: 1px solid black;
+    padding: 10px;
+    margin-right:auto;
+    margin-bottom: 5px;
+}
+
+.grade_breakdown {
+    float:right;
+}
+
+.not_offered {
+    color: gray;
+}
+
+.not_offered a {
+    color: gray;
+}
+
+.tall {
+    border: solid #fca000 2px;
+    background-color: #fceed5;
+    padding: 10px;
+    line-height: 1.2em;
+
+    /* centers */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: auto;
+    font-size: larger;
+}
+
+.tall li {
+    list-style-type: none;
+    color: black;
+    margin: 0px;
+}
+
+.long {
+    background-color: #fceed5;
+    padding: 10px;
+    line-height: 1.5em;
+    text-align: center;
+    /* Counter-act .content */
+    margin: 0 -10px;
+    border: 2px solid #fca000;
+}
+
+table.long {
+    width: 100%;
+    line-height: 1.0em;
+}
+
+.review {
+    border: solid #fca000 2px;
+    padding: 10px;
+    background-color: #fceed5;
+}
+
+.reviews {
+    width: auto;
+}
+
+li {
+    margin: 10px;
+    line-height: 1.2em;
+}
+
+.long li {
+    display: inline;
+    list-style-type: none;
+}
+
+.professor_image {
+    padding: 1em;
+}
+
+
+p.footer {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+td {
+    vertical-align: top;
+}
+
+/****************************
+* The header
+*****************************/
+
+.header {
+    background-image: url('/media/images/header-bg.png');
+    background-color: #f9a40f;
+    background-repeat: repeat-x;
+
+    width: 80%;
+    /* 840 = 800 (.content#width) + 40 (2 * .content#margin-left) */
+    min-width: 840px;
+    border-collapse: collapse;
+    margin: 0 10%;
+}
+
+.header td {
+    padding: 20px;
+    vertical-align: bottom;
+}
+
+.header .header-left {
+}
+
+.header .header-right {
+    text-align: right;
+}
+
+#navsearch {
+    color: white;
+    font-size: normal;
+    font-weight: bold;
+    height: 35px;
+}
+
+#navsearchInput {
+    font-family: Tahoma, Trebuchet MS, Verdana, Arial, sans-serif;
+    text-align: center;
+    color: #888888;
+    width: 22.3em;
+    margin: 0 0 0 0;
+}
+
+#navsearchSubmit {
+    height: 29px;
+    width: 29px;
+    background: url('/media/images/magglass.png') no-repeat top right !important;
+    background: none;
+    border: 0px solid black;
+    cursor: pointer;
+}
+
+.logo {
+    width: 312px;
+    height: 105px;
+    background: url(/media/images/logo.png) no-repeat top left !important;
+    background: none;
+    text-indent: -10000px;
+}
+
+.navlinks {
+    color: white;
+    font-size: larger;
+    font-weight: bold;
+    text-align: left;
+    display: inline-block;
+}
+
+.navlinks a {
+    color: white;
+    text-decoration: none;
+}
+
+.navlinks a:hover {
+    text-decoration: underline;
+}
+
+.navlinks ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+.navlinks ul.my-depts {
+    font-weight: normal;
+}
+
+.navlinks li {
+    margin: 0;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+/* Home ********************/
+body#home p.hello {
+    font-size: 1.5em;
+    margin: 1em 10%;
+}
+
+/* Course detail ********************/
+/* Hide the timetable we pulled from Registrar since that information
+can change. */
+
+body#course-detail #timetable table {
+    display: none;
+}

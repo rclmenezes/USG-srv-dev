@@ -1,0 +1,293 @@
+WOM 	313 	F10-11	 2	SA	AAS 	311 	CROSS LISTED	An Introduction to Black Women's Studies	AAS 311/WOM 313	000018
+REL 	321 	F10-11	 2	HA	AAS 	321 	CROSS LISTED	Black Power and Its Theology of Liberation	AAS 321/REL 321	008832
+ENG 	393 	F10-11	 2	LA	AAS 	325 	CROSS LISTED	African American Autobiography	AAS 325/ENG 393	000022
+AMS 	340 	F10-11	 3	LA	AAS 	340 	CROSS LISTED	Shades of Passing	AAS 340/ENG 391/AMS 340	010235
+ENG 	391 	F10-11	 2	LA	AAS 	340 	CROSS LISTED	Shades of Passing	AAS 340/ENG 391/AMS 340	010235
+ENG 	352 	F10-11	 2	LA	AAS 	353 	CROSS LISTED	African American Literature:  Origins to 1910	AAS 353/ENG 352	000008
+POL 	338 	F10-11	 3	SA	AAS 	362 	CROSS LISTED	Race and the American Legal Process:  Emancipation to the Voting Rights Act	AAS 362/WWS 497/POL 338	011187
+WWS 	497 	F10-11	 2	SA	AAS 	362 	CROSS LISTED	Race and the American Legal Process:  Emancipation to the Voting Rights Act	AAS 362/WWS 497/POL 338	011187
+REL 	362 	F10-11	 3	LA	AAS 	365 	CROSS LISTED	Migration and the Literary Imagination	AAS 365/REL 362	011394
+PSY 	384 	F10-11	 2	SA	AAS 	384 	CROSS LISTED	Prejudice:  Its Causes, Consequences, and Cures	AAS 384/PSY 384	011395
+ANT 	403 	F10-11	 2	EM	AAS 	403 	CROSS LISTED	Race and Medicine	AAS 403/ANT 403	009139
+HIS 	477 	F10-11	 2	HA	AAS 	477 	CROSS LISTED	The Civil Rights Movement	AAS 477/HIS 477	008483
+POL 	425 	F10-11	 2	SA	AMS 	305 	CROSS LISTED	Law and Work	AMS 305/POL 425	011396
+EEB 	315 	F10-11	 2	ST	ANT 	215 	CROSS LISTED	Human Adaptation	ANT 215/EEB 315	008144
+SAS 	217 	F10-11	 2	SA	ANT 	217 	CROSS LISTED	Introduction to South Asian Cultures	ANT 217/SAS 217	011399
+HLS 	223 	F10-11	 2	EC	ANT 	223 	CROSS LISTED	Anthropology of the Psyche	ANT 223/HLS 223	011188
+HLS 	351 	F10-11	 2	EM	ANT 	351 	CROSS LISTED	Tolerance and Governance in the Mediterranean	ANT 351/HLS 351	011400
+GEO 	527 	F10-11	 2	 	AOS 	527 	CROSS LISTED	Atmospheric Radiative Transfer	AOS 527/GEO 527	007316
+GEO 	577 	F10-11	 2	 	AOS 	577 	CROSS LISTED	Weather and Climate Dynamics	AOS 577/GEO 577	007325
+GEO 	578 	F10-11	 2	 	AOS 	578 	CROSS LISTED	Chemical Oceanography	AOS 578/GEO 578	007326
+AST 	557 	F10-11	 2	 	APC 	503 	CROSS LISTED	Analytical Techniques in Differential Equations	APC 503/AST 557	007858
+ART 	328 	F10-11	 2	HA	ARC 	308 	CROSS LISTED	History of Architectural Theory	ARC 308/ART 328	000293
+ART 	524 	F10-11	 2	 	ARC 	525 	CROSS LISTED	Mapping the City	ARC 525/ART 524	000359
+ART 	581 	F10-11	 2	 	ARC 	571 	CROSS LISTED	Research in Architecture	ARC 571/ART 581	000395
+EAS 	217 	F10-11	 2	LA	ART 	217 	CROSS LISTED	The Arts of Japan	ART 217/EAS 217	000533
+LAS 	268 	F10-11	 2	LA	ART 	268 	CROSS LISTED	Introduction to Mesoamerican Material Culture	ART 268/LAS 268	011416
+CLA 	307 	F10-11	 3	LA	ART 	307 	CROSS LISTED	Hellenistic Art	ART 307/HLS 307/CLA 307	011182
+HLS 	307 	F10-11	 2	LA	ART 	307 	CROSS LISTED	Hellenistic Art	ART 307/HLS 307/CLA 307	011182
+ARC 	320 	F10-11	 2	LA	ART 	320 	CROSS LISTED	Rome, the Eternal City	ART 320/ARC 320	000568
+HLS 	430 	F10-11	 2	LA	ART 	430 	CROSS LISTED	Seminar. Medieval Art	ART 430/HLS 430	000623
+LAS 	443 	F10-11	 2	LA	ART 	443 	CROSS LISTED	Global Exchange in Art and Architecture	ART 443/LAS 443	009945
+ARC 	445 	F10-11	 2	LA	ART 	445 	CROSS LISTED	Topics in the History and Theory of Architecture in Early-Modern Europe: The Rome of Giovanni Battista Piranesi	ART 445/ARC 445	008938
+GER 	520 	F10-11	 2	 	ART 	565 	CROSS LISTED	Seminar in Modernist Art and Theory: Painting, Sculpture and Other Things	ART 565/GER 520	000672
+MAE 	525 	F10-11	 2	 	AST 	551 	CROSS LISTED	General Plasma Physics I	AST 551/MAE 525	000742
+DAN 	451 	F10-11	 2	LA	ATL 	498 	CROSS LISTED	Princeton Atelier: Collective Motion/Site-Specific Performance	ATL 498/DAN 451	003864
+THR 	499 	F10-11	 2	LA	ATL 	499 	CROSS LISTED	Princeton Atelier: Dramatizing History:Playwriting, Music Theater,Performance	ATL 499/THR 499	003865
+EGR 	260 	F10-11	 2	EM	CBE 	260 	CROSS LISTED	Ethics and Technology: Engineering in the Real World	CBE 260/EGR 260	008457
+MOL 	438 	F10-11	 2	 	CBE 	438 	CROSS LISTED	Biomolecular Engineering	CBE 438/MOL 438	011126
+APC 	502 	F10-11	 2	 	CBE 	502 	CROSS LISTED	Mathematical Methods of Engineering Analysis II	CBE 502/APC 502	001798
+MOL 	538 	F10-11	 2	 	CBE 	538 	CROSS LISTED	Biomolecular Engineering	CBE 538/MOL 538	010427
+CBE 	549 	F10-11	 3	 	CBE 	549 	CROSS LISTED	Organic Electronics	CBE 549/CBE 549	011403
+EGR 	102A	F10-11	 2	HA	CEE 	102A	CROSS LISTED	Engineering in the Modern World	CEE 102A/EGR 102A/MAE 102A	008721
+MAE 	102A	F10-11	 3	HA	CEE 	102A	CROSS LISTED	Engineering in the Modern World	CEE 102A/EGR 102A/MAE 102A	008721
+EGR 	102B	F10-11	 2	ST	CEE 	102B	CROSS LISTED	Engineering in the Modern World	CEE 102B/EGR 102B/MAE 102B	008724
+MAE 	102B	F10-11	 3	ST	CEE 	102B	CROSS LISTED	Engineering in the Modern World	CEE 102B/EGR 102B/MAE 102B	008724
+GEO 	375 	F10-11	 2	 	CEE 	305 	CROSS LISTED	Environmental Fluid Mechanics	CEE 305/GEO 375	008035
+CHM 	311 	F10-11	 2	 	CEE 	311 	CROSS LISTED	Global Air Pollution	CEE 311/CHM 311/GEO 311	011097
+GEO 	311 	F10-11	 3	 	CEE 	311 	CROSS LISTED	Global Air Pollution	CEE 311/CHM 311/GEO 311	011097
+MAE 	325 	F10-11	 2	 	CEE 	361 	CROSS LISTED	Matrix Structural Analysis and Introduction to Finite Element Methods	CEE 361/MAE 325	007953
+GEO 	471 	F10-11	 2	 	CEE 	471 	CROSS LISTED	Introduction to Water Pollution Technology	CEE 471/GEO 471/URB 471	007964
+URB 	471 	F10-11	 3	 	CEE 	471 	CROSS LISTED	Introduction to Water Pollution Technology	CEE 471/GEO 471/URB 471	007964
+CBE 	524 	F10-11	 2	 	CHM 	503 	CROSS LISTED	Introduction to Statistical Mechanics	CHM 503/CBE 524	001009
+PHI 	557 	F10-11	 2	 	CHV 	525 	CROSS LISTED	On What Matters: Reading Parfit	CHV 525/PHI 557	011373
+HUM 	212 	F10-11	 2	LA	CLA 	212 	CROSS LISTED	Classical Mythology	CLA 212/HUM 212	001090
+HIS 	218 	F10-11	 2	HA	CLA 	218 	CROSS LISTED	The Roman Republic	CLA 218/HIS 218	001095
+HIS 	326 	F10-11	 2	HA	CLA 	326 	CROSS LISTED	Topics in Ancient History: Religion in Roman Society	CLA 326/HIS 326	001104
+MED 	329 	F10-11	 2	SA	CLA 	329 	CROSS LISTED	Sex and Gender in the Ancient World	CLA 329/MED 329	001107
+LIN 	475 	F10-11	 2	 	CLA 	475 	CROSS LISTED	Introduction to Sanskrit	CLA 475/LIN 475	009346
+HLS 	240 	F10-11	 2	LA	CLG 	240 	CROSS LISTED	Introduction to Postclassical Greek from the Late Antique to the Byzantine Era	CLG 240/HLS 240	003255
+HUM 	205 	F10-11	 2	LA	COM 	205 	CROSS LISTED	The Classical Roots of Western Literature	COM 205/HUM 205	003769
+LAS 	238 	F10-11	 2	LA	COM 	238 	CROSS LISTED	Contemporary Latin American Literature	COM 238/LAS 238	010600
+ENG 	420 	F10-11	 2	LA	COM 	309 	CROSS LISTED	The Lyric	COM 309/ENG 420/SPA 349	004038
+SPA 	349 	F10-11	 3	LA	COM 	309 	CROSS LISTED	The Lyric	COM 309/ENG 420/SPA 349	004038
+NES 	380 	F10-11	 2	LA	COM 	380 	CROSS LISTED	Social and Political Themes in the Arabic Novel	COM 380/NES 380	010931
+ENG 	570 	F10-11	 3	 	COM 	527 	CROSS LISTED	Twentieth-Century Writing	COM 527/FRE 559/ENG 570	011372
+FRE 	559 	F10-11	 2	 	COM 	527 	CROSS LISTED	Twentieth-Century Writing	COM 527/FRE 559/ENG 570	011372
+SPA 	586 	F10-11	 4	 	COM 	546 	CROSS LISTED	Topics in Latin American Studies	COM 546/SPA 586	011377
+FRE 	563 	F10-11	 2	 	COM 	563 	CROSS LISTED	Studies in Forms of Narrative: City, Society, and the Novel	COM 563/FRE 563	004092
+EGR 	109 	F10-11	 2	QR	COS 	109 	CROSS LISTED	Computers in Our World	COS 109/EGR 109	002046
+EGR 	126 	F10-11	 2	QR	COS 	126 	CROSS LISTED	General Computer Science	COS 126/EGR 126	002051
+ELE 	375 	F10-11	 2	 	COS 	375 	CROSS LISTED	Computer Architecture and Organization	COS 375/ELE 375	009084
+MAT 	447 	F10-11	 2	 	COS 	487 	CROSS LISTED	Theory of Computation	COS 487/MAT 447	002081
+MOL 	551 	F10-11	 2	 	COS 	551 	CROSS LISTED	Introduction to Genomics and Computational Molecular Biology	COS 551/MOL 551	002107
+COM 	355 	F10-11	 2	LA	CWR 	305 	CROSS LISTED	Advanced Creative Writing (Literary Translation)	CWR 305/COM 355	001226
+LAS 	375 	F10-11	 2	LA	CWR 	345 	CROSS LISTED	Special Topics in Creative Writing: Techniques of the Novel	CWR 345/LAS 375/SPA 360	010493
+SPA 	360 	F10-11	 3	LA	CWR 	345 	CROSS LISTED	Special Topics in Creative Writing: Techniques of the Novel	CWR 345/LAS 375/SPA 360	010493
+THR 	348 	F10-11	 3	LA	CWR 	348 	CROSS LISTED	Screenwriting I: Screenwriting as a Visual Medium	CWR 348/VIS 348/THR 348	010530
+VIS 	348 	F10-11	 2	LA	CWR 	348 	CROSS LISTED	Screenwriting I: Screenwriting as a Visual Medium	CWR 348/VIS 348/THR 348	010530
+THR 	448 	F10-11	 3	LA	CWR 	448 	CROSS LISTED	Screenwriting II: Creating Visual and Emotional Unity	CWR 448/VIS 448/THR 448	010531
+VIS 	448 	F10-11	 2	LA	CWR 	448 	CROSS LISTED	Screenwriting II: Creating Visual and Emotional Unity	CWR 448/VIS 448/THR 448	010531
+THR 	304 	F10-11	 2	LA	DAN 	304 	CROSS LISTED	Special Topics in Contemporary Practice: Direction through Choreography	DAN 304/THR 304	011410
+ANT 	225 	F10-11	 2	SA	EAS 	225 	CROSS LISTED	Japanese Society and Culture	EAS 225/ANT 225	001258
+ANT 	348 	F10-11	 3	SA	EAS 	347 	CROSS LISTED	Sexuality and China: Culture, Medicine and Politics	EAS 347/ANT 348	011411
+HIS 	415 	F10-11	 2	EM	EAS 	415 	CROSS LISTED	Intellectual History of China to the Fifth Century	EAS 415/HIS 415	001286
+HIS 	525 	F10-11	 2	 	EAS 	571 	CROSS LISTED	Readings in Early Modern Korean History	EAS 571/HIS 525	010662
+ANT 	583 	F10-11	 2	 	EAS 	583 	CROSS LISTED	Modernity and China (II):  Medicine	EAS 583/ANT 583	011376
+EPS 	342 	F10-11	 2	SA	ECO 	372 	CROSS LISTED	Topics in Country and Regional Economics: Economics of the European Union and Economies in Europe	ECO 372/EPS 342	009251
+EAS 	346 	F10-11	 2	SA	ECO 	379 	CROSS LISTED	The Chinese Economy	ECO 379/EAS 346	001420
+FIN 	595 	F10-11	 2	 	ECO 	525 	CROSS LISTED	Financial Economics I	ECO 525/FIN 595	001454
+HUM 	321 	F10-11	 2	LA	ECS 	321 	CROSS LISTED	Cultural Systems: Freud and 20th Century Culture	ECS 321/HUM 321	002578
+MOL 	211 	F10-11	 2	ST	EEB 	211 	CROSS LISTED	The Biology of Organisms	EEB 211/MOL 211	001521
+ENV 	341 	F10-11	 2	 	EEB 	341 	CROSS LISTED	Water, Savannas and Society: Resilience and Sustainability in African Drylands	EEB 341/ENV 341	010797
+ENV 	417B	F10-11	 2	 	EEB 	417B	CROSS LISTED	Ecosystems and Global Change	EEB 417B/ENV 417B	010086
+WWS 	495 	F10-11	 2	 	EEB 	495 	CROSS LISTED	Disease Dynamics: Data, Theory, and Policy	EEB 495/WWS 495	011412
+MAT 	191 	F10-11	 2	ST	EGR 	191 	CROSS LISTED	An Integrated Introduction to Engineering, Mathematics, Physics	EGR 191/MAT 191/PHY 191	009759
+PHY 	191 	F10-11	 3	ST	EGR 	191 	CROSS LISTED	An Integrated Introduction to Engineering, Mathematics, Physics	EGR 191/MAT 191/PHY 191	009759
+MAT 	192 	F10-11	 2	QR	EGR 	192 	CROSS LISTED	An Integrated Introduction to Engineering, Mathematics, Physics	EGR 192/MAT 192/PHY 192	009760
+PHY 	192 	F10-11	 3	QR	EGR 	192 	CROSS LISTED	An Integrated Introduction to Engineering, Mathematics, Physics	EGR 192/MAT 192/PHY 192	009760
+WWS 	493 	F10-11	 2	 	EGR 	492 	CROSS LISTED	Technical Innovation and Foreign Policy	EGR 492/WWS 493	010971
+EGR 	353 	F10-11	 3	 	ELE 	353 	CROSS LISTED	Fundamental Principles of Optical and Electronic Devices: How Physics Makes Devices Work	ELE 353/EGR 353	011413
+EGR 	431 	F10-11	 4	QR	ELE 	431 	CROSS LISTED	Solar Energy Conversion	ELE 431/MAE 431/ENV 431/EGR 431	010764
+ENV 	431 	F10-11	 3	QR	ELE 	431 	CROSS LISTED	Solar Energy Conversion	ELE 431/MAE 431/ENV 431/EGR 431	010764
+MAE 	431 	F10-11	 2	QR	ELE 	431 	CROSS LISTED	Solar Energy Conversion	ELE 431/MAE 431/ENV 431/EGR 431	010764
+COS 	462 	F10-11	 2	 	ELE 	462 	CROSS LISTED	Design of Very Large Scale Integrated (VLSI) Systems	ELE 462/COS 462	002501
+EGR 	491 	F10-11	 2	 	ELE 	491 	CROSS LISTED	High-Tech Entrepreneurship	ELE 491/EGR 491/ORF 491	002518
+ORF 	491 	F10-11	 3	 	ELE 	491 	CROSS LISTED	High-Tech Entrepreneurship	ELE 491/EGR 491/ORF 491	002518
+MAE 	547 	F10-11	 2	 	ELE 	521 	CROSS LISTED	Linear System Theory	ELE 521/MAE 547	008396
+MSE 	553 	F10-11	 2	 	ELE 	553 	CROSS LISTED	Nonlinear Optics	ELE 553/MSE 553	002559
+COS 	580 	F10-11	 2	 	ELE 	580 	CROSS LISTED	Advanced Topics in Computer Engineering: Trustworthy Computing	ELE 580/COS 580	002565
+AMS 	393 	F10-11	 2	LA	ENG 	410 	CROSS LISTED	Jewish Identity and Performance in the US	ENG 410/AMS 393/THR 368/JDS 410	011415
+JDS 	410 	F10-11	 4	LA	ENG 	410 	CROSS LISTED	Jewish Identity and Performance in the US	ENG 410/AMS 393/THR 368/JDS 410	011415
+THR 	368 	F10-11	 3	LA	ENG 	410 	CROSS LISTED	Jewish Identity and Performance in the US	ENG 410/AMS 393/THR 368/JDS 410	011415
+AAS 	413 	F10-11	 2	LA	ENG 	411 	CROSS LISTED	Major Author(s): August Wilson: African American Life in the 20th Century	ENG 411/AAS 413	002680
+COM 	549 	F10-11	 2	 	ENG 	543 	CROSS LISTED	The 18th Century: Reading Characters: Clarissa in Context	ENG 543/COM 549	002709
+CEE 	583 	F10-11	 3	 	ENV 	531 	CROSS LISTED	Topics in Energy and the Environment: Making the most of Scarce Hydrocarbon Resources	ENV 531/GEO 531/CEE 583	011160
+GEO 	531 	F10-11	 2	 	ENV 	531 	CROSS LISTED	Topics in Energy and the Environment: Making the most of Scarce Hydrocarbon Resources	ENV 531/GEO 531/CEE 583	011160
+ECS 	302 	F10-11	 2	 	EPS 	302 	CROSS LISTED	Landmarks of European Identity	EPS 302/ECS 302	010856
+ORF 	514 	F10-11	 2	 	FIN 	501 	CROSS LISTED	Asset Pricing I: Pricing Models and Derivatives	FIN 501/ORF 514	008702
+THR 	211 	F10-11	 2	LA	FRE 	211 	CROSS LISTED	French Theater Workshop	FRE 211/THR 211	010093
+ENV 	102B	F10-11	 2	ST	GEO 	102B	CROSS LISTED	Climate:  Past, Present, and Future	GEO 102B/ENV 102B	011153
+CEE 	235 	F10-11	 2	ST	GEO 	203 	CROSS LISTED	Geology	GEO 203/CEE 235	009622
+AST 	207 	F10-11	 2	QR	GEO 	207 	CROSS LISTED	A Guided Tour of the Solar System	GEO 207/AST 207	009333
+AST 	255 	F10-11	 2	QR	GEO 	255 	CROSS LISTED	Life in the Universe	GEO 255/AST 255/EEB 255/CHM 255	009408
+CHM 	255 	F10-11	 4	QR	GEO 	255 	CROSS LISTED	Life in the Universe	GEO 255/AST 255/EEB 255/CHM 255	009408
+EEB 	255 	F10-11	 3	QR	GEO 	255 	CROSS LISTED	Life in the Universe	GEO 255/AST 255/EEB 255/CHM 255	009408
+ENV 	399 	F10-11	 2	QR	GEO 	297 	CROSS LISTED	Environmental Decision Making	GEO 297/ENV 399	003020
+CEE 	360 	F10-11	 3	 	GEO 	361 	CROSS LISTED	Physics of the Ocean and Atmosphere	GEO 361/ENV 361/CEE 360	011155
+ENV 	361 	F10-11	 2	 	GEO 	361 	CROSS LISTED	Physics of the Ocean and Atmosphere	GEO 361/ENV 361/CEE 360	011155
+CHM 	331 	F10-11	 2	STX	GEO 	363 	CROSS LISTED	Environmental Geochemistry: Chemistry of the Natural Systems	GEO 363/CHM 331/ENV 331	003015
+ENV 	331 	F10-11	 3	STX	GEO 	363 	CROSS LISTED	Environmental Geochemistry: Chemistry of the Natural Systems	GEO 363/CHM 331/ENV 331	003015
+MAE 	425 	F10-11	 2	 	GEO 	425 	CROSS LISTED	Introduction to Physical Oceanography	GEO 425/MAE 425	003043
+PHY 	442 	F10-11	 2	 	GEO 	442 	CROSS LISTED	Geodynamics	GEO 442/PHY 442	011159
+ENV 	499 	F10-11	 2	 	GEO 	499 	CROSS LISTED	Environmental Change, Poverty and Conflict	GEO 499/ENV 499	003046
+CEE 	572 	F10-11	 2	 	GEO 	523 	CROSS LISTED	Geomicrobiology	GEO 523/CEE 572	003068
+ART 	372 	F10-11	 2	LA	GER 	372 	CROSS LISTED	Writing About Art (Rilke, Freud, Benjamin)	GER 372/ART 372/ECS 372	009351
+ECS 	372 	F10-11	 3	LA	GER 	372 	CROSS LISTED	Writing About Art (Rilke, Freud, Benjamin)	GER 372/ART 372/ECS 372	009351
+MOD 	517 	F10-11	 2	 	GER 	517 	CROSS LISTED	Modernism and Modernity: Aesthetics of Surveillance	GER 517/MOD 517	003204
+ANT 	491 	F10-11	 3	SA	GHP 	350 	CROSS LISTED	Critical Perspectives on Global Health and Health Policy	GHP 350/WWS 491/ANT 491	010857
+WWS 	491 	F10-11	 2	SA	GHP 	350 	CROSS LISTED	Critical Perspectives on Global Health and Health Policy	GHP 350/WWS 491/ANT 491	010857
+EAS 	207 	F10-11	 2	HA	HIS 	207 	CROSS LISTED	History of East Asia to 1800	HIS 207/EAS 207	003333
+HLS 	266 	F10-11	 2	HA	HIS 	236 	CROSS LISTED	The Greeks: History of a People	HIS 236/HLS 266	011151
+LAS 	305 	F10-11	 2	HA	HIS 	303 	CROSS LISTED	Colonial Latin America to 1810	HIS 303/LAS 305	003353
+EAS 	324 	F10-11	 2	HA	HIS 	322 	CROSS LISTED	20th-Century Japan	HIS 322/EAS 324	003372
+EAS 	354 	F10-11	 2	HA	HIS 	324 	CROSS LISTED	Early Modern China	HIS 324/EAS 354	003374
+JDS 	359 	F10-11	 2	HA	HIS 	359 	CROSS LISTED	Modern Jewish History: 1750-Present	HIS 359/JDS 359	003400
+AAS 	367 	F10-11	 2	HA	HIS 	387 	CROSS LISTED	African American History from Reconstruction to the Present	HIS 387/AAS 367	003426
+ENV 	433 	F10-11	 2	HA	HIS 	431 	CROSS LISTED	Comparative Environmental History	HIS 431/ENV 433	011075
+EAS 	439 	F10-11	 2	HA	HIS 	439 	CROSS LISTED	China's Frontiers	HIS 439/EAS 439	003466
+EAS 	522 	F10-11	 2	 	HIS 	527 	CROSS LISTED	20th-Century Japanese History	HIS 527/EAS 522	003523
+HLS 	542 	F10-11	 2	 	HIS 	542 	CROSS LISTED	Problems in Byzantine History: Formation of  Byzantium 600-850: Sources & Problems	HIS 542/HLS 542	003531
+AAS 	577 	F10-11	 2	 	HIS 	577 	CROSS LISTED	Readings in African American History	HIS 577/AAS 577	008465
+MOG 	101 	F10-11	 2	 	HLS 	101 	CROSS LISTED	Elementary Modern Greek I	HLS 101/MOG 101	005099
+MOG 	105 	F10-11	 2	 	HLS 	105 	CROSS LISTED	Intermediate Modern Greek	HLS 105/MOG 105	005101
+HIS 	594 	F10-11	 2	 	HOS 	594 	CROSS LISTED	History of Medicine: Medicine and the Making of the Modern Self	HOS 594/HIS 594	011165
+COM 	233 	F10-11	 3	EM	HUM 	233 	CROSS LISTED	East Asian Humanities I: The Classical Foundations	HUM 233/EAS 233/COM 233	010507
+EAS 	233 	F10-11	 2	EM	HUM 	233 	CROSS LISTED	East Asian Humanities I: The Classical Foundations	HUM 233/EAS 233/COM 233	010507
+PSY 	365 	F10-11	 2	EC	HUM 	365 	CROSS LISTED	Freud on the Psychological Foundations of the Mind	HUM 365/PSY 365	003821
+CHM 	231 	F10-11	 2	ST	ISC 	231 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 231/CHM 231/COS 231/MOL 231/PHY 231	009345
+COS 	231 	F10-11	 3	ST	ISC 	231 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 231/CHM 231/COS 231/MOL 231/PHY 231	009345
+MOL 	231 	F10-11	 4	ST	ISC 	231 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 231/CHM 231/COS 231/MOL 231/PHY 231	009345
+PHY 	231 	F10-11	 5	ST	ISC 	231 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 231/CHM 231/COS 231/MOL 231/PHY 231	009345
+CHM 	232 	F10-11	 2	QR	ISC 	232 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 232/CHM 232/COS 232/MOL 232/PHY 232	009347
+COS 	232 	F10-11	 3	QR	ISC 	232 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 232/CHM 232/COS 232/MOL 232/PHY 232	009347
+MOL 	232 	F10-11	 4	QR	ISC 	232 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 232/CHM 232/COS 232/MOL 232/PHY 232	009347
+PHY 	232 	F10-11	 5	QR	ISC 	232 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences I	ISC 232/CHM 232/COS 232/MOL 232/PHY 232	009347
+CHM 	235 	F10-11	 2	 	ISC 	235 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences III	ISC 235/CHM 235/COS 235/MOL 235/PHY 235	009680
+COS 	235 	F10-11	 3	 	ISC 	235 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences III	ISC 235/CHM 235/COS 235/MOL 235/PHY 235	009680
+MOL 	235 	F10-11	 4	 	ISC 	235 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences III	ISC 235/CHM 235/COS 235/MOL 235/PHY 235	009680
+PHY 	235 	F10-11	 5	 	ISC 	235 	CROSS LISTED	An Integrated, Quantitative Introduction to the Natural Sciences III	ISC 235/CHM 235/COS 235/MOL 235/PHY 235	009680
+MED 	303 	F10-11	 2	LA	ITA 	303 	CROSS LISTED	Dante's "Inferno"	ITA 303/MED 303	006204
+REL 	202 	F10-11	 2	HA	JDS 	202 	CROSS LISTED	Great Books of the Jewish Tradition	JDS 202/REL 202	010135
+WOM 	309 	F10-11	 2	LA	JDS 	301 	CROSS LISTED	Topics in Judaic Studies: Gender, Sexuality, and the Body in Judaism	JDS 301/WOM 309	006256
+NES 	302 	F10-11	 2	 	JDS 	302 	CROSS LISTED	Elementary Biblical Hebrew I	JDS 302/NES 302/REL 302	009955
+REL 	302 	F10-11	 3	 	JDS 	302 	CROSS LISTED	Elementary Biblical Hebrew I	JDS 302/NES 302/REL 302	009955
+NES 	399 	F10-11	 2	HA	JDS 	399 	CROSS LISTED	Modern Israel	JDS 399/NES 399	010972
+AMS 	346 	F10-11	 2	SA	LAO 	200 	CROSS LISTED	Latinos in American Life and Culture	LAO 200/AMS 346/SOC 341/LAS 336	010963
+LAS 	336 	F10-11	 4	SA	LAO 	200 	CROSS LISTED	Latinos in American Life and Culture	LAO 200/AMS 346/SOC 341/LAS 336	010963
+SOC 	341 	F10-11	 3	SA	LAO 	200 	CROSS LISTED	Latinos in American Life and Culture	LAO 200/AMS 346/SOC 341/LAS 336	010963
+SPA 	410 	F10-11	 2	LA	LAS 	401 	CROSS LISTED	Latin American Studies Seminar: Borges and Fiction	LAS 401/SPA 410	004382
+ARC 	411 	F10-11	 2	LA	LAS 	406 	CROSS LISTED	Latin American Studies Seminar: Modern Architecture Goes South: Museum, Mass Media and Pan-Americanism	LAS 406/ARC 411/SPA 406	010250
+SPA 	406 	F10-11	 3	LA	LAS 	406 	CROSS LISTED	Latin American Studies Seminar: Modern Architecture Goes South: Museum, Mass Media and Pan-Americanism	LAS 406/ARC 411/SPA 406	010250
+ENG 	213 	F10-11	 2	EC	LIN 	201 	CROSS LISTED	Introduction to Language and Linguistics	LIN 201/ENG 213	004322
+TRA 	303 	F10-11	 2	EC	LIN 	308 	CROSS LISTED	Bilingualism	LIN 308/TRA 303	011114
+CEE 	323 	F10-11	 2	 	MAE 	223 	CROSS LISTED	Modern Solid Mechanics	MAE 223/CEE 323	002334
+CBE 	228 	F10-11	 3	 	MAE 	228 	CROSS LISTED	Energy Solutions for the Next Century	MAE 228/EGR 228/CBE 228	010478
+EGR 	228 	F10-11	 2	 	MAE 	228 	CROSS LISTED	Energy Solutions for the Next Century	MAE 228/EGR 228/CBE 228	010478
+EGR 	244 	F10-11	 2	 	MAE 	244 	CROSS LISTED	Introduction to Biomedical Innovation and Global Health	MAE 244/EGR 244	010842
+EGR 	305 	F10-11	 3	QR	MAE 	305 	CROSS LISTED	Mathematics in Engineering I	MAE 305/MAT 301/EGR 305	002329
+MAT 	301 	F10-11	 2	QR	MAE 	305 	CROSS LISTED	Mathematics in Engineering I	MAE 305/MAT 301/EGR 305	002329
+EGR 	437 	F10-11	 2	 	MAE 	437 	CROSS LISTED	Introduction to Innovation Process Management	MAE 437/EGR 437/ELE 437	010155
+ELE 	437 	F10-11	 3	 	MAE 	437 	CROSS LISTED	Introduction to Innovation Process Management	MAE 437/EGR 437/ELE 437	010155
+EGR 	445 	F10-11	 2	 	MAE 	445 	CROSS LISTED	Entrepreneurial Engineering	MAE 445/EGR 445	010719
+APC 	501 	F10-11	 2	 	MAE 	501 	CROSS LISTED	Mathematical Methods of Engineering Analysis I	MAE 501/APC 501	002379
+APC 	571 	F10-11	 2	 	MAE 	541 	CROSS LISTED	Applied Dynamical Systems	MAE 541/APC 571	002429
+APC 	342 	F10-11	 2	QR	MAT 	342 	CROSS LISTED	Numerical Methods	MAT 342/APC 342	009029
+HUM 	227 	F10-11	 2	LA	MED 	227 	CROSS LISTED	The World of the Middle Ages	MED 227/HUM 227	001375
+EEB 	215 	F10-11	 2	ST	MOL 	215 	CROSS LISTED	Quantitative Principles in Cell and Molecular Biology	MOL 215/EEB 215	008909
+CHM 	345 	F10-11	 2	STX	MOL 	345 	CROSS LISTED	Biochemistry	MOL 345/CHM 345	000880
+COS 	455 	F10-11	 2	 	MOL 	455 	CROSS LISTED	Introduction to Genomics and Computational Molecular Biology	MOL 455/COS 455	010185
+CHM 	517 	F10-11	 4	 	MOL 	515 	CROSS LISTED	Method and Logic in Quantitative Biology	MOL 515/PHY 570/EEB 517/CHM 517	009523
+EEB 	517 	F10-11	 3	 	MOL 	515 	CROSS LISTED	Method and Logic in Quantitative Biology	MOL 515/PHY 570/EEB 517/CHM 517	009523
+PHY 	570 	F10-11	 2	 	MOL 	515 	CROSS LISTED	Method and Logic in Quantitative Biology	MOL 515/PHY 570/EEB 517/CHM 517	009523
+CEE 	561 	F10-11	 3	 	MSE 	501 	CROSS LISTED	Introduction to Materials	MSE 501/MAE 561/CEE 561	001193
+MAE 	561 	F10-11	 2	 	MSE 	501 	CROSS LISTED	Introduction to Materials	MSE 501/MAE 561/CEE 561	001193
+ELE 	513 	F10-11	 2	 	MSE 	531 	CROSS LISTED	Introduction to Nano/Microfabrication	MSE 531/ELE 513	001201
+EAS 	255 	F10-11	 2	SA	MUS 	255 	CROSS LISTED	Taiko Drumming Workshop: Japanese and North American Perspectives	MUS 255/EAS 255	011425
+HIS 	223 	F10-11	 2	HA	NES 	201 	CROSS LISTED	Introduction to the Middle East	NES 201/HIS 223	004583
+HIS 	220 	F10-11	 2	HA	NES 	220 	CROSS LISTED	Jews, Muslims, and Christians in the Middle Ages	NES 220/HIS 220/JDS 220	004594
+JDS 	220 	F10-11	 3	HA	NES 	220 	CROSS LISTED	Jews, Muslims, and Christians in the Middle Ages	NES 220/HIS 220/JDS 220	004594
+REL 	240 	F10-11	 2	EM	NES 	240 	CROSS LISTED	Muslims and the Qur'an	NES 240/REL 240	010437
+POL 	268 	F10-11	 2	SA	NES 	265 	CROSS LISTED	Political and Economic Development of the Middle East	NES 265/POL 268	009518
+POL 	369 	F10-11	 2	SA	NES 	321 	CROSS LISTED	Iran Since the Revolution	NES 321/POL 369	004605
+REL 	334 	F10-11	 2	EM	NES 	334 	CROSS LISTED	Modern Islamic Political Thought	NES 334/REL 334	010384
+HIS 	334 	F10-11	 2	HA	NES 	337 	CROSS LISTED	The Middle East in the Twentieth Century	NES 337/HIS 334	004615
+REL 	339 	F10-11	 2	HA	NES 	339 	CROSS LISTED	Introduction to Islamic Theology	NES 339/REL 339	009122
+HIS 	436 	F10-11	 2	HA	NES 	407 	CROSS LISTED	Right and Wrong: Historicizing Morality in the Modern Middle East	NES 407/HIS 436	011428
+HIS 	433 	F10-11	 2	HA	NES 	433 	CROSS LISTED	Imperialism and Reform in the Middle East and the Balkans	NES 433/HIS 433	004647
+HIS 	337 	F10-11	 2	HA	NES 	437 	CROSS LISTED	The Ottoman Empire, 1300-1800	NES 437/HIS 337/HLS 337	004651
+HLS 	337 	F10-11	 3	HA	NES 	437 	CROSS LISTED	The Ottoman Empire, 1300-1800	NES 437/HIS 337/HLS 337	004651
+COM 	539 	F10-11	 2	 	NES 	539 	CROSS LISTED	Studies in Persian Literature 900 - 1200 A.D.	NES 539/COM 539	004690
+POL 	528 	F10-11	 2	 	NES 	549 	CROSS LISTED	The Politics of the Contemporary Muslim World	NES 549/POL 528	010843
+PSY 	258 	F10-11	 2	STX	NEU 	258 	CROSS LISTED	Fundamentals of Neuroscience	NEU 258/PSY 258	005588
+MOL 	408 	F10-11	 2	STX	NEU 	408 	CROSS LISTED	Cellular and Systems Neuroscience	NEU 408/MOL 408/PSY 404	008160
+PSY 	404 	F10-11	 3	STX	NEU 	408 	CROSS LISTED	Cellular and Systems Neuroscience	NEU 408/MOL 408/PSY 404	008160
+MOL 	437 	F10-11	 2	 	NEU 	437 	CROSS LISTED	Computational Neuroscience	NEU 437/MOL 437/PSY 437	000894
+PSY 	437 	F10-11	 3	 	NEU 	437 	CROSS LISTED	Computational Neuroscience	NEU 437/MOL 437/PSY 437	000894
+PSY 	511 	F10-11	 2	 	NEU 	511 	CROSS LISTED	Current Issues in Neuroscience and Behavior	NEU 511/PSY 511	005668
+PSY 	593 	F10-11	 3	 	NEU 	593 	CROSS LISTED	Magnetic Resonance Imaging	NEU 593/PSY 593	010903
+EGR 	245 	F10-11	 2	QR	ORF 	245 	CROSS LISTED	Fundamentals of Engineering Statistics	ORF 245/EGR 245	007996
+EGR 	309 	F10-11	 2	 	ORF 	309 	CROSS LISTED	Probability and Stochastic Systems	ORF 309/EGR 309/MAT 309	007999
+MAT 	309 	F10-11	 3	 	ORF 	309 	CROSS LISTED	Probability and Stochastic Systems	ORF 309/EGR 309/MAT 309	007999
+FIN 	505 	F10-11	 2	 	ORF 	505 	CROSS LISTED	Modern Regression and Time Series	ORF 505/FIN 505	008651
+FIN 	535 	F10-11	 2	 	ORF 	535 	CROSS LISTED	Financial Risk Management	ORF 535/FIN 535	008403
+APC 	551 	F10-11	 2	 	ORF 	551 	CROSS LISTED	Probability Theory	ORF 551/APC 551	008021
+CHV 	202 	F10-11	 2	EM	PHI 	202 	CROSS LISTED	Introduction to Moral Philosophy	PHI 202/CHV 202	004892
+COM 	393 	F10-11	 2	EM	PHI 	306 	CROSS LISTED	Nietzsche	PHI 306/COM 393	004907
+CHV 	315 	F10-11	 2	EC	PHI 	315 	CROSS LISTED	Philosophy of Mind	PHI 315/CHV 315	004916
+MAT 	313 	F10-11	 2	QR	PHI 	323 	CROSS LISTED	Advanced Logic	PHI 323/MAT 313	004924
+JDS 	393 	F10-11	 3	EC	PHI 	393 	CROSS LISTED	Spinoza: Philosophy, Religion, and Politics	PHI 393/REL 393/JDS 393	011147
+REL 	393 	F10-11	 2	EC	PHI 	393 	CROSS LISTED	Spinoza: Philosophy, Religion, and Politics	PHI 393/REL 393/JDS 393	011147
+CLA 	301 	F10-11	 2	EM	POL 	301 	CROSS LISTED	Ancient and Medieval Political Theory	POL 301/CLA 301	005285
+REL 	309 	F10-11	 2	EM	POL 	309 	CROSS LISTED	Politics and Religion	POL 309/REL 309	005293
+AAS 	338 	F10-11	 2	SA	POL 	337 	CROSS LISTED	Disaster, Race, and American Politics	POL 337/AAS 338	010211
+SOC 	595 	F10-11	 2	 	POL 	573 	CROSS LISTED	Quantitative Analysis III	POL 573/SOC 595	008559
+LAS 	319 	F10-11	 2	LA	POR 	319 	CROSS LISTED	Brazilian Cinema	POR 319/LAS 319/VIS 346	005540
+VIS 	346 	F10-11	 3	LA	POR 	319 	CROSS LISTED	Brazilian Cinema	POR 319/LAS 319/VIS 346	005540
+LAS 	417 	F10-11	 2	LA	POR 	402 	CROSS LISTED	The Work of Machado de Assis	POR 402/LAS 417	009667
+LIN 	309 	F10-11	 2	EC	PSY 	309 	CROSS LISTED	Psychology of Language	PSY 309/LIN 309	005604
+NEU 	338 	F10-11	 2	EC	PSY 	338 	CROSS LISTED	Animal Learning and Decision Making: Psychological, Computational and Neural Perspectives	PSY 338/NEU 338	010982
+MOL 	301 	F10-11	 2	ST	QCB 	301 	CROSS LISTED	Experimental Project Laboratory in Quantitative and Computational Biology	QCB 301/MOL 301	010191
+JDS 	230 	F10-11	 2	HA	REL 	230 	CROSS LISTED	Hebrew Bible and Ancient Israel	REL 230/JDS 230	005959
+CHV 	261 	F10-11	 2	EM	REL 	261 	CROSS LISTED	Christian Ethics and Modern Society	REL 261/CHV 261	005979
+HLS 	301 	F10-11	 2	HA	REL 	301 	CROSS LISTED	Eastern Orthodox Christianity	REL 301/HLS 301	011434
+EAS 	337 	F10-11	 2	SA	REL 	325 	CROSS LISTED	Chinese Religion and Modernity	REL 325/EAS 337	011436
+WOM 	328 	F10-11	 2	SA	REL 	328 	CROSS LISTED	Women and Gender in Islamic Societies	REL 328/WOM 328	006012
+JDS 	340 	F10-11	 2	HA	REL 	340 	CROSS LISTED	Ancient Judaism and the Dead Sea Scrolls	REL 340/JDS 340	006022
+NES 	550 	F10-11	 2	 	REL 	509 	CROSS LISTED	Studies in the History of Islam: The Problem of Race & Slavery in Islamic Thought & Practice	REL 509/NES 550	008532
+ANT 	216 	F10-11	 2	SA	SLA 	216 	CROSS LISTED	Russia Today	SLA 216/ANT 216	010380
+VIS 	352 	F10-11	 2	LA	SLA 	240 	CROSS LISTED	Cinema and Socialism	SLA 240/VIS 352	011437
+ECS 	354 	F10-11	 2	EM	SLA 	345 	CROSS LISTED	East European Literature and Politics	SLA 345/ECS 354	011145
+LAS 	310 	F10-11	 2	SA	SOC 	310 	CROSS LISTED	Gender and Development in the Americas	SOC 310/LAS 310	006416
+WOM 	540 	F10-11	 2	 	SOC 	540 	CROSS LISTED	Topics in Economic and Organizational Sociology (Half-Term): Gender and Economic Activity	SOC 540/WOM 540	010415
+AAS 	562 	F10-11	 2	 	SOC 	562 	CROSS LISTED	Race & Ethnicity	SOC 562/AAS 562	006477
+LAO 	222 	F10-11	 3	LA	SPA 	222 	CROSS LISTED	Introduction to Latin American Cultures	SPA 222/LAS 222/LAO 222	006672
+LAS 	222 	F10-11	 2	LA	SPA 	222 	CROSS LISTED	Introduction to Latin American Cultures	SPA 222/LAS 222/LAO 222	006672
+LAS 	331 	F10-11	 2	LA	SPA 	331 	CROSS LISTED	Modern Latin American Fiction	SPA 331/LAS 331	006692
+REL 	387 	F10-11	 2	LA	SPA 	357 	CROSS LISTED	Caribbean Messianisms, Utopias and Revolutions	SPA 357/REL 387	011438
+MOD 	555 	F10-11	 2	 	SPA 	548 	CROSS LISTED	Seminar in Modern Spanish-American Literature: Media, Modernity &  Mexican Revolution	SPA 548/MOD 555	006721
+COM 	359 	F10-11	 2	LA	THR 	300 	CROSS LISTED	Acting, Being, Doing, and Making: Introduction to Performance Studies	THR 300/COM 359/ENG 373	007905
+ENG 	373 	F10-11	 3	LA	THR 	300 	CROSS LISTED	Acting, Being, Doing, and Making: Introduction to Performance Studies	THR 300/COM 359/ENG 373	007905
+VIS 	372 	F10-11	 2	LA	THR 	317 	CROSS LISTED	Theatrical Design	THR 317/VIS 372	007915
+ENG 	421 	F10-11	 2	LA	THR 	330 	CROSS LISTED	Special Topics in Performance Practice: The Theater of Tony Kushner	THR 330/ENG 421	007919
+COM 	209 	F10-11	 2	LA	TRA 	200 	CROSS LISTED	Thinking Translation: Language Transfer and Cultural Communication	TRA 200/COM 209	010456
+COM 	409 	F10-11	 2	LA	TRA 	400 	CROSS LISTED	Senior Seminar in Translation and Intercultural Communication	TRA 400/COM 409	010761
+ARC 	201 	F10-11	 2	LA	VIS 	201 	CROSS LISTED	Introductory Drawing	VIS 201/ARC 201	007216
+ARC 	327 	F10-11	 2	LA	VIS 	203 	CROSS LISTED	Introductory Painting	VIS 203/ARC 327	007218
+ARC 	215 	F10-11	 2	LA	VIS 	215 	CROSS LISTED	Graphic Design	VIS 215/ARC 215/CWR 215	011441
+CWR 	215 	F10-11	 3	LA	VIS 	215 	CROSS LISTED	Graphic Design	VIS 215/ARC 215/CWR 215	011441
+ART 	392 	F10-11	 2	LA	VIS 	392 	CROSS LISTED	Issues in Contemporary Art	VIS 392/ART 392	007255
+ECO 	349 	F10-11	 2	SA	WWS 	307 	CROSS LISTED	Economics and Public Policy	WWS 307/ECO 349	006760
+SOC 	313 	F10-11	 2	SA	WWS 	309 	CROSS LISTED	Media and Public Policy	WWS 309/SOC 313	006762
+AMS 	350 	F10-11	 2	SA	WWS 	325 	CROSS LISTED	Civil Society and Public Policy	WWS 325/AMS 350	008060
+HIS 	466 	F10-11	 3	SA	WWS 	340 	CROSS LISTED	The History of Financial Crises	WWS 340/HIS 466	011401
+EAS 	462 	F10-11	 2	SA	WWS 	462 	CROSS LISTED	Special Topics in Public Affairs: International Relations of East Asia	WWS 462/EAS 462/POL 462	009544
+POL 	462 	F10-11	 3	SA	WWS 	462 	CROSS LISTED	Special Topics in Public Affairs: International Relations of East Asia	WWS 462/EAS 462/POL 462	009544
+ECO 	509 	F10-11	 2	 	WWS 	509 	CROSS LISTED	Generalized Linear Statistical Models	WWS 509/ECO 509	006822
+SOC 	518 	F10-11	 2	 	WWS 	516A	CROSS LISTED	Topics in Law and Public Policy: The Rule of Law	WWS 516A/SOC 518	010040
+PSY 	528 	F10-11	 2	 	WWS 	519A	CROSS LISTED	Negotiation, Persuasion and Social Influence: Theory and Practice	WWS 519A/PSY 528	009457
+PSY 	528B	F10-11	 2	 	WWS 	519B	CROSS LISTED	Negotiation, Persuasion and Social Influence: Theory and Practice	WWS 519B/PSY 528B	009458
+POL 	523 	F10-11	 2	 	WWS 	561 	CROSS LISTED	The Comparative Political Economy of Development	WWS 561/POL 523	006914
+MAE 	580 	F10-11	 2	 	WWS 	585B	CROSS LISTED	Topics in Science, Technology, and Environmental Policy: Living in a Greenhouse: Technology & Policy	WWS 585B/MAE 580	008748
+POP 	504B	F10-11	 2	 	WWS 	593B	CROSS LISTED	Topics in Policy Analysis (Half-Term): Reproductive Health and Reproductive Rights	WWS 593B/POP 504B	006988
+POP 	506 	F10-11	 2	 	WWS 	599 	CROSS LISTED	PhD Seminar: Research Ethics and Scientific Integrity (Half-Term)	WWS 599/POP 506	009077

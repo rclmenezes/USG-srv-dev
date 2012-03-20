@@ -1,0 +1,33 @@
+{% extends "professors/base.html" %}
+{% block title %}Professor Search Results for {{ q }}{% endblock %}
+
+{% block middle %}
+<p><strong>Professor Search Results for {{q}}</strong></p>
+{% if professors %}
+<ul>{% for p in professors %}
+    <strong>
+        <a href="/reviews/professor/{{p.pid}}/">{{p}}</a>
+        {% if p.num_reviews %}
+        {{ p.gpa }}
+        <span style="font-size:smaller">
+            ({{p.num_reviews}})
+        </span>
+        {% endif %}
+    </strong>
+    <ul>
+    {% for o in p.offering_set.all %}
+        {% ifequal o.year NEXT_YEAR %}
+        {% ifequal o.semester NEXT_SEMESTER %}
+        <li>
+            {{ o.course.quick_summary }}
+        </li>
+        {% endifequal %}
+        {% endifequal %}
+    {% endfor %}
+    </ul>
+{% endfor %}
+</ul>
+{% else %}
+    No search results
+{% endif %}
+{% endblock %}

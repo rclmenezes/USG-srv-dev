@@ -1,0 +1,31 @@
+{% extends "courses/base.html" %}
+{% block title %}Distribution Requirements{% if dr %} - {{ dr }}{% endif %}{% endblock %}
+
+{% block middle %}
+    <ul class="long">
+    <li><a href='../EC/'>EC</a></li>
+    <li><a href='../EM/'>EM</a></li>
+    <li><a href='../HA/'>HA</a></li>
+    <li><a href='../LA/'>LA</a></li>
+    <li><a href='../QR/'>QR</a></li>
+    <li><a href='../SA/'>SA</a></li>
+    <li><a href='../ST/'>ST</a></li>
+    <li><a href='../STX/'>STX</a></li>
+    <li><a href='../W/'>W</a></li>
+    </ul>
+
+    {% regroup courses by dep as grouped %}
+    <ul>
+    {% for group in grouped %}
+        <li><a href="../../dept/{{ group.grouper }}">{{ group.grouper }}</a>
+        <ul>
+            {% for c in group.list %}
+            <li>
+            {{ c.quick_summary }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

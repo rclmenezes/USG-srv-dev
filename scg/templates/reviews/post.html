@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block title %}Write Review{% endblock %}
+
+{% block middle %}
+<form action="" method="POST">
+<table class="review" width="100%">
+
+
+<tr>
+<td>
+{{ required_form.non_field_errors }}
+<h1>Required:</h1>
+</td>
+</tr>
+
+<tr>
+<td width="50%">
+    <p>
+    Your Class: {{ required_form.cid }}
+    {{ required_form.cid.errors.as_ul }} 
+    </p>
+    <p>
+    Your Term: {{ required_form.year }} {{ required_form.term }}
+    {{ required_form.year.errors.as_ul }} 
+    {{ required_form.term.errors.as_ul }} 
+    </p>
+</td>
+<td width="50%">
+    <p>
+    Your Home Department: {{ required_form.department }}
+    {{ required_form.department.errors.as_ul }} 
+    </p>
+    <p>
+    Your Professor: {{ required_form.pid }}
+    {{ required_form.pid.errors.as_ul }} 
+    </p>
+</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td width="50%" class="review">
+    {{ course_form.non_field_errors }}
+    <h1>Review This Course:</h1>
+    1. Quality or appeal of the content, regardless of the professor's presentation of it:
+    {{ course_form.q1 }}
+    {{ course_form.q1.errors.as_ul }} 
+    
+    <br />
+
+    <br />
+    2. Amount of time per week you spent on this class, relative to the other courses you took in the same semester:
+    {{ course_form.q2 }}
+    {{ course_form.q2.errors.as_ul }} 
+
+    <br />
+    <br />
+    3. Overall, how would you recommend this course to a friend?
+    {{ course_form.q3 }}
+    {{ course_form.q3.errors.as_ul }} 
+
+    <br />
+    <br />
+    Please elaborate on your responses to the questions above or share any comments about the course that these questions did not cover (e.g., fairness of grading, quality of feedback on work, value of class for subsequent related study):
+    <br />
+    {{ course_form.comment }} 
+    {{ course_form.comment.errors.as_ul }} 
+    <br />
+    <br />
+    What advice would you give to someone who is considering taking this course?
+    <br />
+    {{ course_form.advice }} 
+    {{ course_form.advice.errors.as_ul }} 
+    <br />
+
+
+</td>
+<td width="50%" class="review">
+    {{ professor_form.non_field_errors }}
+    <h1>Review This Professor:</h1>
+    1.  Professor's ability to structure and organize the course effectively (i.e., covering relevant material, timing major assignments, establishing a greater context of further study):
+    {{ professor_form.q1 }}
+    {{ professor_form.q1.errors.as_ul }} 
+
+    
+    <br />
+    <br />
+    2.  Accessibility of professor (both practicality of office hours and personal demeanor):
+    {{ professor_form.q2 }}
+    {{ professor_form.q2.errors.as_ul }} 
+
+    <br />
+    <br />
+    3.  Ability of professor to engage your interest:
+    {{ professor_form.q3 }}
+    {{ professor_form.q3.errors.as_ul }} 
+
+    <br />
+    <br />
+    4.  Your overall rating of this professor:
+    {{ professor_form.q4 }}
+    {{ professor_form.q4.errors.as_ul }} 
+
+    <br />
+    <br />
+    Please use the space below to share further thoughts about this professor:
+    <br />
+    {{ professor_form.comment }} 
+    {{ professor_form.comment.errors.as_ul }} 
+
+<br />
+<br />
+<br />
+<strong>
+Please fill out the reviews completely for a professor and/or the course which he or she taught.
+</strong>
+
+
+</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+    <td style="text-align:center;">
+        <strong>Although your netid is recorded, all reviews are published confidentially.</strong>
+        <br />
+        <br />
+        <strong>Thank you.</strong>
+        <br />
+        <br />
+        <input id="submit" name="submit" type="submit" value="Submit Review">
+        <br />
+        <br />
+    </td>
+</tr>
+</table>
+
+</form>
+
+{% endblock %}
+{% block under_body %}
+<script>
+
+$(document).ready(function() {
+    $("textarea").focus(function() { $(this).attr('rows','10'); });
+});
+
+/*
+function minimum_length(fields, length)
+{
+    for(i=0; i<fields.length; i++)
+    {
+        if(fields[i].type == "textarea")
+        {
+            if(fields[i].value.length < length) 
+                return false;
+        }
+    }
+    return true;
+}
+
+function fields_filled_in(fields)
+{
+    for(i=0; i<fields.length; i++) if(fields[i].value == '') return false;
+    return true;
+}
+
+function fields_all_empty(fields)
+{
+    for(i=0; i<fields.length; i++) if(fields[i].value != '') return false;
+    return true;
+}
+
+
+function fields_consistent(fields)
+{
+    return (fields_all_empty(fields) || 
+            (fields_filled_in(fields) && minimum_length(fields, 50)) );
+}
+
+required_fields = $$(".required");
+course_fields = $$(".course");
+professor_fields = $$(".professor");
+
+
+function set_submit_button()
+{
+    if(fields_filled_in(required_fields) && 
+    (fields_filled_in(course_fields) || fields_filled_in(professor_fields)) && 
+    (fields_consistent(course_fields) && fields_consistent(professor_fields)))
+        $('submit').disabled = false;
+    else
+        $('submit').disabled = true;
+}
+
+$$("select").each( function(field) {
+    Event.observe(field, "change", set_submit_button)
+});
+
+textarea_fields.each( function(field) {
+    Event.observe(field, "keyup", set_submit_button)
+});
+
+set_submit_button();
+
+*/
+
+/*
+Event.observe($("submit"), "mouseover", function(){ alert("Please answer all questions in the course review and/or the professor review and make sure that all of the comment sections are sufficiently long and thorough before submitting."); });
+*/
+</script>
+{% endblock %}
