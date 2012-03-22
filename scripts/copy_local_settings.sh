@@ -1,9 +1,7 @@
 #!/bin/bash
 
-echo "Enter your username on this server (usually your NETID):"
-read username
-home="/home/$username/USG-srv-dev"
-echo "This may overwrite any existing local_settings.py files in all subdirectories of $home. Continue? [y/n]"
+home="$HOME/USG-srv-dev"
+echo "This will overwrite any existing local_settings.py files in all subdirectories of $home with the local_settings.py files in /srv. Continue? [y/n]"
 read to_continue
 if [[ $to_continue != 'y' ]]; then
     echo "Did not enter 'y': will not copy"

@@ -1,6 +1,5 @@
 # Django settings for tigerapps project.
-import os
-import sys
+import os, sys, socket
 # Email/Database settings (sensitive info)
 try:
     import local_settings
@@ -34,6 +33,7 @@ os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs'
 CURRENT_DIR = os.getcwd()
 if CURRENT_DIR == '/':
     CURRENT_DIR = '/srv/tigerapps'
+CURRENT_HOST = socket.gethostname()
 
 SITE_ID = 1
 # Make this unique, and don't share it with anybody.

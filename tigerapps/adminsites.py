@@ -9,3 +9,8 @@ class GroupsAdminSite(AdminSite):
     pass
     
 groupsAdmin = GroupsAdminSite()
+
+class CardAdminSite(AdminSite):
+    pass
+
+cardAdmin = CardAdminSite()

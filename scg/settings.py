@@ -1,4 +1,4 @@
-import os
+import os,socket
 # Email/Database settings (sensitive info)
 try:
     import local_settings
@@ -7,8 +7,11 @@ except ImportError, exp:
 
 
 # CAS URL.
+prefix = ""
+if socket.gethostname() == "USGDev":
+    prefix = "dev."
 CAS = 'https://fed.princeton.edu/cas'
-CAS_SERVICE = 'http://dev.scg.tigerapps.org/cas/login/'
+CAS_SERVICE = 'http://%sscg.tigerapps.org/cas/login/' % prefix
 
 CACHE_BACKEND = 'locmem:///'
 CACHE_MIDDLEWARE_SECONDS = 60*5
