@@ -7,6 +7,7 @@ class SubdomainsMiddleware:
         parts = request.domain.split('.')
 
         if parts[0] == "dev":
+            url_prefix = "http://dev."
             if len(parts) == 4:
                 # dev.___.tigerapps.org
                 request.subdomain = parts[1]
@@ -15,6 +16,7 @@ class SubdomainsMiddleware:
                 # dev.tigerapps.org
                 request.subdomain == 'www'
         else:
+            url_prefix = "http://"
             if len(parts) == 3:
                 # ___.tigerapps.org
                 request.subdomain = parts[0]
@@ -43,9 +45,9 @@ class SubdomainsMiddleware:
             
             # CAS URL.
             settings.CAS = 'https://fed.princeton.edu/cas'
-            settings.CAS_SERVICE = 'http://dev.ttrade.tigerapps.org/cas/login/'
+            settings.CAS_SERVICE = url_prefix + 'ttrade.tigerapps.org/cas/login/'
             settings.IAS = 'https://idp.ias.edu/cas'
-            settings.IAS_SERVICE = 'http://dev.ttrade.tigerapps.org/ias/login/'    
+            settings.IAS_SERVICE = url_prefix + 'ttrade.tigerapps.org/ias/login/'    
             
         elif request.subdomain == 'cal':
             settings.MIDDLEWARE_CLASSES = (
@@ -75,5 +77,7 @@ class SubdomainsMiddleware:
             settings.LOGIN_URL = '/login'
             settings.CAS_LOGOUT_COMPLETELY = True
             settings.CAS_IGNORE_REFERER = True
-            settings.SITE_URL = 'http://dev.' + request.subdomain + '.tigerapps.org/'
+            settings.CAS_RETRY_LOGIN = True
+            settings.SITE_URL = url_prefix + request.subdomain + '.tigerapps.org/'
             settings.CAS_REDIRECT_URL = settings.SITE_URL
+

@@ -27,7 +27,13 @@ class ElectionAdmin(admin.ModelAdmin):
     ]
 
     search_fields = ['name']
+    
+class RunoffAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,         {'fields': ['election', 'candidates']}),
+    ]
 
 admin.site.register(Office, OfficeAdmin)
 admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(Election, ElectionAdmin)
+admin.site.register(Runoff, RunoffAdmin)

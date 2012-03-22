@@ -43,3 +43,10 @@ class Election(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+class Runoff(models.Model):
+    election = models.ForeignKey('Election', related_name='runoff_election')
+    candidates = models.ManyToManyField('Candidate', related_name='candidate')
+    
+    def __unicode__(self):
+        return self.election.name + " Runoff"
