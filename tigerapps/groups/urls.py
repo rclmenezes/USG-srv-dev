@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from models import *
 from rss import *
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -86,9 +87,17 @@ urlpatterns = patterns('',
 
                        # RSS Feeds
                        (r'^feeds/(?P<url>.*)/?$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
-                     
+
                        # Uncomment the next line to enable the admin:
-                        (r'^admin/?', include(groupsAdmin.urls)),
-                       (r'^$', 'groups.views.index'),
+                       (r'^groupsAdmin/', include(groupsAdmin.urls)),
+                       (r'^admin/', include(admin.site.urls)),
+                       (r'^robots\.txt$', direct_to_template,
+                            {'template': 'robots.txt', 'mimetype': 'text/plain'\
+}),                     
+                       # Uncomment the next line to enable the admin:
+#                        (r'^admin/?', include(groupsAdmin.urls)),
+#                       (r'^$', 'groups.views.index'),
 #                       (r'^', 'groups.views.redirect_index'),
+
+                       (r'^$', 'groups.views.index'),
 )

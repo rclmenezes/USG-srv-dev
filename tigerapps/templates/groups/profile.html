@@ -112,7 +112,7 @@
   {% endif %}{% endifequal %}
 
   <div class="group_profile">
-    <strong>Description:</strong> {{group.description|linebreaksbr}}<br/><br/>
+    <strong>Description:</strong> {{group.description|cut:"<p>"|cut:"</p>"|linebreaksbr}}<br/><br/>
     <strong>Categories:</strong> {% for c in group.categories.all %}{% if not forloop.first %}, {% endif %}{{c}}{% endfor %}<br/><br/>
     {% if group.site %}<strong>Website:</strong> <a href="{{group.site}}">{{group.site}}</a><br/><br/>{% endif %}
     {% if links %}<table style="color:black;"><tr><td><strong>Links:</strong></td>{% for l in links %}{% if not forloop.first %}<tr><td></td>{% endif %}<td style="padding-left:10px;"><a href="{{l.url}}">{{l}}</a></td></tr>{% endfor %}</table><br/>{% endif %}
