@@ -20,6 +20,8 @@ env/
 docs/_build/
 dist/
 .svn/
+apache/
+eggs/
 
 # Private files #
 #################
