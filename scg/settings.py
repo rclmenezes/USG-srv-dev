@@ -22,7 +22,7 @@ CACHE_MIDDLEWARE_SECONDS = 60*5
 #Stuff below should be taken out after eventual merge with tigerapps django project 
 #######################
 
-ABSPATH = os.path.dirname(__file__)
+ABSPATH = os.path.dirname(os.path.abspath(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

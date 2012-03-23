@@ -29,10 +29,8 @@ DATABASES = {
 }
 
 
-os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs' 
-CURRENT_DIR = os.getcwd()
-if CURRENT_DIR == '/':
-    CURRENT_DIR = '/srv/tigerapps'
+#os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs' 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CURRENT_HOST = socket.gethostname()
 
 SITE_ID = 1

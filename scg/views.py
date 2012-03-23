@@ -3,7 +3,7 @@ import urllib,urllib2
 from django.contrib.auth import logout, authenticate, login
 from django.core.cache import cache
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -48,6 +48,16 @@ def cas_login(request):
                                             (casBackend.cas_login_url,
                                              casBackend.cas_scg_service_url))
     else:
+        """
+        x = '%s?service=%s' % (casBackend.cas_login_url, urllib.quote(casBackend.cas_scg_service_url, safe=''))
+        y = '%s?service=%s&ticket=%s' % (casBackend.cas_validate_url, urllib.quote(casBackend.cas_scg_service_url, safe=''),
+                                                            ticket)
+        if 1:#try:
+            page = urllib2.urlopen(y)
+            return HttpResponse('Login: %s<br/>Validate: %s<br/>Result:<br/>%s' % (x,y,page))
+        else:#except:
+            return HttpResponse('Login: %s<br/>Validate: %s<br/>' % (x,y))
+        """
         #validate
         user = authenticate(ticket=ticket)
         if user is not None:
