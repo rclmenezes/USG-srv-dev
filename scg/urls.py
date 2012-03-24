@@ -2,9 +2,6 @@ from django.conf.urls.defaults import *
 import settings
 from django.contrib import admin
 
-import os.path as paths
-ABSPATH = paths.dirname(__file__)
-
 admin.autodiscover()
 
 urlpatterns = patterns('',

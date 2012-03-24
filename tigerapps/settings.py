@@ -32,6 +32,8 @@ DATABASES = {
 #os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs' 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CURRENT_HOST = socket.gethostname()
+sys.path.insert(0, '/'.join(CURRENT_DIR.split('/')[:-1]))
+
 
 SITE_ID = 1
 # Make this unique, and don't share it with anybody.
@@ -120,7 +122,7 @@ INSTALLED_APPS = (
     'card',
     'ccc',
     'elections',
-    'facebook',
-    'album',
+#    'facebook',
+#    'album',
     'pam'
 )
