@@ -1,4 +1,4 @@
-import os,socket
+import os,socket,sys
 # Email/Database settings (sensitive info)
 try:
     import local_settings
@@ -22,7 +22,8 @@ CACHE_MIDDLEWARE_SECONDS = 60*5
 #Stuff below should be taken out after eventual merge with tigerapps django project 
 #######################
 
-ABSPATH = os.path.dirname(os.path.abspath(__file__))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, '/'.join(CURRENT_DIR.split('/')[:-1]))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -46,7 +47,7 @@ SECRET_KEY = local_settings.SECRET_KEY
 
 
 # Absolute path to the directory that holds media.
-MEDIA_ROOT = os.path.join(ABSPATH, 'media/')
+MEDIA_ROOT = os.path.join(CURRENT_DIR, 'media/')
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
@@ -60,14 +61,14 @@ ADMIN_MEDIA_PREFIX = '/admin_media/'
 #STATIC_ROOT = CURRENT_DIR + "/media" #TODO: this doesn't work
 STATIC_URL = "/media"
 STATICFILES_DIRS = (
-    ABSPATH + "/media",
+    CURRENT_DIR + "/media",
 )
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(ABSPATH, 'templates/'),
+    os.path.join(CURRENT_DIR, 'templates/'),
 )
 
 # List of callables that know how to import templates from various sources.
