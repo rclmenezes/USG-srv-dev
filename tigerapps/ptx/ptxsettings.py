@@ -32,12 +32,9 @@ settings.MIDDLEWARE_CLASSES = (
 
 settings.APPEND_SLASH = False
 
-if paths.exists(paths.join(ROOT, 'settingsdev.py')):
-    from PTX.settingsdev import *
-
 if DEBUG:
     logging.basicConfig(level=logging.DEBUG, format=LOG)
 else:
     logging.basicConfig(level=logging.WARN,
                         format=LOG,
-                        filename=paths.join(ROOT, 'log'))
+                        filename=paths.join(ROOT, 'all.log'))

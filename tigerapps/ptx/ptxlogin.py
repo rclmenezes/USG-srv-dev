@@ -2,7 +2,7 @@ import logging
 log = logging.getLogger(__name__)
 
 import urllib
-import urllib2
+from django_cas.urllib2_sslv3 import urllib2
 
 from django.conf import settings
 from django.db.models import Q
