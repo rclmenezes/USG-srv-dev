@@ -1,5 +1,5 @@
 import urllib
-import urllib2
+from django_cas.urllib2_sslv3 import urllib2
 from django.contrib.auth.models import User
 from django.conf import settings
 from apps.students.models import RecentDepartments
