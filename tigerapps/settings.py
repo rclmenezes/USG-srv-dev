@@ -60,25 +60,31 @@ USE_I18N = False
 
 
 
+
+#MEDIA refers to user-generated files stored on the hard disk.
+#TODO: Currently everything is stored in MEDIA
 # Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = CURRENT_DIR + "/media/"
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
+MEDIA_ROOT = CURRENT_DIR + '/media/'
+# URL for media served from MEDIA_ROOT (need trailing slash). 
 MEDIA_URL = '/media/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-#TODO: doesn't work since django.contrib.staticfiles added
-ADMIN_MEDIA_PREFIX = '/admin_media/'
 
-#STATIC_ROOT = CURRENT_DIR + "/media" #TODO: this doesn't work
+#STATIC refers to CSS/js/img files.
+#TODO: Currently everything is stored in MEDIA
+# Absolute path to the directory that holds static files.
+STATIC_ROOT = CURRENT_DIR + "/media"
+# URL for static files served from STATIC_ROOT (need trailing slash,
+#    must be diff from MEDIA_URL).
+# Note that since Django 1.4, admin media files are automatically stored at STATIC_URL/admin/
 STATIC_URL = "/media"
-STATICFILES_DIRS = (
-    CURRENT_DIR + "/media",
-)
+# URL prefix for admin static files (need trailing slash). TODO: deprecated in django1.4
+ADMIN_MEDIA_PREFIX = '/media/admin/'
+
+
+#Used for staticfiles app. Files in this tuple are collected into STATIC_ROOT
+#   when `manage.py collecstatic` is issued.
+#STATICFILES_DIRS = (,)
+
 
 
 
