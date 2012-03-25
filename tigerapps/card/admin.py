@@ -1,5 +1,6 @@
 from card.models import *
 from django.contrib import admin
+from adminsites import cardAdmin
 from django.forms.models import BaseInlineFormSet
 
 def mark_active(modeladmin, request, queryset):
@@ -12,7 +13,7 @@ mark_inactive.short_description = 'Mark members as inactive'
 
 class MemberAdmin(admin.ModelAdmin):
     list_display = ('last_name','first_name','netid','year','club','access','is_active')
-    search_fields = ('last_name','first_name','netid')
+    search_fields = ('last_name','first_name','netid','puid')
     list_filter = ('is_active','access','year','club')
     actions = (mark_active, mark_inactive)
     def queryset(self, request):
@@ -49,3 +50,7 @@ admin.site.register(Member, MemberAdmin)
 admin.site.register(Club, ClubAdmin)
 admin.site.register(Meal, MealAdmin)
 admin.site.register(Exchange, ExchangeAdmin)
+cardAdmin.register(Member, MemberAdmin)
+cardAdmin.register(Club, ClubAdmin)
+cardAdmin.register(Meal, MealAdmin)
+cardAdmin.register(Exchange, ExchangeAdmin)

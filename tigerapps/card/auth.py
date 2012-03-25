@@ -12,11 +12,13 @@ from card.forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import *
+from django.conf import settings
+
 from os import environ
 from urllib import urlencode, urlopen
 import re
 
-HOSTNAME = 'http://dev.card.tigerapps.org:'
+HOSTNAME = 'http://%scard.tigerapps.org:' % settings.CURRENT_HOST_PREFIX
 
 cas_url_login = 'https://fed.princeton.edu/cas/login'
 cas_url_valid = 'https://fed.princeton.edu/cas/serviceValidate'
@@ -79,7 +81,7 @@ def cas_login(request):
             netid = cas_validate(request, ticket)
             if not netid:
                 # invalid: redirect to login page
-                return redirect('/') #render_to_response('index.html')
+                return redirect('/') #render_to_response('card/index.html')
                 
             # Check that user is in the database
             try:
@@ -89,7 +91,7 @@ def cas_login(request):
             except:
                 request.session['login'] = 'err'
                 return cas_logout(request, '/index/err')
-#                return render_to_response('index.html',
+#                return render_to_response('card/index.html',
 #                                          {'errmes':'Error: Username not in database. Please contact your club to sign up.'})
 
             # Set up session data

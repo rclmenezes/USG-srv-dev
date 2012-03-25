@@ -53,9 +53,9 @@ class AddMealForm(ModelForm):
         try:
             h = Member.objects.get(netid=host_netid)
         except:
-            raise ValidationError('Host not registered with card')
+            raise forms.ValidationError('Host not registered with MealChecker')
         if h.club != c.club:
-            raise ValidationError('Host must be a member of this club')
+            raise forms.ValidationError('Host must be a member of this club')
         return h
     def clean_guest(self):
         guest_netid = self.cleaned_data.get('guest')
@@ -64,9 +64,9 @@ class AddMealForm(ModelForm):
         try:
             g = Member.objects.get(netid=guest_netid)
         except:
-            raise ValidationError('Guest not registered with card')
+            raise forms.ValidationError('Guest not registered with MealChecker')
         if g.club == c.club:
-            raise ValidationError('Guest cannot be a member of this club')
+            raise forms.ValidationError('Guest cannot be a member of this club')
         return g
     
 class ChangePasswordForm(forms.Form):
@@ -76,13 +76,13 @@ class ChangePasswordForm(forms.Form):
     def clean_new_password(self):
         new = self.cleaned_data.get('new_password')
         if len(new) < 5:
-            raise ValidationError('Password must be at least 5 characters in length')
+            raise forms.ValidationError('Password must be at least 5 characters in length')
         return new
     def clean_retype_password(self):
         new = self.cleaned_data.get('new_password')
         retype = self.cleaned_data.get('retype_password')
         if new != retype:
-            raise ValidationError('Retyped password did not match new password')
+            raise forms.ValidationError('Retyped password did not match new password')
         return retype
 
 class ChangeEmailForm(ModelForm):

@@ -8,6 +8,18 @@ except ImportError, exp:
 
 
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, '/'.join(CURRENT_DIR.split('/')[:-1]))
+#os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs' 
+
+CURRENT_HOST = socket.gethostname()
+if socket.gethostname() == "USGDev":
+    CURRENT_HOST_PREFIX = "dev."
+else:
+    CURRENT_HOST_PREFIX = ""
+
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -15,6 +27,7 @@ ADMINS = (
     ('USG IT', 'it@princetonusg.com'),
 )
 MANAGERS = ADMINS
+
 
 
 DATABASES = {
@@ -29,11 +42,6 @@ DATABASES = {
 }
 
 
-#os.environ['PYTHON_EGG_CACHE'] = '/srv/tigerapps/eggs' 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-CURRENT_HOST = socket.gethostname()
-sys.path.insert(0, '/'.join(CURRENT_DIR.split('/')[:-1]))
-
 
 SITE_ID = 1
 # Make this unique, and don't share it with anybody.
@@ -46,8 +54,6 @@ SECRET_KEY = local_settings.SECRET_KEY
 # although not all choices may be available on all operating systems.
 # On Unix systems, a value of None will cause Django to use the same
 # timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
@@ -67,7 +73,6 @@ MEDIA_ROOT = CURRENT_DIR + '/media/'
 # URL for media served from MEDIA_ROOT (need trailing slash). 
 MEDIA_URL = '/media/'
 
-
 #STATIC refers to CSS/js/img files.
 #TODO: Currently everything is stored in MEDIA
 # Absolute path to the directory that holds static files.
@@ -78,7 +83,6 @@ STATIC_ROOT = CURRENT_DIR + "/media"
 STATIC_URL = "/media"
 # URL prefix for admin static files (need trailing slash). TODO: deprecated in django1.4
 ADMIN_MEDIA_PREFIX = '/media/admin/'
-
 
 #Used for staticfiles app. Files in this tuple are collected into STATIC_ROOT
 #   when `manage.py collecstatic` is issued.
@@ -100,6 +104,8 @@ MIDDLEWARE_CLASSES = (
 #    'django.contrib.csrf.CsrfViewMiddleware',
     'middleware.SubdomainsMiddleware'
 )
+
+
 
 ROOT_URLCONF = 'urls'
 

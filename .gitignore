@@ -21,12 +21,14 @@ docs/_build/
 dist/
 .svn/
 eggs/
+backups/
 
 # Private files #
 #################
 local_settings.py
 apache2.conf
 tigerapps/card/*.txt
+tigerapps/card/cronjobs/archive/
 
 # Temp files #
 ##############

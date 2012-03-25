@@ -10,6 +10,7 @@ from django.db.models import Q
 from card.models import *
 from checksession import *
 from datetime import *
+from django.http import HttpResponse
 
 def index(request):
     """Renders the index page."""
@@ -44,10 +45,11 @@ def personal(request, netid):
 
     #days to expiration
     today = date.today()
-    nextmonth = today.month+1
     if (today.month==12):
         year = today.year+1
+        nextmonth = 1
     else:
+        nextmonth = today.month+1
         year = today.year
     expdate = date(month=nextmonth, day=1, year=year)
     days = (expdate-today).days - 1

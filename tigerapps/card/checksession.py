@@ -9,6 +9,7 @@
 from datetime import datetime, date as make_date, timedelta
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from card.models import Member, Meal, Exchange, Club, MEAL_CHOICES
+from django.core.mail import send_mail
 
 def open_session(request, netid):
     """Renders the page for opening a new checking session.
@@ -98,6 +99,16 @@ def check_session(request, netid):
     confirm = None
     club = user.club
 
+    # Check exchanged meals to make sure they still exist
+    for m in request.session['meals']:
+        meals = request.session['meals']
+        try:
+            Meal.objects.get(id=m.id)
+        except:
+            # removed by club account
+            meals.remove(m)
+            request.session['meals'] = meals
+
     if 'confirm' in request.POST:
         try:
             newmeal = makeexchange(netid, request.session['meal'], request.POST['host'], request.POST['guest'])
@@ -122,7 +133,6 @@ def check_session(request, netid):
     elif 'host' in request.POST:
         return check_man_session(request, netid)
 
-
     return render_to_response('card/check_session.html',
                               {'netid':netid,
                                'errmes': errmes,
@@ -142,14 +152,31 @@ def check_swipe(request,netid):
     elif 'guest_input' not in request.POST:
         errmes = 'Error: no card swipe input from the guest.'
     else:
-        s = request.POST['host_input'].split(';601621')
-        t = s[1]
-        host_puid = t[:9]
-        s = request.POST['guest_input'].split(';601621')
-        t = s[1]
-        guest_puid = t[:9]
-        if not host_puid.isdigit() or not guest_puid.isdigit():
-            errmes = 'Error: card input in incorrect format.'
+        try:
+            s = request.POST['host_input'].split(';601621')
+            t = s[1]
+            host_puid = t[:9]
+            s = request.POST['guest_input'].split(';601621')
+            t = s[1]
+            guest_puid = t[:9]
+            if not host_puid.isdigit() or not guest_puid.isdigit():
+                errmes = 'Error: card input in incorrect format.'
+        except:
+            try:
+                s = request.POST['host_input'].split('%601621')
+                t = s[1]
+                host_puid = t[:9]
+                s = request.POST['guest_input'].split('%601621')
+                t = s[1]
+                guest_puid = t[:9]
+                if not host_puid.isdigit() or not guest_puid.isdigit():
+                    errmes = 'Error: card input in incorrect format.'
+            except:
+                #unique_here
+                host_str = "Host input: " + request.POST['host_input']
+                guest_str = "Guest input: " + request.POST['guest_input']
+                send_mail("mealchecker error report", host_str+'\n'+guest_str, 'donotreply@tigerapps.org', ['atrippe@princeton.edu', 'rmenezes@princeton.edu', 'christopherrmerrick@gmail.com'], fail_silently=True)
+                errmes = 'Error: card input in incorrect format.'
 
     if not errmes:
         checker = Member.objects.get(netid=netid)
@@ -186,7 +213,7 @@ def check_swipe(request,netid):
             errmes = "Error: host and checker must be from the same club."
 
     if errmes:
-        return render_to_response('check_session.html',
+        return render_to_response('card/check_session.html',
                                   {'netid': netid,
                                    'errmes': errmes,
                                    'onload':'select_elem()',
@@ -194,7 +221,7 @@ def check_swipe(request,netid):
                                    'meals':request.session['meals'],
                                    'club': club})
     else:
-        return render_to_response('check_session.html',
+        return render_to_response('card/check_session.html',
                                   {'netid': netid,
                                    'host': h,
                                    'guest': g,
@@ -216,7 +243,7 @@ def check_man_session(request, netid):
         if not h.is_active:
             raise Exception
     except:
-        return render_to_response('check_session.html',
+        return render_to_response('card/check_session.html',
                                   {'netid': netid,
                                    'errmes':'Error: Host is not registered with the system.',
                                    'onload':'select_elem()',
@@ -230,7 +257,7 @@ def check_man_session(request, netid):
         if not g.is_active:
             raise Exception
     except:
-        return render_to_response('check_session.html',
+        return render_to_response('card/check_session.html',
                                   {'netid': netid,
                                    'errmes':'Error: Guest is not registered with the system',
                                    'onload':'select_elem()',
@@ -247,7 +274,7 @@ def check_man_session(request, netid):
         errmes = "Error: host and checker must be from the same club."
 
     if errmes:
-        return render_to_response('check_session.html',
+        return render_to_response('card/check_session.html',
                                   {'netid': netid,
                                    'errmes': errmes,
                                    'host_netid':host_netid,
@@ -257,7 +284,7 @@ def check_man_session(request, netid):
                                    'meals':request.session['meals'],
                                    'club': club})
     else:
-        return render_to_response('check_session.html',
+        return render_to_response('card/check_session.html',
                                   {'netid': netid,
                                    'host': h,
                                    'guest': g,

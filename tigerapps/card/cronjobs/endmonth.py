@@ -96,7 +96,10 @@ def create_archive(ARPATH):
             sheet.write(r=currow,c=0,label=strdate)
             sheet.write(r=currow,c=1,label=ex.meal_1.guest.full_name)
             sheet.write(r=currow,c=2,label=ex.meal_1.host.full_name)
-            sheet.write(r=currow,c=3,label=ex.meal_1.host.club.name)
+            try:
+                sheet.write(r=currow,c=3,label=ex.meal_1.host.club.name)
+            except:
+                sheet.write(r=currow,c=3,label='NONE')
             sheet.write(r=currow,c=4,label=ex.meal_1.meal_type)
             if ex.meal_2:
                 sheet.write(r=currow,c=5,label="yes")
@@ -128,7 +131,10 @@ def create_archive(ARPATH):
             sheet.write(r=currow,c=0,label=strdate)
             sheet.write(r=currow,c=1,label=ex.meal_1.host.full_name)
             sheet.write(r=currow,c=2,label=ex.meal_1.guest.full_name)
-            sheet.write(r=currow,c=3,label=ex.meal_1.guest.club.name)
+            try:
+                sheet.write(r=currow,c=3,label=ex.meal_1.guest.club.name)
+            except:
+                sheet.write(r=currow,c=3,label='NONE')
             sheet.write(r=currow,c=4,label=ex.meal_1.meal_type)
             if ex.meal_2:
                 sheet.write(r=currow,c=5,label="yes")
