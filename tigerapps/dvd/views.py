@@ -51,6 +51,7 @@ def ambiguous(request):
 @user_passes_test(lambda u: u.is_staff)
 def checkin_dvd(request):
     #rental_list = Rental.objects.filter(dateReturned=None)
+    #rentalList = Rental.objects.filter(netid=netid).filter(dateReturned=None)
     
     if request.method == "POST" and 'dvd' in request.POST:
         dvd_list = request.POST.getlist('dvd') #list of dvd's checked

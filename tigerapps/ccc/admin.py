@@ -12,7 +12,7 @@ class PostAdmin(admin.ModelAdmin):
     
 class LogClusterAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['user', 'date_start', 'date_end', 'project']})
+        fields = ['date_start', 'date_end', 'project', 'hours', 'year', 'res_college', 'eating_club']
     ]
     list_display = ('user', 'project', 'date_start', 'hours')
     search_fields = ['user__username']
@@ -56,3 +56,4 @@ admin.site.register(Post, PostAdmin)
 admin.site.register(LogCluster, LogClusterAdmin)
 admin.site.register(ProjectRequest, ProjectRequestAdmin)
 admin.site.register(ProjectOrOrganization)
+
