@@ -60,7 +60,6 @@ USE_I18N = False
 
 
 
-
 #MEDIA refers to user-generated files stored on the hard disk.
 #TODO: Currently everything is stored in MEDIA
 # Absolute path to the directory that holds media.
@@ -84,7 +83,6 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 #Used for staticfiles app. Files in this tuple are collected into STATIC_ROOT
 #   when `manage.py collecstatic` is issued.
 #STATICFILES_DIRS = (,)
-
 
 
 
