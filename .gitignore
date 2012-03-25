@@ -27,6 +27,7 @@ eggs/
 #################
 local_settings.py
 apache2.conf
+card/*.txt
 
 # Temp files #
 ##############
