@@ -52,7 +52,7 @@ def offerListerConfirmation(listing, offer):
         message += "Price offered: $" + str(offer.price) + "."
     else:
         message += "Offer: \"" + offer.additional + "\""
-    message += "\n\nTo accept an offer, go to http://dev.ttrade.tigerapps.org/item/" + str(listing.listingID) + ".\n\n"
+    message += "\n\nTo accept an offer, go to http://%sttrade.tigerapps.org/item/%s.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     to_email = []
     to_email.append(listing.user.email)
     return sendMessage(subject, message, to_email)
@@ -64,7 +64,7 @@ def offerBuyerConfirmation(listing, offer):
         message += "Price offered: $" + str(offer.price) + "."
     else:
         message += "Offer: \"" + offer.additional + "\""
-    message += "\n\nTo see the item again, go to http://dev.ttrade.tigerapps.org/item/" + str(listing.listingID) + ". We'll let you know if it got accepted by the lister.\n\n"
+    message += "\n\nTo see the item again, go to http://%sttrade.tigerapps.org/item/%s. We'll let you know if it got accepted by the lister.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     from_email = "DO_NOT_REPLY@tigerapps.org"
     to_email = []
     to_email.append(offer.user.email)
@@ -77,7 +77,7 @@ def offerRejection(listing, offer):
         message += "Price offered: $" + str(offer.price) + "."
     else:
         message += "Offer: \"" + offer.additional + "\""
-    message += "\n\nTo see the item again and make another offer, go to http://dev.ttrade.tigerapps.org/item/" + str(listing.listingID) + ". Better luck next time!\n\n"
+    message += "\n\nTo see the item again and make another offer, go to http://%sttrade.tigerapps.org/item/%s. Better luck next time!\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     from_email = "DO_NOT_REPLY@tigerapps.org"
     to_email = []
     to_email.append(offer.user.email)
@@ -86,9 +86,9 @@ def offerRejection(listing, offer):
 def expirationConfirmation(listing):
     subject = "[TigerTrade] Your listing has expired!"
     if listing.offers.all():
-        message = "To see your offers, go to http://dev.ttrade.tigerapps.org/item/" + str(listing.listingID) + ".\n\n"
+        message = "To see your offers, go to http://%sttrade.tigerapps.org/item/%s.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     else:
-        message = "You have received any offers :(. Maybe you should try renewing the expiration of your listing and changing it at http://dev.ttrade.tigerapps.org/item/" + str(listing.listingID) + ".\n\n"
+        message = "You have received any offers :(. Maybe you should try renewing the expiration of your listing and changing it at http://%sttrade.tigerapps.org/item/%s.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     to_email = []
     to_email.append(listing.user.email)
     return sendMessage(subject, message, to_email)

@@ -20,8 +20,10 @@ def home(request):
 def yourListings(request):
     return showListings(request, Listing.objects.filter(user=request.user), 'ttrade/yourListings.html', "yourListings/")
 
-@login_required    
+@login_required
 def create(request):
+    if not request.user.is_active:
+       return render_to_response('ttrade/baduser.html')
     listingForm = ListingForm()
     if request.method == 'POST':
         listingForm = ListingForm(request.POST, request.FILES)

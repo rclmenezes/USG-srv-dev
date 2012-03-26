@@ -1,10 +1,12 @@
 from django.conf.urls.defaults import *
-from rssfeed import LatestListings
+from rssfeed import NewListings
 from django.contrib import admin
+from django.views.generic.simple import direct_to_template
 admin.autodiscover()
+from ttrade.models import Listing
 
 feeds = {
-'latest': LatestListings,
+'new': NewListings,
 }
 
 urlpatterns = patterns('',
@@ -31,5 +33,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     
     # Feeds
-    (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    (r'^feeds/(?P<url>.*)/?$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    (r'^robots\.txt$', direct_to_template,
+         {'template': 'robots.txt', 'mimetype': 'text/plain'}),
 )

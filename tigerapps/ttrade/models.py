@@ -78,7 +78,7 @@ class Listing(models.Model):
     posted = models.DateTimeField('Date Posted')
     expire = models.DateTimeField('Date Expire')
     offers = models.ManyToManyField('Offer', null=True, blank=True)
-    price = CurrencyField("Price", blank=True, null=True, decimal_places=2, max_digits=9)
+    price = CurrencyField("Price", blank=True, null=True, decimal_places=2, max_digits=7)
     active = models.BooleanField("Is active", default=True)
     
     def __unicode__(self):
@@ -88,6 +88,6 @@ class Listing(models.Model):
 class Offer(models.Model):
     offerID = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, related_name="Offerer")
-    price = CurrencyField("Price", blank=True, null=True, decimal_places=2, max_digits=9)
+    price = CurrencyField("Price", blank=True, null=True, decimal_places=2, max_digits=7)
     additional = models.TextField("Message", null=True, blank=True)
     accepted = models.BooleanField("Is accepted", default=False)

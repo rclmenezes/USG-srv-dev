@@ -7,7 +7,8 @@ class ListingAdmin(admin.ModelAdmin):
         #("Information", {'fields': ['description', 'user', 'picture', 'price']}),
         #("Other", {'fields': ['flaggers', 'timesViewed', 'expire', 'posted']}),
     #]
-    list_display = ('title', 'user', 'category', 'method', 'listingType')
+    list_display = ('title', 'user', 'category', 'method', 'listingType', 'expire')
+    search_fields = ['title', 'description', 'user__username']
     
 class OfferAdmin(admin.ModelAdmin):
     fieldsets = [

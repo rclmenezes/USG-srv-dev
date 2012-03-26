@@ -3,8 +3,9 @@ from django_cas.urllib2_sslv3 import urllib2
 from django.contrib.auth.models import User
 from django.conf import settings
 
+hostname = 'http://%sttrade.tigerapps.org/' % settings.CURRENT_HOST_PREFIX
 cas_login_url = settings.CAS + '/login'
-cas_logout_url = settings.CAS + '/logout?url=http%3A%2F%2Fdev.ttrade.tigerapps.org%2F'
+cas_logout_url = settings.CAS + '/logout?url=' + urllib.quote(hostname, safe='')
 cas_validate_url = settings.CAS + '/validate'
 cas_ttrade_service_url = settings.CAS_SERVICE
 

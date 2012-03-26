@@ -2,6 +2,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from ttrade import casBackend, iasBackend
+from django.conf import settings
 
 def login_view(request):
     if request.POST:
@@ -12,7 +13,7 @@ def login_view(request):
             if user.is_active:
                 login(request, user)
                 # Redirect to a success page.
-                return HttpResponseRedirect('http://dev.ttrade.tigerapps.org/%s' % request.GET.get('next','/'))
+                return HttpResponseRedirect('http://%sttrade.tigerapps.org/%s' % (settings.CURRENT_HOST_PREFIX, request.GET.get('next','/')))
             else:
                 # Return a 'disabled account' error message
                 pass
