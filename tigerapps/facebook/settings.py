@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+from django.conf import settings
 # Django settings for newfacebook project.
 
 try:
@@ -16,7 +17,7 @@ TEMPLATE_DEBUG = DEBUG
 #PROJECT_ROOT = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-SITE_URL = 'http://dev.facebook.tigerapps.org'
+SITE_URL = 'http://%sfacebook.tigerapps.org' % settings.CURRENT_HOST_PREFIX
 CAS_URL = 'https://fed.princeton.edu/cas/'
 OUR_SITE_VALIDATE = SITE_URL + '/login'
 

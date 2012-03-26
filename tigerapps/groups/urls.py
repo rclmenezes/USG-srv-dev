@@ -82,8 +82,8 @@ urlpatterns = patterns('',
                        (r'^accounts/logout/?$', 'django_cas.views.logout'),
 
                        # Downloads
-                       (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-                        {'document_root': '/home/atrippe/Student_Groups/media/groups'}),
+#                       (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+#                            {'document_root': '/home/atrippe/Student_Groups/media/groups'}),
 
                        # RSS Feeds
                        (r'^feeds/(?P<url>.*)/?$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
@@ -92,10 +92,9 @@ urlpatterns = patterns('',
                        (r'^groupsAdmin/', include(groupsAdmin.urls)),
                        (r'^admin/', include(admin.site.urls)),
                        (r'^robots\.txt$', direct_to_template,
-                            {'template': 'robots.txt', 'mimetype': 'text/plain'\
-}),                     
+                            {'template': 'robots.txt', 'mimetype': 'text/plain'}),                     
                        # Uncomment the next line to enable the admin:
-#                        (r'^admin/?', include(groupsAdmin.urls)),
+#                       (r'^admin/?', include(groupsAdmin.urls)),
 #                       (r'^$', 'groups.views.index'),
 #                       (r'^', 'groups.views.redirect_index'),
 
