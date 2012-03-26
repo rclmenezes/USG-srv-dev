@@ -185,15 +185,15 @@ AddOrUpdateWebcal(webcal);
 # 	cal.add('METHOD').value = 'PUBLISH'
 # 	cal.add('X-WR-CALNAME').value = '%s Events' % user.full_name()
 # 	cal.add('X-WR-TIMEZONE').value = 'America/New_York'
-# 	cal.add('X-WR-CALDESC').value = 'Events submitted by %s to the Princeton Events Calendar, http://dev.cal.tigerapps.org.' % user.full_name()
+# 	cal.add('X-WR-CALDESC').value = 'Events submitted by %s to the Princeton Events Calendar, %s.' % (user.full_name(), our_site)
 # 	cal.add('X-PUBLISHED-TTL').value = 'PT1H'
 # 	
 # 	publishedEvents = Event.objects.filter(event_cluster__cluster_user_created=user).order_by('event_date_time_start')
 # 
 # 	for event in publishedEvents:
 # 		vevent = cal.add('VEVENT')
-# 		vevent.add('UID').value = "%i@dev.cal.tigerapps.org" % event.event_id
-# 		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@dev.cal.tigerapps.org' % event.event_cluster.cluster_id
+# 		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email)
+# 		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@%s' % (event.event_cluster.cluster_id, our_email)
 # 		vevent.add('SUMMARY').value = smart_unicode(str(event))
 # 		vevent.add('DTSTART').value = event.event_date_time_start
 # 		vevent.add('DTEND').value = event.event_date_time_end
@@ -203,7 +203,7 @@ AddOrUpdateWebcal(webcal);
 # 			vevent.add('STATUS').value = "CANCELLED"
 # 		else:
 # 			vevent.add('STATUS').value = "CONFIRMED"
-# 		vevent.add('URL').value = 'http://dev.dev.cal.tigerapps.org/%s' % event.get_absolute_url()
+# 		vevent.add('URL').value = our_site + event.get_absolute_url()
 # 		vevent.add('TRANSP').value = 'TRANSPARENT'
 # 		vevent.add('ORGANIZER').value = '%s' % (event.event_cluster.cluster_user_created.user_email)
 # 		

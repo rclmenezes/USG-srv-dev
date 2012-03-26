@@ -10,7 +10,7 @@
 
 from groups.models import *
 from groups.email_msg import FEED_NOTIFICATION_EMAIL
-from groups.globalsettings import SITE_EMAIL,EMAIL_HEADER_PREFIX
+from groups.globalsettings import SITE_EMAIL,EMAIL_HEADER_PREFIX,our_site
 from django.core.mail import send_mail
 
 from django.http import *
@@ -180,7 +180,7 @@ def filterByCategory(request, category):
 		events = Event.objects.filter(event_date_time_start__gte=datetime.now()).filter(event_cluster__cluster_category=cat).order_by('event_date_time_start')
 		return event_processing_dicts(request, events, dict)
 	except:
-		return go_back(request,'Error detected.%s' %feature,0)		
+		return go_back(request,'Error detected.%s' %category,0)		
 
 def filterByUser(request, user):
 	try:
@@ -397,7 +397,8 @@ def events_description(request, event_id):
 			# dict['unrsvp_url'] = '/events/%s/unconfirm' % (event_id)
 			
 		try:
-			dict['bitly_address'] = urllib.urlopen('http://api.bit.ly/v3/shorten?login=princetoneventscalendar&apiKey=R_16e331c21bf86e1f97667dec5608dba6&longUrl=http%%3A%%2F%%2Fdev.cal.tigerapps.org%%2Fevents%%2F%s&format=txt' % event_id).readlines()[0]
+            address = urllib.quote('%sevents/%s' % (our_site, event_id), safe='')
+			dict['bitly_address'] = urllib.urlopen('http://api.bit.ly/v3/shorten?login=princetoneventscalendar&apiKey=R_16e331c21bf86e1f97667dec5608dba6&longUrl=%s&format=txt' % address).readlines()[0]
 		except:
 			dict['bitly_address'] = 'none'
 		
@@ -445,7 +446,7 @@ def report_bmsg(request, bmsg_id):
 	message = message+str(myBMessage)+"\n\n"
 	message = message+"It was posted by: "+myBMessage.getPoster()+" on "+myBMessage.getFormattedTimePosted()+" at "+myBMessage.getTime()+".\n\n"
 	message = message+"\nThis is a link to the page where the message was posted:\n\n"
-	message = message+"http://dev.cal.tigerapps.org"
+	message = message+our_site
 	myCluster = myBMessage.boardmessage_eventcluster
 	myEvents = Event.objects.filter(event_cluster = myCluster)
 	if myEvents:
@@ -558,7 +559,6 @@ def events_add(request):
                    list.append(str(m.student.email))
                    send_mail(EMAIL_HEADER_PREFIX+'\"%s\" Posted to its Feed'%group.name, FEED_NOTIFICATION_EMAIL % (group.name,entry.title,entry.text,group.url), SITE_EMAIL, list, fail_silently=False)
 
-
            if 'submit' in request.POST:
               return HttpResponseRedirect('/events/%s?forwardtoevents' % (new_event.event_id))
    else:   
@@ -572,13 +572,13 @@ def events_add(request):
 		pass
 
    # data for interfacing with Student Groups
-   group_mships = Membership.objects.filter(student__netid__exact=user.user_netid,type='O')
    group = None
+   group_mships = Membership.objects.filter(student__netid__exact=user.user_netid,type='O')
    if not group_mships.count():
 	   try:
 		   group = Group.objects.get(netid__exact=user.user_netid)
 	   except:
-		   group = None
+		   pass
 
    return render_to_response(request, 'cal/events_add.html', {'formset': formset, 'clusterForm': clusterForm, 'group_mships':group_mships, 'group':group})
 
@@ -994,7 +994,7 @@ def feedByCategory(request, category):
 	except:
 		return go_back(request, 'Invalid category.',0)
 	name = "'%s' Events" % (category);
-	description = "Live Feed: Events in the category '%s' posted on the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit http://dev.cal.tigerapps.org/." % (category);
+	description = "Live Feed: Events in the category '%s' posted on the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit %s." % (category, our_site);
 	if feedRedirect(request):
 		return feedLanding(request, name, description)
 	events = Event.objects.exclude(event_date_time_start=dtdeleteflag).filter(event_cluster__cluster_category=filter_cat)
@@ -1006,7 +1006,7 @@ def feedByFeature(request, feature):
 	except:
 		return go_back(request, 'Invalid feature.',0)
 	name = "'%s' Events" % (feature);
-	description = "Live Feed: Events featuring '%s' posted on the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit http://dev.cal.tigerapps.org/." % (feature);
+	description = "Live Feed: Events featuring '%s' posted on the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit %s." % (feature, our_site);
 	if feedRedirect(request):
 		return feedLanding(request, name, description)
 	events = Event.objects.exclude(event_date_time_start=dtdeleteflag).filter(event_cluster__cluster_features=filter_feat)
@@ -1018,7 +1018,7 @@ def feedByUser(request, user):
 	except:
 		return go_back(request, 'Invalid user.',0)
 	name = "Events by %s" % (filter_user.full_name_suffix());
-	description = "Live Feed: Events posted by '%s' to the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit http://dev.cal.tigerapps.org/." % (filter_user.full_name_suffix());
+	description = "Live Feed: Events posted by '%s' to the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit %s." % (filter_user.full_name_suffix(), our_site);
 	if feedRedirect(request):
 		return feedLanding(request, name, description)
 	events = Event.objects.exclude(event_date_time_start=dtdeleteflag).filter(event_cluster__cluster_user_created=filter_user)
@@ -1026,7 +1026,7 @@ def feedByUser(request, user):
 
 def feedAllEvents(request):
 	name = "All Campus Events"
-	description = "Live Feed: All upcoming events posted to the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit http://dev.cal.tigerapps.org/."
+	description = "Live Feed: All upcoming events posted to the Princeton Events Calendar, a service of the Princeton USG. For the full calendar, visit %s." % our_site
 	if feedRedirect(request):
 		return feedLanding(request, name, description)
 	events = Event.objects.exclude(event_date_time_start=dtdeleteflag).filter(event_date_time_start__gte=datetime.now())
@@ -1040,7 +1040,7 @@ def feedMyEvents(request, id, netid):
 		return go_back(request, 'Malformed link.',0)
 		
 	name = 'My Campus Events'
-	description = "Live Feed: %s's personal events on the Princeton Events Calendar. Includes events to which you confirmed attendance for synchronizing with your personal calendar program. Set your calendar program to synchronize this feed at least hourly for best accuracy. Keep this link private. For the full calendar, visit http://dev.cal.tigerapps.org/." % (user.full_name())
+	description = "Live Feed: %s's personal events on the Princeton Events Calendar. Includes events to which you confirmed attendance for synchronizing with your personal calendar program. Set your calendar program to synchronize this feed at least hourly for best accuracy. Keep this link private. For the full calendar, visit %s." % (user.full_name(), our_site)
 	if feedRedirect(request):
 		return feedLanding(request, name, description)
 	rsvps = RSVP.objects.exclude(rsvp_event__event_date_time_start=dtdeleteflag).filter(rsvp_user=user,rsvp_type='Accepted')
@@ -1059,8 +1059,8 @@ def generateFeed(events, name, description):
 	
 	for event in events:
 		vevent = cal.add('VEVENT')
-		vevent.add('UID').value = "%i@dev.cal.tigerapps.org" % event.event_id
-		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@dev.cal.tigerapps.org' % event.event_cluster.cluster_id
+		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email)
+		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@%s' % (event.event_cluster.cluster_id, our_email)
 		vevent.add('SUMMARY').value = smart_unicode(str(event))
 		vevent.add('DTSTART').value = event.event_date_time_start
 		vevent.add('DTEND').value = event.event_date_time_end
@@ -1131,8 +1131,8 @@ def subscribe(request, category):
 
 	for event in filteredEvents:
 		vevent = cal.add('VEVENT')
-		vevent.add('UID').value = "%i@dev.cal.tigerapps.org" % event.event_id
-		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@dev.cal.tigerapps.org' % event.event_cluster.cluster_id
+		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email
+		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@%s' % (event.event_cluster.cluster_id, our_email)
 		vevent.add('SUMMARY').value = smart_unicode(str(event))
 		vevent.add('DTSTART').value = event.event_date_time_start
 		vevent.add('DTEND').value = event.event_date_time_end
@@ -1171,7 +1171,7 @@ def personalCalendar(request, id, netid):
 	cal.add('METHOD').value = 'PUBLISH'
 	cal.add('X-WR-CALNAME').value = 'My Campus Events'
 	cal.add('X-WR-TIMEZONE').value = 'America/New_York'
-	cal.add('X-WR-CALDESC').value = '%s\'s personal events from the Princeton Events Calendar, http://dev.cal.tigerapps.org.' % user.full_name()
+	cal.add('X-WR-CALDESC').value = '%s\'s personal events from the Princeton Events Calendar, %s.' % (user.full_name(), our_site)
 	cal.add('X-PUBLISHED-TTL').value = 'PT1H'
 	
 	
@@ -1180,8 +1180,8 @@ def personalCalendar(request, id, netid):
 	for rsvp in userRSVPs:
 		event = rsvp.rsvp_event
 		vevent = cal.add('VEVENT')
-		vevent.add('UID').value = "%i@dev.cal.tigerapps.org" % event.event_id
-		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@dev.cal.tigerapps.org.' % event.event_cluster.cluster_id
+		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email)
+		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@%s' % (event.event_cluster.cluster_id, our_email)
 		vevent.add('SUMMARY').value = smart_unicode(str(event))
 		vevent.add('DTSTART').value = event.event_date_time_start
 		vevent.add('DTEND').value = event.event_date_time_end
@@ -1216,15 +1216,15 @@ def followCalendar(request, netid):
 	cal.add('METHOD').value = 'PUBLISH'
 	cal.add('X-WR-CALNAME').value = '%s Events' % user.full_name()
 	cal.add('X-WR-TIMEZONE').value = 'America/New_York'
-	cal.add('X-WR-CALDESC').value = 'Events submitted by %s to the Princeton Events Calendar, http://dev.cal.tigerapps.org.' % user.full_name()
+	cal.add('X-WR-CALDESC').value = 'Events submitted by %s to the Princeton Events Calendar, %s.' % (user.full_name(), our_site)
 	cal.add('X-PUBLISHED-TTL').value = 'PT1H'
 	
 	publishedEvents = Event.objects.filter(event_cluster__cluster_user_created=user).order_by('event_date_time_start')
 
 	for event in publishedEvents:
 		vevent = cal.add('VEVENT')
-		vevent.add('UID').value = "%i@dev.cal.tigerapps.org" % event.event_id
-		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@dev.cal.tigerapps.org.' % event.event_cluster.cluster_id
+		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email)
+		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@%s.' % (event.event_cluster.cluster_id, our_email)
 		vevent.add('SUMMARY').value = smart_unicode(str(event))
 		vevent.add('DTSTART').value = event.event_date_time_start
 		vevent.add('DTEND').value = event.event_date_time_end
@@ -1234,7 +1234,7 @@ def followCalendar(request, netid):
 			vevent.add('STATUS').value = "CANCELLED"
 		else:
 			vevent.add('STATUS').value = "CONFIRMED"
-		vevent.add('URL').value = 'http://dev.cal.tigerapps.org/%s' % event.get_absolute_url()
+		vevent.add('URL').value = event.get_absolute_url()
 		vevent.add('TRANSP').value = 'TRANSPARENT'
 		vevent.add('ORGANIZER').value = '%s' % (event.event_cluster.cluster_user_created.user_email)
 		

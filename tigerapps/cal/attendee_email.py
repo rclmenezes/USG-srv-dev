@@ -53,4 +53,3 @@ def email_attendees(request, event_id):
 	else:
 		return go_back(request, 'Invalid request.',0)
 	
-	

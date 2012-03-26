@@ -16,6 +16,7 @@ from views_ajax import *
 from csvdump import *
 from attendee_email import *
 from rssfeed import LatestEvents
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -38,22 +39,22 @@ urlpatterns = patterns('',
 
 (r'^weekend/?$', weekends_events),
 (r'^events/?$',events),
-(r'(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/?$', events_date),
+(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/?$', events_date),
 
-(r'features/(?P<feature>.*).ics$', feedByFeature),
-(r'features/(?P<feature>.*)/?$', filterByFeature),
+(r'^features/(?P<feature>.*).ics$', feedByFeature),
+(r'^features/(?P<feature>.*)/?$', filterByFeature),
 
-(r'category/(?P<category>.*).ics$', feedByCategory),
-(r'category/(?P<category>.*)$', filterByCategory),
+(r'^category/(?P<category>.*).ics$', feedByCategory),
+(r'^category/(?P<category>.*)$', filterByCategory),
 
-(r'eventsby/(?P<user>.*).ics$', feedByUser),
-(r'eventsby/(?P<user>.*)$', filterByUser),
+(r'^eventsby/(?P<user>.*).ics$', feedByUser),
+(r'^eventsby/(?P<user>.*)$', filterByUser),
 
-(r'hotevents/?$', showHotEvents),
-(r'recentlyadded/?$', showRecentlyAddedEvents),
-(r'recentlyviewed/?$', showRecentlyViewedEvents),
+(r'^hotevents/?$', showHotEvents),
+(r'^recentlyadded/?$', showRecentlyAddedEvents),
+(r'^recentlyviewed/?$', showRecentlyViewedEvents),
 
-(r'feedlanding/?$', feedLanding),
+(r'^feedlanding/?$', feedLanding),
 
 
 
@@ -161,4 +162,6 @@ urlpatterns = patterns('',
 
 # Uncomment the next line to enable the admin:
 (r'^admin/', include(admin.site.urls)),
+(r'^robots\.txt$', direct_to_template,
+     {'template': 'robots.txt', 'mimetype': 'text/plain'}),
 )

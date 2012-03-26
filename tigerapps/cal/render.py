@@ -12,7 +12,7 @@ from django import shortcuts
 from datetime import datetime
 from models import *
 from usermsg import MsgMgr, Msg
-from individualsettings import our_site
+from globalsettings import our_site
 
 def render_to_response(request, template, dict):
 	""" Process every page's common parts """

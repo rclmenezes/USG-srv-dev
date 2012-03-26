@@ -155,4 +155,3 @@ def unconfirm_attendance(user,event):
 	except:
 		return Msg('''There was a problem processing this request.''',0)
 	
-					

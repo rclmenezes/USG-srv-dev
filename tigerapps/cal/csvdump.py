@@ -60,10 +60,3 @@ def downloadAttendeeList(request, event_id):
 		writer.writerow([dtime, netid, email, fname, lname, fulln, pusta, refid, refnm,])
 
 	return response
-	
-	
-	
-	
-	
-	
-	

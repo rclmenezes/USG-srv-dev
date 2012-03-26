@@ -11,8 +11,7 @@
 from django.db import models
 from datetime import datetime, date, timedelta
 from stdimage import StdImageField
-from globalsettings import SITE_ADMINS, dtdeleteflag
-from individualsettings import our_site
+from globalsettings import SITE_ADMINS, dtdeleteflag, our_site
 
 BLDG_CODE = (
     ('AL099', '99 Alexander (Forbes College)'),

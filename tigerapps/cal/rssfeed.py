@@ -11,11 +11,12 @@
 from django.contrib.syndication.feeds import Feed
 from models import *
 from datetime import datetime
+from globalsettings import our_site
 
 class LatestEvents(Feed):
     title = "Princeton Events Calendar - Hosted by the Princeton USG"
-    link = "http://dev.cal.tigerapps.org/events"
-    description = "Upcoming events listed on the Princeton Events Calendar, online at http://dev.cal.tigerapps.org."
+    link = "%sevents" % our_site
+    description = "Upcoming events listed on the Princeton Events Calendar, online at %s." % our_site
 
     def items(self):
         return Event.objects.filter(event_date_time_end__gte=datetime.now()).order_by('event_date_time_start')[:20]
@@ -24,4 +25,4 @@ class LatestEvents(Feed):
         return item.event_date_time_start	
     
     def item_link(self, item):
-    	return 'http://dev.cal.tigerapps.org/events/%s' % item.pk
+    	return '%sevents/%s' % (our_site, item.pk)
