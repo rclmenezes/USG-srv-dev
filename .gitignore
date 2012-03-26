@@ -56,7 +56,7 @@ tmp/
 *.log
 *.sql
 *.sqlite
-error_log
+*_log
 
 # OS generated files #
 ######################
