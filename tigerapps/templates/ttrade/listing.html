@@ -50,7 +50,7 @@
 				</tr>
 				<tr>
 					<td align=right>Lister's Email:<br/>(For questions) </td>
-					<td>{% if logged_in %}<a href="mailto:{{listing.user.email}}">{{listing.user.email}}</a>{% else %} Log-in to see the lister's email!{% endif %}</td>
+					<td><a href="mailto:{{listing.user.email}}">{{listing.user.email}}</a></td>
 				</tr>
 				{% ifequal listing.method "Fi"%}
 				<tr>

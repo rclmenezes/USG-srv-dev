@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'utils',
     'cal',
     'dvd',
     'ptx',

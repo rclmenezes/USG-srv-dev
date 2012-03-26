@@ -8,6 +8,7 @@
 				{% for offer in listing.offers.all %}
 				{% if offer.additional %}
 				<div class="box_inner">
+					From {{ offer.user.email }}:<br/><br/>
 					"{{ offer.additional }}"
 					<br/><br/>
 					<form action="/item/{{listing.listingID}}" method="POST">

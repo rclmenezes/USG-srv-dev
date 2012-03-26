@@ -21,7 +21,7 @@
 
 	    </span>
 	  <span class="group_box_title"><a href="/groups/{{m.group.url}}">{{ m.group }}</a></span><br/>
-	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|cut:"<p>"|cut:"</p>"|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
 	  </div>
 	  <div style="clear:left;"></div>
 	</div>
@@ -44,7 +44,7 @@
 
 	    </span>
 	  <span class="group_box_title"><a href="/groups/{{m.group.url}}">{{ m.group }}</a></span><br/>
-	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|cut:"<p>"|cut:"</p>"|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
 	  </div>
 	  <div style="clear:left;"></div>
 	</div>
@@ -67,7 +67,7 @@
 
 	    </span>
 	  <span class="group_box_title"><a href="/groups/{{m.group.url}}/">{{ m.group }}</a></span><br/>
-	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|cut:"<p>"|cut:"</p>"|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
 	  </div>
 	  <div style="clear:left;"></div>
 	</div>
@@ -90,7 +90,7 @@
 
 	    </span>
 	  <span class="group_box_title"><a href="/groups/{{m.group.url}}/">{{ m.group }}</a></span><br/>
-	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{m.group.description|cut:"<p>"|cut:"</p>"|slice:":80"}}{% if m.group.description|slice:"80:" %} ...{% endif %}</span>
 	  </div>
 	  <div style="clear:left;"></div>
 	</div>

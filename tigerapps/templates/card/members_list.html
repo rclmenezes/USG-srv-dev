@@ -81,7 +81,7 @@
       <td align="center">{{ member.first_name }}</td>
       <td align="center">{{ member.year }}</td>
       <td align="center"><a href="/{{ club }}/members/{{ member.netid }}/modify/">{{ member.netid }}</td>
-      <td align="center">{{ member.access }}</td>
+      <td align="center">{% ifequal member.access 'C' %}Checker{% else %}Member{% endifequal %}</td>
       {% if member.is_active %}
       <td align="center">Active</td>
       {% else %}

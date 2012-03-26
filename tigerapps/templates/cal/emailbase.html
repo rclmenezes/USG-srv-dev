@@ -9,7 +9,7 @@
 
 <body id="{% block id %}base{% endblock %}">
 {% block content %} {% endblock %}
-<img src="[IMG_EMBED]media/cal/css/images/icon-tips.gif[/IMG_EMBED]" style="float: left; padding-top: 10px; padding-left: 4px;" /><p style="color: #777; padding-left: 25px; font-size: 10px;"><strong>Tip:</strong> {% block tip %}Did you know that you can sync the Princeton Events Calendar with your Google Calendar, iCal, or Outlook Calendar?<br />Subscribe to the "Your personal calendar" address <a href="http://dev.cal.tigerapps.org/user">provided in your profile</a> to see your events appear on your calendar.{% endblock %}</p>
+<img src="[IMG_EMBED]media/cal/css/images/icon-tips.gif[/IMG_EMBED]" style="float: left; padding-top: 10px; padding-left: 4px;" /><p style="color: #777; padding-left: 25px; font-size: 10px;"><strong>Tip:</strong> {% block tip %}Did you know that you can sync the Princeton Events Calendar with your Google Calendar, iCal, or Outlook Calendar?<br />Subscribe to the "Your personal calendar" address <a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/user">provided in your profile</a> to see your events appear on your calendar.{% endblock %}</p>
 {% include "cal/email_footer.html" %}
 </body>
 </html>

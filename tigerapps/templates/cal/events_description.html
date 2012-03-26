@@ -5,8 +5,8 @@
 {% block headerscript %}
 <meta property="og:title" content="{{event.event_cluster.cluster_title}} {{event.event_subtitle}}" />
 <meta property="og:description" content="{% ifequal event.getFormattedStartDate event.getFormattedEndDate %}{{event.getTime}} to {{event.getEndTime}} on {{event.getFormattedStartDate}}{% else %}{{event.getTime}} {{event.getFormattedStartDate}} to {{event.getEndTime}} {{event.getFormattedEndDate}}{% endifequal %} | {{event.get_event_location_display}}{% if event.event_location_details %} {{event.event_location_details}}{% endif %}" />
-<meta property="og:image" content="http://dev.cal.tigerapps.org/{{event.event_cluster.cluster_image.thumbnail.url}}" />
-<meta property="og:url" content="http://dev.cal.tigerapps.org/events/{{event.pk}}" />
+<meta property="og:image" content="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/{{event.event_cluster.cluster_image.thumbnail.url}}" />
+<meta property="og:url" content="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/{{event.pk}}" />
 <meta property="og:type" content="article" />
 
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
@@ -163,7 +163,7 @@ Shadowbox.init();
 			<li> <fb:like layout="button_count" width="240" colorscheme="dark"></fb:like></li>
 			<li style="clear: both;"><span class="field">Short URL:</span> <a href="{{bitly_address}}">{{bitly_address}}</a></li>
 			<li><span class="field">QR Code:</span> <a href="/events/{{ event.pk }}/qr">Click for full-size QR codes</a><br />
-			<a href="/events/{{ event.pk }}/qr"><img src="http://qrcode.kaywa.com/img.php?s=1&t=p&d=http%3A%2F%2Fdev.cal.tigerapps.org%2Fevents%2F{{ event.pk }}" style="float: right;" /></a>
+			<a href="/events/{{ event.pk }}/qr"><img src="http://qrcode.kaywa.com/img.php?s=1&t=p&d=http%3A%2F%2F{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org%2Fevents%2F{{ event.pk }}" style="float: right;" /></a>
 			</li>
 			
 		</ul>

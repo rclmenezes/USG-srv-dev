@@ -25,7 +25,7 @@
 	      {% for key, value in affil.items %}{% ifequal key group.id %}{% autoescape off %}{{value}}{% endautoescape %}{% endifequal %}{% endfor %}
 	    </span>{% endif %}
 	  <span class="group_box_title"><a href="/groups/{{group.url}}/">{{ group }}</a></span><br/>
-	  <span class="group_box_descrip"><strong>Description:</strong> {{group.description|slice:":80"}}{% if group.description|slice:"80:" %} ...{% endif %}</span>
+	  <span class="group_box_descrip"><strong>Description:</strong> {{group.description|cut:"<p>"|cut:"</p>"|slice:":80"}}{% if group.description|slice:"80:" %} ...{% endif %}</span>
 	  </div>
 	  <div style="clear:left;"></div>
 	</div>

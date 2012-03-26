@@ -1,0 +1,17 @@
+# 80legs
+User-agent: 008
+Disallow: /
+
+# MSNBot
+User-Agent: msnbot
+Crawl-Delay: 20
+
+# Bender
+User-Agent: bender
+Disallow: /my_shiny_metal_ass
+
+User-agent: *
+Disallow: /media/
+Disallow: /harming/humans
+Disallow: /ignoring/human/orders
+Disallow: /harm/to/self

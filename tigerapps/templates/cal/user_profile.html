@@ -11,6 +11,6 @@
 </table>
 <input type="submit" value="Update" />
 </form>
-<p class="note">Your personal calendar: <a href="http://dev.cal.tigerapps.org/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics">webcal://dev.cal.tigerapps.org/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics</a></p>
+<p class="note">Your personal calendar: <a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics">webcal://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/mycal/{{user_data.pk}}/{{user_data.user_netid}}.ics</a></p>
 {% endif %}
 {% endblock %}

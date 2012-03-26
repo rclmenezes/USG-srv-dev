@@ -1,6 +1,6 @@
 {% extends "elections/base.html" %}
 
-{% block headercss %} <link rel="stylesheet" type="text/css" href="/media/elections/css/reg.css" />{% endblock %}
+{% block headercss %} {% endblock %}
 
 {% block content %}
 <div class="content">
@@ -15,7 +15,7 @@
 			<div class="photo"><img alt="Your picture" src="{% if candidate.headshot %}{{ candidate.headshot.url }}{% endif %}"/></div>
 			<div class="statement">
 				<h3 class="candidateName">{{candidate}}</h3>
-				{{candidate.statement}}
+				<p>{{candidate.statement|linebreaksbr}}</p>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -25,7 +25,7 @@
 	
 	
 	<div class="register">
-		<h2>Edit Statement</h2>
+		{% if candidate %}<h2>Edit Statement</h2>{% else %}<h2>Submit your statement</h2>{% endif %}
 		<p> Deadline for registration is {{election.deadline|date:"N d"}} at {{election.deadline|date:" P"}} After that point, you will no longer be allowed to make any changes to your statement.</p>
 		<table class="formTable">
 			<tbody>
@@ -61,6 +61,20 @@
 			<input type="hidden" id="netid" name="netid" value="{{ candidate.netid }}" />
 			<input type="submit" class="submit", value="Remove" />
 		</form>
+	</div>
+	{% endif %}
+	
+	{% if officeList %}
+	<h2>How many people are running so far?</h2>
+	<div>
+		<table>
+			{% for office, length in officeList.items %}
+			<tr>
+				<th>{{ office }}</th>
+				<td style="padding-left: 20px;"> {{ length }}</td>
+			</tr>
+			{% endfor %}
+		</table>
 	</div>
 	{% endif %}
 			

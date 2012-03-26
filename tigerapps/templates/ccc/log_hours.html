@@ -13,7 +13,7 @@
 	<div class="main-box" style="width: 90%;">
 	    <h2 id="postTitle" style="text-align: center;">Log Hours</h2>
 		<p>Currently, you have logged {{hours}} hour{% ifnotequal hours 1 %}s{% endifnotequal %}.</p>
-		<p style="text-align: left;">Can't find your project? <a href="/request">Request that your project be recognized.</a></p>
+		<p>You can only log projects that have occurred since October 29th. Please keep in mind these <a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}ccc.tigerapps.org/logging_guidelines">guidelines when logging a project.</a></p>
 		<form name="pace_form" method="post">
 		<table>
 		{% for field in log_cluster_form %}
@@ -28,8 +28,8 @@
 			</tr>
 		{% endfor %}
 		</table>
-		<br/>
-		<input type="submit" href="/log_pace" class="button" />
+		<input type="submit" href="/log_pace" class="button" style="margin-left: 95px; margin-top: 15px;" />
+		<p style="text-align: left;">Can't find your project? <a href="/request">Request that your project be recognized.</a></p>
 		</form>
 	</div>
 {% endblock %}

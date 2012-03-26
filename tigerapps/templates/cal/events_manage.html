@@ -18,7 +18,7 @@
 	<script src="/media/cal/js/jquery.ui.datetimepicker.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function() {
-           $('#id_event_date_rsvp_deadline').datepicker();
+           $('#id_event_date_rsvp_deadline').datepicker({ dateFormat: 'mm/dd/yy' });
            $('#id_event_date_time_start').datetimepicker();
            $('#id_event_date_time_end').datetimepicker();
         });
