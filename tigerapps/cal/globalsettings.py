@@ -14,7 +14,7 @@ from datetime import datetime
 
 #Sensitive info (passwords)
 try:
-    from local_settings import *
+    from cal import local_settings
 except ImportError, exp:
     print "Error: Couldn't import local_settings; missing passwords and other local data"
 

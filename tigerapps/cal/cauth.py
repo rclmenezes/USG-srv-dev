@@ -11,7 +11,8 @@
 from django.http import *
 from django.contrib.auth import login
 from datetime import datetime
-import urllib, re, string
+import re, string, urllib
+from django_cas.urllib2_sslv3 import urllib2
 from models import *
 from django.core.exceptions import ObjectDoesNotExist
 from dsml import gdi
@@ -26,7 +27,7 @@ def login(request):
 			try:
 				ticket = request.GET.get('ticket', None)
 				params = urllib.urlencode({'service':our_site_validate,'ticket':ticket})
-				validation = urllib.urlopen(cas_url+'/validate?'+params).readlines()
+				validation = urllib2.urlopen(cas_url+'/validate?'+params).readlines()
 				if len(validation) == 2 and re.match('yes', validation[0]) != None:
 					netid = validation[1].strip()
 					request.session['user_data'] = login_user(netid)

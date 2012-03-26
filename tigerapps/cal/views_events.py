@@ -10,7 +10,8 @@
 
 from groups.models import *
 from groups.email_msg import FEED_NOTIFICATION_EMAIL
-from groups.globalsettings import SITE_EMAIL,EMAIL_HEADER_PREFIX,our_site
+from groups.globalsettings import SITE_EMAIL,EMAIL_HEADER_PREFIX
+from cal.globalsettings import our_site, our_email
 from django.core.mail import send_mail
 
 from django.http import *
@@ -397,7 +398,7 @@ def events_description(request, event_id):
 			# dict['unrsvp_url'] = '/events/%s/unconfirm' % (event_id)
 			
 		try:
-            address = urllib.quote('%sevents/%s' % (our_site, event_id), safe='')
+			address = urllib.quote('%sevents/%s' % (our_site, event_id), safe='')
 			dict['bitly_address'] = urllib.urlopen('http://api.bit.ly/v3/shorten?login=princetoneventscalendar&apiKey=R_16e331c21bf86e1f97667dec5608dba6&longUrl=%s&format=txt' % address).readlines()[0]
 		except:
 			dict['bitly_address'] = 'none'
@@ -1131,7 +1132,7 @@ def subscribe(request, category):
 
 	for event in filteredEvents:
 		vevent = cal.add('VEVENT')
-		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email
+		vevent.add('UID').value = "%i@%s" % (event.event_id, our_email)
 		vevent.add('RELATED-TO').value = 'RELTYPE=CHILD:%irecur@%s' % (event.event_cluster.cluster_id, our_email)
 		vevent.add('SUMMARY').value = smart_unicode(str(event))
 		vevent.add('DTSTART').value = event.event_date_time_start

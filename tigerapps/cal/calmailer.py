@@ -25,7 +25,7 @@ def email_creator(creator,event):
 	""" Send an email to the person who created the event """
 	eventurl = event.get_absolute_url()
 	try:
-        address = urllib.quote('%sevents/%s' % (our_site, event.pk), safe='')
+		address = urllib.quote('%sevents/%s' % (our_site, event.pk), safe='')
 		bitly_address = urllib.urlopen('http://api.bit.ly/v3/shorten?login=princetoneventscalendar&apiKey=R_16e331c21bf86e1f97667dec5608dba6&longUrl=%s&format=txt' % address).readlines()[0]
 	except:
 		bitly_address = 'none'
@@ -36,7 +36,7 @@ def email_forwardtocampusevents(creator,event,custommsg):
 	""" Send an email to the campus events address """
 	eventurl = event.get_absolute_url()
 	try:
-        address = urllib.quote('%sevents/%s' % (our_site, event.pk), safe='')
+		address = urllib.quote('%sevents/%s' % (our_site, event.pk), safe='')
 		bitly_address = urllib.urlopen('http://api.bit.ly/v3/shorten?login=princetoneventscalendar&apiKey=R_16e331c21bf86e1f97667dec5608dba6&longUrl=%s&format=txt' % address).readlines()[0]
 	except:
 		bitly_address = 'none'
