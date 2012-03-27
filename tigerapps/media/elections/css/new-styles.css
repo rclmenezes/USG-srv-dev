@@ -115,9 +115,7 @@ h2.officename
 
 .statement
 {
-    float: right;
     display: block;
-    width: 75%;
 }
 
 h3.candidateName
@@ -133,4 +131,4 @@ h3.candidateName
     height: 0;
     clear: both;
     visibility: hidden;
-} 
+}

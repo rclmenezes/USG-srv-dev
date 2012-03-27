@@ -38,22 +38,22 @@
 
 /* Parent Sub Menu Links ---[javascript users only]*/
 .subMenuParentBtn{ 
-	background: url(/media/images/arrow_right.gif) right center no-repeat;  
+	background: url(/media/ttrade/images/arrow_right.gif) right center no-repeat;  
 }
 
 /* Parent Sub Menu Links on hover or focus ---[javascript users only]*/
 .subMenuParentBtnFocused{ 
-	background: url(/media/images/arrow_right_over.gif) right center no-repeat;  
+	background: url(/media/ttrade/images/arrow_right_over.gif) right center no-repeat;  
 }
 
 /* Parent Main Menu Links ---[javascript users only]*/
 .mainMenuParentBtn{	
-	 background: url(/media/images/arrow_down.gif) right center no-repeat; 
+	 background: url(/media/ttrade/images/arrow_down.gif) right center no-repeat; 
 }
 
 /* Parent Main Menu Links on hover or focus ---[javascript users only]*/
 .mainMenuParentBtnFocused{	
-	background: url(/media/images/arrow_down_over.gif) right center no-repeat; 
+	background: url(/media/ttrade/images/arrow_down_over.gif) right center no-repeat; 
 }
 
 /* ----[ OLs ULs, LIs, and DIVs ]----*/
@@ -96,6 +96,7 @@
 
 #subMenusContainer li{
 	list-style: none;
+	min-width: 150px;
 }
 
 #subMenusContainer{	display:block; 	position:absolute;	top:0;	left:0;	width:100%;	height:0;	overflow:visible;	z-index:1000000000; }

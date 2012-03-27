@@ -20,7 +20,7 @@ html, body
     position: absolute;
     top: 0;
     width: 100%;
-    min-width: 900px;
+    min-width: 990px;
     z-index: 990;
     line-height: 1;
     box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
@@ -28,9 +28,24 @@ html, body
     -webkit-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
 }
 
-a img
-{
+a img {
     border: none;
+}
+
+#tigerapps-announcement small, #toolbar-feedback small
+{
+    color: white;
+}
+
+#tigerapps-announcement a, #toolbar-feedback a, #tigerapps-announcement a:visited, #toolbar-feedback a:visited
+{
+    text-decoration: none;
+    color: #FFBE24;
+}
+
+#tigerapps-announcement a:hover, #toolbar-feedback a:hover
+{
+    text-decoration: underline;
 }
 
 ul.sf-menu

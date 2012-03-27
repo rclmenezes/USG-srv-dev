@@ -112,7 +112,7 @@ a:hover {
 .logo
 {
     left: 20px;
-    padding-top: 20px;
+    padding-top: 10px;
     z-index: 0;
     position: absolute;
     top: 9px;
@@ -402,11 +402,11 @@ img.is_collapsed
 
 .footer
 {
-    min-height: 10px;
-    margin: 0 10%;
+    font-size: 12px;
     padding: 30px 0px 20px;
     margin: 0 auto;
-    width: 500px;
+    text-align: center;
+    width: 950px;
 }
 
 .footer small

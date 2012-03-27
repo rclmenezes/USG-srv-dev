@@ -181,6 +181,11 @@ a img
     text-decoration: underline;
 }
 
+#content a.button
+{
+    text-decoration: none;
+}
+
 #content a:hover
 {
     color: #ff7901;
@@ -285,10 +290,14 @@ h2#how-to-get-involved
     height: 500px;
 }
 
-a#button
+.button-row
 {
-    display: block;
-    width: 300px;
+    width: 100%;
+    text-align: center;
+}
+
+a.button
+{
     background: #f86d02; /* Old browsers */
     background: -moz-linear-gradient(top, #f86d02 0%, #da5300 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f86d02), color-stop(100%,#da5300)); /* Chrome,Safari4+ */
