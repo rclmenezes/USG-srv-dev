@@ -12,18 +12,21 @@ class Post(models.Model):
         return self.title
 
 class LogCluster(models.Model):
+    YEAR_CHOICES = (("2012",2012), ("2013", 2013), ("2014", 2014), ("2015", 2015))
+    RES_COLLEGE_CHOICES = (("Forbes","Forbes"), ("Whitman", "Whitman" ), ("Rockefeller", "Rockefeller"),
+                           ("Mathey", "Mathey"), ("Wilson", "Wilson"), ("Butler", "Butler"))
+    EATING_CLUB_CHOICES = (("Cannon","Cannon"), ("Cap and Gown","Cap and Gown"), ("Tower","Tower"),
+                           ("Ivy","Ivy"), ("Tiger Inn","Tiger Inn"), ("Cottage","Cottage"),
+                           ("Cloister","Cloister"), ("Charter","Charter"), ("Colonial","Colonial"),
+                           ("Quadrangle","Quadrangle"), ("Terrace","Terrace"))
+
     date_start = models.DateField(help_text="Date when service started")
     date_end = models.DateField(default=datetime.datetime.now(), help_text="Date when service ended")
     project = models.ForeignKey('ProjectOrOrganization', help_text="Project or organization the service was done with")
     hours = models.IntegerField(help_text="Total new hours since you last logged")
-    year = models.IntegerField(max_length=4, choices=(("2012",2012), ("2013", 2013), ("2014", 2014), ("2015", 2015)))
-    
-    res_college = models.CharField("Residential College", max_length=10, choices=(("Forbes","Forbes"), ("Whitman", "Whitman" ),
-                                                                   ("Rockefeller", "Rockefeller"), ("Mathey", "Mathey"),
-                                                                   ("Wilson", "Wilson"), ("Butler", "Butler")))
-    eating_club = models.CharField(max_length=10, choices=(("Cannon","Cannon"),("Cap and Gown","Cap and Gown"),("Tower","Tower"),
-                                                           ("Ivy","Ivy"),("Tiger Inn","Tiger Inn"),("Cottage","Cottage"),
-                                    ("Cloister","Cloister"),("Charter","Charter"),("Colonial","Colonial"),("Quadrangle","Quadrangle"),("Terrace","Terrace")))
+    year = models.IntegerField(max_length=4, choices=YEAR_CHOICES, blank=True, null=True)
+    res_college = models.CharField("Residential College", max_length=10, choices=RES_COLLEGE_CHOICES, blank=True, null=True)
+    eating_club = models.CharField(max_length=10, choices=EATING_CLUB_CHOICES, blank=True, null=True)
     user = models.ForeignKey(User, related_name="cluster_user")
     
     def __unicode__(self):
