@@ -44,7 +44,7 @@ class Event(models.Model):
     entry_description = models.CharField("Entry Description", help_text="Useful for describing passes or members +.", max_length=40, null=True, blank=True)
     title = models.CharField("Title", help_text="Default is clubname + weekday", max_length=40, null=True, blank=True)
     description = models.TextField("Description", null=True, blank=True)
-    poster = StdImageField('Event Poster (optional)', upload_to='pam/images/', size=(400,600), thumbnail_size=(250, 375), blank=True, null=True)
+    poster = StdImageField('Event Poster (optional)', upload_to='pam/images/events_posters/', size=(400,600), thumbnail_size=(250, 375), blank=True, null=True)
     time_start = models.DateTimeField('Start datetime')
     time_end = models.DateTimeField('End datetime')
     
