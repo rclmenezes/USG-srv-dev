@@ -76,11 +76,13 @@ MEDIA_URL = '/media/'
 #STATIC refers to CSS/js/img files.
 #TODO: Currently everything is stored in MEDIA
 # Absolute path to the directory that holds static files.
-STATIC_ROOT = CURRENT_DIR + "/media"
+#STATIC_ROOT = CURRENT_DIR + "/media/"
 # URL for static files served from STATIC_ROOT (need trailing slash,
 #    must be diff from MEDIA_URL).
 # Note that since Django 1.4, admin media files are automatically stored at STATIC_URL/admin/
 STATIC_URL = "/media"
+# tryin stuff
+STATICFILES_DIRS = (CURRENT_DIR + "/media/",)
 # URL prefix for admin static files (need trailing slash). TODO: deprecated in django1.4
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 
