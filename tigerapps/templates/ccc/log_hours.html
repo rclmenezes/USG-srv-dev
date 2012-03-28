@@ -17,6 +17,10 @@
 		<p>You can only log projects that have occurred since October 29th. Please keep in mind these <a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}ccc.tigerapps.org/logging_guidelines">guidelines when logging a project.</a></p>
 		<form name="pace_form" method="post">
 		<table>
+			<tr id="row_name">
+				<th id="th_name" class="tableLabel">Netid:</th>
+				<td>{{ name }}</td>
+			</tr>
 		{% for field in log_cluster_form %}
 			<tr id="row_{{field.auto_id}}">
 				<th id="th_{{field.auto_id}}" class="tableLabel">{{field.label_tag}}:</th>

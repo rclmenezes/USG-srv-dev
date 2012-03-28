@@ -11,7 +11,7 @@ class LogClusterForm(forms.ModelForm):
     
     class Meta:
         model=LogCluster
-        fields = ['date_start', 'date_end', 'project', 'hours', 'year', 'res_college', 'eating_club']
+        fields =  ['year', 'res_college', 'eating_club', 'date_start', 'date_end', 'project', 'hours']
     
     def clean_date_start(self):
         date_start = self.cleaned_data['date_start']
