@@ -83,7 +83,8 @@ def log_hours(request):
             log.user = request.user
             log.save()
             return render_to_response('ccc/confirm.html', {'log': log})
-    return render_to_response('ccc/log_hours.html', {'log_cluster_form': log_cluster_form, 'hours': hours})
+    name = request.user.first_name + " "  + request.user.last_name
+    return render_to_response('ccc/log_hours.html', {'log_cluster_form': log_cluster_form, 'hours': hours, 'name': name})
     
 # For non-blog posts    
 def view_404(request):
