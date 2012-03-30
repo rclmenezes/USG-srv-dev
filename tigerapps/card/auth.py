@@ -15,7 +15,8 @@ from django.http import *
 from django.conf import settings
 
 from os import environ
-from urllib import urlencode, urlopen
+from urllib import urlencode
+from django_cas.urllib2_sslv3 import urllib2
 import re
 
 HOSTNAME = 'http://%scard.tigerapps.org:' % settings.CURRENT_HOST_PREFIX
@@ -52,7 +53,7 @@ def cas_validate(request, ticket):
     Return netid if valid, else return None."""
     
     url = cas_url_valid + '?' + urlencode({'service':service_url(request), 'ticket':ticket})
-    valid = urlopen(url).readlines()
+    valid = urllib2.urlopen(url).readlines()
     if valid[1].count('<cas:authenticationSuccess>') > 0:
         s = valid[2].partition('<cas:user>')
         t = s[2].partition('</cas:user>')
