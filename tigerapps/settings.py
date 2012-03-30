@@ -72,6 +72,9 @@ USE_I18N = False
 MEDIA_ROOT = CURRENT_DIR + '/media/'
 # URL for media served from MEDIA_ROOT (need trailing slash). 
 MEDIA_URL = '/media/'
+# permissions for uploaded files
+FILE_UPLOAD_PERMISSIONS = 0664
+
 
 #STATIC refers to CSS/js/img files.
 #TODO: Currently everything is stored in MEDIA
