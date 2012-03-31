@@ -83,7 +83,7 @@ FILE_UPLOAD_PERMISSIONS = 0664
 # URL for static files served from STATIC_ROOT (need trailing slash,
 #    must be diff from MEDIA_URL).
 # Note that since Django 1.4, admin media files are automatically stored at STATIC_URL/admin/
-STATIC_URL = "/media"
+STATIC_URL = "/media/"
 # tryin stuff
 STATICFILES_DIRS = (CURRENT_DIR + "/media/",)
 # URL prefix for admin static files (need trailing slash). TODO: deprecated in django1.4
