@@ -78,16 +78,16 @@ FILE_UPLOAD_PERMISSIONS = 0664
 
 #STATIC refers to CSS/js/img files.
 #TODO: Currently everything is stored in MEDIA
-# Absolute path to the directory that holds static files.
+# Absolute path to the directory that holds static files (must be diff from MEDIA_ROOT)
+# Note: STATIC_ROOT is used when `manage.py collectstatic` is used,
+#   STATICFILES_DIRS is used otherwise
 #STATIC_ROOT = CURRENT_DIR + "/media/"
-# URL for static files served from STATIC_ROOT (need trailing slash,
-#    must be diff from MEDIA_URL).
+STATICFILES_DIRS = (CURRENT_DIR + "/static/",)
+# URL for static files served from STATIC_ROOT (need trailing slash)
 # Note that since Django 1.4, admin media files are automatically stored at STATIC_URL/admin/
-STATIC_URL = "/media/"
-# tryin stuff
-STATICFILES_DIRS = (CURRENT_DIR + "/media/",)
+STATIC_URL = "/static/"
 # URL prefix for admin static files (need trailing slash). TODO: deprecated in django1.4
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 #Used for staticfiles app. Files in this tuple are collected into STATIC_ROOT
 #   when `manage.py collecstatic` is issued.

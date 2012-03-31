@@ -52,9 +52,9 @@
 	{% if mships %}
 	<tr>
 	  <th><input type="checkbox" id="master_check" value="" onclick="check_all(this);"/></th>
-	  <th name="header" onclick="$('#sort_input_id').attr('value','netid');$('#search_form_id').submit();"/>NETID{% ifequal sort 'netid' %} <img src="/media/groups/sort_arrow.jpeg">{% endifequal %}</th>
-	  <th name="header" onclick="$('#sort_input_id').attr('value','name');$('#search_form_id').submit();">NAME{% ifequal sort 'name' %} <img src="/media/groups/sort_arrow.jpeg">{% endifequal %}</th>
-	  <th name="header" onclick="$('#sort_input_id').attr('value','year');$('#search_form_id').submit();">YEAR{% ifequal sort 'year' %} <img src="/media/groups/sort_arrow.jpeg">{% endifequal %}</th>
+	  <th name="header" onclick="$('#sort_input_id').attr('value','netid');$('#search_form_id').submit();"/>NETID{% ifequal sort 'netid' %} <img src="/static/groups/sort_arrow.jpeg">{% endifequal %}</th>
+	  <th name="header" onclick="$('#sort_input_id').attr('value','name');$('#search_form_id').submit();">NAME{% ifequal sort 'name' %} <img src="/static/groups/sort_arrow.jpeg">{% endifequal %}</th>
+	  <th name="header" onclick="$('#sort_input_id').attr('value','year');$('#search_form_id').submit();">YEAR{% ifequal sort 'year' %} <img src="/static/groups/sort_arrow.jpeg">{% endifequal %}</th>
 	</tr>
 	{% endif %}
 

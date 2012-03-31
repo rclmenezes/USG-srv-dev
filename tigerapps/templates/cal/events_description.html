@@ -53,8 +53,8 @@ function showAllAttendees(id) {
 
 </script>
 
-<link rel="stylesheet" type="text/css" href="/media/cal/js/shadowbox/shadowbox.css">
-<script type="text/javascript" src="/media/cal/js/shadowbox/shadowbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/cal/js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="/static/cal/js/shadowbox/shadowbox.js"></script>
 <script type="text/javascript">
 Shadowbox.init();
 </script>
@@ -66,7 +66,7 @@ Shadowbox.init();
 <div style="display: block;">
 	<div id="detaildisp" class="disp_right">
 		{% if event.event_cluster.cluster_image %}
-		<a rel="shadowbox" href="../{{event.event_cluster.cluster_image.url}}"><img id="poster" src="../{{event.event_cluster.cluster_image.thumbnail.url}}" /></a>
+		<a rel="shadowbox" href="{{event.event_cluster.cluster_image.url}}"><img id="poster" src="{{event.event_cluster.cluster_image.thumbnail.url}}" /></a>
 		{% endif %}
 		
 		{% if user_data.is_site_admin %}
@@ -121,7 +121,7 @@ Shadowbox.init();
 		<div stle="clear: both;"></div>
 		<div id="ext_cal">Add to External Calendars<br />
 		<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation}}&details={{event.getGCalClusterDes}}<br><br>{{event.getGCalEventDes}}&sprop=name:pcal" target="_blank"><img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Add to Google Calendar" /></a>
-		<a href="/ical/{{event.event_id}}"><img src="/media/cal/css/img/ical.png" alt="Add to iCal" /></a>
+		<a href="/ical/{{event.event_id}}"><img src="/static/cal/css/img/ical.png" alt="Add to iCal" /></a>
 		</div>
 		</div>
 		<h3>Send Invitation<a name="invite"></a></h3>
@@ -145,7 +145,7 @@ Shadowbox.init();
 			{% if event.event_max_attendance %}<li><span class="field">Max Attendees:</span> {{event.event_max_attendance}}</li>{% endif %}
 			<li><span class="field">RSVP Required:</span> {{event.event_cluster.cluster_rsvp_enabled|yesno:"Yes,No,No"}}</li>
 			{% if event.event_cluster.cluster_rsvp_enabled %}<li><span class="field">RSVP Deadline:</span> {{event.event_date_rsvp_deadline|naturalday|capfirst}}</li>{% endif %}
-			<li><span class="field">Added by:</span> <a href="/eventsby/{{event.event_cluster.cluster_user_created.user_netid}}">{{event.event_cluster.cluster_user_created.full_name_suffix}}</a><a href="mailto:{{event.event_cluster.cluster_user_created.user_email}}"><img style="padding-left: 4px;" src="/media/cal/img/icons/icon_email.png"></a></li>
+			<li><span class="field">Added by:</span> <a href="/eventsby/{{event.event_cluster.cluster_user_created.user_netid}}">{{event.event_cluster.cluster_user_created.full_name_suffix}}</a><a href="mailto:{{event.event_cluster.cluster_user_created.user_email}}"><img style="padding-left: 4px;" src="/static/cal/img/icons/icon_email.png"></a></li>
 			{% if associatedEvents %}
 			<li><span class="field">Related Events:</span></li>
 			<ul>
@@ -181,7 +181,7 @@ Shadowbox.init();
 </div>
 <div id="event_body">
 {% for feat in event.event_cluster.cluster_features.all %}
-<a href="/features/{{feat.feature_name}}"><img src="/media/cal/{{feat.feature_icon}}" title="{{feat.feature_name}}" alt="{{feat.feature_name}}" style="float: right; height: 24px; width: 24px;"/></a>
+<a href="/features/{{feat.feature_name}}"><img src="/static/cal/{{feat.feature_icon}}" title="{{feat.feature_name}}" alt="{{feat.feature_name}}" style="float: right; height: 24px; width: 24px;"/></a>
 {% endfor %}
 {% if event.event_cluster.cluster_rsvp_enabled %}<span style="color: #777;">This event requires an RSVP. See <a href="#details">below</a> for more information.</span>{% endif %}
 {% if authorized and forwardtoevents %}
@@ -201,7 +201,7 @@ Shadowbox.init();
 <h3>Description</h3>
 
 <!-- 
-{% for feature in event.event_cluster.cluster_features.all %}{% ifequal feature.feature_name "Free Food" %}<a href="/features/free_food"><img src="/media/cal/img/icons/icon_food.png" style="float: right; height: 24px; width: 24px;" alt="This event features free food" /></a>{% endifequal %}{% ifequal feature.feature_name "Alcoholic Drinks" %}<a href="/features/alcohol"><img src="/media/cal/img/icons/icon_beer.png" style="float: right; height: 24px; width: 24px;" alt="This event features alcoholic drinks" /></a>{% endifequal %}{% ifequal feature.feature_name "Outdoors" %}<a href="/features/outdoors"><img src="/media/cal/img/icons/icon_tree.png" style="float: right; height: 24px; width: 24px;" alt="This event features the outdoors" /></a>{% endifequal %}{% ifequal feature.feature_name "Tiger Tickets" %}<a href="/features/tiger_tickets"><img src="/media/cal/img/icons/icon_ticket.png" style="float: right; height: 24px; width: 24px;" alt="This event accepts Tiger Tickets" /></a>{% endifequal %}{% endfor %}
+{% for feature in event.event_cluster.cluster_features.all %}{% ifequal feature.feature_name "Free Food" %}<a href="/features/free_food"><img src="/static/cal/img/icons/icon_food.png" style="float: right; height: 24px; width: 24px;" alt="This event features free food" /></a>{% endifequal %}{% ifequal feature.feature_name "Alcoholic Drinks" %}<a href="/features/alcohol"><img src="/static/cal/img/icons/icon_beer.png" style="float: right; height: 24px; width: 24px;" alt="This event features alcoholic drinks" /></a>{% endifequal %}{% ifequal feature.feature_name "Outdoors" %}<a href="/features/outdoors"><img src="/static/cal/img/icons/icon_tree.png" style="float: right; height: 24px; width: 24px;" alt="This event features the outdoors" /></a>{% endifequal %}{% ifequal feature.feature_name "Tiger Tickets" %}<a href="/features/tiger_tickets"><img src="/static/cal/img/icons/icon_ticket.png" style="float: right; height: 24px; width: 24px;" alt="This event accepts Tiger Tickets" /></a>{% endifequal %}{% endfor %}
  -->
 <p class="descr_text">{{event.event_cluster.cluster_description|linebreaksbr}}</p>
 {% if event.event_subdescription %}<p class="descr_text">{{event.event_subdescription|linebreaksbr}}</p>{% endif %}

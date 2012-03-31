@@ -17,6 +17,7 @@ from email_msg import *
 from django.core.mail import send_mail
 from stdimage import StdImageField
 from datetime import datetime
+from django.conf import settings
 
 def edit_profile(request, group):
     """Displays a page where officers can edit the group profile info."""
@@ -509,7 +510,7 @@ def upload_image(request, group):
                                'alpha':request.session['alpha'],})
 
 def handle_uploaded_file(f, g, l):
-    path_str = '/home/atrippe/Student_Groups/media/Files/'+f.name
+    path_str = '%sgroups/Files/%s' % (settings.MEDIA_ROOT,f.name)
     destination = open(path_str, 'w')
     for chunk in f.chunks():
         destination.write(chunk)

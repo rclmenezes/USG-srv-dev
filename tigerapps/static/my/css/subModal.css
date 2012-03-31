@@ -1,0 +1,87 @@
+/**
+ * POPUP CONTAINER STYLES
+ */
+#popupMask {
+	position: absolute;
+	z-index: 200;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: .4;
+	filter: alpha(opacity=40);
+	/* this hack is so it works in IE
+	 * I find setting the color in the css gives me more flexibility 
+	 * than the PNG solution.
+	 */
+	background-color:transparent !important;
+	background-color: #333333;
+	/* this hack is for opera support
+	 * you can uncomment the background-image if you don't care about opera.
+	 * this gives you the flexibility to use any bg color that you want, instead of the png
+	 */
+	background-image/**/: url("/static/my/images/maskBG.png") !important; // For browsers Moz, Opera, etc.
+	background-image:none;
+	background-repeat: repeat;
+	display:none;
+}
+#popupContainer {
+	position: absolute;
+	z-index: 201;
+	top: 0px;
+	left: 0px;
+	display:none;
+	padding: 0px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+#popupInner {
+	border: 2px solid white;
+	background-color: #ffffff;
+	height: 101%;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-khtml-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+}
+
+#popupFrame {
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 202;
+	-moz-border-radius-bottom-right: 15px;
+	border-bottom-right-radius: 15px;
+	-moz-border-radius-bottom-left: 15px;
+	border-bottom-left-radius: 15px;
+}
+#popupTitleBar {
+	background-color: #5B5B5B;
+	color: #ffffff;
+	font-weight: bold;
+	height: 1.3em;
+	padding: 5px;
+	border-bottom: 1px solid #797979;
+	border-top: 1px solid #797979;
+	border-left: 1px solid #797979;
+	border-right: 1px solid #393939;
+	position: relative;
+	z-index: 203;
+	-moz-border-radius-topright: 15px;
+	border-top-right-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	border-top-left-radius: 15px;
+}
+#popupTitle {
+	float:left;
+	font-size: 1.1em;
+	margin-top: -2px;
+}
+#popupControls {
+	float: right;
+	cursor: pointer;
+	cursor: hand;
+}

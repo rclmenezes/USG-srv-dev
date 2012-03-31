@@ -10,16 +10,16 @@
 	<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps,Cal,pCal">
 	<link rel="icon" 
 	      type="image/ico" 
-	      href="/media/images/favicon.ico">
+	      href="/static/images/favicon.ico">
  <title>{% block title %}Princeton Events Calendar{% endblock %}</title>
  <link rel="alternate" type="application/rss+xml" title="Princeton Events Calendar" href="/feeds/latest" />
- <link href="/media/cal/css/main.css?version=2.1" rel="stylesheet" type="text/css" />
- <link href="/media/cal/css/lavalamp_test.css" rel="stylesheet" type="text/css" />
- <link href="/media/cal/css/typo.css" rel="stylesheet" type="text/css" />
+ <link href="/static/cal/css/main.css?version=2.1" rel="stylesheet" type="text/css" />
+ <link href="/static/cal/css/lavalamp_test.css" rel="stylesheet" type="text/css" />
+ <link href="/static/cal/css/typo.css" rel="stylesheet" type="text/css" />
  {% block headercss %}{% endblock %}
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
- <script src="/media/cal/js/jquery.easing.min.js" type="text/javascript"></script>
- <script src="/media/cal/js/jquery.lavalamp.min.js" type="text/javascript"></script>
+ <script src="/static/cal/js/jquery.easing.min.js" type="text/javascript"></script>
+ <script src="/static/cal/js/jquery.lavalamp.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function() {
             $("#topmenu").lavaLamp({
@@ -32,17 +32,17 @@
         });
          
     </script>
- <script src="/media/cal/js/jquery.ThreeDots.min.js" type="text/javascript"></script>
+ <script src="/static/cal/js/jquery.ThreeDots.min.js" type="text/javascript"></script>
     <script type="text/javascript">
   $(document).ready(function () {var the_obj1 = $('.centerellipsis').ThreeDots({max_rows: 1, whole_word: false});});
   $(document).ready(function () {var the_obj2 = $('.leftellipsis').ThreeDots({max_rows: 1, whole_word:false});});
   $(document).ready(function () {var the_obj3 = $('.rc_ellipsis').ThreeDots({max_rows: 1, whole_word:false});});
  </script> 
- <script src="/media/cal/js/jquery.cluetip.min.js" type="text/javascript"></script>
- <link rel="stylesheet" href="/media/cal/css/jquery.cluetip.css" type="text/css" />
+ <script src="/static/cal/js/jquery.cluetip.min.js" type="text/javascript"></script>
+ <link rel="stylesheet" href="/static/cal/css/jquery.cluetip.css" type="text/css" />
  
- <script src="/media/cal/js/menu.js" type="text/javascript"></script>
- <link rel="stylesheet" href="/media/cal/css/menu.css" type="text/css" />
+ <script src="/static/cal/js/menu.js" type="text/javascript"></script>
+ <link rel="stylesheet" href="/static/cal/css/menu.css" type="text/css" />
  
  <script type="text/javascript">
 
@@ -83,7 +83,7 @@
        <li{{week|safe}}><a href="/week">Week</a></li>
        <li{{weekend|safe}}><a href="/weekend">Weekend</a></li>
        <li{{all|safe}}><a href="/all">All</a></li>
-       <li><a href="/feeds/latest"/><img src="/media/cal/css/img/200px-Feed-icon.svg.png" alt="Feed"/></li>
+       <li><a href="/feeds/latest"/><img src="/static/cal/css/img/200px-Feed-icon.svg.png" alt="Feed"/></li>
       </ul>
      </td>
      {% if user_data %}

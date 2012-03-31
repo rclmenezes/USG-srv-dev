@@ -110,7 +110,7 @@ class Account(models.Model):
             if p == page:
                 pageBar += '<div id="page_it" style="z-index: 4;">'
                 if len(self.pages.all()) > 1:
-                    pageBar +='<img style="visibility: hidden;" class="page_remove" src="/media/my/images/SmallX.gif"/>'
+                    pageBar +='<img style="visibility: hidden;" class="page_remove" src="/static/my/images/SmallX.gif"/>'
                 pageBar += '<span id="tabName">' + p.name + '</span></div>'
                 hit = True
                 high = 3

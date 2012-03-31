@@ -1,0 +1,824 @@
+/*
+ * Princeton Student Groups CSS
+ * Originally written by Jonny Weiss for PTX
+ * 4/29/09
+ * Modified by Hao Lian after Trinston's Redesign
+ * 07/19/09
+ * Modified by Michael Yaroshefsky for Princeton Events Calendar
+ * 04/1/10 
+ * Modified by Aaron Trippe for Princeton Student Groups
+ * 6/15/11
+ */
+
+@import url('reset.css');
+
+/* ------ Base template css -------- */
+html {
+    height: 100%;
+    margin-bottom: 1px;
+}
+
+body, input, textarea {
+    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Verdana, sans-serif;
+    font-size: 13px;
+}
+
+body {
+    background-color: black;
+    background-image: url('img/background-pattern.gif');
+    color: white;
+    line-height: 1.5;
+    /* Overlay. */
+    min-height: 652px;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+h1#title {
+	font-size: 22px;
+	color: #333;
+	letter-spacing: 0.07em;
+	padding-top: 8px;
+	padding-bottom: 6px;
+	font-weight: 600;
+}
+p.subtitle {
+	font-size: 16px;
+	color: #555;
+	font-style: italic;
+	position: relative;
+	top: -10px;
+	padding-bottom: 6px;
+	font-weight: normal; !important
+}
+
+#subtitle {
+	font-size: 18px;
+	color: #d45100;
+	letter-spacing: 0.03em;
+	padding-top: 4px;
+	padding-bottom: 6px;
+	font-weight: normal; !important
+}
+
+
+/*div.error {
+    background: #FFC7EC;
+    border: 1px solid #FFA1E0;
+    padding: 10px;
+    margin: 1em 0;
+}*/
+
+#footer {
+    text-align: center;
+    margin-top: 1em;
+    padding-bottom: 1em;
+}
+
+#footer, #footer a {
+    color: #9c9c9c;
+}
+
+/* ---------- Navigation ---------- */
+#nav {
+    width: 100%;
+    margin-top: 20px;
+    background-color: black;
+    background-image: url('img/nav-pattern.png');
+    background-repeat: repeat-x;
+    border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    -webkit-border-radius: 15px 15px 0 0;
+}
+
+#nav td {
+    vertical-align: middle;
+}
+
+#nav #links {
+    min-width: 397px;
+}
+
+#nav #search {
+    text-align: right;
+    padding-right: 18px;
+}
+
+#nav ul {
+	height: 50px;
+	padding-left: 16px;
+}
+
+#nav ul li {
+    display: inline-block;
+}
+
+#nav li a {
+	font-size: 20px;
+	color: white;
+	text-decoration: none;
+	padding: 8px 8px 0 8px;
+	display: block;
+}
+
+#nav li:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Account information ---------- */
+
+#account {
+    color: white;
+    font-weight: bold;
+    background: url('img/sub-nav-pattern.png');
+    background-repeat: repeat-x;
+    background-color: #ffb55d;
+}
+
+#account p {
+    float: left;
+    color: white;
+    padding: 5px 5px 5px;
+}
+
+#account a {
+    float: right;
+    padding: 5px 5px 5px;
+    color: white;
+}
+
+
+/* ---------- Error Pages ---------- */
+.errordoc {
+	font-size: 14px;
+    border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;	
+}
+.errordoc h1 {
+	font-size: 28px;
+	color: black;
+}
+.errordoc .url {
+	font-family: courier;
+	color: black;
+	font-weight: bold;
+}
+
+.errordoc ul {
+
+}
+
+.errordoc li {
+	padding-left: 3em;
+}
+
+.errordoc p {
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+
+.errorlist {
+	color: red;
+}
+
+/* ----------- Content ------------ */
+#content {
+    background: #efefef;
+    color: black;
+    display: block;
+    margin-top: 0;
+    padding: 10px 25px 10px;
+}
+
+#content p {
+    margin: 0.5em 0;
+}
+
+#container {
+    margin: auto;
+    width: 820px;
+}
+
+#container a {
+    text-decoration: underline;
+}
+
+#container a:hover {
+    text-decoration: none;
+}
+
+#container h2 {
+    margin-bottom: 0.67em; /* 1.5 * 0.67 = 1 */
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+#container h3 {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0.42em 0; /* 0.42 * 1.2 = 0.5 */
+    padding-top: 0.83em; /* A little bit more spacing */
+}
+
+#container h4 {
+    margin: 0.5em 0;
+    padding-top: 1em;
+}
+
+/* ------------ Sidebar ------------- */
+
+#rightcol {
+	float: right;
+    padding-left: 15px;
+    width: 220px;
+    display: inline-block;
+}
+
+.sidebar {
+	width: 220px;
+    margin-bottom: 20px;
+}
+
+.sidebar-title {
+    background: url('img/sub-nav-pattern.png');
+    background-repeat: repeat-x;
+    background-color: #ffb55d;
+    color: black;
+    height: 40px;
+    border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    -webkit-border-radius: 15px 15px 0 0;    
+}
+
+.sidebar-title h3{
+    font-size: 13px;
+    padding-left: 10px;   
+}
+
+.sidebar-title .more {
+    font-size: 10px;
+    float: right;
+    padding-right: 10px;
+    padding-top: 5px;
+    font-weight: normal;
+}
+
+.sidebar-content {
+    background: #e0e0e0;
+    color: black;
+    border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;
+}
+
+.sidebar-content ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.sidebar-content .office {
+    padding-left: 15px;
+    color: grey;
+    font-size: 10px;
+}
+
+.sidebar-content ul h3 {
+/*    width:100%*/
+    text-align: center;
+    valign: top;
+    background: #FFFFFF;
+}
+
+.sidebar-content ul ul {
+    color: #555;
+    list-style: none;
+    padding: 0px;
+}
+
+.sidebar-content ul ul li {
+    padding-left: 5px;
+    font-size: 0.75em;
+}
+
+.action {
+    font-size: 0.90em;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+.sidebar-content ul li {
+    padding-bottom: 2px;
+}
+
+.sidebar-content ul li a {
+    text-decoration: none;
+}
+
+/* ------------ Header ------------- */
+
+#header {
+    margin-bottom: 1em;
+}
+
+#header a {
+    height: 70px;
+    width: 700px;
+    display: block;
+/*    background-image: url('/static/groups/banner_1.png');*/
+    background-repeat: no-repeat;
+    background-position: center center;
+    text-indent: -999%;
+    margin-bottom: -20px;
+    /*margin: 0 auto;*/
+    padding: 0.5em 0;
+}
+
+.subsection {
+/*    width:65%;*/
+padding-bottom: 10px;
+}
+.subheader {
+    color: grey;
+}
+.subcontent {
+    padding-left: 15px;
+}
+
+/* Purely presentational markup, high five. */
+#overlay {
+    height: 652px;
+    width: 985px;
+    margin-bottom: -652px;
+
+    background-color: transparent;
+    background-image: url('img/background-radiation.png');
+    background-repeat: no-repeat;
+}
+
+/* ---------- Lists ------------*/
+
+.list {
+	width: 65%;
+	list-style: none;
+}
+.list>li {
+
+}
+.list>li.title {
+	padding-top: 10px;
+	font-size: 18px;
+	border-bottom: 1px dashed black;
+}
+.list>li>ul {
+	list-style: none;
+	padding-bottom: 10px;
+}
+.list>li>ul>li.item {
+	font-size:16px;
+	text-align: left;
+	padding-left: 40px;
+	position: relative;
+	top: 12px;
+}
+.list>li>ul>li.item.notitle {
+	font-size:16px;
+	text-align: left;
+	padding-left: 10px;
+	position: relative;
+	top: 12px;
+}
+.list_jump {
+    list-style: none;
+    padding-right: 245px
+}
+.list_jump>li {
+    display: inline;
+}
+.list_jump>li.cat {
+    display: inline-block;
+    padding: 3px 3px;
+}
+
+/*
+.events>ul:hover {
+	background: #e2e2e2;
+}
+*/
+
+.events>li>ul:hover>div#menu_ev ul.flevel {
+    visibility: visible;
+}
+
+.events>li>ul>li.event-title {
+	font-size:14px;
+	text-align: left;
+	padding-left: 110px;
+}
+
+
+.strikethrough {
+	text-decoration: line-through;
+}
+
+/* ---------- Forms ---------- */
+
+.formTable {
+    width: 65%;
+    color: black;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+.formTable tr tr {
+    background: #e0e0e0;
+}
+.formTable tr tr td {
+    padding: 5px;
+    color: black;
+    text-align: left;
+}
+.formTable tr tr td.help {
+    padding: 5px;
+    color: grey;
+    text-align: left;
+}
+.required {
+    font-weight: bold;
+}
+.label {
+   vertical-align:top;
+   color:black;
+
+}
+.error {
+    color: red;
+}
+.help {
+    font-size: 10px;
+    color: grey;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 30%;
+}
+.select_text {
+    font-size: 10px;
+    color: grey;
+    padding-bottom: 10px;
+}
+.field textarea {
+    width: 75%;
+    height: 200px;
+}
+.field input {
+    width: 75%;
+}
+.field select {
+    width: 75%
+}
+.field checkbox {
+    margin: 0;
+    text-align: left;
+    padding: 0
+}
+
+/* - -------- Member Display Table -------- */
+
+.member_list {
+
+}
+.member_list th {
+    background-color: #FD7F01;
+    border-bottom: 2px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+.member_list .hover {
+    background-color:#FC9A38;
+    cursor: hand;
+    cursor: pointer;
+    border-bottom: 2px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+.member_list ul {
+    list-style:none;
+    background: #e0e0e0;
+    padding: 5px 0;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.member_list li {
+    display: inline;
+    padding: 5px;
+}
+.requestTable {
+    width: 100%;
+    color: black;
+    border-left: 1px solid black;
+    border-right: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 1px solid black;
+}
+.requestTable tr {
+    background: #e0e0e0;
+}
+.requestTable .td_hover {
+    background: #FFFFFF;
+    cursor: hand;
+    cursor: pointer;
+}
+.requestTable td {
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    font-size: 10px;
+    padding: 5px;
+    color: black;
+}
+.requestTable td.check {
+    text-align: center;
+}
+
+/* ---------- Debug ---------- */
+
+#debug {
+	background-color: black;
+	border: 3px solid #333;
+	color: green;
+	font-family: "Courier", monospace;
+    font-size: 14px;
+	padding: 10px 2px;
+	margin: 20px 0;
+}
+
+/* ------------ Profiles---------- */
+
+.group_header {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    width: 65%;
+    border-bottom: 1px dashed black;
+}
+li .group_header {
+    padding-top:0;
+    padding-bottom: 7px;
+    border-bottom: none;
+    width: 100%;
+}
+.group_header h2 {
+    display: inline;
+/*    float: left;*/
+}
+.group_profile {
+    width: 65%;
+    padding-top: 20px;
+}
+.group_img {
+    width: 65%;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+/* -------- Err/Confirm boxes ------- */
+
+#err_box {
+    width: 65%;
+    border: 5px solid red;
+    padding: 5px;
+    background-color: #FA7569;
+}
+#confirm_box {
+    width: 65%;
+    border: 5px solid green;
+    padding: 5px;
+    background-color: #74F657;
+}
+
+/* ------- Promotion formset -------- */
+
+.promote_form {
+    color: black;
+    background: #e0e0e0;
+    padding: 10px;
+    width: 65%;
+}
+
+/* ------- Feed -------------- */
+
+#group_feed {
+    width: 65%;
+}
+#group_feed .content {
+    background: #e0e0e0;
+    border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;
+}
+#group_feed .header {
+    background: url('img/sub-nav-pattern.png');
+    background-repeat: repeat-x;
+    background-color: #ffb55d;
+    color: black;
+    height: 40px;
+    border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    -webkit-border-radius: 15px 15px 0 0;    
+}
+#group_feed .header h3 {
+    margin-left: 10px;
+}
+#group_feed .header h3 .more {
+    font-size: 10px;
+    float: right;
+    padding-right: 10px;
+    padding-top: 5px;
+    font-weight: normal;
+}
+#group_feed .feed_entry {
+    padding: 15px;
+}
+#group_feed .feed_entry .title {
+    font-size: 16px;
+}
+#group_feed .feed_entry .author {
+    font-size: 10px;
+    color: grey;
+}
+#group_feed .feed_entry .text {
+    padding: 10px;
+}
+#group_feed ul.border {
+    
+}
+
+/*-------Messages---------*/
+#group_feed .message_comment {
+    padding: 15px;
+}
+#group_feed .message_comment .title {
+    font-size: 12px;
+    font-weight: bold;
+}
+#group_feed .message_comment .text {
+    padding-left: 30px;
+    padding-top: 5px;
+}
+.more_entry {
+    float: right;
+    padding: 5px;
+}
+.message_header {
+    padding-bottom: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    width: 65%
+}
+.message_author {
+/*    padding-left: 10px;*/
+    padding-bottom: 5px;
+    font-size: 10px;
+    width: 65%;
+/*    border-bottom: 1px black dashed;*/
+}
+.message_text {
+    padding-top: 15px;
+    padding-bottom: 35px;
+    width: 65%;
+}
+
+/*------------search--------------*/
+.search_form li {
+    display:inline;
+}
+.search_form_block {
+    color:black;
+}
+.search_form_block td {
+    /*padding-bottom: 5px;*/
+}
+
+/*----------Pagination-------------*/
+.paginate {
+    display: inline;
+    width: 65%;
+/*    padding-top: 5px;*/
+}
+.paginate .prev {
+    float:left;
+}
+.paginate .next {
+    float: right;
+}
+
+/*--------Group List Display-----------*/
+.group_box {
+    margin-left: 30px;
+    margin-top: 10px;
+/*    margin-bottom: 5px;*/
+    padding: 7px;
+    border: 2px solid grey;
+}
+.group_box_pic {
+    float:left;
+    padding-right: 15px;
+}
+/*.group_box_pic_wrapper {
+    width:100px;
+    height: 75px;
+    float: left;
+    padding-right: 20px;
+    text-align: center;
+}*/
+.group_box_title {
+    font-size:16px;
+    text-align: left;
+    valign: top;
+/*    top: 12px;*/
+}
+.group_box_status {
+    float: right;
+}
+.group_box_descrip {
+    
+}
+
+/*---------nav tree-----------*/
+
+.nav_tree {
+    width: 65%;
+    margin-bottom: 0px;
+    border-bottom: 1px dashed black;
+}
+.nav_tree li {
+    padding-bottom: 3px;
+    width: 100%;
+}
+.nav_tree_1 {
+    padding-left: 0;
+}
+.nav_tree_2 {
+    margin-left: 5px;
+    padding-left: 12px;
+    background: url("/static/groups/lastnode.png") no-repeat;
+}
+.nav_tree_3 {
+    margin-left: 22px;
+    padding-left: 12px;
+    background: url("/static/groups/lastnode.png") no-repeat;
+}
+.nav_tree_4 {
+    margin-left: 39px;
+    padding-left: 12px;
+    background: url("/static/groups/lastnode.png") no-repeat;
+}
+
+.first_form {
+    padding-top: 10px;
+}
+
+/* ---------- Event posts ---------- */
+
+.post_event {
+    width: 90%;
+    margin-left: 12px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #CCCBCB;
+}
+.post_event_img {
+    max-height: 100;
+    max-width: 100;
+    float: left;
+    padding-right: 10px;
+}
+.post_event_title {
+    font-size: 14px;
+    font-weight: bold;
+}
+.post_event_time {
+    
+}

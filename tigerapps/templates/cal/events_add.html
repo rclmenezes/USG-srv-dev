@@ -11,28 +11,28 @@
     .add-row {
         padding-left:18px;
 
-        background:url(/media/cal/css/img/add.png) no-repeat left center;
+        background:url(/static/cal/css/img/add.png) no-repeat left center;
 
     }
 
     .delete-row {
         padding-left:18px;
 
-        background:url(/media/cal/css/img/delete.png) no-repeat left center;
+        background:url(/static/cal/css/img/delete.png) no-repeat left center;
 
     }
     
 </style>
-<link rel="stylesheet" type="text/css" href="/media/cal/css/anytime.css" />
+<link rel="stylesheet" type="text/css" href="/static/cal/css/anytime.css" />
 {% endblock %}
 
 {% block headerscript %}
-   <script type="text/javascript" src="/media/cal/js/core.js"></script>
-   <script type="text/javascript" src="/media/cal/js/admin/RelatedObjectLookups.js"></script>
+   <script type="text/javascript" src="/static/cal/js/core.js"></script>
+   <script type="text/javascript" src="/static/cal/js/admin/RelatedObjectLookups.js"></script>
 
-   <script type="text/javascript" src="/media/cal/js/jquery.formset.js"></script>
-   <script type="text/javascript" src="/media/cal/js/anytimec.js"></script>
-   <script type="text/javascript" src="/media/cal/js/datetimepicker_css.js"></script>
+   <script type="text/javascript" src="/static/cal/js/jquery.formset.js"></script>
+   <script type="text/javascript" src="/static/cal/js/anytimec.js"></script>
+   <script type="text/javascript" src="/static/cal/js/datetimepicker_css.js"></script>
 
 <script type="text/javascript">
   $(function() {
@@ -84,15 +84,15 @@ $(document).ready(function(){
    //$("input[name*='event_date_time_start']").AnyTime_picker(
    //{ format: "%m/%d/%y %I:%i%p" } );
    startfield = $("input[name*='event_date_time_start']");
-   startfield.after("<a href=\"javascript:NewCssCal('" + startfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'true', '12', 'true')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+   startfield.after("<a href=\"javascript:NewCssCal('" + startfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'true', '12', 'true')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
    //$("input[name*='event_date_time_end']").AnyTime_picker(
    //{ format: "%m/%d/%y %I:%i%p" } );
    endfield = $("input[name*='event_date_time_end']");
-   endfield.after("<a href=\"javascript:NewCssCal('" + endfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'true', '12', 'true')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+   endfield.after("<a href=\"javascript:NewCssCal('" + endfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'true', '12', 'true')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
    //$("input[name*='event_date_rsvp_deadline']").AnyTime_picker(
    //{ format: "%m/%d/%y" } );
    rsvpfield = $("input[name*='event_date_rsvp_deadline']");
-   rsvpfield.after("<a href=\"javascript:NewCssCal('" + rsvpfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'false', '12', 'true')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+   rsvpfield.after("<a href=\"javascript:NewCssCal('" + rsvpfield.attr('id') + "', 'MMddyyyy', 'Arrow', 'false', '12', 'true')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
    
    {% if clusterForm %}
    $('#id_form-0-event_subtitle').hide();

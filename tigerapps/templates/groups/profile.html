@@ -121,11 +121,11 @@
     {% if files %}<table style="color:black;"><tr><td><strong>Files:</strong></td>{% for f in files %}{% if not forloop.first %}<tr><td></td>{% endif %}<td style="padding-left:10px;"><a href="/media/{{f.file}}">{{f}}</a></td></tr>{% endfor %}</table><br/>{% endif %}
   </div>
 
-{% if group.image %}<div class="group_img"><a href="/{{group.image.url}}"><img src="/{{group.image.url}}"/></a></div>{% endif %}
+{% if group.image %}<div class="group_img"><a href="{{group.image.url}}"><img src="{{group.image.url}}"/></a></div>{% endif %}
 
   <div id="group_feed">
     <div class="header">
-      <h3><a href="/feeds/groups/{{group.url}}">Recent News <img src="/media/groups/css/img/200px-Feed-icon.svg.png" alt="Feed"/></a></h3>
+      <h3><a href="/feeds/groups/{{group.url}}">Recent News <img src="/static/groups/css/img/200px-Feed-icon.svg.png" alt="Feed"/></a></h3>
     </div>
     <div class="content">
       {% for e in entries %}

@@ -81,10 +81,6 @@ urlpatterns = patterns('',
                        (r'^logout/?$', 'groups.views.logout'),
                        (r'^accounts/logout/?$', 'django_cas.views.logout'),
 
-                       # Downloads
-#                       (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-#                            {'document_root': '/home/atrippe/Student_Groups/media/groups'}),
-
                        # RSS Feeds
                        (r'^feeds/(?P<url>.*)/?$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 

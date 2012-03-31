@@ -2,13 +2,13 @@
 {% load value_from_settings %}
 
 {% block content %}
-	<script type="text/javascript" src="/media/cal/js/datetimepicker_css.js"></script>
+	<script type="text/javascript" src="/static/cal/js/datetimepicker_css.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			date_start = $("input[name*='date_start']");
-			date_start.after("<a href=\"javascript:NewCssCal('" + date_start.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+			date_start.after("<a href=\"javascript:NewCssCal('" + date_start.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
 			date_end = $("input[name*='date_end']");
-			date_end.after("<a href=\"javascript:NewCssCal('" + date_end.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+			date_end.after("<a href=\"javascript:NewCssCal('" + date_end.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
 		});
 	</script>
 	<div class="main-box" style="width: 90%;">

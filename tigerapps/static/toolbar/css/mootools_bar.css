@@ -1,0 +1,214 @@
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
+#toolbar
+{
+    font-family: Helvetica, sans-serif;
+    font-size: 13px;
+    display: block;
+    height: 28px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #262626), color-stop(1, #020202));
+    background: -moz-linear-gradient(top, #262626, #020202);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #262626), color-stop(1, #020202));
+    background-color: black;
+    border-top: 1px solid #3C3C3C;
+    border-bottom: 1px solid #1C1C1C;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    min-width: 990px;
+    z-index: 990;
+    line-height: 1;
+    box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+    -moz-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+a img {
+    border: none;
+}
+
+#tigerapps-announcement small, #toolbar-feedback small
+{
+    color: white;
+}
+
+#tigerapps-announcement a, #toolbar-feedback a, #tigerapps-announcement a:visited, #toolbar-feedback a:visited
+{
+    text-decoration: none;
+    color: #FFBE24;
+}
+
+#tigerapps-announcement a:hover, #toolbar-feedback a:hover
+{
+    text-decoration: underline;
+}
+
+ul.sf-menu
+{
+    margin: 0;
+    padding: 0;
+    float: left;
+    display: inline;
+}
+
+ul.sf-menu li
+{
+    float: left;
+    border-right: 1px solid black;
+}
+
+ul.sf-menu li a
+{
+    display: block;
+    width: 40px;
+    height: 28px;
+    padding: 0px 19px;
+}
+
+ul.sf-menu img#usg_logo
+{
+
+    margin: -2px 0 0 0;
+    padding: 0px;
+}
+
+#toolbar:after
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Just sub menu links */
+#subMenusContainer
+{
+    font-family: Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+#subMenusContainer a, #nav li li a{
+	text-align:left;
+	text-decoration: none;
+    color: white;
+}
+
+/* All menu links on hover or focus */
+#nav a:hover, #nav a:focus, #subMenusContainer a:hover, #subMenusContainer a:focus, #nav a.mainMenuParentBtnFocused, #subMenusContainer a.subMenuParentBtnFocused{
+	background-color:transparent;
+	color:#FFF;
+}
+
+/* sub menu links on hover or focus */
+#subMenusContainer a:hover, 
+#subMenusContainer a:focus, 
+#nav a.mainMenuParentBtnFocused, 
+#subMenusContainer a.subMenuParentBtnFocused,
+#nav li a:hover,
+#nav li a:focus{
+	background-color: #424242;
+	color:#FFF;
+}
+
+/* Parent Sub Menu Links ---[javascript users only]*/
+.subMenuParentBtn{ 
+	background: url(/static/toolbar/images/arrow_right_2.png) right center no-repeat;  
+}
+
+/* Parent Sub Menu Links on hover or focus ---[javascript users only]*/
+.subMenuParentBtnFocused{ 
+	background: url(/static/toolbar/images/arrow_right_over_2.png) right center no-repeat;  
+}
+
+/* Parent Main Menu Links ---[javascript users only]*/
+.mainMenuParentBtn{	
+	 background: url(/static/toolbar/images/arrow_down_2.png) right center no-repeat; 
+}
+
+/* Parent Main Menu Links on hover or focus ---[javascript users only]*/
+.mainMenuParentBtnFocused{	
+	background: url(/static/toolbar/images/arrow_down_over_2.png) right center no-repeat; 
+}
+
+/* ----[ OLs ULs, LIs, and DIVs ]----*/
+
+/* Submenu Outer Wrapper - each submenu is inside a div with this class - javascript users only */
+.smOW{ 
+	display:none; 
+	position: absolute; 
+	overflow:hidden; 
+	/*the 2px left & right padding lets you have a 1px border 
+	  on the ul or ol inside since overflow is set to hidden*/
+	padding:0 2px;
+	margin:0 0 0 -2px;
+}
+
+#subMenusContainer a{
+	text-decoration:none;
+	display:block;
+	padding: 9px 30px 9px 10px;
+	background-color: transparent;
+}
+
+
+/* All ULs and OLs */
+#nav, #nav ul, #nav ol, #subMenusContainer ul, #subMenusContainer ol { 
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1em;
+}
+
+/* All submenu OLs and ULs */
+#nav ol, #nav ul, #subMenusContainer ul, #subMenusContainer ol {	
+	background: #424242;
+	border:1px solid black;
+	left:0;
+}
+
+#subMenusContainer li{
+	list-style: none;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #262626), color-stop(1, #020202));
+    background: -moz-linear-gradient(top, #262626, #020202);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #262626), color-stop(1, #020202));
+}
+
+#subMenusContainer{	display:block; 	position:absolute;	top:0;	left:0;	width:100%;	height:0;	overflow:visible;	z-index:1000000000; }
+
+
+/* --------------------------[ The below is just for non-javscript users ]--------------------------*/
+#nav li li{	float:none; }
+
+#nav li li a{ /* Just submenu links*/	
+	position:relative;
+	float:none;
+}
+
+#nav li ul { /* second-level lists */
+	position: absolute;
+	width: 10em;
+	margin-left: -1000em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+	margin-top:1.8em;
+}
+
+/* third-and-above-level lists */
+#nav li ul ul { margin: -1em 0 0 -1000em; }
+#nav li:hover ul ul {	margin-left: -1000em; }
+
+ /* lists nested under hovered list items */
+#nav li:hover ul{	margin-left: 0; }
+#nav li li:hover ul {	margin-left: 10em; margin-top:-2.5em;}
+
+/* extra positioning rules for limited noscript keyboard accessibility */
+#nav li a:focus + ul {  margin-left: 0; margin-top:2.2em; }
+#nav li li a:focus + ul { left:0; margin-left: 1010em; margin-top:-2.2em;}
+#nav li li a:focus {left:0;  margin-left:1000em; width:10em;  margin-top:0;}
+#nav li li li a:focus {left:0; margin-left: 2010em; width: 10em;  margin-top:-1em;}
+#nav li:hover a:focus{ margin-left: 0; }
+#nav li li:hover a:focus + ul { margin-left: 10em; }

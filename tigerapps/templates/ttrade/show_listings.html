@@ -47,7 +47,7 @@
 		<div id="listings">
 			<div class="title"><span class="th tc_picture"><h3>Picture</h3></span><span class="th tc_listing_type"><h3>Type</h3></span><span class="th tc_title"><h3>Title</h3></span><span class="th tc_t"><h3>Price</h3></span><span class="th tc_t"><h3>Method</h3></span><span class="th tc_r" id="th_remaining"><h3> {% block lastFieldName %}{% endblock %}</h3></span></div>
 			{% for listing in listings.object_list %}
-			<div id="{{ listing.listingID }}" class="listing"><a href="/item/{{ listing.listingID }}"><span class="tr tc_picture">{% if listing.picture%}<img src="/media/ttrade/images/camera.gif" alt="picture" />{% endif %}</span><span class="tr tc_listing_type">{{listing.get_listingType_display}}</span><span class="tr tc_title">{{listing.title}}</span><span class="tr tc_t">{% if listing.price %}{{listing.price}}{% else %}--{% endif %}</span><span class="tr tc_t">{{listing.get_method_display}}</span><span class="tr tc_r">{% block lastField %}{% endblock %}</span></a></div>	
+			<div id="{{ listing.listingID }}" class="listing"><a href="/item/{{ listing.listingID }}"><span class="tr tc_picture">{% if listing.picture%}<img src="/static/ttrade/images/camera.gif" alt="picture" />{% endif %}</span><span class="tr tc_listing_type">{{listing.get_listingType_display}}</span><span class="tr tc_title">{{listing.title}}</span><span class="tr tc_t">{% if listing.price %}{{listing.price}}{% else %}--{% endif %}</span><span class="tr tc_t">{{listing.get_method_display}}</span><span class="tr tc_r">{% block lastField %}{% endblock %}</span></a></div>	
 			{% endfor %}
 
 			{% if not listings.object_list %}

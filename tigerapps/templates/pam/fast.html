@@ -106,7 +106,7 @@
 			{% for event in entry.1 %}
 				{# Event poster #}
 				{% if event.poster %}
-				<div class="event_poster" style="text-align: center;"><a class="poster" href="http://pam.tigerapps.org/{{ event.poster.url }}"><img class="poster" alt="" src="http://pam.tigerapps.org/{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
+				<div class="event_poster" style="text-align: center;"><a class="poster" href="{{ event.poster.url }}"><img class="poster" alt="" src="{{ event.poster.thumbnail.url }}" style="display: block;"/><small class="enlarge">Click to enlarge</small></a></div>
 				{% endif %}
 
 				{# Event title #}
@@ -140,11 +140,11 @@
 				
 			{% endfor %}
 		</div>
-		<img class="default" src="http://pam.tigerapps.org/{{ entry.0.active.url }}" width={{ entry.0.width }}px  />
-		<img class="selected" src="http://pam.tigerapps.org/{{ entry.0.active_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+		<img class="default" src="{{ entry.0.active.url }}" width={{ entry.0.width }}px  />
+		<img class="selected" src="{{ entry.0.active_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
 	{% else %}
-		<img class="default" src="http://pam.tigerapps.org/{{ entry.0.inactive.url }}" width={{ entry.0.width }}px  />
-		<img class="selected" src="http://pam.tigerapps.org/{{ entry.0.inactive_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
+		<img class="default" src="{{ entry.0.inactive.url }}" width={{ entry.0.width }}px  />
+		<img class="selected" src="{{ entry.0.inactive_selected.url }}" width={{ entry.0.width }}px style="display: none;"  />
 	{% endif %}
 	</div>
 {% endfor %}
