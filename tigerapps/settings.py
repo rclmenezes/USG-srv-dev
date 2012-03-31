@@ -140,5 +140,8 @@ INSTALLED_APPS = (
     'elections',
 #    'facebook',
 #    'album',
-    'pam'
+    'pam',
+    'rooms',
+    'pom'
+
 )
