@@ -2,27 +2,36 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+handler404 = 'ccc.views.view_404'
+
 urlpatterns = patterns('',
-    # TigerTrade
-    (r'^admin/', include(admin.site.urls)),
     (r'^/?$', 'ccc.views.index'),
-    url(r'^about/?$', 'ccc.views.post', kwargs={'postTitle': "About"}),
-    url(r'^blog/?$', 'ccc.views.blog'),
-    url(r'^top/?$', 'ccc.views.top'),
-    url(r'^all_hours/?$', 'ccc.views.all_hours'),
-    url(r'^thankyou/?$', 'ccc.views.post', kwargs={'postTitle': "\"Thank You\"s"}),
-    #url(r'^logging/?$', 'ccc.views.post', kwargs={'postTitle': "Logging"}),
-    #url(r'^log-test/?$', 'ccc.views.log_choices'),
-    url(r'^log/?$', 'ccc.views.log_hours'),
-    url(r'^request/?$', 'ccc.views.project_request'),
-    url(r'^contact/?$', 'ccc.views.post', kwargs={'postTitle': "Contact Us"}),
-    url(r'^register/?$', 'ccc.views.post', kwargs={'postTitle': "Register"}),
-    url(r'^opportunities/?$', 'ccc.views.post', kwargs={'postTitle': "Find an Opportunity!"}),
-    
-    # Admin
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
     
-    # Try to find a post called that
+    url(r'^blog/?$', 'ccc.views.blog'),
+    url(r'^log/?$', 'ccc.views.log_hours'),
+    url(r'^request/?$', 'ccc.views.project_request'),
+    url(r'^leaderboard/?$', 'ccc.views.leaderboard'),
+    url(r'^hours_admin/?$', 'ccc.views.hours_admin'),
+    url(r'^hours_admin/get_user_hours/?$', 'ccc.views.get_user_hours'),
+    
+    #not sure if these work
+    url(r'^all_hours/?$', 'ccc.views.all_hours'),
+    url(r'^top/?$', 'ccc.views.top'),
+    
+    #blog posts
+    #url(r'^log-test/?$', 'ccc.views.log_choices'),
+    #url(r'^logging/?$', 'ccc.views.post', kwargs={'postTitle': "Logging"}),
+    #url(r'^contact/?$', 'ccc.views.post', kwargs={'postTitle': "Contact Us"}),
+    url(r'^about/?$', 'ccc.views.post', kwargs={'postTitle': "About"}),
+    url(r'^opportunities/?$', 'ccc.views.post', kwargs={'postTitle': "Find an Opportunity!"}),
+    url(r'^thankyou/?$', 'ccc.views.post', kwargs={'postTitle': "\"Thank You\"s"}),
+    
+    # Admin
+    url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    (r'^djadmin/', include(admin.site.urls)),
+        
+    # Try to find a post called that (must be last)
     url(r'^(?P<postTitle>\w+)/?$', 'ccc.views.post'),
 )

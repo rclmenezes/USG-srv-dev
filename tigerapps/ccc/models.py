@@ -2,6 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
+YEAR_CHOICES = (("2012", "2012"), ("2013", "2013"), ("2014", "2014"), ("2015", "2015"))
+RES_COLLEGE_CHOICES = (("Forbes","Forbes"), ("Whitman", "Whitman" ), ("Rockefeller", "Rockefeller"),
+                       ("Mathey", "Mathey"), ("Wilson", "Wilson"), ("Butler", "Butler"))
+EATING_CLUB_CHOICES = (("Cannon","Cannon"), ("Cap and Gown","Cap and Gown"), ("Tower","Tower"),
+                       ("Ivy","Ivy"), ("Tiger Inn","Tiger Inn"), ("Cottage","Cottage"),
+                       ("Cloister","Cloister"), ("Charter","Charter"), ("Colonial","Colonial"),
+                       ("Quadrangle","Quadrangle"), ("Terrace","Terrace"))
+
+
 class Post(models.Model):
     title = models.CharField(max_length=40, unique=True, help_text="Title of the Post")
     content = models.TextField(help_text="Actual content, pure HTML")
@@ -11,23 +20,30 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
-class LogCluster(models.Model):
-    YEAR_CHOICES = ((2012, "2012"), (2013, "2013"), (2014, "2014"), (2015, "2015"))
-    RES_COLLEGE_CHOICES = (("Forbes","Forbes"), ("Whitman", "Whitman" ), ("Rockefeller", "Rockefeller"),
-                           ("Mathey", "Mathey"), ("Wilson", "Wilson"), ("Butler", "Butler"))
-    EATING_CLUB_CHOICES = (("Cannon","Cannon"), ("Cap and Gown","Cap and Gown"), ("Tower","Tower"),
-                           ("Ivy","Ivy"), ("Tiger Inn","Tiger Inn"), ("Cottage","Cottage"),
-                           ("Cloister","Cloister"), ("Charter","Charter"), ("Colonial","Colonial"),
-                           ("Quadrangle","Quadrangle"), ("Terrace","Terrace"))
+#I made this so the leaderboard would be more efficient 
+class GroupHours(models.Model):
+    group = models.CharField(max_length=30)
+    hours = models.IntegerField()
+    month = models.DateField()
+    
+    def __unicode__(self):
+        return self.group
 
-    date_start = models.DateField(help_text="Date when service started")
-    date_end = models.DateField(default=datetime.datetime.now(), help_text="Date when service ended")
+class LogClusterManager(models.Manager):
+    def get_user_hours(self, user):
+        return LogCluster.objects.filter(user=user).aggregate(models.Sum('hours'))['hours__sum']
+
+class LogCluster(models.Model):
+    date = models.DateField(help_text="Date of service")
+    #date_end = models.DateField(default=datetime.datetime.now(), help_text="Date when service ended")
     project = models.ForeignKey('ProjectOrOrganization', help_text="Project or organization the service was done with")
     hours = models.IntegerField(help_text="Total new hours since you last logged")
-    year = models.IntegerField(max_length=4, choices=YEAR_CHOICES, blank=True, null=True)
+    year = models.CharField(max_length=4, choices=YEAR_CHOICES, blank=True, null=True)
     res_college = models.CharField("Residential College", max_length=10, choices=RES_COLLEGE_CHOICES, blank=True, null=True)
     eating_club = models.CharField(max_length=30, choices=EATING_CLUB_CHOICES, blank=True, null=True)
     user = models.ForeignKey(User, related_name="cluster_user")
+    
+    objects = LogClusterManager()
     
     def __unicode__(self):
         return self.project.name

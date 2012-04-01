@@ -20,12 +20,16 @@ else:
 
 
 
+LOGIN_URL = '/login/'
+
+
+
+#TODO: make DEBUG False on prod site when confident
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('USG IT', 'it@princetonusg.com'),
-)
+#email gets sent to ADMINS if DEBUG == False
+ADMINS = (('USG IT', 'it@princetonusg.com'),)
 MANAGERS = ADMINS
 
 

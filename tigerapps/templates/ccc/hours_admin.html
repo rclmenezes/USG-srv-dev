@@ -1,0 +1,42 @@
+{% extends "ccc/base.html" %}
+{% load value_from_settings %}
+
+{% block head %}
+<script type="text/javascript">
+$(document).ready(function() {
+	var options = {
+	        url: '/hours_admin/get_user_hours/',
+	        type: 'get',
+	        target: '#get_hours_display',
+	        error: function(xhr, ajaxOptions, thrownError){
+	            alert('Server error: please refresh');
+	        }
+	    };
+    $('#get_hours_form').ajaxForm(options);
+});
+
+function get_user_hours() {
+   $.ajax({
+        url: '/hours_admin/get_user_hours/',
+        type: 'get',
+        target: '#get_hours_display',
+        error: function(xhr, ajaxOptions, thrownError){
+            alert('Server error: please refresh');
+        }
+    });
+}
+</script>
+{% endblock %}
+
+{% block content %}
+
+
+<h3>Get hours for any student:</h3>
+<form id="get_hours_form">
+NetID: <input type="text" name="netid" id="get_hours_netid" />
+<input type="submit" value="Search" id="get_hours_submit" />
+</form>
+<div id="get_hours_display"></div>
+
+
+{% endblock %}

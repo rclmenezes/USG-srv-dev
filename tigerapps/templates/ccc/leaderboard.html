@@ -1,0 +1,28 @@
+{% extends "ccc/base.html" %}
+{% load value_from_settings %}
+
+{% block content %}
+	<div class="main-box" style="width: 90%;">
+	    <h2 id="postTitle" style="text-align: center;">Leaderboard</h2>
+		<p>You have logged {{user_hours}} hour{% ifnotequal user_hours 1 %}s{% endifnotequal %}.</p>
+
+		<p>Hours for the month of {{ month }}:</p>
+
+		<table><tr>
+		{% for group_type, hours in hours_dict.iteritems %}
+		<td style='vertical-align:top;'>
+		<h2 style='text-align:center;'>{{ group_type }}</h2>
+		<table class="leaderboard">
+			{% for group_name, group_hours in hours %}
+			<tr>
+				<th class="tableLabel">{{ group_name }}</th>
+				<td>{{ group_hours }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		</td>
+		{% endfor %}
+		</tr></table>
+
+	</div>
+{% endblock %}
