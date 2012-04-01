@@ -31,7 +31,10 @@ class GroupHours(models.Model):
 
 class LogClusterManager(models.Manager):
     def get_user_hours(self, user):
-        return LogCluster.objects.filter(user=user).aggregate(models.Sum('hours'))['hours__sum']
+        hours = LogCluster.objects.filter(user=user).aggregate(models.Sum('hours'))['hours__sum']
+        if not hours:
+            return 0
+        return hours
 
 class LogCluster(models.Model):
     date = models.DateField(help_text="Date of service")
