@@ -4,5 +4,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # TigerTrade
-    url(r'^/?$', 'pom.views.index'),
+    url(r'^/?(\d*)/?$', 'pom.views.index'),
 )
