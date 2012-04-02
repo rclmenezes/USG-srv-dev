@@ -67,21 +67,20 @@ def signup(request, election):
     # Get candidate's information
     user_info = gdi(request.user.username)
     try:
-        start = datetime(day=1, month=8, year=int(user_info['puclassyear'])-4)
-        elapsed = datetime.now() - start
-        if elapsed.days < 365*1:
-            year = 'FR'
-            officeSet = Office.objects.filter(freshman_eligible=True)
-        elif elapsed.days < 365*2:
-            year = 'SO'
-            officeSet = Office.objects.filter(sophomore_eligible=True)
+        if request.user.is_superuser == True:
+            officeSet = election.offices.all()
         else:
-            year = 'JU'
-            officeSet = Office.objects.filter(junior_eligible=True)
-        
-        if request.user.username == 'rmenezes':
-            officeSet = Office.objects.all()   
-        
+            start = datetime(day=1, month=8, year=int(user_info['puclassyear'])-4)
+            elapsed = datetime.now() - start
+            if elapsed.days < 365*1:
+                year = 'FR'
+                officeSet = election.offices.filter(freshman_eligible=True)
+            elif elapsed.days < 365*2:
+                year = 'SO'
+                officeSet = election.offices.filter(sophomore_eligible=True)
+            else:
+                year = 'JU'
+                officeSet = election.offices.filter(junior_eligible=True)
     except KeyError: # For USG account
         return render_to_response('elections/nope.html')
 
@@ -97,7 +96,6 @@ def signup(request, election):
                 changes = True
         else:
             candidateForm = CandidateForm(instance=candidate)
-
     except Candidate.DoesNotExist:
         candidate = None
         if request.method == 'POST':
@@ -121,7 +119,8 @@ def signup(request, election):
         officeList[office] = len(Candidate.objects.filter(office=office, election=election))
     
     return render_to_response('elections/register.html', {'user': request.user, 'candidateForm': candidateForm, 'changes': changes, 'register': register, 'candidate': candidate, 'election': election, 'officeList': officeList})
-    
+
+
 def runoffs(request, runoff):
     '''
     try: 
