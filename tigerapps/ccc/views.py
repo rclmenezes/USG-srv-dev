@@ -108,6 +108,9 @@ def leaderboard(request):
     return render_to_response('ccc/leaderboard.html', {'hours_dict': hours_dict, 'user_hours': user_hours, 'month': month_english})
 
 
+#---------------------------------------------------------------------------------------
+#hours_admin related
+
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def hours_admin(request):
@@ -123,14 +126,70 @@ def get_user_hours(request):
     netid = request.GET['netid']
     try:
         user = User.objects.get(username=netid)
-    except user.DoesNotExist, e:
-        return "User could not be found"
+    except User.DoesNotExist, e:
+        return HttpResponse("User %s could not be found" % netid)
     hours = LogCluster.objects.get_user_hours(user=user)
-    return HttpResponse("%d hours" % hours)
+    return HttpResponse("%s: %d hours" % (netid, hours))
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def get_user_awards(request):
+    '''
+    Returns json of all users that logged over X hours since date Y without
+    receiving an award for X hours since date Y
+    '''
+
+    try:
+        hours = int(request.GET['hours'])
+        date_str = [int(d) for d in request.GET['date'].split('/')]
+        date = datetime.date(date_str[2], date_str[0], date_str[1])
+    except Exception, e:
+        return HttpResponse("Invalid input: %s" % e)
+
+    try:
+        users = User.objects.filter(logcluster__date__gte=date).\
+            annotate(num_hours=models.Sum('logcluster__hours')).\
+            filter(num_hours__gte=hours).\
+            exclude(award__hours=hours, award__date__gte=date)
+    except Exception, e:
+        return HttpResponse("1st query exception: %s" % e)
+
+    response_json = simplejson.dumps([(u.username, u.num_hours) for u in users])
+    return HttpResponse(response_json, content_type="application/javascript")
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def post_user_awards(request):
+    '''
+    Log into `Award` model that user X got an award today for logging Y hours. Does
+    no checking that the user actually has logged Y hours.
+    '''
+
+    try:
+        hours = int(request.POST['hours'])
+        netid = request.POST['netid']
+    except Exception, e:
+        return HttpResponse("Invalid input: %s" % e)
+    try:
+        user = User.objects.get(username=netid)
+    except User.DoesNotExist, e:
+        return HttpResponse("User %s could not be found" % netid)
+
+    today = datetime.date.today()
+    try:
+        award = Award.objects.get(user=user, hours=hours, date=today)
+        return HttpResponse("Warning: Award was already logged today")
+    except Award.DoesNotExist, e:
+        award = Award(user=user, hours=hours, date=datetime.date.today())
+        award.save()
+
+    return HttpResopnse("Successfully logged: User %s, Hours %d, Date %s" % (user.username, hours, date.strftime("%M/%d/%Y")))
 
 
 
+#---------------------------------------------------------------------------------------
 #not sure what these are for
+
 def all_hours(request):
     # Nicer than a tuple, methinks
     class Volunteer:

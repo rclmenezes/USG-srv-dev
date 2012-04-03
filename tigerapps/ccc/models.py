@@ -44,25 +44,36 @@ class LogCluster(models.Model):
     year = models.CharField(max_length=4, choices=YEAR_CHOICES, blank=True, null=True)
     res_college = models.CharField("Residential College", max_length=10, choices=RES_COLLEGE_CHOICES, blank=True, null=True)
     eating_club = models.CharField(max_length=30, choices=EATING_CLUB_CHOICES, blank=True, null=True)
-    user = models.ForeignKey(User, related_name="cluster_user")
+    user = models.ForeignKey(User, related_name="logcluster")
     
     objects = LogClusterManager()
     
     def __unicode__(self):
         return self.project.name
-    
+
+class Award(models.Model):
+    date = models.DateField(help_text="Date award given")
+    user = models.ForeignKey(User, related_name="award")
+    hours = models.IntegerField(help_text="Number of hours that triggered award")
+
+    def __unicode__(self):
+        return "%d: %s (%s)" % (self.award_level, self.user.username, self.date.strftime("%B %d, %Y"))
+
 class ProjectRequest(models.Model):
     project = models.CharField(max_length=80)
     description = models.TextField(help_text='Description of activity')
     coordinator_name = models.CharField(max_length=40, help_text="Name of coordinator")
     coordinator_email = models.EmailField(help_text="Email of coordinator")
-    user = models.ForeignKey(User, related_name="project_request_user")
+    user = models.ForeignKey(User, related_name="projectrequest")
     
     def __unicode__(self):
         return self.project
     
 class ProjectOrOrganization(models.Model):
     name = models.CharField(max_length=80, unique=True, help_text="Name of Project or Organization")
+
+    class Meta:
+        ordering = ['name']
     
     def __unicode__(self):
         return self.name

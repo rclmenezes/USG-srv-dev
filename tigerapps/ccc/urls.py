@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     url(r'^leaderboard/?$', 'ccc.views.leaderboard'),
     url(r'^hours_admin/?$', 'ccc.views.hours_admin'),
     url(r'^hours_admin/get_user_hours/?$', 'ccc.views.get_user_hours'),
+    url(r'^hours_admin/get_user_awards/?$', 'ccc.views.get_user_awards'),
+    url(r'^hours_admin/post_user_awards/?$', 'ccc.views.post_user_awards'),
     
     #not sure if these work
     url(r'^all_hours/?$', 'ccc.views.all_hours'),

@@ -2,9 +2,17 @@
 {% load value_from_settings %}
 
 {% block head %}
+    <script type="text/javascript" src="/static/cal/js/datetimepicker_css.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            date = $("input[name*='date']");
+            date.after("<a href=\"javascript:NewCssCal('" + date.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
+        });
+    </script>
+
 <script type="text/javascript">
 $(document).ready(function() {
-	var options = {
+	var hours_options = {
 	        url: '/hours_admin/get_user_hours/',
 	        type: 'get',
 	        target: '#get_hours_display',
@@ -12,19 +20,26 @@ $(document).ready(function() {
 	            alert('Server error: please refresh');
 	        }
 	    };
-    $('#get_hours_form').ajaxForm(options);
+    $('#get_hours_form').ajaxForm(hours_options);
+	var awards_options = {
+	        url: '/hours_admin/get_user_awards/',
+	        type: 'get',
+	        target: '#get_awards_display',
+	        error: function(xhr, ajaxOptions, thrownError){
+	            alert('Server error: please refresh');
+	        }
+	    };
+    $('#get_awards_form').ajaxForm(awards_options);
+	var post_awards_options = {
+	        url: '/hours_admin/post_user_awards/',
+	        type: 'post',
+	        target: '#post_awards_display',
+	        error: function(xhr, ajaxOptions, thrownError){
+	            alert('Server error: please refresh');
+	        }
+	    };
+    $('#post_awards_form').ajaxForm(post_awards_options);
 });
-
-function get_user_hours() {
-   $.ajax({
-        url: '/hours_admin/get_user_hours/',
-        type: 'get',
-        target: '#get_hours_display',
-        error: function(xhr, ajaxOptions, thrownError){
-            alert('Server error: please refresh');
-        }
-    });
-}
 </script>
 {% endblock %}
 
@@ -37,6 +52,32 @@ NetID: <input type="text" name="netid" id="get_hours_netid" />
 <input type="submit" value="Search" id="get_hours_submit" />
 </form>
 <div id="get_hours_display"></div>
+
+
+<p>Note; the rest of these functions are in extreme beta</p>
+
+<h3>Get students deserving of awards:</h3>
+<p>This search will return all students who logged over 'Hours threshold' hours since 'Date threshold', and did not receive an award for that number of hours since that date.</p>
+
+<form id="get_awards_form">
+Date threshold: <input type="text" name="date" id="get_awards_date" />
+<br/>
+Hours threshold: <input type="text" name="hours" id="get_awards_hours" />
+<input type="submit" value="Search" id="get_awards_submit" />
+</form>
+<div id="get_awards_display"></div>
+
+
+<h3>Update students who received awards:</h3>
+<p>Record that a user received an award today for logging X hours.</p>
+
+<form id="post_awards_form">
+NetID: <input type="text" name="netid" id="post_awards_netid" />
+<br/>
+Hours threshold: <input type="text" name="hours" id="post_awards_hours" />
+<input type="submit" value="Search" id="post_awards_submit" />
+</form>
+<div id="post_awards_display"></div>
 
 
 {% endblock %}
