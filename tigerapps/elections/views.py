@@ -67,20 +67,21 @@ def signup(request, election):
     # Get candidate's information
     user_info = gdi(request.user.username)
     try:
-        if request.user.is_superuser == True:
-            officeSet = election.offices.all()
+        start = datetime(day=1, month=8, year=int(user_info['puclassyear'])-4)
+        elapsed = datetime.now() - start
+        if elapsed.days < 365*1:
+            year = 'FR'
+            officeSet = election.offices.filter(freshman_eligible=True)
+        elif elapsed.days < 365*2:
+            year = 'SO'
+            officeSet = election.offices.filter(sophomore_eligible=True)
         else:
-            start = datetime(day=1, month=8, year=int(user_info['puclassyear'])-4)
-            elapsed = datetime.now() - start
-            if elapsed.days < 365*1:
-                year = 'FR'
-                officeSet = election.offices.filter(freshman_eligible=True)
-            elif elapsed.days < 365*2:
-                year = 'SO'
-                officeSet = election.offices.filter(sophomore_eligible=True)
-            else:
-                year = 'JU'
-                officeSet = election.offices.filter(junior_eligible=True)
+            year = 'JU'
+            officeSet = election.offices.filter(junior_eligible=True)
+
+        if request.user.is_superuser == True:
+            #I put this after the if block above so that the superuser will have a year set
+            officeSet = election.offices.all()
     except KeyError: # For USG account
         return render_to_response('elections/nope.html')
 
