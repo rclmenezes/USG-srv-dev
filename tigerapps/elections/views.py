@@ -24,13 +24,22 @@ def home(request):
         return signup(request, election)
         
 def statements(request):
-    election = Election.objects.latest('deadline')
+    now = datetime.now()
+    
+    try: 
+        election = Election.objects.latest('deadline')
+    except Election.DoesNotExist:
+        return HttpResponse("Site is not properly set up. You need to create an election in <a href=\"/admin/\">the admin page</a>.")
     
     try:
         runoff = Runoff.objects.get(election=election)
         return runoffs(request, runoff)
     except Runoff.DoesNotExist:
         pass
+
+    if election.end >= now and election.deadline >= now: 
+        if not request.user.is_staff or not request.user.is_superuser:
+            return HttpResponse("Oops! Candidate statement deadline has not passed. Sorry, you can't view the statements as public at this time.")
     
     officeCandidates = {}
     for office in election.offices.all():
