@@ -2,10 +2,10 @@
 {% load app_extras %}
 
 {% block title %}Princeton Events Calendar{% endblock %}
-{% block headercss %}<link rel="stylesheet" href="/media/cal/css/coin-slider-styles.css" type="text/css" />{% endblock %}
+{% block headercss %}<link rel="stylesheet" href="/static/cal/css/coin-slider-styles.css" type="text/css" />{% endblock %}
 
 {% block headerscript %}
-<script type="text/javascript" src="/media/cal/js/coin-slider.min.js"></script>
+<script type="text/javascript" src="/static/cal/js/coin-slider.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#coin-slider').coinslider({ width: 260, delay: 5000 });
@@ -31,8 +31,8 @@ mouseOutClose: true,
   });
 });
 </script>
-<link rel="stylesheet" type="text/css" href="/media/cal/js/shadowbox/shadowbox.css">
-<script type="text/javascript" src="/media/cal/js/shadowbox/shadowbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/cal/js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="/static/cal/js/shadowbox/shadowbox.js"></script>
 <script type="text/javascript">
 Shadowbox.init();
 </script>
@@ -50,7 +50,7 @@ Shadowbox.init();
 <div id='coin-slider' style="width: 260px;">
 {% for pev in poster_events %}
 	<a href="/events/{{pev.pk}}">
-		<img src='/{{pev.event_cluster.cluster_image.thumbnail.url}}' >
+		<img src='{{pev.event_cluster.cluster_image.thumbnail.url}}' >
 		<span>
 			{{pev.displayname}}
 		</span>

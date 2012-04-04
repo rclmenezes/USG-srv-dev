@@ -34,22 +34,22 @@
             $('#btnDel').attr('disabled','disabled');
 
 			$('input#create_team').bind('keyup paste',function (){
-				$('img#team_name_check').attr('src', '/media/ccc/images/loading.gif');
+				$('img#team_name_check').attr('src', '/static/ccc/images/loading.gif');
 			   	$.post("/check_name", { name: $(this).val() }, 
 					function(data) {
 						if (data=="true")
 						{
-							$('img#team_name_check').attr('src', '/media/ccc/images/green-checkmark.jpg');
+							$('img#team_name_check').attr('src', '/static/ccc/images/green-checkmark.jpg');
 							$('small#create-error').html('');
 						}
 						else if (data=="empty")
 						{
-							$('img#team_name_check').attr('src', '/media/ccc/images/red-x.png');
+							$('img#team_name_check').attr('src', '/static/ccc/images/red-x.png');
 							$('small#create-error').html('Team name cannot be empty.');
 						}
 						else
 						{
-							$('img#team_name_check').attr('src', '/media/ccc/images/red-x.png');
+							$('img#team_name_check').attr('src', '/static/ccc/images/red-x.png');
 							$('small#create-error').html('This username is already taken.');
 						}
 				});
@@ -90,7 +90,7 @@
 		<h2 style="text-align: center;">Create a team</h2>
 		<p style="margin: 0; padding: 0;"> Team Name: </p>
 		<input type="text" id="create_team" size="40" style="font-weight: 14px;" />
-		<img id="team_name_check" src="/media/ccc/images/red-x.png" width="20" height="20" style="margin-bottom: -5px;"/>
+		<img id="team_name_check" src="/static/ccc/images/red-x.png" width="20" height="20" style="margin-bottom: -5px;"/>
 		<br/>
 		<small id="create-error" style="color: red; margin-bottom: 10px;">Team name cannot be empty.</small>
 		<br/>

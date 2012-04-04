@@ -74,7 +74,7 @@ student-to-student transaction.</p>
     {% for request in req_with_offers %}
     <tr>
         <td>
-          <img src="/media/ptx{{ request.book.imagename }}" alt="(cover)" />
+          <img src="/static/ptx{{ request.book.imagename }}" alt="(cover)" />
         </td>
         <td>
           <a href="browse/{{ request.book.isbn13 }}">{{request.book.title}}</a>

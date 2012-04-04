@@ -21,8 +21,8 @@ mouseOutClose: true,
   });
 });
 </script>
-<link rel="stylesheet" type="text/css" href="/media/cal/js/shadowbox/shadowbox.css">
-<script type="text/javascript" src="/media/cal/js/shadowbox/shadowbox.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/cal/js/shadowbox/shadowbox.css">
+<script type="text/javascript" src="/static/cal/js/shadowbox/shadowbox.js"></script>
 <script type="text/javascript">
 Shadowbox.init();
 </script>
@@ -41,7 +41,7 @@ Shadowbox.init();
 
 <li><ul>
 
-<li class="event-title{% if event.event_cancelled %} strikethrough{% endif %}">{% for feat in event.event_cluster.cluster_features.all %}<a href="/features/{{feat.feature_name}}"><img src="/media/cal/{{feat.feature_icon}}" title="{{feat.feature_name}}" alt="{{feat.feature_name}}" style="float: right; height: 20px; width: 20px;"/></a>{% endfor %}<a {% ifequal user_data event.event_cluster.cluster_user_created %}class="event_owner" {% endifequal %}href="/events/{{event.event_id}}">{{event}}</a>{% if event.event_cluster.cluster_image %}<a rel="shadowbox[Gallery]" href="/{{event.event_cluster.cluster_image.url}}" title="{{ event.displayname }}"><img src="/media/cal/img/design/icon-clip.png" /></a>{% endif %}</li>
+<li class="event-title{% if event.event_cancelled %} strikethrough{% endif %}">{% for feat in event.event_cluster.cluster_features.all %}<a href="/features/{{feat.feature_name}}"><img src="/static/cal/{{feat.feature_icon}}" title="{{feat.feature_name}}" alt="{{feat.feature_name}}" style="float: right; height: 20px; width: 20px;"/></a>{% endfor %}<a {% ifequal user_data event.event_cluster.cluster_user_created %}class="event_owner" {% endifequal %}href="/events/{{event.event_id}}">{{event}}</a>{% if event.event_cluster.cluster_image %}<a rel="shadowbox[Gallery]" href="/{{event.event_cluster.cluster_image.url}}" title="{{ event.displayname }}"><img src="/static/cal/img/design/icon-clip.png" /></a>{% endif %}</li>
 <li class="event-time"><span{% if rsvp %} style="border-bottom: 2px dotted {% ifequal rsvp.rsvp_type 'Accepted' %}green;{% endifequal %}{% ifequal rsvp.rsvp_type 'Declined' %}red;{% endifequal %}{% ifequal rsvp.rsvp_type 'Pending' %}orange;{% endifequal %}"{% endif %}><a {% if rsvp %}class="rsvp_indicator" title="<span style='letter-spacing: 0.05em;'>{{event}}</span>|{% ifequal rsvp.rsvp_type 'Accepted' %}You've previously added this event to your calendar.{% endifequal %}{% ifequal rsvp.rsvp_type 'Declined' %}You've declined {{rsvp.rsvp_referrer.full_name}}'s invitation to this event.{% endifequal %}{% ifequal rsvp.rsvp_type 'Pending' %}{{rsvp.rsvp_referrer.full_name}} has invited you to this event.{% endifequal %}"{% endif %}style="text-decoration: none;" href="/events/{{event.event_id}}">{{event.getTime}}</a></span></li>
 <li class="event-subtext">{{event.get_event_location_display}} {{event.event_location_details}} {% if not event.get_event_location_display %}{% if not event.event_location_details %}No location provided {% endif %}{% endif %}{% ifnotequal event.event_attendee_count 0 %}| {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}{% endifnotequal %}</li>
 
@@ -70,7 +70,7 @@ There are no events to display.
 
 {% if feedurl %}
 <div style="width: 70%; padding: 8px; margin-top: 12px; background-color: #f0f0ff; border: 1px Solid #ccccff;">
-<p style="font-size: 16px; font-weight: bold;"><a href="{{feedurl}}"><img src="/media/cal/css/img/200px-Feed-icon.svg.png" style="float: right;"/></a>Want easier access to <span style="font-style: italic;">{{tabtitle}}</span>?</p>
+<p style="font-size: 16px; font-weight: bold;"><a href="{{feedurl}}"><img src="/static/cal/css/img/200px-Feed-icon.svg.png" style="float: right;"/></a>Want easier access to <span style="font-style: italic;">{{tabtitle}}</span>?</p>
 Have these events show up in your personal Google Calendar, iCal, or Outlook. <a href="{{feedurl}}">Subscribe here.</a>
 </div>
 {% endif %}
@@ -79,7 +79,7 @@ Have these events show up in your personal Google Calendar, iCal, or Outlook. <a
 <h2 class="legend-title">Features</h2>
 <div style="padding-top: 16px;">
 {% for feat in feat_opts %}
-<span style="white-space:nowrap; padding-right: 12px;"><a href="/features/{{feat.feature_name}}"><img src="/media/cal/{{feat.feature_icon}}" alt="{{feat.feature_name}}" style="height: 24px; width: 24px;"/></a> <a href="/features/{{feat.feature_name}}" style="vertical-align: top;">{{feat.feature_name}}</a></span>
+<span style="white-space:nowrap; padding-right: 12px;"><a href="/features/{{feat.feature_name}}"><img src="/static/cal/{{feat.feature_icon}}" alt="{{feat.feature_name}}" style="height: 24px; width: 24px;"/></a> <a href="/features/{{feat.feature_name}}" style="vertical-align: top;">{{feat.feature_name}}</a></span>
 {% endfor %}
 </div>
 </div>

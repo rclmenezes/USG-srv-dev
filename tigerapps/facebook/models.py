@@ -240,12 +240,12 @@ class User(models.Model):
 		return hall_name
 		
 	def photo_url(self):
-		photourl =  '/media/userimage/%s.JPG' % self.user_puid
+		photourl =  '/media/facebook/userimage/%s.JPG' % self.user_puid
 		
 		if os.path.exists(PROJECT_ROOT+photourl):
 			return photourl
 		else:
-			return '/media/siteimage/nophoto.jpg'		
+			return '/static/facebook/siteimage/nophoto.jpg'		
 			
 # class UserImage(models.Model):
 # 	image_netid = models.ForeignKey(User, related_name = 'User.netid', unique=True)

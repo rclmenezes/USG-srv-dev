@@ -5,33 +5,27 @@
 	<title>CCC Website</title>
 
 	<!-- Adding CSS -->
-	<link rel="stylesheet" type="text/css" href="/media/ccc/css/styles4.css" />
+	<link rel="stylesheet" type="text/css" href="/static/ccc/css/styles4.css" />
 	<!-- Load the Mootools Framework -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="/static/shared/js/jquery.form.js" type="text/javascript"></script>
+	
+	{% block head %}{% endblock %}
 </head>
 
 <body>
 	{% include "main/jquery.html" %}
 	
-	<div class="polaroid-bg" id="polaroid-1"><img src="/media/ccc/images/polaroid1-web.png" /></div>
-	<div class="polaroid-bg" id="polaroid-2"><img src="/media/ccc/images/polaroid2-web.png" /></div>
-	<div class="polaroid-bg" id="polaroid-3"><img src="/media/ccc/images/polaroid3-web.png" /></div>
-	<div class="polaroid-bg" id="polaroid-4"><img src="/media/ccc/images/polaroid4-web.png" /></div>
-	<div class="polaroid-bg" id="polaroid-5"><img src="/media/ccc/images/polaroid5-web.png" /></div>
+	<div class="polaroid-bg" id="polaroid-1"><img src="/static/ccc/images/polaroid1-web.png" /></div>
+	<div class="polaroid-bg" id="polaroid-2"><img src="/static/ccc/images/polaroid2-web.png" /></div>
+	<div class="polaroid-bg" id="polaroid-3"><img src="/static/ccc/images/polaroid3-web.png" /></div>
+	<div class="polaroid-bg" id="polaroid-4"><img src="/static/ccc/images/polaroid4-web.png" /></div>
+	<div class="polaroid-bg" id="polaroid-5"><img src="/static/ccc/images/polaroid5-web.png" /></div>
 	<div class="wrapper">
-		<div id="usg-logo"><a href="http://usg.princeton.edu"><img width="100" src="/media/ccc/images/usg-logo-web.png" /></a></div>
-		<div id="menu">
-			<ul>
-				<li><a href="/about">About</a></li>
-				<li><a href="/blog">Blog</a></li>
-				<li><a href="/contact">Contact us</a></li>
-				<li><a href="/log">Log hours</a></li>
-				<li><a href="/opportunities">Find an Opportunity</a></li>
-				<li><a href="/thankyou">"Thank You"s</a></li>
-			</ul>
-		</div>
+		<div id="usg-logo"><a href="http://usg.princeton.edu"><img width="100" src="/static/ccc/images/usg-logo-web.png" /></a></div>
+
 		<div id="ccc-logo">
-			<a href="/"><img src="/media/ccc/images/ccc-logo-web.png" width="100" /></a>
+			<a href="/"><img src="/static/ccc/images/ccc-logo-web.png" width="100" /></a>
 		</div>
 		<div id="title-1">
 			<h1><a href="/">Campuswide</a></h1>
@@ -39,12 +33,36 @@
 		<div id="title-2">
 			<h1><a href="/">Community Challenge</a></h1>
 		</div>
+		<div id="menu">
+			<a href="/">Home</a> |
+			<a href="/about/">About</a> |
+			<a href="/blog/">Blog</a> |
+			<a href="/log/">Log hours</a> |
+			<a href="/leaderboard/">Leaderboard</a> |
+			<a href="/opportunities/">Find an opportunity</a> |
+			<a href="/thankyou/">"Thank You"s</a>
+		<!-- 
+			<ul>
+				<li><a href="/about">About</a></li>
+				<li><a href="/blog">Blog</a></li>
+				<li><a href="/contact">Contact us</a></li>
+				<li><a href="/log">Log hours</a></li>
+				<li><a href="/opportunities">Find an Opportunity</a></li>
+				<li><a href="/thankyou">"Thank You"s</a></li>
+			</ul> -->
+		</div>
 		<div id="content">
 		{% block content %}
 		{% endblock %}
 		</div>
 	</div>
-	<div style="display: block; height: 20px; width: 100%;"></div>
-	<div id="credits"><small style="display: block; height: 12px; width: 240px; margin: 0 auto 5px;">&copy;USG 2011 | Made by <a href="mailto:rmenezes[-AT-]princeton.edu">Rodrigo Menezes</a></small><small style="display: block; height: 12px; width: 140px; margin: 0 auto 5px;"> Design by Erin Byrne and Rodrigo Menezes</small><small style="display: block; height: 12px; width: 290px; margin: 0 auto;">Questions? Email the CCC at ccc@princeton.edu</small></div>
+	
+	<div id="credits"><small>
+		&copy;USG 2011 | Made by <a href="mailto:rmenezes[-AT-]princeton.edu">Rodrigo Menezes</a>
+		<br/>Design by Erin Byrne<br/> and Rodrigo Menezes
+		<br/>Questions? Email the CCC at <a href="mailto:ccc[-AT-]princeton.edu">ccc@princeton.edu</a>
+		<br/><b>Admin: <a href="/admin/">Posts</a> | <a href="/hours_admin/">Hours</a></b>
+		<br/>&nbsp;
+	</small></div>
 </body>
 </html>

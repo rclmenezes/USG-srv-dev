@@ -5,7 +5,7 @@
 	<title>Add MyApps!</title>
 </head>
 <body>
-	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript" src="/static/my/js/jquery-1.6.2.min.js" ></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			addButtonEvent();
@@ -48,7 +48,7 @@
 						var addID = 0;
 					else
 						var addID = parseInt($('div.remove:last').attr('id')) + 1;
-					$('#addMyApp').append('<div class="remove" id="' + addID +'"><img class="remove" src="/media/my/images/small-x.png" alt="Remove" onclick="remove(' + addID +')">' + name + '<input name="myapps_' + addID + '" type="hidden" value="' + myappID + '" /></div>');
+					$('#addMyApp').append('<div class="remove" id="' + addID +'"><img class="remove" src="/static/my/images/small-x.png" alt="Remove" onclick="remove(' + addID +')">' + name + '<input name="myapps_' + addID + '" type="hidden" value="' + myappID + '" /></div>');
 				});
 			});
 		}
@@ -58,7 +58,7 @@
 			$(selector).remove();
 		}
 	</script>
-	<link rel="stylesheet" type="text/css" href="/media/my/css/addMyapp.css" />
+	<link rel="stylesheet" type="text/css" href="/static/my/css/addMyapp.css" />
 	<div class="myapp_added"><div class="inner">
 		<form id="addMyApp" action="/confirmMyApps/{{ page.orderNo }}/{{ colID }}" method="POST">
 			<div id="submit-bar"><input id="submit" type="submit" value="Submit" /></div>
@@ -105,7 +105,7 @@
 			  </tr>
 			  <tr>
 			    <td>&nbsp;</td>
-			    <td width="100" align="center" valign="middle"><img src="/media/my/images/loading.gif" alt="Loading..." /></td>
+			    <td width="100" align="center" valign="middle"><img src="/static/my/images/loading.gif" alt="Loading..." /></td>
 			    <td>&nbsp;</td>
 			  </tr>
 			  <tr>

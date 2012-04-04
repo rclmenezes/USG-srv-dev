@@ -1,29 +1,31 @@
 {% extends "ccc/base.html" %}
 {% load value_from_settings %}
 
-{% block content %}
-	<script type="text/javascript" src="/media/cal/js/datetimepicker_css.js"></script>
+{% block head %}
+	<script type="text/javascript" src="/static/cal/js/datetimepicker_css.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			date_start = $("input[name*='date_start']");
-			date_start.after("<a href=\"javascript:NewCssCal('" + date_start.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
-			date_end = $("input[name*='date_end']");
-			date_end.after("<a href=\"javascript:NewCssCal('" + date_end.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/media/cal/css/img/cal.gif\"></a>");
+			date = $("input[name*='date']");
+			date.after("<a href=\"javascript:NewCssCal('" + date.attr('id') + "', 'MMddyyyy', 'arrow')\"><img src=\"/static/cal/css/img/cal.gif\"></a>");
 		});
 	</script>
+{% endblock %}
+
+{% block content %}
 	<div class="main-box" style="width: 90%;">
 	    <h2 id="postTitle" style="text-align: center;">Log Hours</h2>
-		<p>Currently, you have logged {{hours}} hour{% ifnotequal hours 1 %}s{% endifnotequal %}.</p>
-		<p>You can only log projects that have occurred since October 29th. Please keep in mind these <a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}ccc.tigerapps.org/logging_guidelines">guidelines when logging a project.</a></p>
+		<p>Currently, you have logged {{user_hours}} hour{% ifnotequal user_hours 1 %}s{% endifnotequal %}.</p>
+		<p>Please keep in mind these <a href="/logging_guidelines/">guidelines when logging a project.</a></p>
+		
 		<form name="pace_form" method="post">
 		<table>
-			<tr id="row_name">
-				<th id="th_name" class="tableLabel">Netid:</th>
-				<td>{{ name }}</td>
+			<tr id="row_netid">
+				<th id="th_netid" class="tableLabel">Netid:</th>
+				<td>{{ user_netid }}</td>
 			</tr>
 		{% for field in log_cluster_form %}
 			<tr id="row_{{field.auto_id}}">
-				<th id="th_{{field.auto_id}}" class="tableLabel">{{field.label_tag}}:</th>
+				<th id="th_{{field.auto_id}}" class="tableLabel">{{field.label_tag}}{% if field.field.required %}*{% endif %}:</th>
 				<td>{{ field }}</td>
 				{% if field.errors %}
            		{% for error in field.errors %}
@@ -32,8 +34,11 @@
 				{% endif %}
 			</tr>
 		{% endfor %}
+		<tr><td></td><td style='text-align:right;'>
+			<input type="submit" href="/log_pace" class="button" style="margin-left: 95px; margin-top: 15px;" />
+		</td></tr>
+		
 		</table>
-		<input type="submit" href="/log_pace" class="button" style="margin-left: 95px; margin-top: 15px;" />
 		<p style="text-align: left;">Can't find your project? <a href="/request">Request that your project be recognized.</a></p>
 		</form>
 	</div>

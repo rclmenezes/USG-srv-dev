@@ -19,12 +19,14 @@ urlpatterns = patterns('',
     (r'^event/(?P<event_id>\d+)/?$', 'pam.views.event'),
     (r'^event_edit/(?P<event_id>\d+)/?$', 'pam.views.event_edit'),
     (r'^event_delete/(?P<event_id>\d+)/?$', 'pam.views.event_delete'),
-    (r'^admin/', include(admin.site.urls)),
     (r'^event_add/?$', 'pam.views.event_add'),
     (r'^about/?$', 'pam.views.about'),
     
-    # Admin
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
+    
+    # Admin
+    url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    (r'^djadmin/', include(admin.site.urls)),
 )
 

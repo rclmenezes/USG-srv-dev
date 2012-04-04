@@ -99,9 +99,9 @@ def book_details(isbn):
     # and all.
     doc = BeautifulSoup(data)
 
-    # Return None on no results
+    # Return None if book cannot be found
     item = doc.items.item
-    if not len(doc.items.item):
+    if not doc.items.item or not len(doc.items.item):
         return None
 
     ia = item.itemattributes

@@ -20,6 +20,7 @@ env/
 docs/_build/
 dist/
 .svn/
+.hg/
 eggs/
 backups/
 

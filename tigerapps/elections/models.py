@@ -26,7 +26,7 @@ class Candidate(models.Model):
     year = models.CharField(max_length=3, choices=YEAR_CHOICES)
     office = models.ForeignKey(Office)
     name = models.CharField(verbose_name="Name as it will appear on the ballot", max_length=45)
-    statement = models.TextField("Statement")
+    statement = models.TextField("Statement (max 120 words)")
     headshot = StdImageField("Headshot", upload_to='elections/upload/', size=(350,225), thumbnail_size=(125, 350))
     election = models.ForeignKey('Election', related_name='election')
     

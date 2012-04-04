@@ -6,20 +6,20 @@
 	<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps,MyPrinceton">
 	<link rel="icon" 
 	      type="image/ico" 
-	      href="/media/images/favicon.ico">
+	      href="/static/images/favicon.ico">
 	<title>MyPrinceton</title>
 
 	<!-- Add ALLLLL THE JAVASCRIPT!
 	http://s3.amazonaws.com/kym-assets/photos/images/original/000/140/938/responsibility12%28alternate%29.png?1309207929-->
-	<script type="text/javascript" src="/media/my/js/jquery-1.6.2.min.js" ></script>
-	<script type="text/javascript" src="/media/my/js/jquery-ui-1.7.2.custom.min.js" ></script>
-	<script type="text/javascript" src="/media/my/js/jquery.json-2.2.min.js" ></script>
-	<script type="text/javascript" src="/media/my/js/common.js"></script>
-	<script type="text/javascript" src="/media/my/js/subModal.js"></script>
+	<script type="text/javascript" src="/static/my/js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript" src="/static/my/js/jquery-ui-1.7.2.custom.min.js" ></script>
+	<script type="text/javascript" src="/static/my/js/jquery.json-2.2.min.js" ></script>
+	<script type="text/javascript" src="/static/my/js/common.js"></script>
+	<script type="text/javascript" src="/static/my/js/subModal.js"></script>
 
 	<!-- Adding CSS -->
-	<link rel="stylesheet" type="text/css" href="/media/my/css/styles4.css" />
-	<link rel="stylesheet" type="text/css" href="/media/my/css/subModal.css" />
+	<link rel="stylesheet" type="text/css" href="/static/my/css/styles4.css" />
+	<link rel="stylesheet" type="text/css" href="/static/my/css/subModal.css" />
 	
 	<!-- Navbar -->
 	<script type="text/javascript"> 
@@ -66,15 +66,15 @@
 				{
 					$content = $(this).siblings('.dragbox-content');
 					$image = $(this).children().find("img.is_collapsed");
-					if ($content.css('display')=="none" || $image.attr("src") == "/media/my/images/right.png")
+					if ($content.css('display')=="none" || $image.attr("src") == "/static/my/images/right.png")
 					{
 						$content.show();
-						$image.attr("src", "/media/my/images/down.png");
+						$image.attr("src", "/static/my/images/down.png");
 					}
 					else
 					{
 						$content.hide();
-						$image.attr("src", "/media/my/images/right.png");
+						$image.attr("src", "/static/my/images/right.png");
 					}
 					updateWidgetData();
 				}
@@ -98,15 +98,15 @@
 				{
 					$content = $(ui.item).find('.dragbox-content');
 					$image = $(ui.item).find("img.is_collapsed");
-					if ($content.css('display')=="none" || $image.attr("src") == "/media/my/images/right.png")
+					if ($content.css('display')=="none" || $image.attr("src") == "/static/my/images/right.png")
 					{
 						$content.show();
-						$image.attr("src", "/media/my/images/down.png");
+						$image.attr("src", "/static/my/images/down.png");
 					}
 					else
 					{
 						$content.hide();
-						$image.attr("src", "/media/my/images/right.png");
+						$image.attr("src", "/static/my/images/right.png");
 					}
 				}*/
 			},
@@ -244,7 +244,7 @@
 		var inputValue = $('#clickEdit').attr('value');
 		// Add img if necessary
 		if (remove)
-			var tab = '<img style="display:none;" class="page_remove" src="/media/my/images/SmallX.gif"/><span id="tabName">';
+			var tab = '<img style="display:none;" class="page_remove" src="/static/my/images/SmallX.gif"/><span id="tabName">';
 		else
 			var tab = '<span id="tabName">';
 			
@@ -320,7 +320,7 @@
 	<div id="wrapper">
 		<div class="top">
 			<div id="header">
-				<div class="logo"><a href=""><img src="/media/my/images/myPrinceton.png
+				<div class="logo"><a href=""><img src="/static/my/images/myPrinceton.png
 					" alt=""/></a></div>
 				<div id="logout">
 					<a href="/logout">Logout</a>
@@ -341,9 +341,9 @@
 					{% for relation in column.relations %}
 					<div class="dragbox" id="{{ relation.relationID }}" >
 						<h2>
-							<div class="arrow"><img class="is_collapsed" src="{% if relation.collapsed %}/media/my/images/right.png{% else %}/media/my/images/down.png{% endif %}" /></div>
+							<div class="arrow"><img class="is_collapsed" src="{% if relation.collapsed %}/static/my/images/right.png{% else %}/static/my/images/down.png{% endif %}" /></div>
 							<div class="title">{% if relation.myapp.link %} <a href="{{relation.myapp.link}}" style="color:white;"> {% endif %}{{ relation.myapp.name }}{% if relation.myapp.link %} </a> {% endif %} </div>
-							<span class="configure" ><img class="refresh" src="/media/my/images/refresh.png" alt="Refresh" /><img class="trash" src="/media/my/images/trash.png" alt="Remove" />{% if relation.myapp.settings %}<img class="settings" src="/media/my/images/settings.png" alt="Settings" />{% endif %}</span>
+							<span class="configure" ><img class="refresh" src="/static/my/images/refresh.png" alt="Refresh" /><img class="trash" src="/static/my/images/trash.png" alt="Remove" />{% if relation.myapp.settings %}<img class="settings" src="/static/my/images/settings.png" alt="Settings" />{% endif %}</span>
 						</h2>
 						<div class="dragbox-content" style="display:{% if relation.collapsed %}none{% endif %}; height:{% ifequal column.location 'M' %}{{ relation.myapp.mHeight }}{% else %}{{ relation.myapp.sHeight }}{% endifequal %}px;">
 							<iframe src="/myapps/{{ relation.relationID }}/?{{ column.location }}=True" class="myapp" style="width:100%;height:100%;background-color:transparent;padding:0;margin: 0;" scrolling="{% if relation.myapp.scrolling %}auto{% else %}no{% endif %}" frameborder="0" allowtransparency="true" width="100%" height="100%"></iframe>

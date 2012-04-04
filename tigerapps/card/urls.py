@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -52,9 +53,6 @@ urlpatterns = patterns('',
                        (r'^logout_cas/?$', 'card.auth.cas_logout'),
                        (r'^logout_club/?$', 'card.auth.club_logout'),
 
-                       # static items (primarily for css)
-                       #TODO: fix this so static is served via Apache
-                       (r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': '/srv/tigerapps/media/card'}),
                        # help documentation
                        (r'^help/(?P<path>.*)$', 'card.views.help'),
 
@@ -65,7 +63,7 @@ urlpatterns = patterns('',
                        (r'^admin/', include(admin.site.urls)),
                        (r'^cardAdmin/', include(cardAdmin.urls)),
                        #(r'^admin/*(.*)',admin.site.root),
-
-                       (r'^robots\.txt$', direct_to_template,
-                            {'template': 'robots.txt', 'mimetype': 'text/plain'}),
 )
+
+urlpatterns += staticfiles_urlpatterns()
+
