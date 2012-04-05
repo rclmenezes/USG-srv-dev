@@ -25,6 +25,7 @@ Dependencies:
 - MySQLdb
 - Customized version of django_cas included
 - xlwt (very minor)
+- simplejson
 - other i probably forgot
 
 
@@ -79,3 +80,4 @@ Dependencies:
           ' . .            `"98.     `8868.       .  _.n688868898p"            d
            . .                '88.      "688.       q89888688868"            ,86
          mh '. .                 88.     `8898        " .889"'              .988
+

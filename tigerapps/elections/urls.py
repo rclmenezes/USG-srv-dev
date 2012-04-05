@@ -13,15 +13,12 @@ urlpatterns = patterns('',
     #(r'^runoff/?$', 'elections.views.runoff'),
     url(r'^register/?$', 'elections.views.signup', kwargs={'election': None}),
     url(r'^statements/?$', 'elections.views.statements', name='statements'),
-    (r'^robots\.txt$', direct_to_template,
-         {'template': 'robots.txt', 'mimetype': 'text/plain'}),
-    # Example:
-    # (r'^register/', include('register.foo.urls')),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
+    
+    # Admin
+    url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    (r'^djadmin/', include(admin.site.urls)),
 )

@@ -24,13 +24,22 @@ def home(request):
         return signup(request, election)
         
 def statements(request):
-    election = Election.objects.latest('deadline')
+    now = datetime.now()
+    
+    try: 
+        election = Election.objects.latest('deadline')
+    except Election.DoesNotExist:
+        return HttpResponse("Site is not properly set up. You need to create an election in <a href=\"/admin/\">the admin page</a>.")
     
     try:
         runoff = Runoff.objects.get(election=election)
         return runoffs(request, runoff)
     except Runoff.DoesNotExist:
         pass
+
+    if election.end >= now and election.deadline >= now: 
+        if not request.user.is_staff or not request.user.is_superuser:
+            return HttpResponse("Oops! Candidate statement deadline has not passed. Sorry, you can't view the statements as public at this time.")
     
     officeCandidates = {}
     for office in election.offices.all():
@@ -71,17 +80,17 @@ def signup(request, election):
         elapsed = datetime.now() - start
         if elapsed.days < 365*1:
             year = 'FR'
-            officeSet = Office.objects.filter(freshman_eligible=True)
+            officeSet = election.offices.filter(freshman_eligible=True)
         elif elapsed.days < 365*2:
             year = 'SO'
-            officeSet = Office.objects.filter(sophomore_eligible=True)
+            officeSet = election.offices.filter(sophomore_eligible=True)
         else:
             year = 'JU'
-            officeSet = Office.objects.filter(junior_eligible=True)
-        
-        if request.user.username == 'rmenezes':
-            officeSet = Office.objects.all()   
-        
+            officeSet = election.offices.filter(junior_eligible=True)
+
+        if request.user.is_superuser == True:
+            #I put this after the if block above so that the superuser will have a year set
+            officeSet = election.offices.all()
     except KeyError: # For USG account
         return render_to_response('elections/nope.html')
 
@@ -97,7 +106,6 @@ def signup(request, election):
                 changes = True
         else:
             candidateForm = CandidateForm(instance=candidate)
-
     except Candidate.DoesNotExist:
         candidate = None
         if request.method == 'POST':
@@ -121,7 +129,8 @@ def signup(request, election):
         officeList[office] = len(Candidate.objects.filter(office=office, election=election))
     
     return render_to_response('elections/register.html', {'user': request.user, 'candidateForm': candidateForm, 'changes': changes, 'register': register, 'candidate': candidate, 'election': election, 'officeList': officeList})
-    
+
+
 def runoffs(request, runoff):
     '''
     try: 
