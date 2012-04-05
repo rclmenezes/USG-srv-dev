@@ -5,7 +5,6 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     
     url(r'^$', 'rooms.views.index'),
-    # Admin
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
     
