@@ -1,19 +1,58 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<!DOCTYPE html>
+<html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Room Guide</title>
+	    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	    <style type="text/css">
+          html { height: 100% }
+          body { height: 100%; margin: 0; padding: 0; background: #F5F5F5 }
+          #map_canvas { height: 50%; width:100%; margin-bottom: 10px;
+			transition: height .2s;
+			-moz-transition: height .2s; /* Firefox 4 */
+			-webkit-transition: height .2s; /* Safari and Chrome */
+			-o-transition: height .2s; /* Opera */
+			}
+		  #mainColumn { width: 960px; height: 100%; margin: 0 auto; padding: 10px}
+		  #dataPanel { width: 940px; height: 50%; background-color: #E6E6E6; position: absolute; padding: 10px; font-family: Oxygen;
+			transition: height .2s;
+			-moz-transition: height .2s; /* Firefox 4 */
+			-webkit-transition: height .2s; /* Safari and Chrome */
+			-o-transition: height .2s; /* Opera */
+			}
+		
+		  #expandMap, #contractMap, #restoreMap { width: 30px; height: 30px; position:
+			absolute; top: 10px; padding-left: 19px; padding-top: 12px; 
+			}
 
-	<!-- <\!-- Adding CSS -\-> -->
-	<!-- <link rel="stylesheet" type="text/css" href="/static/ccc/css/styles4.css" /> -->
-	<!-- <\!-- Load the Mootools Framework -\-> -->
-	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script> -->
+		  #expandMap:active, #contractMap:active, #restoreMap:active { top: 11px;}
+			#expandMap {background: #f90; right: 10px;}
+			#restoreMap {background: #fff; right: 70px;}
+			#contractMap {background: #696969; right: 130px;}
+
+			#expandMap:hover, #contractMap:hover, #restoreMap:hover {cursor: pointer}
+			
+        </style>
+        <script type="text/javascript"
+                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
+        </script>
+        <script type="text/javascript" src="/static/rooms/map.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
 </head>
 
-<body>
+<body onload="initialize()">
 	{% include "main/jquery.html" %}
 	
-	This is the new rooms site!
-
+	<div id="mainColumn">
+        <div id="map_canvas"></div>
+		<div id="dataPanel">
+			<div id="expandMap">&darr;</div>
+			<div id="restoreMap">&loz;</div>
+			<div id="contractMap">&uarr;</div>
+			Room / Building Information & Queue
+		</div>
+		<div 
+	</div>
 </body>
 </html>
