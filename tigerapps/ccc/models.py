@@ -42,7 +42,7 @@ class LogCluster(models.Model):
     project = models.ForeignKey('ProjectOrOrganization', help_text="Project or organization the service was done with")
     hours = models.IntegerField(help_text="Total new hours since you last logged")
     year = models.CharField(max_length=4, choices=YEAR_CHOICES, blank=True, null=True)
-    res_college = models.CharField("Residential College", max_length=10, choices=RES_COLLEGE_CHOICES, blank=True, null=True)
+    res_college = models.CharField("Residential College", max_length=20, choices=RES_COLLEGE_CHOICES, blank=True, null=True)
     eating_club = models.CharField(max_length=30, choices=EATING_CLUB_CHOICES, blank=True, null=True)
     user = models.ForeignKey(User, related_name="logcluster")
     
