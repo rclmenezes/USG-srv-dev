@@ -43,7 +43,13 @@ def night(request, month, day, year):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
-    
+        
+    if month == day == year == 0:
+        today = date.today()
+        month = today.month
+        day = today.day
+        year = today.year
+
     # Initialize club list
     clubs = Club.objects.all()
     club_list = {}
@@ -83,6 +89,12 @@ def fast(request, month, day, year):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
+    
+    if month == day == year == 0:
+        today = date.today()
+        month = today.month
+        day = today.day
+        year = today.year
 
     # Initialize club list
     clubs = Club.objects.all()

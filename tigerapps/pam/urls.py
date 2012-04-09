@@ -4,13 +4,13 @@ from datetime import date
 
 
 admin.autodiscover()
-today = date.today()
+#today = date.today()
 
 urlpatterns = patterns('',
     # Social
     (r'^club/(?P<club_name>\w+)/?$', 'pam.views.club'),
-    url(r'^/?$', 'pam.views.night', kwargs={'day': today.day, 'month': today.month, 'year': today.year}),
-    url(r'^fast/?$', 'pam.views.fast', kwargs={'day': today.day, 'month': today.month, 'year': today.year}),
+    url(r'^/?$', 'pam.views.night', kwargs={'day': 0, 'month': 0, 'year': 0}),
+    url(r'^fast/?$', 'pam.views.fast', kwargs={'day': 0, 'month': 0, 'year': 0}),
     (r'^login/?', 'django_cas.views.login'),
     (r'^logout/?', 'django_cas.views.logout'),
     (r'^(?P<month>\d+)/(?P<day>\d+)/(?P<year>\d+)/?$', 'pam.views.night'),
