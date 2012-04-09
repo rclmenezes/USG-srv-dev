@@ -13,7 +13,7 @@
 			<div class="photo"><img alt="Your picture" src="{% if candidate.headshot %}{{ candidate.headshot.url }}{% endif %}"/></div>
 			<div class="statement">
 				<h3 class="candidateName">{{candidate}}</h3>
-				<p>{{candidate.statement|linebreaksbr}}</p>
+				<p>{{candidate.statement|safe}}</p>
 			</div>
 			<div class="clear"></div>
 		</div>
