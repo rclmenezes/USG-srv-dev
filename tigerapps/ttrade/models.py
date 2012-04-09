@@ -21,7 +21,7 @@ METHOD_CHOICES = (
     (u'Mu', u'Multiple Items and Prices'),
     (u'No', u'No Price Displayed'),
     (u'Tr', u'Trade'),
-    )
+)
     
 '''
     Auction: just save best offer until end
@@ -63,6 +63,7 @@ LISTING_TYPE = (
     (u'S', u'For Sale'),
     (u'R', u'Request to Buy'),
     (u'T', u'For Rent'), # Yup, didn't think this one ahead :)
+    (u'E', u'For Exchange'),
 )
 
 # Used for both requests and items for sale!

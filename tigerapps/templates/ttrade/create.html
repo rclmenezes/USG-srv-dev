@@ -9,6 +9,7 @@
 		<form id="create" action="/create" method="POST" enctype="multipart/form-data" >
 			<input type="radio" name="listingType" value="request" /> Request to Buy<br />
 			<input type="radio" name="listingType" value="rental" /> Offer to Rent <br />
+			<input type="radio" name="listingType" value="exchange" /> Offer to Exchange <br />
 			<input type="radio" name="listingType" value="sale" /> Item for Sale
 			<div id="more" style="display: none; visibility: hidden;">
 			{{ form.non_field_errors }}
@@ -111,9 +112,12 @@
 				formcheck.register($('id_category'));
 				formcheck.register($('id_title'));
 				
-				if (this.value == "sale" || this.value == "rental")
+				if (this.value == "sale" || this.value == "rental" || this.value == "exchange")
 				{
-					$('row_id_method').fade('in');
+					if (this.value != "exchange")
+						$('row_id_method').fade('in');
+					else
+						$('row_id_method').fade('out');
 					$('row_id_picture').fade('in');
 					formcheck.register($('id_method'));
 					

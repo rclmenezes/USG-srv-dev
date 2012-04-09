@@ -146,6 +146,5 @@ INSTALLED_APPS = (
 #    'album',
     'pam',
     'rooms',
-    'pom'
-
+    'pom',
 )
