@@ -93,14 +93,14 @@ ul.sf-menu img#usg_logo
     font-size: 13px;
 }
 
-#subMenusContainer a, #nav li li a{
+#subMenusContainer a, #ul-toolbar li li a{
 	text-align:left;
 	text-decoration: none;
     color: white;
 }
 
 /* All menu links on hover or focus */
-#nav a:hover, #nav a:focus, #subMenusContainer a:hover, #subMenusContainer a:focus, #nav a.mainMenuParentBtnFocused, #subMenusContainer a.subMenuParentBtnFocused{
+#ul-toolbar a:hover, #ul-toolbar a:focus, #subMenusContainer a:hover, #subMenusContainer a:focus, #ul-toolbar a.mainMenuParentBtnFocused, #subMenusContainer a.subMenuParentBtnFocused{
 	background-color:transparent;
 	color:#FFF;
 }
@@ -108,10 +108,10 @@ ul.sf-menu img#usg_logo
 /* sub menu links on hover or focus */
 #subMenusContainer a:hover, 
 #subMenusContainer a:focus, 
-#nav a.mainMenuParentBtnFocused, 
+#ul-toolbar a.mainMenuParentBtnFocused, 
 #subMenusContainer a.subMenuParentBtnFocused,
-#nav li a:hover,
-#nav li a:focus{
+#ul-toolbar li a:hover,
+#ul-toolbar li a:focus{
 	background-color: #424242;
 	color:#FFF;
 }
@@ -158,7 +158,7 @@ ul.sf-menu img#usg_logo
 
 
 /* All ULs and OLs */
-#nav, #nav ul, #nav ol, #subMenusContainer ul, #subMenusContainer ol { 
+#ul-toolbar, #ul-toolbar ul, #ul-toolbar ol, #subMenusContainer ul, #subMenusContainer ol { 
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -166,7 +166,7 @@ ul.sf-menu img#usg_logo
 }
 
 /* All submenu OLs and ULs */
-#nav ol, #nav ul, #subMenusContainer ul, #subMenusContainer ol {	
+#ul-toolbar ol, #ul-toolbar ul, #subMenusContainer ul, #subMenusContainer ol {	
 	background: #424242;
 	border:1px solid black;
 	left:0;
@@ -183,14 +183,14 @@ ul.sf-menu img#usg_logo
 
 
 /* --------------------------[ The below is just for non-javscript users ]--------------------------*/
-#nav li li{	float:none; }
+#ul-toolbar li li{	float:none; }
 
-#nav li li a{ /* Just submenu links*/	
+#ul-toolbar li li a{ /* Just submenu links*/	
 	position:relative;
 	float:none;
 }
 
-#nav li ul { /* second-level lists */
+#ul-toolbar li ul { /* second-level lists */
 	position: absolute;
 	width: 10em;
 	margin-left: -1000em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
@@ -198,17 +198,17 @@ ul.sf-menu img#usg_logo
 }
 
 /* third-and-above-level lists */
-#nav li ul ul { margin: -1em 0 0 -1000em; }
-#nav li:hover ul ul {	margin-left: -1000em; }
+#ul-toolbar li ul ul { margin: -1em 0 0 -1000em; }
+#ul-toolbar li:hover ul ul {	margin-left: -1000em; }
 
  /* lists nested under hovered list items */
-#nav li:hover ul{	margin-left: 0; }
-#nav li li:hover ul {	margin-left: 10em; margin-top:-2.5em;}
+#ul-toolbar li:hover ul{	margin-left: 0; }
+#ul-toolbar li li:hover ul {	margin-left: 10em; margin-top:-2.5em;}
 
 /* extra positioning rules for limited noscript keyboard accessibility */
-#nav li a:focus + ul {  margin-left: 0; margin-top:2.2em; }
-#nav li li a:focus + ul { left:0; margin-left: 1010em; margin-top:-2.2em;}
-#nav li li a:focus {left:0;  margin-left:1000em; width:10em;  margin-top:0;}
-#nav li li li a:focus {left:0; margin-left: 2010em; width: 10em;  margin-top:-1em;}
-#nav li:hover a:focus{ margin-left: 0; }
-#nav li li:hover a:focus + ul { margin-left: 10em; }
+#ul-toolbar li a:focus + ul {  margin-left: 0; margin-top:2.2em; }
+#ul-toolbar li li a:focus + ul { left:0; margin-left: 1010em; margin-top:-2.2em;}
+#ul-toolbar li li a:focus {left:0;  margin-left:1000em; width:10em;  margin-top:0;}
+#ul-toolbar li li li a:focus {left:0; margin-left: 2010em; width: 10em;  margin-top:-1em;}
+#ul-toolbar li:hover a:focus{ margin-left: 0; }
+#ul-toolbar li li:hover a:focus + ul { margin-left: 10em; }
