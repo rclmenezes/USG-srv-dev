@@ -1,6 +1,5 @@
 {% extends "ttrade/listing.html" %}
 
-{% ifnotequal listing.listingType 'E' %}
 {% block fixed %}
 	{% if edit %}
 		{% ifnotequal listing.method 'Au' %}
@@ -61,4 +60,3 @@
 		</script>
 	{% endif %}
 {% endblock %}
-{% endifnotequal %}
