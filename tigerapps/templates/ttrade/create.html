@@ -115,11 +115,17 @@
 				if (this.value == "sale" || this.value == "rental" || this.value == "exchange")
 				{
 					if (this.value != "exchange")
+					{
 						$('row_id_method').fade('in');
+						formcheck.register($('id_method'));
+					}
 					else
+					{
 						$('row_id_method').fade('out');
+						formcheck.dispose($('id_method'));
+					}
 					$('row_id_picture').fade('in');
-					formcheck.register($('id_method'));
+					//formcheck.register($('id_method'));
 					
 					if ($('id_method').getSelected()[0].value == "Fi" || $('id_method').getSelected()[0].value == "Au")
 					{
