@@ -11,4 +11,6 @@ urlpatterns = patterns('',
     
     url(r'^pmap/?$', direct_to_template,
         {'template': 'pom/pmap.html'}),
+
+    url(r'^admin/', include(admin.site.urls)),
 )
