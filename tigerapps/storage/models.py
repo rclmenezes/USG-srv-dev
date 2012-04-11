@@ -9,10 +9,9 @@ import datetime
     
 class Status(models.Model):
     name = models.CharField(max_length=50)
-    netid = models.CharField("NetID", max_length=8)
     cell_number = models.CharField("Cell Phone Number", max_length=14)
     proxy_name = models.CharField("Proxy Name", max_length=50)
-    proxy_netid = models.Charfield("Proxy NetID", max_length=8)
+    proxy_email = models.CharField("Proxy Email", max_length=50)
     boxes = models.IntegerField("Number of Boxes Registered/Paid For", max_length=2)
     payment = models.BooleanField("Payment Complete")
     empty_boxes = models.BooleanField("Picked up Empty Boxes")
@@ -20,6 +19,7 @@ class Status(models.Model):
     boxes_dropped = models.IntegerField("Number of Boxes Dropped Off", max_length=2)
     pickup_time = models.DateTimeField("Pickup Time")
     boxes_picked = models.IntegerField("Number of Boxes Picked Up", max_length=2)
+    user = models.ForeignKey(User, related_name="status")
     
     def __unicode__(self):
         return self.name
