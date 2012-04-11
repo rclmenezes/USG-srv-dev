@@ -147,4 +147,5 @@ INSTALLED_APPS = (
     'pam',
     'rooms',
     'pom',
+    'storage'
 )
