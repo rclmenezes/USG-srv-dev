@@ -10,7 +10,9 @@ function init() {
 	jmap.tilesDir = '/static/pom/img/tiles/';
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
-	jmap.bldgsClick = '/bldg/'
+	jmap.bldgsClick = '/bldg/';
+	jmap.bldgsPlainSrc = '.jpg';
+	jmap.bldgsHoverSrc = '-h.jpg';
 	
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
@@ -135,17 +137,18 @@ function tilesOnMap() {
 
 // load and set up hover/click for buildings that are on the loaded tile identified by 'id'
 function loadTileBldgs(id) {
-	var bldgsOnTile = jmap.bldgsJSON[id];
+	var bldgsOnTile = jmap.bldgsTile[id];
 	if (bldgsOnTile == undefined) return;
 	for (index in bldgsOnTile) {
-		var bldg = bldgsOnTile[index];
-		if (jmap.loadedBldgs[bldg.id] == undefined) {
+		var id = bldgsOnTile[index];
+		if (jmap.loadedBldgs[id] == undefined) {
 			var domEle = document.createElement('img');
-			jmap.loadedBldgs[bldg.id] = {'ele':domEle, 'src':bldg.src, 'srcHover':bldg.srcHover};
-			domEle.setAttribute('src', jmap.bldgsDir+bldg.src);
+			jmap.loadedBldgs[id] = domEle;
+			domEle.setAttribute('src', jmap.bldgsDir+id+jmap.bldgsPlainSrc);
 			domEle.setAttribute('class', 'jmap-bldg');
-			domEle.setAttribute('id', bldg.id);
+			domEle.setAttribute('id', id);
 			domEle.setAttribute('style', 'position:absolute;');
+			var bldg = jmap.bldgsInfo[id];
 			domEle.style.height = bldg.height;
 			domEle.style.width = bldg.width;
 			domEle.style.left = bldg.left;
@@ -162,7 +165,8 @@ function loadBldgsJSON() {
 		async: false,
 		dataType: 'json',
 		success: function(data) {
-			jmap.bldgsJSON = data; 
+			jmap.bldgsTile = data.bldgsTile;
+			jmap.bldgsInfo = data.bldgsInfo;
 		},
 		error: handleAjaxError
 	});
@@ -170,8 +174,8 @@ function loadBldgsJSON() {
 
 function setupBldgClick(domEle) {
 	domEle.ondragstart = function(ev){ev.preventDefault();};
-	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+jmap.loadedBldgs[domEle.id].srcHover;};
-	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+jmap.loadedBldgs[domEle.id].src;};
+	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
+	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsPlainSrc;};
 	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
 }
 

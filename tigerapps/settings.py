@@ -21,6 +21,7 @@ else:
 
 
 LOGIN_URL = '/login/'
+PAYPAL_RECEIVER_EMAIL = 'it@princetonusg.com'
 
 
 
@@ -131,6 +132,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
     'utils',
     'cal',
     'dvd',
