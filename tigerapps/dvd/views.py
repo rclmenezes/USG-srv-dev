@@ -30,10 +30,33 @@ def checkout(request):
 def checkin_user(request):
     if 'netid' not in request.GET:
         return render_to_response('dvd/checkin.html')
-    
     netid = request.GET['netid']
-    
     user_info = gdi(netid)
+    
+    #change user.html to checkin_user.html
+    if request.method == "POST" and 'dvd' in request.POST: #IMPORTANT: copied directly from checkin_dvd, does not work. Bottom two lines were previously there.
+        dvd_list = request.POST.getlist('dvd') #list of dvd's checked
+        ambiguous_list = [] # When more than one copy is checked out
+        checked_list = []
+        for dvd_id in dvd_list:
+            #checkin DVD
+            dvd = DVD.objects.get(pk=dvd_id)
+            dvd.amountLeft += 1
+            dvd.save()
+            
+            #if there's copies of dvd_id still checked out
+            if dvd.amountTotal - dvd.amountLeft > 1:
+                ambiguous_list.append(dvd)
+            #if all of the copies of dvd_id are checked in
+            else:
+                checked_list.append(dvd)
+                rental_list = Rental.objects.filter(dateReturned=None, dvd=dvd)
+                for rental in rental_list:
+                    rental.dateReturned = datetime.datetime.now()
+                    rental.save()
+        if len(ambiguous_list) == 0:
+            confirm = "The following DVDs have been checked in: " + str(checked_list)
+            return render_to_response('dvd/confirm.html', {'title': "Success!", 'confirm': confirm})
     
     rentalList = Rental.objects.filter(netid=netid).filter(dateReturned=None).order_by('dateDue').reverse()
     return render_to_response('dvd/user.html', {'netid': netid, 'user_info': user_info, 'rentalList': rentalList})
@@ -58,6 +81,7 @@ def checkin_dvd(request):
         ambiguous_list = [] # When more than one copy is checked out
         checked_list = []
         for dvd_id in dvd_list:
+            #checkin DVD
             dvd = DVD.objects.get(pk=dvd_id)
             dvd.amountLeft += 1
             dvd.save()
