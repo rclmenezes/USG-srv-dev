@@ -12,3 +12,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 )
+
+urlpatterns += patterns('',
+    (r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
+)

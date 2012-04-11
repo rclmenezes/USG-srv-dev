@@ -1,6 +1,4 @@
 from django.db import models
-from stdimage import StdImageField
-from django.contrib.localflavor.fr.forms import USPhoneNumberField
 import datetime
 
 #First name, Email, (cell phone #)
@@ -12,7 +10,7 @@ import datetime
 class Status(models.Model):
     name = models.CharField(max_length=50)
     netid = models.CharField("NetID", max_length=8)
-    cell_number = models.USPhoneNumberfield("Cell Phone Number")
+    cell_number = models.CharField("Cell Phone Number", max_length=14)
     proxy_name = models.CharField("Proxy Name", max_length=50)
     proxy_netid = models.Charfield("Proxy NetID", max_length=8)
     boxes = models.IntegerField("Number of Boxes Registered/Paid For", max_length=2)
