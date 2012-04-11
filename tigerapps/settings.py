@@ -21,7 +21,9 @@ else:
 
 
 LOGIN_URL = '/login/'
+#paypal only
 PAYPAL_RECEIVER_EMAIL = 'it@princetonusg.com'
+SITE_NAME = 'http://dev.storage.tigerapps.org'
 
 
 
