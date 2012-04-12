@@ -46,10 +46,10 @@ class Rooms(models.Model):
 	avail = models.BooleanField()
 	adjacent = models.CharField(max_length=10)
 	# ADA accessible
-	ada = model.BooleanField()
+	ada = models.BooleanField()
 	# bi-level room
-	bi = model.BooleanField();
+	bi = models.BooleanField();
 	# connecting single
-	con = model.BooleanField();
-	bathroom = models.CharField(max_length=2, choiced=BATHROOM_CHOICES)
+	con = models.BooleanField();
+	bathroom = models.CharField(max_length=2, choices=BATHROOM_CHOICES)
 	
