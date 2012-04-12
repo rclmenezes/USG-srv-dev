@@ -6,11 +6,13 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Map-related
     url(r'^/?$', direct_to_template,
-        {'template': 'pom/index.html'}),
-    url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
-    
-    url(r'^pmap/?$', direct_to_template,
-        {'template': 'pom/pmap.html'}),
+        {'template': 'storage/index.html'}),
+    url(r'^paypal/$', 'storage.views.paypal', name='paypal'),
+#    url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
 
     url(r'^admin/', include(admin.site.urls)),
+)
+
+urlpatterns += patterns('',
+    (r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
 )

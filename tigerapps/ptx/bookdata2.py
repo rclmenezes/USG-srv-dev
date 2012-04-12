@@ -84,6 +84,9 @@ def aws_url(query, additional=dict()):
     url = 'http://ecs.amazonaws.com/onca/xml?%s&Signature=%s' % (query, sign)
     return url
 
+#http://code.google.com/apis/books/docs/v1/using.html
+#use google books API and Python JSON parser
+
 def book_details(isbn):
     '''Looks up an ISBN on Amazon. Returns :obj:`None` if no book is
     found. Otherwise returns a :class:`Book` model instance. Model

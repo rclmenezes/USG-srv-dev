@@ -21,6 +21,9 @@ else:
 
 
 LOGIN_URL = '/login/'
+#paypal only
+PAYPAL_RECEIVER_EMAIL = 'it@princetonusg.com'
+SITE_NAME = 'http://dev.storage.tigerapps.org'
 
 
 
@@ -131,6 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
     'utils',
     'cal',
     'dvd',
@@ -147,4 +151,5 @@ INSTALLED_APPS = (
     'pam',
     'rooms',
     'pom',
+    'storage'
 )

@@ -1,9 +1,22 @@
 <html>
   <head>
     <title>HelloWorld</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/pom/js/map.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
+ 
   </head>
-  <body>
-    <h1>HelloNader</h1> <BR>
-    <h1>The time is now {{current_time}}</h1>
+  <body onload="init();">
+	<div id="jmap-container">
+		<div id="jmap-movable">
+		</div>
+	</div>
+	
+	<div id="jmap-info">
+		<p><fieldset id="coordTest"><legend>Test - Move your mouse</legend>Mouse X Position: <input id="box1x"/> &nbsp; Mouse Y Position: <input id="box1y"/></fieldset></p>
+		<p>You clicked on <span id="info-bldgName"></span>!</p>
+	</div>
+	
   </body>
 </html>

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<title>Campus Map - Princeton University</title>
+<link rel="stylesheet" href="http://etcweb.princeton.edu/pumap/styles.css" type="text/css" />
+<meta name="viewport" content="width=1020" />
+<script type="text/javascript" language="javascript" src="/static/pom/js/pmap_dojo.js"></script>
+<script type="text/javascript" language="javascript" src="/static/pom/js/pmap.js"></script>
+<script type="text/javascript" language="javascript" >
+  //pmap.conf.reqHighlight = unescape(self.document.location.hash.substring(1));
+  //if ( pmap.conf.reqHighlight > 0 ) {
+  // pmap.conf.initHighlight = pmap.conf.reqHighlight;
+  // pmap.conf.initCenterHighlight = true;
+  //}
+  pmap.timestamp.data = 1333774862;
+  pmap.timestamp.map = 1331843195;
+</script>
+</head>
+<body onload="startup()">
+  <div id="controls" class="unselectable" >
+    <div class="button"><a id="zoomin" class="unselectable" href="." onclick="zoomin();return false;">Zoom In</a></div>
+    <div class="button"><a id="zoomout" class="unselectable" href="." onclick="zoomout();return false;">Zoom Out</a></div>
+    <label for="bldglist" id="bldglistlabel">Find:</label>
+    <select id="categlist" onchange="selCategory()">
+      <option value="Building">Buildings</option>
+      <option value="Department">Departments</option>
+      <option value="Academic">&nbsp;&nbsp;Academic</option>
+      <option value="Administrative">&nbsp;&nbsp;Administrative</option>
+      <option value="Organization">Organizations</option>
+      <option value="Facility">Facilities</option>
+      <option value="Library">Libraries</option>
+      <option value="College">Colleges</option>
+      <option value="Field">Athletic Fields</option>
+      <option value="Parking">Parking Lots</option>
+    </select>
+    <select id="bldglist" onchange="selBldg()"><option></option></select>
+  </div>
+  <div id="content">
+    <div id="imgdiv">
+      <div id="theImage"></div>
+      <div id="highlight"></div>
+    </div>
+    <div id="infodiv">
+      <p class="instruction">(Choose from the lists or click on a building to see location information.)</p>
+    </div>
+  </div>
+</body>
+</html>

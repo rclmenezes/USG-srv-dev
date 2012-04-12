@@ -24,9 +24,10 @@ Dependencies:
 - Python 2.7, Django 1.3
 - MySQLdb
 - Customized version of django_cas included
-- xlwt (very minor)
 - simplejson
 - other i probably forgot
+- Cal: xlwt
+- Storage: django-paypal
 
 
 

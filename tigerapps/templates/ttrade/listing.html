@@ -36,10 +36,12 @@
 					<td align=right>Category: </td>
 					<td>{{listing.get_category_display}}</td>
 				</tr>
+				{% if listing.method %}
 				<tr>
 					<td align=right>Method: </td>
 					<td>{{listing.get_method_display}}</td>
 				</tr>
+				{% endif %}
 				<tr>
 					<td align=right>Posted: </td>
 					<td>{{listing.posted|date:"P, N d Y"}}</td>

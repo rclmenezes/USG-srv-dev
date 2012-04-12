@@ -34,6 +34,8 @@ def create(request):
                 listing.listingType = 'R'
             elif request.POST['listingType'] == "rental":
                 listing.listingType = 'T'
+            elif request.POST['listingType'] == "exchange":
+                listing.listingType = 'E'
             else:
                 listing.listingType = 'S'
             listing.expire = datetime.datetime.now() + datetime.timedelta(days=int(request.POST['days']), hours=int(request.POST['hours']))

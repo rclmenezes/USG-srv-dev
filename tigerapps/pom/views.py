@@ -19,3 +19,5 @@ def index(request, offset):
     
     return render_to_response('pom/index.html', {'current_time': current_time})
 
+def map_bldg_clicked(request, bldg_id):
+    return HttpResponse('Test Buliding')
