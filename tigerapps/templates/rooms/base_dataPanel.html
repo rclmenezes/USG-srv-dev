@@ -1,0 +1,50 @@
+{% extends "rooms/base.html" %}
+
+{% block dataPanel %}
+
+<script type="text/javascript">
+  $(function() {
+  $( "#tabs" ).tabs();
+  });
+</script>
+
+
+
+<div id="roomlist">
+
+<div id="tabs">
+  
+  <ul>
+    {% for draw in draw_list %}
+    <li id="tabheaders"><a href="#tabs-{{ draw }}">{{ draw }}</a></li>
+    {% endfor %}
+  </ul>
+  
+  {% for draw in draw_list %}
+  <div id="tabs-{{ draw }}">
+    <p>This is the tab for the {{ draw }} draw. The buildings in this draw are:</p>
+    <table id="tableall">
+      <tr id="tableheadings">
+	<td>Room</td>
+	<td>Building</td>
+      </tr>
+      {#{% for building in buildingbydraw_dict.draw %}#}
+      {% for building in building_list %}
+      {% if draw in building.draw.all %}
+      
+            {% for room in room_list %}
+      {% if building == room.building %}
+          
+      <tr id "tabledata">
+	<td>{{ room.number }}</td>
+	<td>{{ building }}</td>
+      </tr>
+           {% endif %}
+      {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+  {% endfor %}
+
+{% endblock dataPanel %}
