@@ -1,0 +1,88 @@
+html 
+{ height: 100% }
+              
+body 
+{ 
+    height: 100%; 
+    margin: 0; 
+    padding: 0; 
+    background: #F5F5F5 
+}
+
+/*table
+{
+    overflow: scroll;
+} */             
+
+#map_canvas
+{
+    height: 50%; width:100%;
+    margin-bottom: 10px;
+    transition: height .2s;
+    -moz-transition: height .2s; /* Firefox 4 */
+    -webkit-transition: height .2s; /* Safari and Chrome */
+    -o-transition: height .2s; /* Opera */
+}
+             
+#mainColumn
+{
+    width: 960px; height: 100%;
+    margin: 0 auto;
+    padding: 10px
+}
+             
+#dataPanel
+{
+    width: 940px; height: 50%;
+    background-color: #E6E6E6; position: absolute; padding: 10px; font-family: Helvetica;
+    transition: height .2s;
+    -moz-transition: height .2s; /* Firefox 4 */
+    -webkit-transition: height .2s; /* Safari and Chrome */
+    -o-transition: height .2s; /* Opera */
+} 
+
+#expandMap, #contractMap, #restoreMap
+{
+    width: 30px; height: 30px;
+    position: absolute;
+    top: 10px;
+    padding-left: 19px;
+    padding-top: 12px;
+} 
+
+#expandMap:active, #contractMap:active, #restoreMap:active 
+{ top: 11px;}
+
+#expandMap 
+{background: #f90; right: 10px;}
+
+#restoreMap 
+{background: #fff; right: 70px;}
+
+#contractMap 
+{background: #696969; right: 130px;}
+
+#expandMap:hover, #contractMap:hover, #restoreMap:hover 
+{cursor: pointer}
+
+#roomlist
+{
+    height: 75%;
+    right:10px;
+    position: absolute;
+    top: 60px;
+}
+
+/*
+#tableall
+{
+    width: 940px; height: 100%;
+    overflow: scroll;
+}
+*/
+
+#tabs
+{
+    width: 940px; height: 100%;
+    overflow: scroll;
+}
