@@ -6,6 +6,22 @@ function initialize() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    var markers = new Array();
+    var clicklistener = function(name) {
+        return function() {
+            alert(name);
+        }
+    }
+    for (var i = 0; i < mapdata.length; i++) {
+        markers[i] = new google.maps.Marker( 
+            {
+                position: new google.maps.LatLng(mapdata[i]['lat'], mapdata[i]['lon']),
+                map: map,
+            });
+        google.maps.event.addListener(markers[i], 'click', 
+                                      clicklistener(mapdata[i]['name']));
+    }
     var marker = new google.maps.Marker( 
     {
         position: new google.maps.LatLng(40.344267, -74.654422),
