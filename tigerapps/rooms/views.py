@@ -15,3 +15,5 @@ def index(request):
     #    buildingbydraw_dict[draw] = Building.objects
     room_list = Room.objects.order_by('number')
     return render_to_response('rooms/base_dataPanel.html', locals())
+
+

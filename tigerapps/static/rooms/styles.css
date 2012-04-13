@@ -9,10 +9,18 @@ body
     background: #F5F5F5 
 }
 
-/*table
+td
 {
-    overflow: scroll;
-} */             
+    width: 16%;
+    outline: 1px solid black;
+}
+
+#tableheadings
+{
+    height: 30px;
+    font-weight: bold;
+    border: 3px black;
+}
 
 #map_canvas
 {
