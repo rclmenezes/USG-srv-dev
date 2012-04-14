@@ -8,35 +8,13 @@ import json
 
 @login_required
 def index(request):
-    draw_list = Draw.objects.order_by('name')
-    building_list = Building.objects.order_by('name')
-    #buildingbydraw_dict = {}
-    #for draw in draw_list:
-        #buildingbydraw_dict[draw] = Building.objects.filter(draw__name=draw)
-    #    buildingbydraw_dict[draw] = Building.objects
-    room_list = Room.objects.order_by('number')
+    draw_list = Draw.objects.order_by('id')
     mapscript = mapdata()
     return render_to_response('rooms/base_dataPanel.html', locals())
 
-def building_scope(request, location):
-    # NEED TO REFINE ARGUMENTS
-    location = string.replace(location, "_", " ")
-
-    draw_list = Draw.objects.order_by('name')
-    building = Building.objects.order_by('name').get(name=location)
-    draw = Draw.objects.get(pk__in=building.draw.all)
-    room_list = Room.objects.order_by('name').filter(building=building.pk)
-    return render_to_response('rooms/base_dataPanel.html', locals())
-
-def room_scope(request, location, room):
-    # NEED TO REFINE ARGUMENTS
-    location = string.replace(location, "_", " ")
-    room = string.replace(room, "_", " ")
-
-    draw_list = Draw.objects.order_by('name')
-    building_list = Building.objects.order_by('name').get(name=location)
-    room_list = Room.objects.order_by('name').get(building=location, number=room)
-    return render_to_response('rooms/base_dataPanel.html', locals())
+def draw(request, drawid):
+    room_list = Room.objects.filter(building__draw__id=drawid)
+    return render_to_response('rooms/drawtab.html', locals())
 
 def mapdata():
     buildings = Building.objects.order_by('id')

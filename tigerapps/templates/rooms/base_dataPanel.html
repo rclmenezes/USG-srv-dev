@@ -8,6 +8,20 @@
   });
 </script>
 
+<!--
+<script>
+  $(function() {
+  $( "#tabs" ).tabs({
+  ajaxOptions: {
+  error: function( xhr, status, index, anchor ) {
+  $( anchor.hash ).html(
+  "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+  "If this wouldn't be a demo." );
+  }
+  }
+  });
+  });
+</script> -->
 
 
 <div id="roomlist">
@@ -16,10 +30,10 @@
   
   <ul>
     {% for draw in draw_list %}
-    <li id="tabheaders"><a href="#tabs-{{ draw }}">{{ draw }}</a></li>
+    <li id="tabheaders"><a href="/drawid/{{ draw.id }}">{{ draw }}</a></li>
     {% endfor %}
   </ul>
-  
+  {% comment %}
   {% for draw in draw_list %}
   <div id="tabs-{{ draw }}">
     <p>This is the tab for the {{ draw }} draw. The rooms in this draw are:</p>
@@ -35,10 +49,10 @@
       </tr>
       {#{% for building in buildingbydraw_dict.draw %}#}
       {% for building in building_list %}
-      {% if draw in building.draw.all %}
+      {#{% if draw in building.draw.all %}#}
       
       {% for room in room_list %}
-      {% if building == room.building %}
+      {#{% if building == room.building %}#}
           
       <tr id "tabledata">
 	<td>{{ room.number }}</td>
@@ -49,12 +63,12 @@
 	<td>{{ room.numrooms }}</td>
 	<td>{{ room.gender }}</td>
       </tr>
-      {% endif %}
+      {#{% endif %}#}
       {% endfor %}
-        {% endif %}
+      {#{% endif %}#}
       {% endfor %}
     </table>
   </div>
   {% endfor %}
-
+  {% endcomment %}
 {% endblock dataPanel %}
