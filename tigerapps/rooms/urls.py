@@ -9,5 +9,9 @@ urlpatterns = patterns('',
     (r'^logout/?$', 'django_cas.views.logout'),
     
     # Admin interface
-    (r'^admin/', include(admin.site.urls)),
+    (r'^admin/?$', include(admin.site.urls)),
+
+    (r'^(\w+)/?$', 'rooms.views.building_scope'),
+    (r'^(\w+)/(\w+)/?$', 'rooms.views.room_scope'),
+
 )
