@@ -20,7 +20,11 @@ def mapdata():
     buildings = Building.objects.order_by('id')
     maplist = []
     for building in buildings:
-        maplist.append({'name':building.name, 'lat':building.lat, 'lon':building.lon})
+        draws = []
+        for draw in building.draw.all():
+            draws.append(draw.id)
+        maplist.append({'name':building.name, 'draws':draws,
+                        'lat':building.lat, 'lon':building.lon})
     mapstring = json.dumps(maplist)
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript

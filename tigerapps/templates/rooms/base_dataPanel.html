@@ -4,7 +4,10 @@
 
 <script type="text/javascript">
   $(function() {
-  $( "#tabs" ).tabs();
+  $( "#tabs" ).tabs({show: function(event, ui) {
+  id = ui.panel.id;
+  $.publish("draw",id.substring(id.length-1));
+  }});
   });
 </script>
 

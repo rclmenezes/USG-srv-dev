@@ -61,6 +61,18 @@ function initialize() {
 		    datap.style.height="50%";
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
-
+    
+    var switchdraw = function(e, drawid) {
+        for (var i = 0; i < mapdata.length; i++) {
+            console.log("id: " + drawid);
+            markers[i].setVisible(false);
+            var draws = mapdata[i]['draws'];
+            for (var j = 0; j < draws.length; j++)
+                if (draws[j] == drawid)
+                    markers[i].setVisible(true);
+        }
+    }
+    // Subscribe to needed events
+    $.subscribe("draw", switchdraw);
 
 }
