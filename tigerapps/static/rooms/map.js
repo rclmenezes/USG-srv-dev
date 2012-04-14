@@ -10,7 +10,8 @@ function initialize() {
     var markers = new Array();
     var clicklistener = function(name) {
         return function() {
-            alert(name);
+            alert("Taking you to the floor plan for " + name);
+	    displayFloorPlan(name);
         }
     }
     for (var i = 0; i < mapdata.length; i++) {
