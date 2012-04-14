@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+  <table id="tableall">
+    <tr id="tableheadings">
+      <td>Room</td>
+      <td>Building</td>
+      <td>Sqft</td>
+      <td>Rated Occupancy</td>
+      <td>Floor</td>
+      <td>Num Rooms</td>
+      <td>Gender</td>
+    </tr>
+    <tr>
+      <td><input type="text" name="room"/></td>
+      <td><input type="text" name="building"/></td>
+      <td><input type="text" name="sqft"/></td>
+      <td><input type="text" name="occ"/></td>
+      <td><input type="text" name="floor"/></td>
+      <td><input type="text" name="numrooms"/></td>
+      <td><input type="text" name="gender"/></td>
+    </tr>
+    <script>
+      $("input").keyup(function () {
+      var value = $(this).val();
+      $("#test").text(value);
+      }).keyup();
+    </script>
+    <tr>
+      <td><p id="test"></p></td>
+    </tr>
+    {% for room in room_list %}
+    <tr id "tabledata">
+      <td>{{ room.number }}</td>
+      <td>{{ room.building }}</td>
+      <td>{{ room.sqft }}</td>
+      <td>{{ room.occ }}</td>
+      <td>{{ room.floor }}</td>
+      <td>{{ room.numrooms }}</td>
+      <td>{{ room.gender }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</html>
