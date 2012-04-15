@@ -9,12 +9,27 @@ body
     background: #F5F5F5 
 }
 
+thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 td
 {
+    margin-left: auto;
+    margin-right: auto;
     width: 16%;
     outline: 1px solid black;
 }
 
+input
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
 #tableheadings
 {
     height: 30px;
