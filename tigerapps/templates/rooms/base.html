@@ -19,11 +19,17 @@
 	<script src="http://www.google.com/jsapi"></script>
 	<script>google.load("jquery", "1");</script>
 	<script>google.load("jqueryui", "1");</script>
-	<script type="text/javascript" src="/static/rooms/js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="/static/rooms/js/jquery-ui-1.8.18.custom.min.js"></script>
+	<!--<script type="text/javascript" src="/static/rooms/js/jquery-1.7.1.min.js"></script>
+	    <script type="text/javascript" src="/static/rooms/js/jquery-ui-1.8.18.custom.min.js"></script>-->
+	<script type="text/javascript" src="/static/rooms/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+  $("#mytable").tablesorter();
+  });
+  </script>
     {{ mapscript|safe }}
     <script type="text/javascript" src="/static/rooms/map.js"></script>
-    
+    <script type="text/javascript" src="/static/rooms/jquery.tablesorter.js"></script> 
 </head>
 <body onload="initialize()">
 	{% include "main/jquery.html" %}
