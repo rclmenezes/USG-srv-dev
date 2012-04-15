@@ -10,7 +10,6 @@ function initialize() {
     var markers = new Array();
     var clicklistener = function(name) {
         return function() {
-            alert("Taking you to the floor plan for " + name);
 	    displayFloorPlan(name);
         }
     }

@@ -1,20 +1,29 @@
 function displayFloorPlan(name)
 {
+    console.log("Floor plan for: " + name);
     var canvas = document.getElementById("map_canvas");
+    //canvas = $("map_canvas");
+    // console.log("width: " + canvas.outerWidth());
+    //console.log("width: " + canvas.style.width);
     canvas.innerHTML = "";
     canvas.appendChild(getFloorPlanImg(name));
+    //canvas.append(getFloorPlanImg(name));
 }
 
 function getFloorPlanImg(name)
 {
-    // TODO remove these
-    var floorPlanImgWidth = 1200;
-    var bldgId = "0007-00";
-    var zoom = 1.0;
+    // Some buildings start with floor 0, while other start with 1
+    var bldgId = pdfByBldg[name][0];
+    if(! bldgId)
+	bldgId = pdfByBldg[name][1];
+    console.log(bldgId);
+
+    // TODO make this changeable
+    var zoom = 945.0/1200;
     
     var img = document.createElement("img");
     img.src = "static/rooms/images/floorplans/" + bldgId + "-001.jpg";
-    img.width = floorPlanImgWidth;
+    img.width = floorplancoordsWidth * zoom;
 
     var imgmap = document.createElement("map");
     imgmap.name = bldgId + "_map";
@@ -27,8 +36,8 @@ function getFloorPlanImg(name)
 	    for(var i in rectCoords)
 	    {
 		rectCoords[i] *= zoom;
-		imgmap.appendChild(createMapArea(bldgId, roomName, rectCoords));
 	    }
+	    imgmap.appendChild(createMapArea(bldgId, roomName, rectCoords));
 	}
     }
     img.useMap = "#" + imgmap.name;
