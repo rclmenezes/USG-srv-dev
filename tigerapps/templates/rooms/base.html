@@ -6,9 +6,8 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	
 	<!-- Styles -->
-	<style>
-	  @import "/static/rooms/styles.css";
-	</style>
+    <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+    <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
 	<link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
 	<link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
 
@@ -34,17 +33,30 @@
 <body onload="initialize()">
 	{% include "main/jquery.html" %}
 
-	<div id="mainColumn">
-        <div id="map_canvas"></div>
-		<div id="dataPanel"> 
-			<div id="expandMap">&darr;</div>
-			<div id="restoreMap">&loz;</div>
-			<div id="contractMap">&uarr;</div>
-			{% block dataPanel %}
-			Room / Building Information & Queue
-			{% endblock dataPanel %}
-		</div>
-		<div> 
+    <div id="wrapper1">
+    <div id="wrapper2">
+	<div id="mainColumn">  
+            <div id="top_half">
+                <div id="map_canvas"></div>
+                <div id="queues">
+                    <h1>Queues</h1>
+                    <div id="create_queue" class="queue_button">Create</div>
+                    <div id="create_queue" class="queue_button">Remove</div>
+                    <div class="clearfloat"></div>
+                </div>
+            </div>
+            <div id="middle_buffer"></div>
+		    <div id="dataPanel"> 
+                <div id="roomListWrapper">
+                    {% block dataPanel %}
+                    Room / Building Information & Queue
+                    {% endblock dataPanel %}
+                    </div>
+                    </div>
+                    </div>
+                </div>
 	</div>
+    </div>
+    </div>
 </body>
 </html>

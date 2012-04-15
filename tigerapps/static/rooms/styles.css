@@ -6,7 +6,8 @@ body
     height: 100%; 
     margin: 0; 
     padding: 0; 
-    background: #F5F5F5 
+    background: #F5F5F5;
+    font-family: Helvetica, sans-serif;
 }
 
 thead {
@@ -24,12 +25,98 @@ td
     outline: 1px solid black;
 }
 
+h1
+{
+    padding: 10px;
+    font-size: 20px;
+}
+
 input
 {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
 }
+
+#wrapper1
+{
+    position: relative;
+    top: -30px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#wrapper2
+{
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 10px;
+    left: 0;
+    overflow: hidden;
+}
+
+#mainColumn
+{
+    width: 960px; height: 100%;
+    margin: 0 auto;
+}
+
+#top_half
+{
+    height: 49.25%; width:100%;
+    position: relative;
+    transition: height .2s;
+    -moz-transition: height .2s; /* Firefox 4 */
+    -webkit-transition: height .2s; /* Safari and Chrome */
+    -o-transition: height .2s; /* Opera */
+}
+
+#map_canvas
+{
+    height: 100%;
+    width: 69.5%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#queues
+{
+    height: 100%;
+    width: 29.5%;
+    background-color: white; /*#E6E6E6;*/
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.queue_button
+{
+    background: grey;
+    color: white;
+    display: inline;
+    padding: 6px 9px;
+    float: left;
+    margin: 0 10px;
+}
+
+#middle_buffer
+{
+    height: 1.5%;
+}
+      
+#dataPanel
+{
+    height: 49.25%;
+    background-color: #E6E6E6; position: relative; font-family: Helvetica;
+    transition: height .2s;
+    -moz-transition: height .2s; /* Firefox 4 */
+    -webkit-transition: height .2s; /* Safari and Chrome */
+    -o-transition: height .2s; /* Opera */
+} 
+
 #tableheadings
 {
     height: 30px;
@@ -37,63 +124,45 @@ input
     border: 3px black;
 }
 
-#map_canvas
-{
-    height: 50%; width:100%;
-    margin-bottom: 10px;
-    transition: height .2s;
-    -moz-transition: height .2s; /* Firefox 4 */
-    -webkit-transition: height .2s; /* Safari and Chrome */
-    -o-transition: height .2s; /* Opera */
-}
-             
-#mainColumn
-{
-    width: 960px; height: 100%;
-    margin: 0 auto;
-    padding: 10px
-}
-             
-#dataPanel
-{
-    width: 940px; height: 50%;
-    background-color: #E6E6E6; position: absolute; padding: 10px; font-family: Helvetica;
-    transition: height .2s;
-    -moz-transition: height .2s; /* Firefox 4 */
-    -webkit-transition: height .2s; /* Safari and Chrome */
-    -o-transition: height .2s; /* Opera */
-} 
-
 #expandMap, #contractMap, #restoreMap
 {
-    width: 30px; height: 30px;
+    width: 36px; height: 30px;
     position: absolute;
-    top: 10px;
-    padding-left: 19px;
-    padding-top: 12px;
+    top: 8px;
+    padding-top: 6px;
+    border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px;
+    text-align: center;
 } 
 
-#expandMap:active, #contractMap:active, #restoreMap:active 
+#expandMap:active, #contractMap:active, #restoreMap:active, .queue_button:active
 { top: 11px;}
 
 #expandMap 
-{background: #f90; right: 10px;}
+{background: #f90; right: 9px;}
 
 #restoreMap 
-{background: #fff; right: 70px;}
+{background: #fff; right: 51px;}
 
 #contractMap 
-{background: #696969; right: 130px;}
+{background: #696969; right: 93px;}
 
-#expandMap:hover, #contractMap:hover, #restoreMap:hover 
+#expandMap:hover, #contractMap:hover, #restoreMap:hover, #create_queue:hover
 {cursor: pointer}
+
+#roomListWrapper
+{
+    display: block;
+    position:absolute;
+    height:auto;
+    bottom:10px;
+    top:10px;
+    left:10px;
+    right:10px;
+    overflow: scroll;
+}
 
 #roomlist
 {
-    height: 75%;
-    right:10px;
-    position: absolute;
-    top: 60px;
 }
 
 /*
@@ -106,6 +175,10 @@ input
 
 #tabs
 {
-    width: 940px; height: 100%;
     overflow: scroll;
+}
+
+.clearfloat
+{
+    clear: both;
 }
