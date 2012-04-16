@@ -12,21 +12,22 @@ class SubdomainsMiddleware:
                 # dev.___.tigerapps.org
                 request.subdomain = parts[1]
                 request.domain = '.'.join(parts[2:])
-            elif len(parts) == 3:
+            else:
                 # dev.tigerapps.org
-                request.subdomain == 'www'
+                request.subdomain = 'www'
         else:
             url_prefix = "http://"
-            if len(parts) == 3:
+            if len(parts) == 3 and parts[0] != 'www':
                 # ___.tigerapps.org
                 request.subdomain = parts[0]
                 request.domain = '.'.join(parts[1:])
             else:
-                request.subdomain == 'www'
+                request.subdomain = 'www'
 
 
         # set the right urlconf
-        request.urlconf = request.subdomain + ".urls"
+        if request.subdomain != 'www':
+            request.urlconf = request.subdomain + ".urls"
 
 
         ### INTRODUCING....

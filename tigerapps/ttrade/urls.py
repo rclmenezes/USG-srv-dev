@@ -1,9 +1,11 @@
 from django.conf.urls.defaults import *
-from rssfeed import NewListings
-from django.contrib import admin
 from django.views.generic.simple import direct_to_template
-admin.autodiscover()
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
+from rssfeed import NewListings
 from ttrade.models import Listing
+
+admin.autodiscover()
 
 feeds = {
 'new': NewListings,
@@ -29,11 +31,16 @@ urlpatterns = patterns('',
     (r'^ias/login/?$', 'ttrade.auth_views.ias_login'),
     (r'^ias/logout/?$', 'ttrade.auth_views.ias_logout'),
 
-    # Admin
+    # Admin - not upgradable since it doesn't use django_cas
     (r'^admin/', include(admin.site.urls)),
-    
+    #url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    #(r'^djadmin/', include(admin.site.urls)),
+ 
     # Feeds
     (r'^feeds/(?P<url>.*)/?$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     (r'^robots\.txt$', direct_to_template,
          {'template': 'robots.txt', 'mimetype': 'text/plain'}),
 )
+
+urlpatterns += staticfiles_urlpatterns()
+

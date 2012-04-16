@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import *
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
-admin.autodiscover()
 
+admin.autodiscover()
 handler404 = 'ccc.views.view_404'
 
 urlpatterns = patterns('',
@@ -37,3 +38,6 @@ urlpatterns = patterns('',
     # Try to find a post called that (must be last)
     url(r'^(?P<postTitle>\w+)/?$', 'ccc.views.post'),
 )
+
+urlpatterns += staticfiles_urlpatterns()
+

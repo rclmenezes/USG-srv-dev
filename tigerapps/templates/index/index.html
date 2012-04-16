@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<!-- TigerApps is a service of the Princeton Undergraduate Student Government (USG)-->
+<!-- The USG's web address is: http://usg.princeton.edu-->
+<!-- Website Copyright 2009 Michael Yaroshefsky-->
+<!-- All rights reserved.-->
+<title>Princeton TigerApps</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="Michael Yaroshefsky">
+<meta name="keywords" content="Princeton,TigerApps,Tiger,Apps">
+<link rel="icon" 
+      type="image/ico" 
+      href="favicon.ico">
+<style type='text/css'>
+/*With many thanks to http://clagnut.com/sandbox/imagefades/ */
+#thephoto {
+        /* Set rules to fill background */
+        min-height: 100%;
+        min-width: 1024px;
+
+        /* Set up proportionate scaling */
+        width: 100%;
+        height: auto;
+
+        /* Set up positioning */
+        position: fixed;
+        top: 0;
+        left: 0;
+}
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+        #thephoto {
+                left: 50%;
+                margin-left: -512px;   /* 50% */
+        }
+}
+</style>
+<script type="text/javascript">
+/*With many thanks to http://clagnut.com/sandbox/imagefades/ */
+
+function initImage() {
+	imageId = 'thephoto';
+	image = document.getElementById(imageId);
+	setOpacity(image, 0);
+	image.style.visibility = "visible";
+	image.src = '/static/index/princeton.jpg';
+	fadeIn(imageId,0);
+}
+function fadeIn(objId,opacity) {
+	if (document.getElementById) {
+		obj = document.getElementById(objId);
+		if (opacity <= 100) {
+			setOpacity(obj, opacity);
+			opacity += 10;
+			window.setTimeout("fadeIn('"+objId+"',"+opacity+")", 40);
+		}
+	}
+}
+function initIconImage() {
+	imageId = 'icons';
+	image = document.getElementById(imageId);
+	setOpacity(image, 0);
+	image.style.visibility = "visible";
+	fadeIconIn(imageId,0);
+}
+function fadeIconIn(objId,opacity) {
+	if (document.getElementById) {
+		obj = document.getElementById(objId);
+		if (opacity <= 100) {
+			setOpacity(obj, opacity);
+			opacity += 25;
+			window.setTimeout("fadeIconIn('"+objId+"',"+opacity+")", 100);
+		}
+		else{
+		initImage();
+		}
+	}
+}
+function setOpacity(obj, opacity) {
+	opacity = (opacity == 100)?99.999:opacity;
+	// IE/Win
+	obj.style.filter = "alpha(opacity:"+opacity+")";
+	// Safari<1.2, Konqueror
+	obj.style.KHTMLOpacity = opacity/100;
+	// Older Mozilla and Firefox
+	obj.style.MozOpacity = opacity/100;
+	// Safari 1.2, newer Firefox and Mozilla, CSS3
+	obj.style.opacity = opacity/100;
+}
+document.write("<style type='text/css'>#thephoto {visibility:hidden;}</style>");
+document.write("<style type='text/css'>#icons {visibility:hidden;}</style>");
+
+</script>
+<script type="text/javascript">
+	var mo = false;
+	var count = 0;
+	var timeArea = document.getElementById('time');
+ 
+    function UpdateTime(){       
+		if(mo)
+		{
+			return;
+		}
+// 		var now = new Date();
+// 		var h=now.getHours();
+// 		var m=now.getMinutes();
+// 		var apm = 'AM';
+// 		if (h>12){
+// 			h = h - 12;
+// 			apm = 'PM';
+// 		}
+// 		if (m<10){
+// 			m="0" + m;
+// 		}
+// 		var result = h+':'+m+' '+apm;
+
+		ChangeDisplay(dateFormat(new Date(), "h:MM TT"));
+        t = setTimeout("UpdateTime()", 1000);
+	}	
+	function ShowDate(){
+		mo = true;
+		ChangeDisplay(dateFormat(new Date(), "dddd, mmmm dS, yyyy"));
+	}
+	function ShowName(title){
+		mo = true;
+		ChangeDisplay(title);
+	}
+	function ResumeTime(){
+		mo = false;
+		UpdateTime();
+	}
+	function ChangeDisplay(message){
+		timeArea = document.getElementById('time');
+		timeArea.innerHTML = message;
+		count = count + 1;
+	}
+</script>    
+<script type="text/javascript">
+	/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+	
+	var dateFormat = function () {
+		var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+			timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+			timezoneClip = /[^-+\dA-Z]/g,
+			pad = function (val, len) {
+				val = String(val);
+				len = len || 2;
+				while (val.length < len) val = "0" + val;
+				return val;
+			};
+	
+		// Regexes and supporting functions are cached through closure
+		return function (date, mask, utc) {
+			var dF = dateFormat;
+	
+			// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+			if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+				mask = date;
+				date = undefined;
+			}
+	
+			// Passing date through Date applies Date.parse, if necessary
+			date = date ? new Date(date) : new Date;
+			if (isNaN(date)) throw SyntaxError("invalid date");
+	
+			mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+	
+			// Allow setting the utc argument via the mask
+			if (mask.slice(0, 4) == "UTC:") {
+				mask = mask.slice(4);
+				utc = true;
+			}
+	
+			var	_ = utc ? "getUTC" : "get",
+				d = date[_ + "Date"](),
+				D = date[_ + "Day"](),
+				m = date[_ + "Month"](),
+				y = date[_ + "FullYear"](),
+				H = date[_ + "Hours"](),
+				M = date[_ + "Minutes"](),
+				s = date[_ + "Seconds"](),
+				L = date[_ + "Milliseconds"](),
+				o = utc ? 0 : date.getTimezoneOffset(),
+				flags = {
+					d:    d,
+					dd:   pad(d),
+					ddd:  dF.i18n.dayNames[D],
+					dddd: dF.i18n.dayNames[D + 7],
+					m:    m + 1,
+					mm:   pad(m + 1),
+					mmm:  dF.i18n.monthNames[m],
+					mmmm: dF.i18n.monthNames[m + 12],
+					yy:   String(y).slice(2),
+					yyyy: y,
+					h:    H % 12 || 12,
+					hh:   pad(H % 12 || 12),
+					H:    H,
+					HH:   pad(H),
+					M:    M,
+					MM:   pad(M),
+					s:    s,
+					ss:   pad(s),
+					l:    pad(L, 3),
+					L:    pad(L > 99 ? Math.round(L / 10) : L),
+					t:    H < 12 ? "a"  : "p",
+					tt:   H < 12 ? "am" : "pm",
+					T:    H < 12 ? "A"  : "P",
+					TT:   H < 12 ? "AM" : "PM",
+					Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+					o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+				};
+	
+			return mask.replace(token, function ($0) {
+				return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+			});
+		};
+	}();
+	
+	// Some common format strings
+	dateFormat.masks = {
+		"default":      "ddd mmm dd yyyy HH:MM:ss",
+		shortDate:      "m/d/yy",
+		mediumDate:     "mmm d, yyyy",
+		longDate:       "mmmm d, yyyy",
+		fullDate:       "dddd, mmmm d, yyyy",
+		shortTime:      "h:MM TT",
+		mediumTime:     "h:MM:ss TT",
+		longTime:       "h:MM:ss TT Z",
+		isoDate:        "yyyy-mm-dd",
+		isoTime:        "HH:MM:ss",
+		isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+		isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+	};
+	
+	// Internationalization strings
+	dateFormat.i18n = {
+		dayNames: [
+			"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+			"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+		],
+		monthNames: [
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+		]
+	};
+	
+	// For convenience...
+	Date.prototype.format = function (mask, utc) {
+		return dateFormat(this, mask, utc);
+	};
+</script>
+</head>
+<body bgcolor="#FFFFFF" marginwidth = "0" marginheight = "0" leftmargin = "0" topmargin = "0" onload="UpdateTime();">
+    {% include "main/jquery.html" %}
+
+<img alt="Background" id="thephoto" />
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><div align="center">
+    	<div style="position: relative; background-image: url('/static/index/TigerApps.png'); height: 700px; width: 400px;">
+    	<img id="icons" src="/static/index/IconBackground.png" style="position: absolute;  top:144px; left:56px;" onload="initIconImage();">
+    	<img src="/static/index/Glare.png" style="position: absolute; top: 131px; left:228px;">
+    	<img src="/static/index/IconMap.png" style="position: absolute;  top:144px; left:56px; border: none;" usemap="#map">
+    	<div id="time" style="position: relative; top: 131px; height: 13px; width: 293px; color: #FFF; font-family: Geneva; font-size: 9.5px; margin: auto; text-align: center;" onmouseover="ShowDate();" onmouseout="ResumeTime();"></div></div>
+        <p><span style="color:#BBB; font-size:10px; font-family:arial;">Designed by Michael Yaroshefsky in Princeton</span></p>
+      </div></td>
+  </tr>
+</table>
+<map name="Map">
+  <!-- Primary Button-->
+  <area 
+        shape="circle" 
+        coords="200,630,34" 
+        href="index.html" 
+        alt="Home" 
+        target="_self" />
+  <!-- Bottom Bar-->
+      <!-- Princeton-->
+      <area 
+                shape="rect" 
+                coords="14,350,68,404" 
+                href="http://www.princeton.edu" 
+                alt="Princeton" 
+                target="_self" 
+                onmouseover="ShowName('Princeton');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Webmail-->
+      <area 
+                shape="rect" 
+                coords="84,350,138,404" 
+                href="https://webmail.princeton.edu" 
+                alt="Webmail" 
+                target="_self"  
+                onmouseover="ShowName('Webmail');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Blackboard-->
+      <area 
+                shape="rect" 
+                coords="154,350,208,404" 
+                href="http://blackboard.princeton.edu" 
+                alt="Blackboard" 
+                target="_self"  
+                onmouseover="ShowName('Blackboard');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- USG-->
+      <area 
+                shape="rect" 
+                coords="224,350,278,404" 
+                href="http://usg.princeton.edu" 
+                alt="USG" 
+                target="_self"  
+                onmouseover="ShowName('USG Homepage');"
+                onmouseout="ResumeTime();"
+                />
+  <!-- Row 1-->
+      <!-- Point-->
+      <area 
+                shape="rect" 
+                coords="14,18,68,74" 
+                href="http://point.princeton.edu" 
+                alt="Point" 
+                target="_self"  
+                onmouseover="ShowName('Point');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- SCG-->
+      <area 
+                shape="rect" 
+                coords="84,18,138,74" 
+                href="http://scg.tigerapps.org/"
+                alt="SCG" 
+                target="_self"  
+                onmouseover="ShowName('Student Course Guide');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- PTX-->
+      <area 
+                shape="rect" 
+                coords="154,18,208,74" 
+                href="http://ptx.tigerapps.org" 
+                alt="PTX" 
+                target="_self"  
+                onmouseover="ShowName('Princeton Textbook Exchange');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Helios-->
+      <area 
+                shape="rect" 
+                coords="224,18,278,74" 
+                href="http://cal.tigerapps.org" 
+                alt="Helios" 
+                target="_self"  
+                onmouseover="ShowName('Student Events Calendar');"
+                onmouseout="ResumeTime();"
+                />
+  <!-- Row 2-->
+      <!-- UFO-->
+      <area 
+                shape="rect" 
+                coords="14,103,68,161" 
+                href="http://usgmovies.com" 
+                alt="UFO" 
+                target="_self"  
+                onmouseover="ShowName('Undergraduate Film Organization');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- USG DVD-->
+      <area 
+                shape="rect" 
+                coords="84,103,138,161" 
+                href="http://dvd.tigerapps.org"
+                alt="USG DVD" 
+                target="_self"  
+                onmouseover="ShowName('Free DVD Rentals');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Princeton + -->
+      <area 
+                shape="rect" 
+                coords="154,103,208,161" 
+                href="http://usg.princeton.edu/services/princeton-plus.html" 
+                alt="P+" 
+                target="_self"  
+                onmouseover="ShowName('Princeton Plus Student Discounts');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- TigerTrade-->
+      <area 
+                shape="rect" 
+                coords="224,103,278,161" 
+                href="http://ttrade.tigerapps.org" 
+                alt="TigerTrade" 
+                target="_self"  
+                onmouseover="ShowName('TigerTrade');"
+                onmouseout="ResumeTime();"
+                /> 
+  <!-- Row 2-->
+      <!-- ISG-->
+      <area 
+                shape="rect" 
+                coords="14,188,68,246" 
+                href="http://www.princeton.edu/~isg/" 
+                alt="ISG" 
+                target="_self"  
+                onmouseover="ShowName('Independent Student Guide');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Room Guide-->
+      <area 
+                shape="rect" 
+                coords="84,188,138,246" 
+                href="http://point.princeton.edu/rooms/"
+                alt="Rooms" 
+                target="_self"  
+                onmouseover="ShowName('Student Room Guide');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- SCORE -->
+      <area 
+                shape="rect" 
+                coords="154,188,208,246" 
+                href="https://puaccess.princeton.edu/oasa/loginPage.jsp" 
+                alt="SCORE" 
+                target="_self"  
+                onmouseover="ShowName('Student Course Online Registration Engine');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Helios-->
+      <area 
+                shape="rect" 
+                coords="224,188,278,246" 
+                href="https://princeton.heliosvoting.org" 
+                alt="Helios" 
+                target="_self"  
+                onmouseover="ShowName('Helios Voting');"
+                onmouseout="ResumeTime();"
+                />       
+ <!-- Row 3-->
+      <!-- ICE-->
+      <area 
+                shape="rect" 
+                coords="14,273,68,331" 
+                href="http://ice.tigerapps.org" 
+                alt="ICE" 
+                target="_self"  
+                onmouseover="ShowName('Integrated Course Engine');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- TigerFinder-->
+      <area 
+                shape="rect" 
+                coords="84,273,138,331" 
+                href="http://tigerfinder.tigerapps.org"
+                alt="TigerFinder" 
+                target="_self"  
+                onmouseover="ShowName('TigerFinder');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- '14 Guide -->
+      <area 
+                shape="rect" 
+                coords="154,273,208,331" 
+                href="http://www.Princeton2015.com" 
+                alt="14 Guide" 
+                target="_self"  
+                onmouseover="ShowName('Insider\'s Guide to Princeton');"
+                onmouseout="ResumeTime();"
+                />
+      <!-- Unused-->
+<!-- 
+      <area 
+                shape="rect" 
+                coords="224,273,278,331" 
+                href="https://princeton.heliosvoting.org" 
+                alt="Helios" 
+                target="_self"  
+                onmouseover="ShowName('Helios Voting');"
+                onmouseout="ResumeTime();"
+                />         
+ -->         
+</map>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20742516-1']);
+  _gaq.push(['_setDomainName', 'tigerapps.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
