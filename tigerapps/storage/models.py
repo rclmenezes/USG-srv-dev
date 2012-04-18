@@ -10,7 +10,12 @@ class DropoffPickupTime(models.Model):
     '''
     dropoff_time = models.DateTimeField("Dropoff Time", blank=True, null=True)
     pickup_time = models.DateTimeField("Pickup Time", blank=True, null=True)
-    
+
+    def __unicode__(self):
+        return "%s - %s" % (self.dropoff_time.strftime("%m/%d/%Y %I:%M%p"),
+                           self.pickup_time.strftime("%m/%d/%Y %I:%M%p"))
+
+
 class Status(models.Model):
     '''
     All info describing a student's order
