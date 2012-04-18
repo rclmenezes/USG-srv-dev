@@ -31,8 +31,23 @@ from django.template import RequestContext
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django_cas.decorators import login_required, user_passes_test
 from paypal.standard.forms import PayPalPaymentsForm
+from storage.forms import RegistrationForm
 from storage.models import Product
+
+@login_required
+def register(request):
+    if request.method == 'POST':
+        status_form = RegistrationForm(request.POST)
+        if status_form.is_valid():
+            log = status_form.save(request.user, commit=True)
+            return render_to_response('storage/registration_complete.html')
+        
+    status_form = RegistrationForm()
+    netid = request.user
+    return render_to_response('storage/register.html', {'registration_form': status_form, 'user_netid': netid})
+  
 
 def product_detail(request):
     product = get_object_or_404(Product, slug="abc")

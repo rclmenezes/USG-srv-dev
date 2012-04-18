@@ -3,26 +3,18 @@ from django.contrib.localflavor.us.forms import USPhoneNumberField
 from storage.models import *
 
 class RegistrationForm(forms.ModelForm):
-    #add customized form fields here
-    first_name = forms.CharField(label = 'First name')
-    last_name = forms.CharField(label = 'Last name')
-    cell_number = USPhoneNumberField(label = 'Phone number')
-    proxy_email = forms.EmailField(label = 'Email address')
+    cell_number = USPhoneNumberField(label = 'Cell phone number')
+    proxy_email = forms.EmailField(label = 'Proxy email', required=False)
     
     class Meta:
         model=Status
-        fields =  ['first_name', 'last_name', 'cell_number',
+        fields =  ('cell_number',
                    'proxy_name', 'proxy_email',
-                   'dropoff_pickup_time']
+                   'dropoff_pickup_time')
 
-    def first_name(self):
-        return first_name.upper()
-    def last_name(self):
-        return last_name.upper()
-
-    def save(self, user, commit=True):
-        pass
-        '''
+    #def save(self, user, commit=True):
+    #    pass
+    '''
         hours = self.cleaned_data['hours']
         date = self.cleaned_data.get('date')
         month = datetime.date(date.year, date.month, 1)

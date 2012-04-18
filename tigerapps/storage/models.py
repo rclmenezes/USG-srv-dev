@@ -12,7 +12,7 @@ class DropoffPickupTime(models.Model):
     pickup_time = models.DateTimeField("Pickup Time", blank=True, null=True)
 
     def __unicode__(self):
-        return "%s - %s" % (self.dropoff_time.strftime("%m/%d/%Y %I:%M%p"),
+        return "Dropoff: %s, Pickup: %s" % (self.dropoff_time.strftime("%m/%d/%Y %I:%M%p"),
                            self.pickup_time.strftime("%m/%d/%Y %I:%M%p"))
 
 
@@ -30,9 +30,9 @@ class Status(models.Model):
     
     user = models.ForeignKey(User, related_name="status")
     dropoff_pickup_time = models.ForeignKey(DropoffPickupTime, related_name = "status")
-    cell_number = models.CharField("Cell Phone Number", max_length=14)
-    proxy_name = models.CharField("Proxy Name", max_length=50, blank=True)
-    proxy_email = models.CharField("Proxy Email", max_length=50, blank=True)
+    cell_number = models.CharField("Cell phone number", max_length=14)
+    proxy_name = models.CharField("Proxy name", max_length=50, blank=True)
+    proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
     n_boxes_paid = models.IntegerField("Number of Boxes Paid For", max_length=2)
     bool_boxes_empty = models.BooleanField("Picked up Empty Boxes", blank=True, default=False)
     n_boxes_dropped = models.IntegerField("Number of Boxes Dropped Off", max_length=2, blank=True, default=0)

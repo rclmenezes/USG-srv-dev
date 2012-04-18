@@ -8,12 +8,13 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^/?$', direct_to_template,
         {'template': 'storage/index.html'}),
+    url(r'^register/?$', 'storage.views.register'),
     #Example
     #url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
 
 
     # Paypal
-    url(r'^paypal/$', 'storage.views.product_detail', name='paypal'),
+    url(r'^paypal/$', 'storage.views.paypal', name='paypal'),
     (r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
 
     # Admin
