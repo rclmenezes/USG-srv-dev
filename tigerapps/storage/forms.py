@@ -1,8 +1,13 @@
 from django import forms
+from django.contrib.localflavor.us.forms import USPhoneNumberField
 from storage.models import *
 
 class RegistrationForm(forms.ModelForm):
     #add customized form fields here
+    first_name = forms.CharField(label = 'First name')
+    last_name = forms.CharField(label = 'Last name')
+    cell_number = USPhoneNumberField(label = 'Phone number')
+    proxy_email = forms.EmailField(label = 'Email address')
     
     class Meta:
         model=Status
