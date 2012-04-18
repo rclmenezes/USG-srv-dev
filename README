@@ -25,7 +25,8 @@ Dependencies:
 - MySQLdb
 - Customized version of django_cas included
 - simplejson
-- other i probably forgot
+- django-stdimage
+- (others I forgot)
 - Cal: xlwt
 - Storage: django-paypal
 

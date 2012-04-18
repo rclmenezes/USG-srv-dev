@@ -1,11 +1,10 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
 from ptx.offer import *
 #from ptx.request import *
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
 admin.autodiscover()
 
 #TODO: We need to create a 404 not found page
@@ -70,9 +69,11 @@ urlpatterns = patterns(
      'django.views.generic.simple.redirect_to',
      dict(url='/site_media/css/favicon.ico')),
 
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs'
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    # Uncomment for admin.
-    # (r'^admin/(.*)', admin.site.root),
+    # Admin - not upgradable since it doesn't use django_cas
+    (r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    #(r'^djadmin/', include(admin.site.urls)),
 )
+
+urlpatterns += staticfiles_urlpatterns()
+

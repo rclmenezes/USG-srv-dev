@@ -180,6 +180,33 @@ span#right
 
 /**** </HEADER> ******/
 
+/*****************<MENU>*******************/
+.sweetMenuAnchor{
+    border-top: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+	border-top-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	border-bottom-right-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	color: #0071bb;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: right;
+	text-transform: uppercase;
+	font-family: arial;
+	text-decoration: none;
+	background-color: #888888;
+	opacity: 0.6;
+}
+
+.sweetMenuAnchor span{
+	display: block;
+	padding-top: 10px;
+}
+			
+
+
 /****************<TABLE>*********************/
 table, td, tr, tbody, th {
     border-collapse: collapse;

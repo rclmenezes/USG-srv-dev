@@ -1,0 +1,30 @@
+#jmap-container {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color:LightGray;
+}
+
+#jmap-movable {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color:LightGray;
+}
+
+#jmap-info {
+	position:absolute;
+	bottom:0px;
+	left:24px;
+	width:300px;
+	height:580px;
+    padding:0 20px 0;
+
+	background-color:#FFEBCC;
+    opacity:0.95;
+    box-shadow:3px -2px 1.5em hsla(0, 0%, 0%, 1.0);
+}

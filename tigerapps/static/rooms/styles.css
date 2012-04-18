@@ -8,7 +8,8 @@ body
     height: 100%; 
     margin: 0; 
     padding: 0; 
-    background: #F5F5F5 
+    background: #F5F5F5;
+    font-family: Helvetica, sans-serif;
 }
 
 thead 
@@ -27,6 +28,12 @@ td
 }
 
 h1
+{
+    padding: 10px;
+    font-size: 20px;
+}
+
+input
 {
     padding: 10px;
     font-size: 20px;
@@ -108,15 +115,7 @@ h1
 {
     height: 1.5%;
 }
-
-             
-#mainColumn
-{
-    width: 960px; 
-    height: 100%;
-    margin: 0 auto;
-}
-             
+     
 #dataPanel
 {
     height: 49.25%;
@@ -127,9 +126,16 @@ h1
     -o-transition: height .2s; /* Opera */
 } 
 
+#tableheadings
+{
+    height: 30px;
+    font-weight: bold;
+    border: 3px black;
+}
+
 #expandMap, #contractMap, #restoreMap
 {
-     width: 36px; height: 30px;
+    width: 36px; height: 30px;
     position: absolute;
     top: 8px;
     padding-top: 6px;
@@ -137,7 +143,7 @@ h1
     text-align: center;
 } 
 
-#expandMap:active, #contractMap:active, #restoreMap:active 
+#expandMap:active, #contractMap:active, #restoreMap:active .queue_button:active
 { 
     top: 11px;
 }
@@ -177,10 +183,6 @@ h1
     overflow: scroll;
 }
 
-#roomlist
-{
-}
-
 /*
 #roomlist
 {
@@ -191,9 +193,8 @@ h1
     margin-left: auto;
     position: absolute;
     top: 60px;
-}*/
+}
 
-/*
 #tableall
 {
     width: 940px; height: 100%;
@@ -212,6 +213,7 @@ h1
 /*
 #tabs
 {
+<<<<<<< HEAD
     width: 920px; 
     height: 100%;
     padding: 0px;
@@ -233,3 +235,8 @@ h1
 {
     height: 6%;
 }*/
+
+.clearfloat
+{
+    clear: both;
+}
