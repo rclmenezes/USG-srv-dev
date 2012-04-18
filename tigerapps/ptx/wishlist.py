@@ -1,7 +1,7 @@
 from django import forms  
 
 from ptx.ptxrender import render_to_response
-from ptx.ptxlogin import logged_in, getlogstatus
+from ptx.ptxlogin import logged_in
 from ptx.models import Request, Book, User
 from ptx.models import Request, Book, User
 from ptx.bookdata2 import book_details, cleanisbn

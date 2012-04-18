@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import QueryDict
-from django.shortcuts import render_to_response
+from ptx.ptxrender import render_to_response
 
 from ptx.models import Book, Offer, User, Course
 from ptx.navbar import getnavbar
@@ -71,13 +71,8 @@ def ptxlogout(request):
         url = request.build_absolute_uri()
         return login(url, act="logout")
 
-    # if they have been logged out and redirected back, show them logout
-    # page.
-    dict = {
-        'login_status': getlogstatus(request),
-        'navbar': getnavbar(request),
-        }
-    return render_to_response("ptx/logout.html", dict)
+    # if they have been logged out and redirected back, show them logout page
+    return render_to_response(request, "ptx/logout.html", {})
 
 def ptxlogin(request):
     if not request.method == "GET":
