@@ -35,7 +35,9 @@ from paypal.standard.forms import PayPalPaymentsForm
 from storage.models import Product
 
 def product_detail(request):
-    #product = get_object_or_404(Product, slug="abc")
+    product = Product()
+    product.title = "Box"
+    product.price = 4
     paypal = {
         'amount': 6,
         'item_name': "Box",
@@ -46,15 +48,15 @@ def product_detail(request):
         
         # It'll be a good idea to setup a SITE_DOMAIN inside settings
         # so you don't need to hardcode these values.
-        'return_url': settings.SITE_DOMAIN + reverse('storage:paypal'),
-        'cancel_return': settings.SITE_DOMAIN + reverse('storage:paypal'),
+        'return_url': settings.SITE_DOMAIN,
+        'cancel_return': settings.SITE_DOMAIN,
     }
     form = PayPalPaymentsForm(initial=paypal)
     if settings.DEBUG:
         rendered_form = form.sandbox()
     else:
         rendered_form = form.render()
-    return render_to_response('paypal.html', {
+    return render_to_response('storage/paypal.html', {
         'product' : product,
         'form' : rendered_form,
     }, RequestContext(request))
