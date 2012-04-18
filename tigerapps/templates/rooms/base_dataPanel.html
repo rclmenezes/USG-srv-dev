@@ -1,7 +1,7 @@
 {% extends "rooms/base.html" %}
 
 {% block dataPanel %}
-
+<div id="roomListWrapper">
 <script type="text/javascript">
   $(function() {
   $( "#tabs" ).tabs();
@@ -10,11 +10,15 @@
 
 <div id="roomlist">
 <div id="tabs">
-  <ul>
+  <ul id="tabrow">
     {% for draw in draw_list %}
     <li id="tabheaders"><a href="/drawid/{{ draw.id }}" title="drawtab">{{ draw }}</a></li>
     {% endfor %}
+  <div id="expandMap">&darr;</div>
+    <div id="restoreMap">&loz;</div>
+    <div id="contractMap">&uarr;</div>
   </ul>
 </div>
 </div> 
+</div>
 {% endblock dataPanel %}

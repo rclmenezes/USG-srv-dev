@@ -1,5 +1,7 @@
 html 
-{ height: 100% }
+{ 
+    height: 100% 
+}
               
 body 
 { 
@@ -9,7 +11,8 @@ body
     background: #F5F5F5 
 }
 
-thead {
+thead 
+{
     background-color:#eee;
     color:#666666;
     font-weight: bold;
@@ -20,44 +23,104 @@ td
 {
     margin-left: auto;
     margin-right: auto;
-    width: 16%;
     outline: 1px solid black;
 }
 
-input
+h1
 {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
-}
-#tableheadings
-{
-    height: 30px;
-    font-weight: bold;
-    border: 3px black;
+    padding: 10px;
+    font-size: 20px;
 }
 
-#map_canvas
+#wrapper1
 {
-    height: 50%; width:100%;
-    margin-bottom: 10px;
+    position: relative;
+    top: -30px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#wrapper2
+{
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 10px;
+    left: 0;
+    overflow: hidden;
+}
+
+#maincolumn
+{
+    width: 960px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+#top_half
+{
+    height: 49.25%; width:100%;
+    position: relative;
     transition: height .2s;
     -moz-transition: height .2s; /* Firefox 4 */
     -webkit-transition: height .2s; /* Safari and Chrome */
     -o-transition: height .2s; /* Opera */
 }
+
+.filters
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}
+
+#map_canvas
+{
+    height: 100%;
+    width: 69.5%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#queues
+{
+    height: 100%;
+    width: 29.5%;
+    background-color: white; /*#E6E6E6;*/
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.queue_button
+{
+    background: grey;
+    color: white;
+    display: inline;
+    padding: 6px 9px;
+    float: left;
+    margin: 0 10px;
+}
+
+#middle_buffer
+{
+    height: 1.5%;
+}
+
              
 #mainColumn
 {
-    width: 960px; height: 100%;
+    width: 960px; 
+    height: 100%;
     margin: 0 auto;
-    padding: 10px
 }
              
 #dataPanel
 {
-    width: 940px; height: 50%;
-    background-color: #E6E6E6; position: absolute; padding: 10px; font-family: Helvetica;
+    height: 49.25%;
+    background-color: #E6E6E6; position: relative; font-family: Helvetica;
     transition: height .2s;
     -moz-transition: height .2s; /* Firefox 4 */
     -webkit-transition: height .2s; /* Safari and Chrome */
@@ -66,35 +129,69 @@ input
 
 #expandMap, #contractMap, #restoreMap
 {
-    width: 30px; height: 30px;
+     width: 36px; height: 30px;
     position: absolute;
-    top: 10px;
-    padding-left: 19px;
-    padding-top: 12px;
+    top: 8px;
+    padding-top: 6px;
+    border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px;
+    text-align: center;
 } 
 
 #expandMap:active, #contractMap:active, #restoreMap:active 
-{ top: 11px;}
+{ 
+    top: 11px;
+}
 
 #expandMap 
-{background: #f90; right: 10px;}
+{
+    background: #f90; 
+    right: 9px;
+}
 
 #restoreMap 
-{background: #fff; right: 70px;}
+{
+    background: #fff; 
+    right: 51px;
+}
 
 #contractMap 
-{background: #696969; right: 130px;}
+{
+    background: #696969; 
+    right: 93px;
+}
 
 #expandMap:hover, #contractMap:hover, #restoreMap:hover 
-{cursor: pointer}
+{
+    cursor: pointer
+}
+
+#roomListWrapper
+{
+    display: block;
+    position:absolute;
+    height:auto;
+    bottom:10px;
+    top:10px;
+    left:10px;
+    right:10px;
+    overflow: scroll;
+}
 
 #roomlist
 {
-    height: 75%;
-    right:10px;
+}
+
+/*
+#roomlist
+{
+    height: 87%;
+    width: 920px;
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
     position: absolute;
     top: 60px;
-}
+}*/
 
 /*
 #tableall
@@ -104,8 +201,35 @@ input
 }
 */
 
-#tabs
+#test
 {
-    width: 940px; height: 100%;
+    /*height: 412px;*/
+    height: 100%;
+    padding: 0px;
     overflow: scroll;
 }
+
+/*
+#tabs
+{
+    width: 920px; 
+    height: 100%;
+    padding: 0px;
+    overflow: scroll;
+}
+
+#drawtab
+{
+    width: 910px;
+    height: 417px;
+    height: 94%;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#tabrow
+{
+    height: 6%;
+}*/
