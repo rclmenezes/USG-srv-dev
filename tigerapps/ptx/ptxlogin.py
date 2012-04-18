@@ -46,24 +46,6 @@ def logged_in(request):
     '''Returns True if the user is logged in'''
     return "user_data" in request.session
 
-def getlogstatus(request):
-    linktohelp = '<a href="/help">Help</a>'
-    if logged_in(request):
-        user_data = request.session["user_data"]
-        linktoprofile = '<a href="/account">My Account</a>'
-        linktologout = '<a href="/logout">Log out</a>'
-        return "Welcome, %s. %s | %s | %s" % (
-            user_data.net_id,
-            linktoprofile,
-            linktologout,
-            linktohelp)
-    else:
-        fullurl = request.build_absolute_uri()
-        if 'logout' in fullurl:
-            return '<a href="/login?redirect=%s">Login</a> | %s' % (fullurl, linktohelp)
-        else:
-            return '<a href="/login">Login</a> | ' + linktohelp
-
 def ptxlogout(request):
     if logged_in(request):
         # Delete the entire session.

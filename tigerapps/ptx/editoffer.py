@@ -8,7 +8,6 @@ from django.utils.safestring import mark_safe
 
 from ptx.ptxrender import render_to_response
 from ptx.models import Offer, Book, Course, User
-from ptx.ptxlogin import logged_in
 
 import re
 
@@ -31,7 +30,7 @@ def render(request, offer, form_data=None):
 
 def editoffer(request, offer_id=None):
     # Can't do this unless logged in
-    if not logged_in(request):
+    if not request.user.is_authenticated():
         return render_to_response(request, 'ptx/needlogin.html',
                                   {'header_text': 'Edit Your Offer',
                                    'redirect_url': '/editoffer/' + offer_id} )

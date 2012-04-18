@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.http import QueryDict
 from django.db.models import Q
 from ptx.models import Book, Offer, Request
-from ptx.ptxlogin import logged_in
 from ptx.navbar import getnavbar
 from ptx.ptxrender import render_to_response
 
@@ -25,7 +24,7 @@ def homepage(request):
     num_pending_trans = None
     rating = None
     num_open_offers = None
-    if logged_in(request):
+    if request.user.is_authenticated():
         wishlist = Request.objects.filter(user=request.session['user_data'], status='o')
         req_with_offers = []
         for req in wishlist:
@@ -43,7 +42,7 @@ def homepage(request):
 
     # Dictionary for displaying stuff on template
     dict = { 
-        'logged_in': logged_in(request),
+        'logged_in': request.user.is_authenticated(),
         'name': name, 
         'new_books_offered': new_books_offered,
         'num_pending_trans': num_pending_trans,

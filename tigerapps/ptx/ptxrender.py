@@ -3,14 +3,10 @@ from ptx.models import User
 from django import shortcuts
 from django.http import HttpResponseRedirect
 
-#temporary
-def logged_in(request):
-    '''Returns True if the user is logged in'''
-    return "user_data" in request.session
 
 def getlogstatus(request):
     linktohelp = '<a href="/help">Help</a>'
-    if logged_in(request):
+    if request.user.is_authenticated():
         user_data = request.session["user_data"]
         linktoprofile = '<a href="/account">My Account</a>'
         linktologout = '<a href="/logout">Log out</a>'
@@ -28,7 +24,7 @@ def getlogstatus(request):
 
 
 def render_to_response(request, template, dict):
-    if logged_in(request):
+    if request.user.is_authenticated():
         user = request.session['user_data']
         dbusers = User.objects.filter(net_id=user.net_id)
         if len(dbusers) == 0:

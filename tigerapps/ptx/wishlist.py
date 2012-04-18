@@ -1,7 +1,6 @@
 from django import forms  
 
 from ptx.ptxrender import render_to_response
-from ptx.ptxlogin import logged_in
 from ptx.models import Request, Book, User
 from ptx.models import Request, Book, User
 from ptx.bookdata2 import book_details, cleanisbn
@@ -86,7 +85,7 @@ def process_del(request, form_data):
 
  
 def wishlist(request):
-    if not logged_in(request):
+    if not request.user.is_authenticated():
         return render_to_response(request, 'ptx/needlogin.html', {
                 'header_text': 'Wishlist',
                 'redirect_url': '/wishlist'})

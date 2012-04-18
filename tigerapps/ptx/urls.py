@@ -16,10 +16,10 @@ urlpatterns = patterns(
     (r'^$', 'ptx.homeview.homepage'),
 
     # login/logout
-    (r'^login$', 'ptx.ptxlogin.ptxlogin'),
-    (r'^logout$', 'ptx.ptxlogin.ptxlogout'),
+    (r'^login/?$', 'django_cas.views.login'),
+    (r'^logout/?$', 'django_cas.views.logout'),
 
-    # Move these URLS to ptx folder sometime
+
     (r'^browse$', 'ptx.views.classlistings'),
     (r'^browse/(?P<isbn>([0-9])+)$', 'ptx.views.browse_isbn'),
     (r'^browse/(?P<dept>\D+)(?P<num>\d+)$',
