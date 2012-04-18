@@ -14,8 +14,8 @@ urlpatterns = patterns('',
 
 
     # Paypal
-    url(r'^paypal/$', 'storage.views.paypal', name='paypal'),
-    (r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
+    url(r'^paypal/?$', 'storage.views.product_detail', name='paypal'),
+    (r'^paypal/ipn/?', include('paypal.standard.ipn.urls')),
 
     # Admin
     url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),

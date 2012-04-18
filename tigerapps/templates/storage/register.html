@@ -1,0 +1,54 @@
+{% extends "storage/base.html" %}
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+{% block content %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#input_quantity').focusout(function() {
+				var price = parseFloat($('#input_price').html());
+				var quantity = parseInt($('#input_quantity').val());
+				$('#output_price').html(quantity * price);
+			});
+		});
+	</script>
+	
+	<div class="main-box" style="width: 90%;">
+	    <h2 id="postTitle" style="text-align: center;">Register</h2>
+
+		<form name="registration_form" method="post">
+		<table>
+			<tr id="row_netid">
+				<th id="th_netid" class="tableLabel">Netid:</th>
+				<td>{{ user_netid }}</td>
+			</tr>
+		{% for field in registration_form %}
+			<tr id="row_{{field.auto_id}}">
+				<th id="th_{{field.auto_id}}" class="tableLabel">{{field.label_tag}}{% if field.field.required %}*{% endif %}:</th>
+				<td>{{ field }}</td>
+				{% if field.errors %}
+           		{% for error in field.errors %}
+               	<td style="color: red;">&bull; {{ error }}</td>
+               	{% endfor %}
+				{% endif %}
+			</tr>
+		{% endfor %}
+		
+		<tr><td>Purchase info</td></tr>
+		<tr><td>{{ title }}</td></tr>
+		<tr><td>Price per box:</td><td><span id="input_price">{{ price }}</span></td></tr>
+		<tr><td>Quantity:</td>
+			<td><input type='text' id='input_quantity' name='quantity' size='1' /></td></tr>
+		<tr><td>Total price:</td><td>$<span id='output_price'></td></tr>
+		
+		<tr><td>{{ form }}</td></tr>
+		
+		<tr><td></td><td style='text-align:right;'>
+			<input type="submit" href="/log_pace" class="button" style="margin-left: 95px; margin-top: 15px;" />
+		</td></tr>
+		
+		</table>
+		</form>
+	</div>
+{% endblock %}
