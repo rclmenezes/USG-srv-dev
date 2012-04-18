@@ -35,19 +35,19 @@ from paypal.standard.forms import PayPalPaymentsForm
 from storage.models import Product
 
 def product_detail(request):
-    product = get_object_or_404(Product, slug="abc")
+    #product = get_object_or_404(Product, slug="abc")
     paypal = {
-        'amount': product.price,
-        'item_name': product.title,
-        'item_number': product.slug,
+        'amount': 6,
+        'item_name': "Box",
+        'item_number': "box",
         
         # PayPal wants a unique invoice ID
         'invoice': str(uuid.uuid1()), 
         
         # It'll be a good idea to setup a SITE_DOMAIN inside settings
         # so you don't need to hardcode these values.
-        'return_url': settings.SITE_DOMAIN + reverse('return_url'),
-        'cancel_return': settings.SITE_DOMAIN + reverse('cancel_url'),
+        'return_url': settings.SITE_DOMAIN + reverse('storage:paypal'),
+        'cancel_return': settings.SITE_DOMAIN + reverse('storage:paypal'),
     }
     form = PayPalPaymentsForm(initial=paypal)
     if settings.DEBUG:
