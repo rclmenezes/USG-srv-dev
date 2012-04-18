@@ -14,15 +14,22 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	
-	<!-- Load the Mootools Framework -->
-	<!-- <script src="/static/ttrade/js/mootools1.3.2.js"></script> 		-->
-	<!-- <script src="/static/ttrade/js/mootools-more-1.3.2.1.js"></script>		-->
-	<!-- Create a MenuMatic Instance -->	
-	<script type="text/javascript" >
+	<!-- Create a MenuMatic Instance -->
+    <script type="text/javascript" src="/static/storage/js/jquery.easing.js"></script>
+    <script type="text/javascript" src="static/storage/js/jquery.sweet-menu-1.0.js"></script>
+    <script type="text/javascript" >
 	window.addEvent('domready', function() {			
 		var myMenu = new MenuMatic({ hideDelay:400 });
 	});		
 	</script>
+    <script type="text/javascript" >
+		$(document).ready(function() {
+			$('#Menu').sweetMenu({top:400,padding:8,iconSize:48,easing:'easeOutBounce',duration:500,
+			icons:['/static/storage/images/home.png', 'static/storage/images/comments.png','static/storage/images/red_heart.png']});
+	});
+	</script>
+	
+	
 </head>
 
 <body>
@@ -44,6 +51,16 @@
 			</div> <!-- header-->
 
 		</div><!-- top -->
+		
+		<div class="index">
+		<!-- MENU -->
+			
+			<ul id="Menu">
+            	<li><a href="#home">Home</a></li>
+            	<li><a href="#home">Register</a></li>
+            	<li><a href="#home">Status</a></li>
+        	</ul>
+		</div>
 		
 		<div class="content">{% block content %}{% endblock %}</div>
 		
