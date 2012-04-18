@@ -1,3 +1,4 @@
+"""
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.core.mail import send_mail
@@ -22,4 +23,39 @@ def paypal(request):
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox()}
     return render_to_response("storage/paypal.html", context)
+"""
+
+import uuid
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from paypal.standard.forms import PayPalPaymentsForm
+from storage.models import Product
+
+def product_detail(request):
+    product = get_object_or_404(Product, slug="abc")
+    paypal = {
+        'amount': product.price,
+        'item_name': product.title,
+        'item_number': product.slug,
+        
+        # PayPal wants a unique invoice ID
+        'invoice': str(uuid.uuid1()), 
+        
+        # It'll be a good idea to setup a SITE_DOMAIN inside settings
+        # so you don't need to hardcode these values.
+        'return_url': settings.SITE_DOMAIN + reverse('return_url'),
+        'cancel_return': settings.SITE_DOMAIN + reverse('cancel_url'),
+    }
+    form = PayPalPaymentsForm(initial=paypal)
+    if settings.DEBUG:
+        rendered_form = form.sandbox()
+    else:
+        rendered_form = form.render()
+    return render_to_response('paypal.html', {
+        'product' : product,
+        'form' : rendered_form,
+    }, RequestContext(request))
 

@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 
 
     # Paypal
-    url(r'^paypal/$', 'storage.views.paypal', name='paypal'),
+    url(r'^paypal/$', 'storage.views.product_detail', name='paypal'),
     (r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
 
     # Admin
