@@ -1,60 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Room Guide</title>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Room Guide</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	
-	<!-- Styles -->
-    <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
-    <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
-	<link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
-	<link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
-
-	<script type="text/javascript"
-		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
-        </script>
+  <!-- Styles -->
+  <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+  <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
+  <link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+	
+  <script type="text/javascript"
+	  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
+  </script>
 		
-	<script src="http://www.google.com/jsapi"></script>
-	<script>google.load("jquery", "1");</script>
-	<script>google.load("jqueryui", "1");</script>
-	<script type="text/javascript" src="/static/rooms/jquery.tablesorter.min.js"></script>
-	<script type="text/javascript">
-	  $(function() {
-	  $("#mytable").tablesorter();
-	  });
-	</script>
-	{{ mapscript|safe }}
-	<script type="text/javascript" src="/static/rooms/map.js"></script>
-	<script type="text/javascript" src="/static/rooms/jquery.tablesorter.js"></script> 
+  <script src="http://www.google.com/jsapi"></script>
+  <script>google.load("jquery", "1");</script>
+  <script>google.load("jqueryui", "1");</script>
+  <script type="text/javascript" src="/static/rooms/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+    $("#mytable").tablesorter();
+    });
+  </script>
+	
+  {{ mapscript|safe }}
+  
+  <script type="text/javascript" src="/static/rooms/map.js"></script>
+  <script type="text/javascript" src="/static/rooms/jquery.tablesorter.js"></script> 
 </head>
-<body onload="initialize()">
-	{% include "main/jquery.html" %}
 
-    <div id="wrapper1">
+<body onload="initialize()">
+  {% include "main/jquery.html" %}
+   
+  <div id="wrapper1">
     <div id="wrapper2">
-	<div id="mainColumn">  
-            <div id="top_half">
-                <div id="map_canvas"></div>
-                <div id="queues">
-                    <h1>Queues</h1>
-                    <div id="create_queue" class="queue_button">Create</div>
-                    <div id="create_queue" class="queue_button">Remove</div>
-                    <div class="clearfloat"></div>
-                </div>
-            </div>
-            <div id="middle_buffer"></div>
-		    <div id="dataPanel"> 
-                <div id="roomListWrapper">
-                    {% block dataPanel %}
-                    Room / Building Information & Queue
-                    {% endblock dataPanel %}
-                    </div>
-                    </div>
-                    </div>
-                </div>
+      <div id="mainColumn">  
+	<div id="top_half">
+	  <div id="map_canvas"></div>
+          <div id="queues">
+            <h1>Queues</h1>
+            <div id="create_queue" class="queue_button">Create</div>
+            <div id="create_queue" class="queue_button">Remove</div>
+            <div class="clearfloat"></div>
+	  </div>
 	</div>
+	<div id="middle_buffer"></div>
+	<div id="dataPanel"> 
+	  <div id="roomListWrapper">
+	    {% block dataPanel %}
+            Room / Building Information & Queue
+            {% endblock dataPanel %}
+	  </div>
+	</div>
+      </div>
     </div>
-    </div>
+  </div>
+
 </body>
 </html>
