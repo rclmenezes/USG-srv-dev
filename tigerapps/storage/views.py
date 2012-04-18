@@ -5,14 +5,13 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from paypal.standard.forms import PayPalPaymentsForm
-from storage.models import Product
+#from storage.models import Product
 
 def product_detail(request):
-    product = Product()
-    product.title = "Box"
-    product.price = 4
+    title = "Box"
+    price = 9.40
     paypal = {
-        'amount': 6,
+        'amount': price,
         'item_name': "Box",
         'item_number': "box",
         
@@ -30,7 +29,8 @@ def product_detail(request):
     else:
         rendered_form = form.render()
     return render_to_response('storage/paypal.html', {
-        'product' : product,
+        'title' : title,
+        'price' : price,
         'form' : rendered_form,
     }, RequestContext(request))
 

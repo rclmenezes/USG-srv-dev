@@ -43,8 +43,3 @@ class Status(models.Model):
     
     class Meta:
         verbose_name_plural = 'Statuses'
-       
-class Product(models.Model):
-    title = models.CharField(max_length=128)
-    #slug = models.SlugField(max_length=128)
-    price = models.PositiveIntegerField()
