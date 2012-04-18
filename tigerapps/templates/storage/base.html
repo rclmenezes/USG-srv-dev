@@ -10,22 +10,21 @@
 	<title>{% block title %}TigerStorage{% endblock %}</title>
 
 	<!-- Adding CSS -->
-	<link rel="stylesheet" type="text/css" href="/static/ttrade/css/styles5.css" />
+	<link rel="stylesheet" type="text/css" href="/static/storage/css/styles5.css" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	
 	<!-- Create a MenuMatic Instance -->
-    <script type="text/javascript" src="/static/storage/js/jquery.easing.js"></script>
-    <script type="text/javascript" src="static/storage/js/jquery.sweet-menu-1.0.js"></script>
+    <script type="text/javascript" src="/static/storage/js/jquery.easing.js">
+    <script type="text/javascript" src="/static/storage/js/jquery.sweet-menu-1.0.js"></script>
     <script type="text/javascript" >
-	window.addEvent('domready', function() {			
-		var myMenu = new MenuMatic({ hideDelay:400 });
-	});		
-	</script>
-    <script type="text/javascript" >
+		window.addEvent('domready', function() {			
+			var myMenu = new MenuMatic({ hideDelay:400 });
+		});		
+
 		$(document).ready(function() {
 			$('#Menu').sweetMenu({top:400,padding:8,iconSize:48,easing:'easeOutBounce',duration:500,
-			icons:['/static/storage/images/home.png', 'static/storage/images/comments.png','static/storage/images/red_heart.png']});
+			icons:['/static/storage/images/home.png', '/static/storage/images/comments.png','/static/storage/images/red_heart.png']});
 	});
 	</script>
 	

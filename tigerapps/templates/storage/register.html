@@ -7,9 +7,13 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#input_quantity').focusout(function() {
-				var price = parseFloat($('#input_price').html());
 				var quantity = parseInt($('#input_quantity').val());
-				$('#output_price').html(quantity * price);
+				if (isNaN(quantity))
+					$('#output_price').html('0.00');
+				else {
+					var price = parseFloat($('#input_price').html());
+					$('#output_price').html(quantity * price);
+				}
 			});
 		});
 	</script>
@@ -40,7 +44,7 @@
 		<tr><td>Price per box:</td><td><span id="input_price">{{ price }}</span></td></tr>
 		<tr><td>Quantity:</td>
 			<td><input type='text' id='input_quantity' name='quantity' size='1' /></td></tr>
-		<tr><td>Total price:</td><td>$<span id='output_price'></td></tr>
+		<tr><td>Total price:</td><td>$<span id='output_price'>0.00</span></td></tr>
 		
 		<tr><td>{{ form }}</td></tr>
 		
