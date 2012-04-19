@@ -9,9 +9,9 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import QueryDict
 from ptx.ptxrender import render_to_response
-
 from ptx.models import Book, Offer, User, Course
 from ptx.navbar import getnavbar
+
 
 def urlopen(url):
     log.debug("Requesting %s" % url)

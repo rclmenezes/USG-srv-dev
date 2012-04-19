@@ -7,11 +7,10 @@ from django.http import HttpResponseRedirect
 def getlogstatus(request):
     linktohelp = '<a href="/help">Help</a>'
     if request.user.is_authenticated():
-        user_data = request.session["user_data"]
         linktoprofile = '<a href="/account">My Account</a>'
         linktologout = '<a href="/logout">Log out</a>'
         return "Welcome, %s. %s | %s | %s" % (
-            user_data.net_id,
+            request.user.username,
             linktoprofile,
             linktologout,
             linktohelp)
@@ -25,12 +24,9 @@ def getlogstatus(request):
 
 def render_to_response(request, template, dict):
     if request.user.is_authenticated():
-        user = request.session['user_data']
-        dbusers = User.objects.filter(net_id=user.net_id)
+        dbusers = User.objects.filter(net_id=request.user.username)
         if len(dbusers) == 0:
             return HttpResponseRedirect('/logout')
-        else:
-            request.session['user_data'] = dbusers[0]
 
     dict['login_status'] = getlogstatus(request)
     dict['navbar'] = getnavbar(request)

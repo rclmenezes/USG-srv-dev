@@ -226,7 +226,7 @@ def process(request, step, ticket):
 
         book = get_ticket_attr(request, ticket, 'book')
         course = get_ticket_attr(request, ticket, 'course')
-        user = request.session['user_data']
+        user, created = User.objects.get_or_create(net_id=request.user.username)
 
         if not form.is_valid():
             return render_offerinfo(book, request.POST, ticket, request)

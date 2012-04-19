@@ -69,10 +69,9 @@ urlpatterns = patterns(
      'django.views.generic.simple.redirect_to',
      dict(url='/site_media/css/favicon.ico')),
 
-    # Admin - not upgradable since it doesn't use django_cas
-    (r'^admin/', include(admin.site.urls)),
-    #url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
-    #(r'^djadmin/', include(admin.site.urls)),
+    # Admin
+    url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    (r'^djadmin/', include(admin.site.urls)),
 )
 
 urlpatterns += staticfiles_urlpatterns()

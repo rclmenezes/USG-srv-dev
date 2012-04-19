@@ -35,7 +35,7 @@ def confirm(request):
         return HttpResponseRedirect(u'/browse')
 
     data = dict(offer=offer)
-    user = request.session.get('user_data')
+    user, created = User.objects.get_or_create(net_id=request.user.username)
     if not user:
         url  = u'/buy/confirm'
         data = dict(header_text=u'Buy a book', redirect_url=url)
@@ -57,7 +57,7 @@ def buy(request):
     Outputs: a pending offer, a pending request, confirmation emails,
     and capitalism."""
 
-    buyer = request.session.get('user_data')
+    buyer, created = User.objects.get_or_create(net_id=request.user.username)
     if not buyer:
         return render(request, 'ptx/needlogin.html',
                                   {'header_text': 'Buy a book',
@@ -94,7 +94,7 @@ def buy(request):
     offer.save()
 
     # Give the buyer a pending request.
-    buyer = request.session['user_data']
+    buyer, created = User.objects.get_or_create(net_id=request.user.username)
 
     # Check if a request exists already.
     requests = Request.objects.filter(Q(user=buyer)

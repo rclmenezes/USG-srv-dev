@@ -182,7 +182,7 @@ def process(request, step, ticket):
             f = form.cleaned_data
 
             book = request.session['request_book_' + ticket]
-            user = request.session['user_data']
+            user, created = User.objects.get_or_create(net_id=request.user.username)
             maxprice = form.cleaned_data['maxprice']
             the_request = Request(
                     book=book,

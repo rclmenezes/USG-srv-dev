@@ -2,7 +2,6 @@ from django import forms
 
 from ptx.ptxrender import render_to_response
 from ptx.models import Request, Book, User
-from ptx.models import Request, Book, User
 from ptx.bookdata2 import book_details, cleanisbn
 
 class AddForm(forms.Form):
@@ -53,12 +52,13 @@ def process_add(request, form_data):
         raise Book.DoesNotExist
 
     # Check that the item is not already in the wishlist
-    req_list = Request.objects.filter(user=request.session['user_data'],
+    user, created = User.objects.get_or_create(net_id=request.user.username)
+    req_list = Request.objects.filter(user=user,
             status='o', book=book)
     if len(req_list) > 0:
         raise AlreadyInWishlist
 
-    req = Request(user=request.session['user_data'], book = book, status = 'o', maxprice = 0)
+    req = Request(user=user, book = book, status = 'o', maxprice = 0)
     req.save()
 
     return book
@@ -76,7 +76,7 @@ def process_del(request, form_data):
         return
 
     # make sure the request belongs to the user
-    req_list = Request.objects.filter(id=id, user=request.session['user_data'])
+    req_list = Request.objects.filter(id=id, user__net_id=request.user.username)
     if len(req_list) == 0:
         return
 
@@ -105,7 +105,7 @@ def wishlist(request):
     process_del(request, request.GET)
 
     # Render the page
-    req_list = Request.objects.filter(user=request.session['user_data'],
+    req_list = Request.objects.filter(user__net_id=request.user.username,
             status='o')
 
     return render_to_response(request, 'ptx/wishlist.html', { 

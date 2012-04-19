@@ -17,6 +17,7 @@ student-to-student transaction.</p>
 
 {% if logged_in %}
 <h3>Welcome{% if name %}, {{name}} {% endif %}</h3>
+{% if not name %}<p><b>You haven't filled out your <a href="/profile/">profile information</a> yet!</b> <i>Please fill out this basic information to start using PTX - it will only be shared with the people who buy your books and the people that you buy from.</i></p>{% endif %}
 <ul>
 {% if num_pending_trans %}
     <li>You have <strong>{{ num_pending_trans }}</strong> pending

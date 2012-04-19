@@ -42,7 +42,7 @@ def editoffer(request, offer_id=None):
         raise PermissionDenied
 
     # see if the offer really belongs to the logged-in user
-    if offer.user.net_id != request.session['user_data'].net_id:
+    if offer.user.net_id != request.user.username:
         raise PermissionDenied
 
     if request.method == 'POST':

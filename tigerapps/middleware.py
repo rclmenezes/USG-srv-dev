@@ -34,10 +34,7 @@ class SubdomainsMiddleware:
         ###
         ### A CONVULTED, HORRIBLE MESS
         ### TEMPORARY (I hope)
-        if request.subdomain == 'ptx':
-            import ptx.ptxsettings
-            
-        elif request.subdomain == 'ttrade':
+        if request.subdomain == 'ttrade':
             settings.AUTHENTICATION_BACKENDS = (
              'django.contrib.auth.backends.ModelBackend',
              'ttrade.casBackend.CASBackend',
@@ -81,4 +78,8 @@ class SubdomainsMiddleware:
             settings.CAS_RETRY_LOGIN = True
             settings.SITE_URL = url_prefix + request.subdomain + '.tigerapps.org/'
             settings.CAS_REDIRECT_URL = settings.SITE_URL
+
+            if request.subdomain == 'ptx':
+                import ptx.ptxsettings
+
 

@@ -24,7 +24,7 @@ def render_form(form, request, message=u''):
                               dict(form=form, message=message))
 
 def profile(request):
-    if not "user_data" in request.session:
+    if not request.user.is_authenticated():
         return render_to_response(request, 'ptx/needlogin.html',
                                   {'header_text': 'Complete User Profile',
                                    'redirect_url': '/profile'} )
@@ -38,7 +38,7 @@ def profile(request):
             dorm_name = form.cleaned_data['dorm_name']
             dorm_room = form.cleaned_data['dorm_room']
 
-            user = User.objects.get(net_id=request.session['user_data'].net_id)
+            user, created = User.objects.get_or_create(net_id=request.user.username)
             if first_name != '':
                 user.first_name = first_name
             if last_name != '':
@@ -49,7 +49,6 @@ def profile(request):
                 user.dorm_room = dorm_room
 
             user.save()
-            request.session['user_data'] = user
 
         return HttpResponseRedirect('/account')
 
@@ -57,12 +56,12 @@ def profile(request):
         message = u''
         if request.GET.get("n") == "true":
             message = u"This is your first time logging in. Please fill out this basic information that will be used to contact you. It will only be shared with people who buy your books and the people that you buy from."
-        user = request.session['user_data']
+        user, created = User.objects.get_or_create(net_id=request.user.username)
         form = CompleteUserForm(instance=user)
         return render_form(form, request, message)
 
 def myaccount(request):
-    if not "user_data" in request.session:
+    if not request.user.is_authenticated():
         return render_to_response(request, 'ptx/needlogin.html',
                                   {'header_text': 'My PTX Account',
                                    'redirect_url': '/account'} )
@@ -77,7 +76,7 @@ def myaccount(request):
             clickid = 3
 
     today = date.today()
-    user = request.session['user_data']
+    user, created = User.objects.get_or_create(net_id=request.user.username)
 
     # has this user posted a change to his account
     if request.method == 'POST':
@@ -110,7 +109,6 @@ def myaccount(request):
                 earned = user.dollars_earned
                 user.dollars_earned = earned + offer.price
                 user.save()
-                request.session['user_data'] = user
 
             clickid = 3
 
@@ -140,7 +138,6 @@ def myaccount(request):
                 spent = user.dollars_spent
                 user.dollars_spent = spent + req.maxprice
                 user.save()
-                request.session['user_data'] = user
 
             clickid = 3
 
