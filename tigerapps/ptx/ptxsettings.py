@@ -8,7 +8,7 @@ ROOT = os.path.dirname(__file__)
 
 settings.STATIC_DOC_ROOT = '/srv/tigerapps/static/ptx/css'
 settings.BOOK_CACHE_DIR = '/srv/tigerapps/media/ptx/book_cache'
-settings.DOCS_DIR = os.path.join(ROOT, 'ptx/docs/_build/html')
+#settings.DOCS_DIR = os.path.join(ROOT, 'ptx/docs/_build/html')
 settings.APPEND_SLASH = False
 
 settings.MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES + (

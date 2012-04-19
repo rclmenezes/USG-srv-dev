@@ -62,12 +62,9 @@ urlpatterns = patterns(
     (r'^book_cache/(?P<path>.*)$',
      'django.views.static.serve',
      dict(document_root=settings.BOOK_CACHE_DIR)),
-    (r'^docs/(?P<path>.*)$',
-     'django.views.static.serve',
-     dict(document_root=settings.DOCS_DIR)),
-    (r'^favicon\.ico$',
-     'django.views.generic.simple.redirect_to',
-     dict(url='/site_media/css/favicon.ico')),
+    #(r'^docs/(?P<path>.*)$',
+    # 'django.views.static.serve',
+    # dict(document_root=settings.DOCS_DIR)),
 
     # Admin
     url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),

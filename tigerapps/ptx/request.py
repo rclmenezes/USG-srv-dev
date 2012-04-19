@@ -40,7 +40,7 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        fields = ('maxprice')
+        fields = ('maxprice',)
 
 class AddBookForm(forms.ModelForm):
     PROC = PROCESS_ADD_BOOK
