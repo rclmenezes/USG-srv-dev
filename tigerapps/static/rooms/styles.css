@@ -1,5 +1,7 @@
 html 
-{ height: 100% }
+{ 
+    height: 100%; 
+}
               
 body 
 { 
@@ -10,9 +12,10 @@ body
     font-family: Helvetica, sans-serif;
 }
 
-thead {
-    background-color:#eee;
-    color:#666666;
+thead 
+{
+    background-color: #eee;
+    color: #666666;
     font-weight: bold;
     cursor: pointer;
 }
@@ -21,7 +24,6 @@ td
 {
     margin-left: auto;
     margin-right: auto;
-    width: 16%;
     outline: 1px solid black;
 }
 
@@ -35,7 +37,7 @@ input
 {
     margin-left: auto;
     margin-right: auto;
-    width: 90%;
+    width: 20px;
 }
 
 #wrapper1
@@ -59,7 +61,8 @@ input
 
 #mainColumn
 {
-    width: 960px; height: 100%;
+    width: 960px;
+    height: 100%;
     margin: 0 auto;
 }
 
@@ -72,6 +75,14 @@ input
     -webkit-transition: height .2s; /* Safari and Chrome */
     -o-transition: height .2s; /* Opera */
 }
+
+/*
+.filters
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}*/
 
 #map_canvas
 {
@@ -106,7 +117,7 @@ input
 {
     height: 1.5%;
 }
-      
+     
 #dataPanel
 {
     height: 49.25%;
@@ -135,19 +146,32 @@ input
 } 
 
 #expandMap:active, #contractMap:active, #restoreMap:active, .queue_button:active
-{ top: 11px;}
+{ 
+    top: 11px;
+}
 
 #expandMap 
-{background: #f90; right: 9px;}
+{
+    background: #f90; 
+    right: 9px;
+}
 
 #restoreMap 
-{background: #fff; right: 51px;}
+{
+    background: #fff; 
+    right: 51px;
+}
 
 #contractMap 
-{background: #696969; right: 93px;}
+{
+    background: #696969; 
+    right: 93px;
+}
 
-#expandMap:hover, #contractMap:hover, #restoreMap:hover, #create_queue:hover
-{cursor: pointer}
+#expandMap:hover, #contractMap:hover, #restoreMap:hover, #create_queue:hover 
+{
+    cursor: pointer;
+}
 
 #roomListWrapper
 {
@@ -164,14 +188,60 @@ input
 #roomlist
 {
 }
-
 /*
+#roomlist
+{
+    height: 87%;
+    width: 920px;
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    position: absolute;
+    top: 60px;
+}
+
 #tableall
 {
     width: 940px; height: 100%;
     overflow: scroll;
 }
 */
+
+#test
+{
+    /*height: 412px;*/
+    height: 100%;
+    padding: 0px;
+    overflow: scroll;
+}
+
+/*
+#tabs
+{
+<<<<<<< HEAD
+    width: 920px; 
+    height: 100%;
+    padding: 0px;
+    overflow: scroll;
+}
+*/
+
+#drawtab
+{
+    width: 910px;
+    height: 417px;
+    height: 94%;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+/*
+#tabrow
+{
+    height: 6%;
+}*/
 
 #tabs
 {
