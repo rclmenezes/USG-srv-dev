@@ -33,4 +33,4 @@ if DEBUG:
 else:
     logging.basicConfig(level=logging.WARN,
                         format=LOG,
-                        filename=paths.join(ROOT, 'error.log'))
+                        filename=os.path.join(ROOT, 'error.log'))
