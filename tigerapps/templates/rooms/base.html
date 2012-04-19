@@ -14,21 +14,14 @@
   <script type="text/javascript"
 	  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
   </script>
-		
+  {{ mapscript|safe }}
+  <script type="text/javascript" src="/static/rooms/map.js"></script>
+  
   <script src="http://www.google.com/jsapi"></script>
   <script>google.load("jquery", "1");</script>
   <script>google.load("jqueryui", "1");</script>
-  <script type="text/javascript" src="/static/rooms/jquery.tablesorter.min.js"></script>
-  <script type="text/javascript">
-    $(function() {
-    $("#mytable").tablesorter();
-    });
-  </script>
 	
-  {{ mapscript|safe }}
-  
-  <script type="text/javascript" src="/static/rooms/map.js"></script>
-  <script type="text/javascript" src="/static/rooms/jquery.tablesorter.js"></script> 
+   
 </head>
 
 <body onload="initialize()">
