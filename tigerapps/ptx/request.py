@@ -10,7 +10,7 @@ from django.core.exceptions import PermissionDenied
 
 from ptx.ptxrender import render_to_response
 from ptx.models import Request, Offer, Book, Course, User
-from ptx.ptxlogin import logged_in, getlogstatus
+from ptx.ptxlogin import logged_in
 from ptx.bookdata2 import book_details, cleanisbn
 
 COURSE = re.compile(r'^\s*([a-zA-Z]{1,3})\s?([0-9]{3})\s*$')

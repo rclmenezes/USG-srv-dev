@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 
 from ptx.ptxrender import render_to_response
 from ptx.models import Offer, Book, Course, User
-from ptx.ptxlogin import logged_in, getlogstatus
+from ptx.ptxlogin import logged_in
 from ptx.bookdata2 import book_details, cleanisbn
 from ptx.dept import is_valid_dept
 

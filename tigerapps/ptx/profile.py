@@ -4,7 +4,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import QueryDict
 from django import forms
 from django.db.models import Q
-from ptx.ptxlogin import getlogstatus
 from ptx.models import User, Offer, Request, Book
 from ptx.ptxrender import render_to_response
 
