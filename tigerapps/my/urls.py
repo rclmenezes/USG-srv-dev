@@ -1,11 +1,10 @@
 from django.conf.urls.defaults import *
-
-# Uncomment the next two lines to enable the admin:
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Example:
     url(r'^/?$', 'my.views.getPage', name="home", kwargs={'orderNo': None}),
     url(r'^page/(?P<orderNo>\d)/?$', 'my.views.getPage', name="home"),
     url(r'^addMyApp/(?P<orderNo>\d)/(?P<colID>\w)/?$', 'my.views.addMyApp', name="addMyApp"),
@@ -23,12 +22,13 @@ urlpatterns = patterns('',
     #url(r'^2/?$', 'my.views.home2', name='home2'),
     #url(r'^updatePanels/?$', 'index.updatePanels', name='updatePanels'),
 
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
-    (r'^admin/', include(admin.site.urls)),
+
+    # Admin
+    url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    (r'^djadmin/', include(admin.site.urls)),
 )
+
+urlpatterns += staticfiles_urlpatterns()
+

@@ -1,11 +1,10 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
 from ptx.offer import *
 #from ptx.request import *
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
 admin.autodiscover()
 
 #TODO: We need to create a 404 not found page
@@ -17,10 +16,10 @@ urlpatterns = patterns(
     (r'^$', 'ptx.homeview.homepage'),
 
     # login/logout
-    (r'^login$', 'ptx.ptxlogin.ptxlogin'),
-    (r'^logout$', 'ptx.ptxlogin.ptxlogout'),
+    (r'^login/?$', 'django_cas.views.login'),
+    (r'^logout/?$', 'django_cas.views.logout'),
 
-    # Move these URLS to ptx folder sometime
+
     (r'^browse$', 'ptx.views.classlistings'),
     (r'^browse/(?P<isbn>([0-9])+)$', 'ptx.views.browse_isbn'),
     (r'^browse/(?P<dept>\D+)(?P<num>\d+)$',
@@ -63,16 +62,14 @@ urlpatterns = patterns(
     (r'^book_cache/(?P<path>.*)$',
      'django.views.static.serve',
      dict(document_root=settings.BOOK_CACHE_DIR)),
-    (r'^docs/(?P<path>.*)$',
-     'django.views.static.serve',
-     dict(document_root=settings.DOCS_DIR)),
-    (r'^favicon\.ico$',
-     'django.views.generic.simple.redirect_to',
-     dict(url='/site_media/css/favicon.ico')),
+    #(r'^docs/(?P<path>.*)$',
+    # 'django.views.static.serve',
+    # dict(document_root=settings.DOCS_DIR)),
 
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs'
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    # Uncomment for admin.
-    # (r'^admin/(.*)', admin.site.root),
+    # Admin
+    url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+    (r'^djadmin/', include(admin.site.urls)),
 )
+
+urlpatterns += staticfiles_urlpatterns()
+

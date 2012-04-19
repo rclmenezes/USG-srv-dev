@@ -5,8 +5,8 @@ from django.http import QueryDict
 from django.db.models import Q
 from ptx.models import Book, Offer, User, Course, Request
 from ptx.ptxrender import render_to_response
-from ptx.ptxlogin import logged_in
 from ptx.bookdata2 import cleanisbn
+from django_cas.decorators import user_passes_test, login_required
 
 def classlistings(request):
     course_list = Course.objects.all().order_by('dept', 'num')
@@ -52,7 +52,7 @@ def browse_isbn(request, isbn):
     dict = {'book': book,
             'offer_list': offer_list,
             'num_books': num_books,
-            'logged_in': logged_in(request)}
+            'logged_in': request.user.is_authenticated()}
 
     return render_to_response(request, 'ptx/browsebyisbn.html', dict)
 

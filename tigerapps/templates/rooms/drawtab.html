@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html id="drawtab">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="/static/rooms/themes/blue/style.css" type="text/css" media="print, projection, screen" />
+  <link rel="stylesheet" href="/static/rooms/styles.css" type="text/css"/>
+  <script src="http://www.google.com/jsapi"></script>
+  <script>google.load("jquery", "1");</script>
+  <script>google.load("jqueryui", "1");</script>
+  <script type="text/javascript" src="/static/rooms/jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="/static/rooms/picnet.table.filter.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+  $("#drawtable").tablesorter();
+  });
+  </script>
+  <script type="text/javascript">
+    $(function () {
+    $("#drawtable").tableFilter();
+    });
+  </script>
 </head>
 
-<body>
-  <table id="tableall">
-    <tr id="tableheadings">
-      <td>Room</td>
-      <td>Building</td>
-      <td>Sqft</td>
-      <td>Rated Occupancy</td>
-      <td>Floor</td>
-      <td>Num Rooms</td>
-      <td>Gender</td>
-    </tr>
-    <tr>
-      <td><input type="text" name="room"/></td>
-      <td><input type="text" name="building"/></td>
-      <td><input type="text" name="sqft"/></td>
-      <td><input type="text" name="occ"/></td>
-      <td><input type="text" name="floor"/></td>
-      <td><input type="text" name="numrooms"/></td>
-      <td><input type="text" name="gender"/></td>
-    </tr>
-    <script>
-      $("input").keyup(function () {
-      var value = $(this).val();
-      $("#test").text(value);
-      }).keyup();
-    </script>
-    <tr>
-      <td><p id="test"></p></td>
-    </tr>
+<body> 
+  <div id="test">
+  <table id="drawtable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+    <thead>
+      <tr>
+	<th>Room</th>
+	<th>Building</th>
+	<th>Sqft</th>
+	<th>Rated Occupancy</th>
+	<th>Floor</th>
+	<th>Num Rooms</th>
+	<th>Gender</th>
+      </tr>
+    </thead>
+    <!--div id="test"-->
+    <tbody id="scrollarea">
     {% for room in room_list %}
-    <tr id "tabledata">
+    <tr>
       <td>{{ room.number }}</td>
       <td>{{ room.building }}</td>
       <td>{{ room.sqft }}</td>
@@ -44,5 +48,9 @@
       <td>{{ room.gender }}</td>
     </tr>
     {% endfor %}
+    </tbody>
+    <!--/div-->
   </table>
+  </div>
+</body>  
 </html>

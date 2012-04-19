@@ -55,3 +55,18 @@ class Room(models.Model):
     
     def __unicode__(self):
         return "%s %s" % (self.building.name, self.number)
+
+# users
+class User(models.Model):
+    netid = models.CharField(max_length=30)
+    queue = models.ManyToManyField('Queue')
+
+# queues
+class Queue(models.Model):
+    draw = models.ForeignKey('Draw')
+
+# queue-to-room mappings
+class QueueToRoom(models.Model):
+    queue = models.ForeignKey('Queue')
+    room = models.ForeignKey('Room')
+    ranking = models.IntegerField()

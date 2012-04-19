@@ -2,25 +2,44 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
-#First name, Email, (cell phone #)
-#Proxy name, Proxy email, 
-#Boxes registered/paid for, Payment complete (Y/N), picked up empty box (Y/N),
-#dropoff time, # boxes dropped off, 
-#pickup time, # boxes reclaimed, 
-    
+
+
+class DropoffPickupTime(models.Model):
+    '''
+    User's selection from possible dropoff and pickup times of an order
+    '''
+    dropoff_time = models.DateTimeField("Dropoff Time", blank=True, null=True)
+    pickup_time = models.DateTimeField("Pickup Time", blank=True, null=True)
+
+    def __unicode__(self):
+        return "Dropoff: %s, Pickup: %s" % (self.dropoff_time.strftime("%m/%d/%Y %I:%M%p"),
+                           self.pickup_time.strftime("%m/%d/%Y %I:%M%p"))
+
+
 class Status(models.Model):
-    name = models.CharField(max_length=50)
-    cell_number = models.CharField("Cell Phone Number", max_length=14)
-    proxy_name = models.CharField("Proxy Name", max_length=50)
-    proxy_email = models.CharField("Proxy Email", max_length=50)
-    boxes = models.IntegerField("Number of Boxes Registered/Paid For", max_length=2)
-    payment = models.BooleanField("Payment Complete")
-    empty_boxes = models.BooleanField("Picked up Empty Boxes")
-    dropoff_time = models.DateTimeField("Dropoff Time")
-    boxes_dropped = models.IntegerField("Number of Boxes Dropped Off", max_length=2)
-    pickup_time = models.DateTimeField("Pickup Time")
-    boxes_picked = models.IntegerField("Number of Boxes Picked Up", max_length=2)
+    '''
+    All info describing a student's order
+        User: Name, Email
+        Cell phone #
+        Proxy name, Proxy email, 
+        # Boxes registered/paid for,
+        picked up empty box (Y/N),
+        dropoff time, # boxes dropped off, 
+        pickup time, # boxes picked up, 
+    '''
+    
     user = models.ForeignKey(User, related_name="status")
+    dropoff_pickup_time = models.ForeignKey(DropoffPickupTime, related_name = "status")
+    cell_number = models.CharField("Cell phone number", max_length=14)
+    proxy_name = models.CharField("Proxy name", max_length=50, blank=True)
+    proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
+    n_boxes_paid = models.IntegerField("Number of Boxes Paid For", max_length=2)
+    bool_boxes_empty = models.BooleanField("Picked up Empty Boxes", blank=True, default=False)
+    n_boxes_dropped = models.IntegerField("Number of Boxes Dropped Off", max_length=2, blank=True, default=0)
+    n_boxes_picked = models.IntegerField("Number of Boxes Picked Up", max_length=2, blank=True, default=0)
     
     def __unicode__(self):
-        return self.name
+        return self.user.username
+    
+    class Meta:
+        verbose_name_plural = 'Statuses'

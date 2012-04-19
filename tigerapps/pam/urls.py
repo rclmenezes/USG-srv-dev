@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
-from django.contrib import admin
 from datetime import date
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
 
 admin.autodiscover()
 #today = date.today()
@@ -29,4 +29,6 @@ urlpatterns = patterns('',
     url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
     (r'^djadmin/', include(admin.site.urls)),
 )
+
+urlpatterns += staticfiles_urlpatterns()
 

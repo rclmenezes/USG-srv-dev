@@ -8,10 +8,10 @@ from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import QueryDict
-from django.shortcuts import render_to_response
-
+from ptx.ptxrender import render_to_response
 from ptx.models import Book, Offer, User, Course
 from ptx.navbar import getnavbar
+
 
 def urlopen(url):
     log.debug("Requesting %s" % url)
@@ -46,24 +46,6 @@ def logged_in(request):
     '''Returns True if the user is logged in'''
     return "user_data" in request.session
 
-def getlogstatus(request):
-    linktohelp = '<a href="/help">Help</a>'
-    if logged_in(request):
-        user_data = request.session["user_data"]
-        linktoprofile = '<a href="/account">My Account</a>'
-        linktologout = '<a href="/logout">Log out</a>'
-        return "Welcome, %s. %s | %s | %s" % (
-            user_data.net_id,
-            linktoprofile,
-            linktologout,
-            linktohelp)
-    else:
-        fullurl = request.build_absolute_uri()
-        if 'logout' in fullurl:
-            return '<a href="/login?redirect=%s">Login</a> | %s' % (fullurl, linktohelp)
-        else:
-            return '<a href="/login">Login</a> | ' + linktohelp
-
 def ptxlogout(request):
     if logged_in(request):
         # Delete the entire session.
@@ -71,13 +53,8 @@ def ptxlogout(request):
         url = request.build_absolute_uri()
         return login(url, act="logout")
 
-    # if they have been logged out and redirected back, show them logout
-    # page.
-    dict = {
-        'login_status': getlogstatus(request),
-        'navbar': getnavbar(request),
-        }
-    return render_to_response("ptx/logout.html", dict)
+    # if they have been logged out and redirected back, show them logout page
+    return render_to_response(request, "ptx/logout.html", {})
 
 def ptxlogin(request):
     if not request.method == "GET":

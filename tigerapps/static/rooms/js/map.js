@@ -41,24 +41,28 @@ function initialize() {
 
 	
 	/* map exapansion/contraction animation */
-	var mapc = document.getElementById("map_canvas");
+	var tophalf = document.getElementById("top_half");
 	var datap = document.getElementById("dataPanel");
+    var buffer = document.getElementById("middle_buffer");
 	document.getElementById("expandMap").addEventListener("click", function()
 		{
-		    mapc.style.height = "80%"; 
-		    datap.style.height="20%";
+		    tophalf.style.height = "86.75%"; 
+		    datap.style.height="11.75%";
+            buffer.style.display="block";
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
 	document.getElementById("contractMap").addEventListener("click", function()
 		{
-		    mapc.style.height = "0%"; 
+		    tophalf.style.height = "0%"; 
 		    datap.style.height="100%";
+            buffer.style.display="none";
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
 	document.getElementById("restoreMap").addEventListener("click", function()
 		{
-		    mapc.style.height = "50%"; 
-		    datap.style.height="50%";
+		    tophalf.style.height = "49.25%"; 
+		    datap.style.height="49.25%";
+            buffer.style.display="block";
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
     

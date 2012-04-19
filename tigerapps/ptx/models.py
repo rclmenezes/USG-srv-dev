@@ -290,3 +290,4 @@ class Request(models.Model):
 
     def __repr__(self):
         return "<Request(%s: %s)>" % (repr(self.user), repr(self.book))
+
