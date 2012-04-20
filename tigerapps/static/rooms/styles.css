@@ -97,6 +97,12 @@ body
     clear: both;
 }
 
+.queue_drag
+{
+    max-height: 130px; 
+    overflow:scroll; 
+}
+
 thead 
 {
     background-color: #eee;
