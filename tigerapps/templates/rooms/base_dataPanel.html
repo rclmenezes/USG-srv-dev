@@ -4,7 +4,7 @@
 <script type="text/javascript">
   $(function() {
   $( "#tabs" ).tabs({show: function(event, ui) {
-  id = ui.panel.id;
+  id = ui.tab.id;
   $.publish("draw",id.substring(id.length-1));
   }});
   });
@@ -14,7 +14,7 @@
   <div id="tabs">
     <ul>
       {% for draw in draw_list %}
-      <li id="tabheaders"><a href="/drawid/{{ draw.id }}" title="drawtab">{{ draw }}</a></li>
+      <li id="tabheaders"><a id="drawref{{ draw.id }}" href="/drawid/{{ draw.id }}" title="drawtab">{{ draw }}</a></li>
       {% endfor %}
     </ul>
       <div id="expandMap">&darr;</div>
