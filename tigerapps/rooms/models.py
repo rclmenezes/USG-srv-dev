@@ -59,7 +59,13 @@ class Room(models.Model):
 # users
 class User(models.Model):
     netid = models.CharField(max_length=30)
+    firstname = models.CharField('First Name', max_length=45, null=True, blank=True) # givenName
+    lastname = models.CharField('Last Name', max_length=45, null=True, blank=True) # sn
+    pustatus = models.CharField(max_length=20, null=True, blank=True) # undergraduate or graduate
+    puclassyear = models.IntegerField('Class Year', null=True, blank=True) # puclassyear
     queue = models.ManyToManyField('Queue')
+    def __unicode__(self):
+        return self.netid
 
 # queues
 class Queue(models.Model):

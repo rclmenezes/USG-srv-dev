@@ -1,15 +1,34 @@
 # Create your views here.
-# from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render_to_response
+from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
-from models import Draw, Building, Room
+from models import Draw, Building, Room, User
 import json
+
+def check_undergraduate(username):
+    # Check if user can be here
+    try:
+        user = User.objects.get(netid=username)
+    except:
+        info = gdi(username)
+        user = User(netid=username, firstname=info.get('givenName'), lastname=info.get('sn'), pustatus=info.get('pustatus'))
+        if info.get('puclassyear'):
+            user.puclassyear = int(info.get('puclassyear'))
+        user.save()
+    if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
+        return user
+    return None
 
 @login_required
 def index(request):
     draw_list = Draw.objects.order_by('id')
     mapscript = mapdata()
+#    return HttpResponse(request.user.username);
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
     return render_to_response('rooms/base_dataPanel.html', locals())
 
 @login_required
