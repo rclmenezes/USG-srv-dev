@@ -1,4 +1,7 @@
 from django.db import models
+from django.forms import ModelForm
+
+photopath = 'photo'
 
 class Draw(models.Model):
     name = models.CharField(max_length=24)
@@ -33,6 +36,8 @@ class Room(models.Model):
         ('PR', 'Private'),
         ('SH', 'Shared')
 	)
+	
+    RATINGS = ( (i, i) for i in range(6) )
 
 	# room numbers can include letters
     number = models.CharField(max_length=10)
@@ -52,6 +57,9 @@ class Room(models.Model):
     # connecting single
     con = models.BooleanField();
     bathroom = models.CharField(max_length=2, choices=BATHROOM_CHOICES)
+    reviews = models.CommaSeparatedIntegerField(max_length=50)
+    photos = models.CommaSeparatedIntegerField(max_length=200)
+    rating = models.IntegerField(choices=RATINGS)
     
     def __unicode__(self):
         return "%s %s" % (self.building.name, self.number)
@@ -78,3 +86,30 @@ class QueueToRoom(models.Model):
     queue = models.ForeignKey('Queue')
     room = models.ForeignKey('Room')
     ranking = models.IntegerField()
+
+# room review
+class Review(models.Model):
+
+    RATINGS = ( (i, i) for i in range(6) )
+    
+    summary = models.CharField(max_length=30)
+    date = models.DateField(auto_now_add=True)
+    content = models.TextField()
+    rating = models.IntegerField(choices=RATINGS)
+    author = models.CharField(max_length=8) #max length of a NetID
+    
+    def __unicode__(self):
+        return summary
+        
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        exclude = ('author',)
+
+class Photo(models.Model):
+
+    date = models.DateField(auto_now_add=True)
+    photo = models.ImageField(upload_to=photopath)
+    
+    def __unicode(self):
+        return "Photo on %s" % (self.date)

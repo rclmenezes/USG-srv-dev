@@ -4,7 +4,8 @@ from django.shortcuts import render_to_response
 from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
-from models import Draw, Building, Room, User, Queue
+from models import *
+from django import forms
 import json
 
 def check_undergraduate(username):
@@ -65,3 +66,14 @@ def create_queue(request, drawid):
     
 def update_queue(request, drawid):
     return HttpResponse("pass")
+    
+#for testing
+def review(request):
+    form = ReviewForm(request.POST)
+    
+    if form.is_valid():
+        rev = form.save(commit=False)
+        rev.author = 'meeee'
+        rev.save()
+    return render_to_response('rooms/reviewtest.html', {'form': form})
+
