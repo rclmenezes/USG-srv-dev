@@ -13,4 +13,7 @@ urlpatterns = patterns('',
     
     # Admin interface
     (r'^admin/', include(admin.site.urls)),
+    
+    #for testing purposes
+    (r'^review/?$', 'rooms.views.review'),
 )
