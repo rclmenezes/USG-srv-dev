@@ -23,6 +23,8 @@
 	
     <!-- Pub/sub framework -->
   <script type="text/javascript" src="/static/rooms/js/jquery.ba-tinypubsub.min.js"></script>
+    <!-- Draggable Queue -->
+  <script type="text/javascript" src="/static/rooms/queue.js"></script>
 
    
 </head>
@@ -42,7 +44,28 @@
             <h1>Queues</h1>
             <div id="create_queue" class="queue_button" onclick="$('#create_success').load('/create_queue/'+current_draw)">Create</div>
             <div id="remove_queue" class="queue_button">Remove</div>
-            <div id="create_success"></div>
+            <div id="create_success"></div><br><br>
+            <ul id="list_queues">
+                <h1><a href="#">First Queue</a></h1>
+                <ul class="queue_drag" style="max-height: 130px; overflow-x:scroll; overflow-y: none">
+                    <li class="ui-state-default">Room #1</li>
+                    <li class="ui-state-default">Room #2</li>
+                    <li class="ui-state-default">Room #3</li>
+                    <li class="ui-state-default">Room #4</li>
+                    <li class="ui-state-default">Room #1</li>
+                    <li class="ui-state-default">Room #2</li>
+                    <li class="ui-state-default">Room #3</li>
+                    <li class="ui-state-default">Room #4</li>
+                </ul>
+                <h1><a href="#">Second Queue</a></h1>
+                <ul class="queue_drag" style="max-height: 130px; overflow:scroll">
+                    <li class="ui-state-default">Room #5</li>
+                    <li class="ui-state-default">Room #6</li>
+                    <li class="ui-state-default">Room #7</li>
+                    <li class="ui-state-default">Room #8</li>
+                </ul>
+
+            </ul>
             <div class="clearfloat"></div>
 	    </div>
 	  </div>
