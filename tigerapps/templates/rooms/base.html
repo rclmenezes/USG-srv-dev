@@ -40,8 +40,9 @@
 	    </div>
 	    <div id="queues">
             <h1>Queues</h1>
-            <div id="create_queue" class="queue_button">Create</div>
-            <div id="create_queue" class="queue_button">Remove</div>
+            <div id="create_queue" class="queue_button" onclick="$('#create_success').load('/create_queue/'+current_draw)">Create</div>
+            <div id="remove_queue" class="queue_button">Remove</div>
+            <div id="create_success"></div>
             <div class="clearfloat"></div>
 	    </div>
 	  </div>

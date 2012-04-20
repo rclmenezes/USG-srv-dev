@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
-from models import Draw, Building, Room, User
+from models import Draw, Building, Room, User, Queue
 import json
 
 def check_undergraduate(username):
@@ -48,3 +48,20 @@ def mapdata():
     mapstring = json.dumps(maplist)
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript
+
+@login_required
+def create_queue(request, drawid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    draw = Draw.objects.get(pk=drawid)
+    # Check if user already has queue for this draw
+    if user.queues.filter(draw=draw):
+        return HttpResponse("fail")
+    queue = Queue(draw=draw)
+    queue.save()
+    user.queues.add(queue)
+    return HttpResponse("pass")
+    
+def update_queue(request, drawid):
+    return HttpResponse("pass")

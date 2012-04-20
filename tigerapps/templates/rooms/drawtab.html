@@ -11,7 +11,7 @@
   <script type="text/javascript" src="/static/rooms/picnet.table.filter.min.js"></script>
   <script type="text/javascript">
   $(function() {
-  $("#drawtable").tablesorter();
+  $("#drawtable").tablesorter({headers: { 0: { sorter: false}}});
   });
   </script>
   <script type="text/javascript">
@@ -26,6 +26,7 @@
   <table id="drawtable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
     <thead>
       <tr>
+    <th></th>
 	<th>Room</th>
 	<th>Building</th>
 	<th>Sqft</th>
@@ -39,6 +40,7 @@
     <tbody id="scrollarea">
     {% for room in room_list %}
     <tr>
+      <td><div onlick="$.publish('queue/add',{{ room.id }})" id="addroom-{{ room.id }}">add</a></td>
       <td>{{ room.number }}</td>
       <td>{{ room.building }}</td>
       <td>{{ room.sqft }}</td>

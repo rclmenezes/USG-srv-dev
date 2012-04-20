@@ -63,13 +63,15 @@ class User(models.Model):
     lastname = models.CharField('Last Name', max_length=45, null=True, blank=True) # sn
     pustatus = models.CharField(max_length=20, null=True, blank=True) # undergraduate or graduate
     puclassyear = models.IntegerField('Class Year', null=True, blank=True) # puclassyear
-    queue = models.ManyToManyField('Queue')
+    queues = models.ManyToManyField('Queue')
     def __unicode__(self):
         return self.netid
 
 # queues
 class Queue(models.Model):
     draw = models.ForeignKey('Draw')
+    def __unicode__(self):
+        return self.draw.name
 
 # queue-to-room mappings
 class QueueToRoom(models.Model):
