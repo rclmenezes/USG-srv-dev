@@ -93,7 +93,7 @@ input
     left: 0;
 }
 
-#queues
+#upperright
 {
     height: 100%;
     width: 29.5%;
@@ -103,6 +103,19 @@ input
     right: 0;
 }
 
+#greeting
+{
+    height: 10%;
+    width: 100%;
+    
+}
+
+#queues
+{
+    height: 90%;
+    width: 100%;
+    position: absolute;
+}
 .queue_button
 {
     background: grey;
