@@ -16,5 +16,5 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     
     #for testing purposes
-    (r'^review/?$', 'rooms.views.review'),
+    (r'^review/(?P<roomid>\d+)$', 'rooms.views.review'),
 )

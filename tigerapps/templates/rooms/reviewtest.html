@@ -5,13 +5,25 @@
 
 <body>      
 
-    <form action = "." method="POST">
+    <form action = "" method="POST">
         <table>
             {{ form.as_table }}
         </table>
         <p><input type="submit" value="Submit"></p>
     </form>
     
+    
+    {% if submitted %}
+        Submitted
+    {% else %}
+        Not submitted
+    {% endif %}
+    
+    <p>
+    
+    {% if error %}
+        Bad submit data
+    {% endif %}
     
 </body>
 </html>

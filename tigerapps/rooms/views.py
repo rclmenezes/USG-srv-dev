@@ -110,13 +110,23 @@ def get_queue(request, drawid):
         room_list.append(qtr.room)
     return render_to_response('rooms/queue.html', {'room_list':room_list})
 
+@login_required
 #for testing
-def review(request):
-    form = ReviewForm(request.POST)
+def review(request, roomid):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
     
-    if form.is_valid():
-        rev = form.save(commit=False)
-        rev.author = 'meeee'
-        rev.save()
-    return render_to_response('rooms/reviewtest.html', {'form': form})
-
+        if form.is_valid():
+            print 'ok valid'
+            rev = form.save(commit=False)
+            rev.user = check_undergraduate(request.user)
+            rev.room = Room.objects.filter(id=roomid)[0]
+            rev.save()
+            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True})
+        else:
+            form = ReviewForm()
+            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': True})
+    else:
+        form = ReviewForm()
+        
+    return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})

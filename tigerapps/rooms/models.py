@@ -92,11 +92,12 @@ class Review(models.Model):
 
     RATINGS = ( (i, i) for i in range(6) )
     
+    room = models.ForeignKey('Room')
     summary = models.CharField(max_length=30)
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
     rating = models.IntegerField(choices=RATINGS)
-    author = models.CharField(max_length=8) #max length of a NetID
+    user = models.ForeignKey('User')
     
     def __unicode__(self):
         return summary
@@ -104,7 +105,7 @@ class Review(models.Model):
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        exclude = ('author',)
+        exclude = ('user', 'room')
 
 class Photo(models.Model):
 
