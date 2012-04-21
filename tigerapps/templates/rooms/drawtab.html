@@ -40,7 +40,10 @@
     <tbody id="scrollarea">
     {% for room in room_list %}
     <tr>
-      <td><div onlick="$.publish('queue/add',{{ room.id }})" id="addroom-{{ room.id }}">add</a></td>
+      <td>
+        <a onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">a</a>
+        <a onclick="$.publish('queue/remove', {{ room.id }})">r</a>
+      </td>
       <td>{{ room.number }}</td>
       <td>{{ room.building }}</td>
       <td>{{ room.sqft }}</td>

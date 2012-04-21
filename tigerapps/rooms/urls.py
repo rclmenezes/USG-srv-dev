@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     (r'^logout/?$', 'django_cas.views.logout'),
     (r'^drawid/(?P<drawid>\d{1})$', 'rooms.views.draw'),
     (r'^create_queue/(?P<drawid>\d{1})$', 'rooms.views.create_queue'),
+    (r'^get_queue/(?P<drawid>\d{1})$', 'rooms.views.get_queue'),
     (r'^update_queue/(?P<drawid>\d{1})$', 'rooms.views.update_queue'),
     
     # Admin interface

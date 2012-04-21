@@ -64,9 +64,52 @@ def create_queue(request, drawid):
     user.queues.add(queue)
     return HttpResponse("pass")
     
+@login_required
 def update_queue(request, drawid):
-    return HttpResponse("pass")
-    
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    draw = Draw.objects.get(pk=drawid)
+    qlist = json.loads(request.POST['queue'])
+    # resp = ''
+    # for r in qlist:
+    #     resp += ' ' + r;
+    queue = user.queues.filter(draw=draw)[0]
+    if not queue:
+        return HttpResponse('no queue')
+    rooms = []
+    for roomid in qlist:
+        room = Room.objects.get(pk=roomid)
+        if (not room) or not draw in room.building.draw.all():
+            return HttpResponse('bad room/draw')
+        rooms.append(room)
+    # Clear out the old list
+    queue.queuetoroom_set.all().delete()
+    # Put in new relationships
+    for i in range(0, len(rooms)):
+        qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
+        qtr.save()
+    # Test output - list rooms
+    return HttpResponse(rooms)
+
+# Ajax for displaying this user's queue
+@login_required
+def get_queue(request, drawid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        queue = user.queues.get(draw__id=drawid)
+    except:
+        return HttpResponse('no queue')
+    queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
+    if not queueToRooms:
+        return HttpResponse('no rooms')
+    room_list = []
+    for qtr in queueToRooms:
+        room_list.append(qtr.room)
+    return render_to_response('rooms/queue.html', {'room_list':room_list})
+
 #for testing
 def review(request):
     form = ReviewForm(request.POST)
