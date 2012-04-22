@@ -10,12 +10,12 @@
 	<title>{% block title %}TigerStorage{% endblock %}</title>
 
 	<!-- Adding CSS -->
-	<link rel="stylesheet" type="text/css" href="/static/storage/css/styles5.css" />
+	<link rel="stylesheet" type="text/css" href="/static/storage/css/styles.css" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	
 	<!-- Create a MenuMatic Instance -->
-    <script type="text/javascript" src="/static/storage/js/jquery.easing.js">
+    <!--<script type="text/javascript" src="/static/storage/js/jquery.easing.js"></script>
     <script type="text/javascript" src="/static/storage/js/jquery.sweet-menu-1.0.js"></script>
     <script type="text/javascript" >
 		window.addEvent('domready', function() {			
@@ -26,8 +26,10 @@
 			$('#Menu').sweetMenu({top:400,padding:8,iconSize:48,easing:'easeOutBounce',duration:500,
 			icons:['/static/storage/images/home.png', '/static/storage/images/comments.png','/static/storage/images/red_heart.png']});
 	});
-	</script>
+	</script> -->
 	
+	{% block header %}
+	{% endblock %}
 	
 </head>
 
@@ -37,36 +39,32 @@
 		<div class="top">
 			<div class="header">
 				<div class="logo" id="usglogo"><a href="http://usg.princeton.edu"><img src="/static/ttrade/images/usglogoless.png" alt=""/></a></div>
-				<div class="logo" id="ttradelogo"><a href="/"><img src="/static/ttrade/images/ttrade.jpg" alt=""/></a></div>
-				<div class="right">
-					{% if logged_in %}
-						<div id="make_a_listing"><a href="/create">Make a listing!</a></div><br/>
-						<div id="your_listings"><a href="/yourListings">Your listings</a></div>
-						<div id="logout"><a href="/logout">Logout</a></div>
-					{% else %}
-						<div id="login"><a href="/login">Login!</a></div>
-					{% endif %}
-				</div>
+				<div class="logo" id="ttradelogo"><a href="/"><span style='font-family:tahoma;font-size:400%;font-weight:bold;'>Summer Storage</span></a></div>
+				{% if user.is_authenticated %}
+					<div id="account"><span style="font-weight:normal;">Welcome, {{user.username}}! &gt; </span><a href="/logout/">Logout</a></div>
+				{% else %}
+					<div id="account"><a href="/login/">Login!</a></div>
+				{% endif %}
 			</div> <!-- header-->
-
 		</div><!-- top -->
 		
-		<div class="index">
-		<!-- MENU -->
-			
-			<ul id="Menu">
-            	<li><a href="#home">Home</a></li>
-            	<li><a href="#home">Register</a></li>
-            	<li><a href="#home">Status</a></li>
+		<div id="menu">
+			<ul class="subsection_tabs">
+            	<li class="tab"><a href="/">Home</a></li>
+            	<li class="tab"><a href="/register/">Register</a></li>
+            	<li class="tab"><a href="/status/">My Order</a></li>
         	</ul>
-		</div>
+		</div><!-- MENU -->
 		
-		<div class="content">{% block content %}{% endblock %}</div>
+		<div class="main">
+			{% block content %}{% endblock %}
+		</div><!--  main -->
 		
 	</div><!--wrapper-->
 	
 	<div class="footer" style="text-align: center;">
-		<small>&copy;USG 2011 | Made by <a href="mailto:rmenezes[-AT-]princeton[-DOT-]edu" style="color: white;">Rodrigo Menezes</a><br/><a href="http://www.surveygizmo.com/s3/623136/TigerApps-Feedback" style="color: white;">Report a bug</a> | <a href="/terms" style="color: white;">Terms of Use</a></small>
+		<small>Developed by <a href="mailto:joshchen[-AT-]princeton[-DOT-]edu">Josh Chen '14</a>
+			<br/>&copy;USG 2012 | <a href="/admin/" style="font-weight:bold;">Admin</a></small>
 	</div>
 </body>
 </html>

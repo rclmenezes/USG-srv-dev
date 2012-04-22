@@ -3,36 +3,37 @@ from django.contrib.localflavor.us.forms import USPhoneNumberField
 from storage.models import *
 
 class RegistrationForm(forms.ModelForm):
-    cell_number = USPhoneNumberField(label = 'Cell phone number')
-    proxy_email = forms.EmailField(label = 'Proxy email', required=False)
+    cell_number = USPhoneNumberField(label='Cell phone number')
+    proxy_email = forms.EmailField(label='Proxy email', required=False)
+    dropoff_pickup_time = forms.ModelChoiceField(DropoffPickupTime.objects.all(),
+                                                 widget=forms.RadioSelect,
+                                                 label="Dropoff/pickup time",
+                                                 empty_label=None)
+    n_boxes_bought = forms.IntegerField(label='Quantity', widget=forms.TextInput(attrs={'size':'1'}))
+    
+    BOX_PRICE = "9.40"
+    MAX_BOXES = 10
     
     class Meta:
         model=Status
         fields =  ('cell_number',
-                   'proxy_name', 'proxy_email',
-                   'dropoff_pickup_time')
-
-    #def save(self, user, commit=True):
-    #    pass
-    '''
-        hours = self.cleaned_data['hours']
-        date = self.cleaned_data.get('date')
-        month = datetime.date(date.year, date.month, 1)
-        group_types = ['year', 'res_college', 'eating_club']
-
-        for group_type in group_types:
-            group_name = self.cleaned_data.get(group_type)
-            if group_name:
-                try:
-                    entry = GroupHours.objects.get(group=group_name, month=month)
-                except GroupHours.DoesNotExist, e:
-                    entry = GroupHours(group=group_name, month=month, hours=0)
-                entry.hours += hours
-                if commit:
-                    entry.save()
-
-        log_entry = super(LogClusterForm, self).save(commit=False)
-        log_entry.user = user
-        log_entry.save()
-        '''
-
+                   'dropoff_pickup_time', 'n_boxes_bought',
+                   'proxy_name', 'proxy_email',)
+    
+    def clean_n_boxes_bought(self):
+        quantity = self.cleaned_data['n_boxes_bought']
+        if quantity > self.MAX_BOXES:
+            raise forms.ValidationError("Limit %d boxes." % self.MAX_BOXES)
+        dp_time = self.cleaned_data['dropoff_pickup_time']
+        n_boxes_left = dp_time.n_boxes_total - dp_time.n_boxes_bought
+        if quantity > n_boxes_left:
+            raise forms.ValidationError("There are only %d boxes available for the time you picked." % n_boxes_left)
+        return quantity
+    
+    def save(self, user, commit=True):
+        dp_time = self.cleaned_data['dropoff_pickup_time']
+        
+        
+        form = super(RegistrationForm, self).save(commit=False)
+        form.user = user
+        form.save()

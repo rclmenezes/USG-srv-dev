@@ -1,84 +1,75 @@
 import uuid
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django_cas.decorators import login_required, user_passes_test
+from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from paypal.standard.forms import PayPalPaymentsForm
+from utils import paypal
 from storage.forms import RegistrationForm
+from storage.models import *
+
+
+def home(request):
+    postList = Post.objects.all().order_by('posted').reverse()
+    paginator = Paginator(postList, 3)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    # If page # is out of range, deliver 1st page of results.
+    try:
+        posts = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        posts = paginator.page(1)
+        
+    return render_to_response('storage/index.html', 
+                              {'posts': posts},
+                              RequestContext(request))
 
 @login_required
 def register(request):
-    if request.method == 'POST':
-        status_form = RegistrationForm(request.POST)
-        if status_form.is_valid():
-            log = status_form.save(request.user, commit=True)
-            return render_to_response('storage/registration_complete.html')
-        
-    status_form = RegistrationForm()
-    netid = request.user
+    dp_qset = DropoffPickupTime.objects.all()
+    dp_times = {(x.id, (x.dropoff_time.strftime("%a %m/%d/%Y %I:%M%p"),
+                x.pickup_time.strftime("%a %m/%d/%Y %I:%M%p"),
+                x.n_boxes_total-x.n_boxes_bought)) for x in dp_qset} 
     
-    #adam's shit
-    title = "Box"
-    price = 9.40
-    quantity = 2
-    paypal = {
-        'amount': price,
-        'item_name': "Box",
-        'item_number': "box",
-        'quantity': quantity,
+    if request.method == 'POST':
+        reg_form = RegistrationForm(request.POST)
+        if not reg_form.is_valid():
+            return render_to_response('storage/register.html',
+                                      {'reg_form': reg_form,
+                                       'box_price': reg_form.BOX_PRICE,
+                                       'max_boxes': reg_form.MAX_BOXES,
+                                       'reg_form_dptime_choice': request.POST['dropoff_pickup_time'],
+                                       'dp_times': dp_times},
+                                      RequestContext(request))
+        reg_form.save(request.user, commit=True)
+        pp_details = {
+            'amount': float(box_price),
+            'item_name': "USG summer storage boxes",
+            'item_number': "box",
+            'quantity': pp_quantity,
+            
+            'invoice': str(uuid.uuid1()), #PayPal wants a unique invoice ID 
+            'return_url': settings.SITE_DOMAIN,
+            'cancel_return': settings.SITE_DOMAIN,
+        }
+        pp_form = PayPalPaymentsForm(initial=pp_details)
+        if settings.DEBUG:
+            pp_form_rendered = form.sandbox()
+        else:
+            pp_form_rendered = form.render()
+        return render_to_response('storage/register_paypal.html')
         
-        # PayPal wants a unique invoice ID
-        'invoice': str(uuid.uuid1()), 
-        
-        # It'll be a good idea to setup a SITE_DOMAIN inside settings
-        # so you don't need to hardcode these values.
-        'return_url': settings.SITE_DOMAIN,
-        'cancel_return': settings.SITE_DOMAIN,
-    }
-    form = PayPalPaymentsForm(initial=paypal)
-    if settings.DEBUG:
-        rendered_form = form.sandbox()
-    else:
-        rendered_form = form.render()
-
-    #render the template
+    reg_form = RegistrationForm()
+    
     return render_to_response('storage/register.html',
-                              {'registration_form': status_form, 'user_netid': netid,           
-                               'title' : title,
-                              'price' : price,
-                               'form' : rendered_form,
-                               'quantity': quantity,},
+                              {'reg_form': reg_form,
+                               'box_price': reg_form.BOX_PRICE,
+                               'max_boxes': reg_form.MAX_BOXES,
+                               'dp_times': dp_times},
                               RequestContext(request))
-                          
-
-def product_detail(request):
-    title = "Box"
-    price = 9.40
-    quantity = 2
-    paypal = {
-        'amount': price,
-        'item_name': "Box",
-        'item_number': "box",
-        'quantity': quantity,
-        
-        # PayPal wants a unique invoice ID
-        'invoice': str(uuid.uuid1()), 
-        
-        # It'll be a good idea to setup a SITE_DOMAIN inside settings
-        # so you don't need to hardcode these values.
-        'return_url': settings.SITE_DOMAIN,
-        'cancel_return': settings.SITE_DOMAIN,
-    }
-    form = PayPalPaymentsForm(initial=paypal)
-    if settings.DEBUG:
-        rendered_form = form.sandbox()
-    else:
-        rendered_form = form.render()
-    return render_to_response('storage/paypal.html', {
-        'title' : title,
-        'price' : price,
-        'form' : rendered_form,
-    }, RequestContext(request))
-
