@@ -21,7 +21,7 @@ function init() {
 	
 	//static constants
 	jmap.tileSZ = 256; //square
-	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2048,y:2048,scale:1}];
+	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2816,y:2048,scale:1}];
 	
 	//for dragging
 	jmap.isDragging = false;
@@ -100,11 +100,11 @@ function loadTiles() {
 	//alert(tileBounds.minX+','+tileBounds.maxX+';'+tileBounds.minY+','+tileBounds.maxY);
 	for (x=tileBounds.minX; x<=tileBounds.maxX; x++) {
 		for (y=tileBounds.minY; y<=tileBounds.maxY; y++) {
-			var id = tileIndexToId(x,y);
+			var id = tileIndexToId(y,x);
 			if (jmap.loadedTiles[id] == undefined) {
 				var domEle = document.createElement('img');
 				jmap.loadedTiles[id] = domEle;
-				domEle.setAttribute('src', jmap.tilesDir+'lol.jpg');
+				domEle.setAttribute('src', jmap.tilesDir+id+'.jpg');
 				domEle.setAttribute('class', 'jmap-tile');
 				domEle.setAttribute('id', id);
 				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
