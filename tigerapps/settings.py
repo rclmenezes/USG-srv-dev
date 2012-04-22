@@ -19,11 +19,10 @@ else:
     CURRENT_HOST_PREFIX = ""
 
 
-
+#For django_cas
 LOGIN_URL = '/login/'
-#paypal only
+#For paypal
 PAYPAL_RECEIVER_EMAIL = 'it@princetonusg.com'
-SITE_DOMAIN = 'http://dev.storage.tigerapps.org'
 
 
 

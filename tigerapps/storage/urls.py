@@ -8,6 +8,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^/?$', 'storage.views.home'),
     url(r'^register/?$', 'storage.views.register'),
+    url(r'^register/complete/?$', 'storage.views.register_complete'),
+    url(r'^status/?$', 'storage.views.status'),
     
     
     (r'^login/?$', 'django_cas.views.login'),

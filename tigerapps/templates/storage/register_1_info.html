@@ -1,19 +1,15 @@
 {% extends "storage/base.html" %}
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-
 {% block header %}
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#input_quantity').focusout(function() {
+			$('#id_n_boxes_bought').focusout(function() {
 				var quantity = parseInt($('#id_n_boxes_bought').val());
 				if (isNaN(quantity))
 					$('#output_price').html('0.00');
 				else {
 					var price = parseFloat($('#input_price').html());
-					var tot = Math.round(quantity * price * 100).toString();
-					$('#output_price').html(tot.substring(0,tot.length-2)+'.'+tot.substring(tot.length-2));
+					$('#output_price').html((quantity*price).toFixed(2));
 				}
 			});
 		});
@@ -47,11 +43,10 @@
 		
 		<tr id="row_{{reg_form.dropoff_pickup_time.auto_id}}">
 			<th id="th_{{reg_form.dropoff_pickup_time.auto_id}}" class="tableLabel">
-				{{reg_form.dropoff_pickup_time.label_tag}}*:</th>
+				Dropoff/pickup time*:</th>
 			<td>
-				{{reg_form.cleaned_data}}
-				<table>{% for radio in reg_form.dropoff_pickup_time %}
-					<tr><td>{{radio.tag}}</td>
+				<table>{% for dp_id, dp_d, dp_p, dp_n in dp_times %}
+					<tr><td><input type="radio" name="dropoff_pickup_time" value="{{dp_id}}" {%ifequal dp_id dp_choice%}checked="checked"{%endifequal%}></td>
 					<td style="padding-left:4px;">Dropoff: {{dp_d}}<br/>
 					Pickup: {{dp_p}}<br/>
 					<span style="color:gray;">({{dp_n}} boxes left)</span></td></tr>
@@ -89,7 +84,7 @@
 			
 			
 		<tr><td colspan="2" class="desc" style='text-align:center;'>
-			<input type="submit" class="button" value="Continue"/>
+			<input type="submit" value="Continue &gt;&gt;"/>
 		</td></tr>
 	
 	</table>

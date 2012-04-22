@@ -32,44 +32,76 @@ def home(request):
 
 @login_required
 def register(request):
-    dp_qset = DropoffPickupTime.objects.all()
-    dp_times = {(x.id, (x.dropoff_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                x.pickup_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                x.n_boxes_total-x.n_boxes_bought)) for x in dp_qset} 
+    #Make sure user didn't already register
+    try:
+        status = Status.objects.get(user=request.user)
+        Status.delete(status)
+        #return render_to_response('storage/register_1_info.html', {'bool_registered': True}, RequestContext(request))
+    except:
+        pass
     
+    #Get the list of dropoffpickuptimes
+    dp_qset = DropoffPickupTime.objects.all()
+    dp_times = [(str(x.id), x.dropoff_time.strftime("%a %m/%d/%Y %I:%M%p"),
+                x.pickup_time.strftime("%a %m/%d/%Y %I:%M%p"),
+                x.n_boxes_total-x.n_boxes_bought) for x in dp_qset]
+    
+    #Process the user's input if POST
     if request.method == 'POST':
         reg_form = RegistrationForm(request.POST)
         if not reg_form.is_valid():
-            return render_to_response('storage/register.html',
+            try:    c = request.POST['dropoff_pickup_time']
+            except: c = None
+            return render_to_response('storage/register_1_info.html',
                                       {'reg_form': reg_form,
                                        'box_price': reg_form.BOX_PRICE,
                                        'max_boxes': reg_form.MAX_BOXES,
-                                       'reg_form_dptime_choice': request.POST['dropoff_pickup_time'],
+                                       'dp_choice': c,
                                        'dp_times': dp_times},
                                       RequestContext(request))
         reg_form.save(request.user, commit=True)
+        
+        #Render data to show on next page
+        status = Status.objects.get(user=request.user)
+        reg_info = ((0, 'NetID:', request.user.username),
+                    (0, 'Cell phone number*:', status.cell_number),
+                    (1, 'Dropoff/pickup time*:', str(status.dropoff_pickup_time).split(', ')),
+                    (0, 'Price per box:', '$'+reg_form.BOX_PRICE),
+                    (0, 'Quantity (max %d)*:'%reg_form.MAX_BOXES, status.n_boxes_bought),
+                    (0, 'Total price:', '$%.2f'%(float(reg_form.BOX_PRICE)*status.n_boxes_bought)),
+                    (0, ' ', ' '),
+                    (0, 'Proxy name:', status.proxy_name),
+                    (0, 'Proxy email:', status.proxy_email))
         pp_details = {
-            'amount': float(box_price),
             'item_name': "USG summer storage boxes",
             'item_number': "box",
-            'quantity': pp_quantity,
+            'amount': reg_form.BOX_PRICE,
+            'quantity': status.n_boxes_bought,
             
             'invoice': str(uuid.uuid1()), #PayPal wants a unique invoice ID 
-            'return_url': settings.SITE_DOMAIN,
-            'cancel_return': settings.SITE_DOMAIN,
+            'return_url': settings.SITE_DOMAIN+'/register/complete/',
+            'cancel_return': settings.SITE_DOMAIN+'/register/',
         }
         pp_form = PayPalPaymentsForm(initial=pp_details)
-        if settings.DEBUG:
-            pp_form_rendered = form.sandbox()
-        else:
-            pp_form_rendered = form.render()
-        return render_to_response('storage/register_paypal.html')
-        
-    reg_form = RegistrationForm()
+        pp_form_rendered = pp_form.sandbox()
+        #pp_form_rendered = pp_form.render()
+        return render_to_response('storage/register_2_paypal.html',
+                                  {'reg_info': reg_info,
+                                   'pp_info': pp_form_rendered},
+                                  RequestContext(request))
     
-    return render_to_response('storage/register.html',
+    #Return empty form if GET
+    reg_form = RegistrationForm()
+    return render_to_response('storage/register_1_info.html',
                               {'reg_form': reg_form,
                                'box_price': reg_form.BOX_PRICE,
                                'max_boxes': reg_form.MAX_BOXES,
                                'dp_times': dp_times},
                               RequestContext(request))
+
+def register_complete(request):
+    return home(request)
+
+def status(request):
+    return home(request)
+
