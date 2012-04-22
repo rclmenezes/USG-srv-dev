@@ -23,7 +23,7 @@ a img
 
 .wrapper
 {
-    width: 950px;
+    width: 800px;
     margin: 0 auto;
     padding: 0 0 100px;
     background: white;
@@ -92,11 +92,30 @@ span#right
     float: right;
 }
 
-.footer a:hover
+/* page numbers at bottom */
+div.pagination
 {
-    text-decoration: underline;
+	float:right;
+}
+span.current
+{
+	font-style:italic;
+}
+/* end */
+
+
+/*** my shit ***/
+
+.main
+{
+    margin: 0 60px;
+    padding: 0;
 }
 
+span.payment
+{
+	padding: 0 6px;
+}
 
 /**** HEADER ******/
 
@@ -109,8 +128,8 @@ span#right
 .header
 {
     display: block;
-    padding: 40px 0 0 0;
-    margin-bottom: -40px;
+    padding: 0 0 0 0;
+    margin-bottom: 0;
     min-height: 110px;
 }
 
@@ -123,55 +142,22 @@ span#right
 #usglogo
 {
     top: 7px;
-    left: 0;
+    left: 7px;
 }
 
 #ttradelogo
 {
     top: 15px;
-    left: 100px;
+    left: 107px;
 }
 
-.right
+#account
 {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    right: 15px;
+    top: 5px;
+    font-weight: bold;
 }
-
-    #make_a_listing
-    {
-        width: 109px;
-        position: absolute;
-        right: 15px;
-        top: 5px;
-        font-weight: bold;
-    }
-    
-    #your_listings
-    {
-        width: 95px;
-        position: absolute;
-        right: 10px;
-        top: 25px;
-        font-weight: bold;
-    }
-
-    #login
-    {
-        position: absolute;
-        right: 15px;
-        top: 5px;
-        font-weight: bold;
-    }
-    
-    #logout
-    {
-        position: absolute;
-        right: 15px;
-        top: 45px;
-        font-weight: bold;
-    }
 
 .header table, tr, td, th
 {
@@ -180,8 +166,45 @@ span#right
 
 /**** </HEADER> ******/
 
+/* Subsection Tabs
+--------------------*/
+ul.subsection_tabs {
+	list-style:none;
+	width:550px;
+	margin:0 0 25px 40px;
+	padding:0;
+	border-bottom:1px solid orange;
+	height:25px;
+}
+
+ul.subsection_tabs li.tab {
+	float:left;
+	margin-right:10px;
+	text-align:center;
+}
+
+ul.subsection_tabs li.tab a {
+	display:block;
+	height:25px;
+	padding:0 9px 0 9px;
+	background-color:#fff;
+	font-size:125%;
+	color:#000;
+	width:90px;
+}
+
+ul.subsection_tabs li.tab a:hover {
+	color:#888;
+}
+
+ul.subsection_tabs li.tab a.active {
+	background-color:#ddd;
+}
+
+/**** </Subsection Tabs> ****/
+
 /*****************<MENU>*******************/
-.sweetMenuAnchor{
+/*.sweetMenuAnchor{
     border-top: 1px solid #ffffff;
     border-right: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
@@ -203,8 +226,7 @@ span#right
 .sweetMenuAnchor span{
 	display: block;
 	padding-top: 10px;
-}
-			
+}*/
 
 
 /****************<TABLE>*********************/
@@ -272,6 +294,28 @@ span.th, span.tr
     vertical-align: middle;
 }
 
+table.form
+{
+	margin: auto;
+	width: 500px;
+}
+table.form td
+{
+	vertical-align: top;
+	padding-top: 4px;
+}
+table.form th
+{
+	vertical-align: top;
+	text-align: left;
+	padding-right: 20px;
+	padding-top: 4px;
+}
+table.form td.desc
+{
+	padding-top: 30px;
+}
+
 .listing
 {
     height: 38px;
@@ -302,125 +346,7 @@ span.th, span.tr
     background: #C3D6D6;
 }
 
-.main
-{
-    width: 95%;
-    margin: 20px auto 0 auto;
-    padding: 0;
-}
-
-.listing span.tc_picture
-{
-    height: 38px;
-}
-
-.listing span.tc_picture img
-{
-    margin-top: 6px;
-}
-
-span.tc_picture
-{
-	width: 8%;
-}
-
-span.tc_listing_type
-{
-    width: 7%;
-}
-
-span.tc_title
-{
-	width: 39%;
-}
-
-span.tc_t
-{
-	width: 12%;
-}
-
-span.tc_r
-{
-	width: 18.75%;
-}
-
-.title span.tc_listing_type, .title span.tc_title, .title span.tc_t, .title span.tc_r
-{
-    border-left: 1px solid white;
-}
-
-table#items
-{
-    display: inline-block;
-}
-
-#th_remaining
-{
-    min-width: 120px;
-}
-
-table#info td
-{
-    padding: 0 5px;
-}
-
-table#info
-{
-    margin: 0 auto;
-}
-
 /****************</TABLE>*********************/
-
-span#feedback-button
-{
-    position: absolute;
-    top: 0;
-    right: 150px;
-    padding: 3px 0;
-    margin: 0;
-    height: 25px;
-    width: 100px;
-    background: orange;
-    border: solid gray;
-    border-width: 0 2px 2px;
-    text-align: center;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;    
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 5px;
-	-moz-box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
-	-khtml-box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
-	-webkit-box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
-	box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
-}
-
-a #feedback-button
-{
-    color: white;
-    letter-spacing: 1px;
-    font-size: 14px;
-    font-weight:bold;
-}
-
-#feedback a
-{ 
-    display: block;
-    cursor: pointer;
-    position: fixed; 
-    top: 180px; 
-    right: -1px; 
-    background: #4E6A9A; 
-    padding: 7px 5px;
-    border: 1px solid #35496C;
-}
-
-#feedback a:hover
-{
-    background: #35496C;
-    border: 1px solid #030;
-}
 
 .footer
 {
@@ -437,88 +363,11 @@ a #feedback-button
     color: white;
 }
 
-#center
+.footer a
 {
-    width: 500px;
-    border: 1px solid #DCE7EC;
-    margin: 20px auto 0 auto;
-    padding: 0;
+	color:white;
 }
-
-#main_listing
+.footer a:hover
 {
-    width: 700px;
-    border: 1px solid #DCE7EC;
-    margin: 20px auto 0 auto;
-    padding: 0 0 15px;
-}
-
-input#get
-{
-    text-align: center;
-}
-
-.centerize
-{
-    text-align: center;
-    margin: 0 auto;
-    display: block;
-}
-
-.box
-{
-    width: 525px;
-    margin: 15px auto;
-}
-
-.box h3
-{
-    padding: 0;
-    margin: 0;
-    font-size: 13px;
-}
-
-.box_inner
-{
-    padding: 8px;
-    border: 2px solid #DCE7EC;
-    -moz-border-radius: 7px;    
-	-webkit-border-radius: 7px;
-	min-height: 30px;
-	margin-bottom: 5px;
-}
-
-#picture
-{
-    text-align: center;
-}
-
-.white
-{
-    background: #B2BBBF;
-    color: white;
-    margin: 0;
-    text-align: center;
-}
-
-.white h3
-{
-    margin: 0;
-    padding: 5px;
-}
-
-.button {
-    cursor: pointer;
-    display: inline;
-    font-size: 12px;
-    font-weight: normal;
-    margin: 5px;
-    padding: 5px;
-    text-decoration: none;
-}
-
-.submit-bar
-{
-    padding: 10px;
-    text-align: center;
+    text-decoration: underline;
 }

@@ -1,14 +1,27 @@
 from models import *
 from django.contrib import admin
 
-class StatusAdmin(admin.ModelAdmin):
-    #fieldsets = [
-    #    (None, {'fields': ['user', 'title', 'entry', 'entry_description', 'description', 'time_start', 'time_end', 'poster']})
-    #]
-    list_display = ('user', 'cell_number', 'n_boxes_paid')
+class PostAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields': ['title', 'content']})
+    ]
+    list_display = ('title',)
+    search_fields = ['title', 'content']
+
+class TimeAdmin(admin.ModelAdmin):
+    list_display = ('dropoff_time', 'pickup_time', 'n_boxes_total', 'n_boxes_bought')
     
+class StatusAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields': ['user', 'cell_number', 'n_boxes_bought', 'bool_paid']})
+    ]
+    list_display = ('user', 'cell_number', 'n_boxes_bought', 'bool_paid')
+    search_fields = ['user']
+    
+
+admin.site.register(Post, PostAdmin)
+admin.site.register(DropoffPickupTime, TimeAdmin)
 admin.site.register(Status, StatusAdmin)
-admin.site.register(DropoffPickupTime)
 
 '''
     user = models.ForeignKey(User, related_name="status")

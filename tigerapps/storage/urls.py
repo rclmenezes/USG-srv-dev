@@ -6,16 +6,15 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^/?$', direct_to_template,
-        {'template': 'storage/index.html'}),
+    url(r'^/?$', 'storage.views.home'),
     url(r'^register/?$', 'storage.views.register'),
+    
+    
+    (r'^login/?$', 'django_cas.views.login'),
+    (r'^logout/?$', 'django_cas.views.logout'),
+    
     #Example
     #url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
-
-
-    # Paypal
-    url(r'^paypal/?$', 'storage.views.product_detail', name='paypal'),
-    (r'^paypal/ipn/?', include('paypal.standard.ipn.urls')),
 
     # Admin
     url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
