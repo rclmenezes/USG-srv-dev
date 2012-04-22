@@ -1,0 +1,5 @@
+{% for room in room_list %}
+<li id="queue-{{ room.id }}" class="ui-state-default">
+{{ room.number }} {{ room.building }}
+</li>
+{% endfor %}

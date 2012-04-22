@@ -1,0 +1,29 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>      
+
+    <form action = "" method="POST">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+    
+    
+    {% if submitted %}
+        Submitted
+    {% else %}
+        Not submitted
+    {% endif %}
+    
+    <p>
+    
+    {% if error %}
+        Bad submit data
+    {% endif %}
+    
+</body>
+</html>

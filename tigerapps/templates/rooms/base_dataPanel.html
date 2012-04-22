@@ -3,15 +3,19 @@
 {% block dataPanel %}
 <script type="text/javascript">
   $(function() {
-  $( "#tabs" ).tabs();
+  $( "#tabs" ).tabs({show: function(event, ui) {
+  current_draw = ui.tab.id.substring(ui.tab.id.length-1);
+  $.publish("draw", current_draw);
+  }});
   });
+  $("#tabs").tabs("option", "cache", true);
 </script>
 
 <div id="roomlist">
   <div id="tabs">
     <ul>
       {% for draw in draw_list %}
-      <li id="tabheaders"><a href="/drawid/{{ draw.id }}" title="drawtab">{{ draw }}</a></li>
+      <li id="tabheaders"><a id="drawref{{ draw.id }}" href="/drawid/{{ draw.id }}" title="drawtab">{{ draw }}</a></li>
       {% endfor %}
     </ul>
       <div id="expandMap">&darr;</div>
