@@ -99,9 +99,13 @@ def register(request):
                                'dp_times': dp_times},
                               RequestContext(request))
 
+@login_required
 def register_complete(request):
-    return home(request)
+    return render_to_response('storage/register_3_complete.html',
+                              {},
+                              RequestContext(request))
 
+@login_required
 def status(request):
     return home(request)
 

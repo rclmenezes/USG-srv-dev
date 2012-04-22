@@ -52,14 +52,12 @@ h2
 }
 
 a {
-    text-decoration: none;
-    color: #000000;
+    color: #F96B02;
 }
 
 a:hover
 {
-    text-decoration: none;
-    color: #F96B02;
+    color: #000000;
 }
 
 a img
@@ -150,10 +148,24 @@ span.payment
     left: 7px;
 }
 
-#ttradelogo
+#storagelogo
 {
     top: 15px;
     left: 107px;
+}
+#storagelogo a
+{
+	text-decoration:none;
+	color: black;
+}
+#storagelogo a:hover
+{
+	text-decoration:none;
+    color: #F96B02;
+}
+#storagelogo a:active
+{
+	text-decoration:none;
 }
 
 #account
@@ -162,6 +174,10 @@ span.payment
     right: 15px;
     top: 5px;
     font-weight: bold;
+}
+#account a
+{
+	text-decoration:none;
 }
 
 .header table, tr, td, th
@@ -198,11 +214,15 @@ ul.subsection_tabs li.tab a {
 	width:90px;
 }
 
+ul.subsection_tabs li.tab a {
+    text-decoration: none;
+}
 ul.subsection_tabs li.tab a:hover {
+    text-decoration: none;
 	color:#888;
 }
-
 ul.subsection_tabs li.tab a.active {
+    text-decoration: none;
 	background-color:#ddd;
 }
 
@@ -299,24 +319,24 @@ span.th, span.tr
     vertical-align: middle;
 }
 
-table.form
+div.register
 {
 	margin: auto;
 	width: 500px;
 }
-table.form td
+div.register table td
 {
 	vertical-align: top;
 	padding-top: 4px;
 }
-table.form th
+div.register table th
 {
 	vertical-align: top;
 	text-align: left;
 	padding-right: 20px;
 	padding-top: 4px;
 }
-table.form td.desc
+div.register table td.desc
 {
 	padding-top: 30px;
 }
@@ -371,6 +391,7 @@ table.form td.desc
 .footer a
 {
 	color:white;
+    text-decoration: none;
 }
 .footer a:hover
 {
