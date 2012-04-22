@@ -10,9 +10,6 @@ body {
 	padding: 0;
 	font-family: Verdana;
 	background: none repeat scroll 0 0 #FF9C26;
-	/*background: #fb9a26;
-    background-image: url("/media/ttrade/images/image1.jpeg"), url("/media/ttrade/images/image2.jpeg");
-    background-repeat: repeat-x, repeat;*/
 }
 
 .wrapper
@@ -323,6 +320,10 @@ div.register
 {
 	margin: auto;
 	width: 500px;
+}
+div.register table
+{
+    margin: auto;
 }
 div.register table td
 {
