@@ -18,6 +18,7 @@
 
 {% block content %}
 
+	<h2>Register for Storage</h2>
 	<p>Register here to store yo' junk with the USG Summer Storage Initiative this summer. Over 2000 boxes were stored with us over the summer of 2011, and we've expanded the service for you this year - it's as convenient, safe, and cheap as ever!</p>
 	
 	<p style="text-align:center;margin:30px 0 20px 0;">
@@ -33,6 +34,9 @@
 		<tr id="row_netid">
 			<th id="th_netid" class="tableLabel">NetID:</th>
 			<td style="padding-left:4px;">{{ user.username }}</td></tr>
+		<tr id="row_email">
+			<th id="th_email" class="tableLabel">Email:</th>
+			<td style="padding-left:4px;">{{ user.username }}@princeton.edu</td></tr>
 		<tr id="row_{{reg_form.cell_number.auto_id}}">
 			<th id="th_{{reg_form.cell_number.auto_id}}" class="tableLabel">
 				{{reg_form.cell_number.label_tag}}*:</th>
@@ -45,12 +49,12 @@
 		<tr id="row_{{reg_form.dropoff_pickup_time.auto_id}}">
 			<th id="th_{{reg_form.dropoff_pickup_time.auto_id}}" class="tableLabel">
 				Dropoff/pickup time*:</th>
-			<td>
-				<table>{% for dp_id, dp_d, dp_p, dp_n in dp_times %}
+			<td><table>{% for dp_id, dp_d, dp_p, dp_n in dp_times %}
 					<tr><td><input type="radio" name="dropoff_pickup_time" value="{{dp_id}}" {%ifequal dp_id dp_choice%}checked="checked"{%endifequal%}></td>
-					<td style="padding-left:4px;">Dropoff: {{dp_d}}<br/>
-					Pickup: {{dp_p}}<br/>
-					<span style="color:gray;">({{dp_n}} boxes left)</span></td></tr>
+					<td style="padding-left:2px;">
+                        Dropoff: {{dp_d}}<br/>
+    					Pickup: {{dp_p}}<br/>
+    					<span style="color:gray;">({{dp_n}} boxes left)</span></td></tr>
 				{% endfor %}
 				{%if reg_form.dropoff_pickup_time.errors%}{% for error in reg_form.dropoff_pickup_time.errors %}
                		<tr><td colspan="2"><span style="color:red;">{{ error }}</span></td></tr>
@@ -68,7 +72,7 @@
 		<tr><th>Total price:</th><td>$<span id='output_price'>0.00</span></td></tr>
 			
 			
-		<tr><td colspan="2" class="desc">If you're not available to drop off or pick up your boxes yourself, you can select a proxy to drop off and/or pick up your boxes for you.</td></tr>
+		<tr><td colspan="2" class="desc">If you're not available to drop off or pick up your boxes yourself, you can select a proxy to drop off and/or pick up your boxes for you. You can also change this information after registration.</td></tr>
 		<tr id="row_{{reg_form.proxy_name.auto_id}}">
 			<th id="th_{{reg_form.proxy_name.auto_id}}" class="tableLabel">
 				{{reg_form.proxy_name.label_tag}}:</th>

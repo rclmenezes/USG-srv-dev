@@ -5,12 +5,12 @@ import string
 
 class RegistrationForm(forms.ModelForm):
     cell_number = USPhoneNumberField(label='Cell phone number')
-    proxy_email = forms.EmailField(label='Proxy email', required=False)
+    proxy_email = forms.EmailField(label='Proxy email', max_length=50, required=False)
     #dropoff_pickup_time = forms.ModelChoiceField(DropoffPickupTime.objects.all(), widget=forms.RadioSelect, label="Dropoff/pickup time", empty_label=None)
     n_boxes_bought = forms.IntegerField(label='Quantity', widget=forms.TextInput(attrs={'size':'1'}))
     
     BOX_PRICE = "9.40"
-    MAX_BOXES = 10
+    MAX_BOXES = 9
     
     class Meta:
         model=Status
@@ -20,7 +20,7 @@ class RegistrationForm(forms.ModelForm):
     
     def clean_n_boxes_bought(self):
         quantity = self.cleaned_data['n_boxes_bought']
-        if quantity > self.MAX_BOXES:
+        if quantity > self.MAX_BOXES or quantity <= 0:
             raise forms.ValidationError("Limit %d boxes." % self.MAX_BOXES)
         dp_time = self.cleaned_data['dropoff_pickup_time']
         n_boxes_left = dp_time.n_boxes_total - dp_time.n_boxes_bought
@@ -38,3 +38,17 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             form.save()
         return form
+
+class ProxyUpdateForm(forms.Form):
+    proxy_name = forms.CharField(label="Proxy name", max_length=50, required=False)
+    proxy_email = forms.EmailField(label='Proxy email', max_length=50, required=False)
+    
+    def clean_proxy_name(self):
+        return string.capitalize(self.cleaned_data['proxy_name'].lower())
+    
+    def save(self, status, commit=True):
+        status.proxy_name = self.cleaned_data['proxy_name']
+        status.proxy_email = self.cleaned_data['proxy_email']
+        if commit:
+            status.save()
+    

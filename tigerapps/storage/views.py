@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from paypal.standard.forms import PayPalPaymentsForm
 from utils import paypal
-from storage.forms import RegistrationForm
+from storage.forms import *
 from storage.models import *
 
 
@@ -64,6 +64,7 @@ def register(request):
         #Render data to show on next page
         status = Status.objects.get(user=request.user)
         reg_info = ((0, 'NetID:', request.user.username),
+                    (0, 'Email:', request.user.username+'@princeton.edu'),
                     (0, 'Cell phone number*:', status.cell_number),
                     (1, 'Dropoff/pickup time*:', str(status.dropoff_pickup_time).split(', ')),
                     (0, 'Price per box:', '$'+reg_form.BOX_PRICE),
@@ -107,5 +108,31 @@ def register_complete(request):
 
 @login_required
 def status(request):
-    return home(request)
+    try:
+        status = Status.objects.get(user=request.user)
+    except:
+        return render_to_response('storage/status.html',
+                                  {},
+                                  RequestContext(request))
+
+    reg_info = ((0, 'NetID:', request.user.username),
+                (0, 'Email:', request.user.username+'@princeton.edu'),
+                (0, 'Cell phone number:', status.cell_number),
+                (1, 'Dropoff/pickup time:', str(status.dropoff_pickup_time).split(', ')),
+                (0, 'Price per box:', '$'+RegistrationForm.BOX_PRICE),
+                (0, 'Quantity:', status.n_boxes_bought),
+                (0, 'Total paid:', '$%.2f'%(float(RegistrationForm.BOX_PRICE)*status.n_boxes_bought)))
+    proxy_info = (status.proxy_name, status.proxy_email)
+    
+    if request.method == 'POST':
+        form = ProxyUpdateForm(request.POST)
+        if form.is_valid():
+            form.save(status)
+    form = ProxyUpdateForm()
+    
+    return render_to_response('storage/status.html',
+                              {'reg_info': reg_info,
+                               'proxy_info': proxy_info,
+                               'proxy_form': form},
+                              RequestContext(request))
 
