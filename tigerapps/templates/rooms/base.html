@@ -1,46 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Room Guide</title>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Room Guide</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	
-	<!-- Styles -->
-	<style>
-	  @import "/static/rooms/styles.css";
-	</style>
-	<link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
-	<link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+  <!-- Styles -->
+  <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+  <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
+  <link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+	
+  <script type="text/javascript"
+	  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
+  </script>
+  {{ mapscript|safe }}
+  <script type="text/javascript" src="/static/rooms/js/map.js"></script>
+  
+  <script src="http://www.google.com/jsapi"></script>
+  <script>google.load("jquery", "1");</script>
+  <script>google.load("jqueryui", "1");</script>
+	
+    <!-- Pub/sub framework -->
+  <script type="text/javascript" src="/static/rooms/js/jquery.ba-tinypubsub.min.js"></script>
+    <!-- Draggable Queue -->
+  <script type="text/javascript" src="/static/rooms/js/queue.js"></script>
 
-	<script type="text/javascript"
-		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
-        </script>
-		
-	<script src="http://www.google.com/jsapi"></script>
-	<script>google.load("jquery", "1");</script>
-	<script>google.load("jqueryui", "1");</script>
-	<script type="text/javascript" src="/static/rooms/js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="/static/rooms/js/jquery-ui-1.8.18.custom.min.js"></script>
-    {{ mapscript|safe }}
-    <script type="text/javascript" src="/static/rooms/map.js"></script>
-    <script type="text/javascript" src="/static/rooms/floorplan.js"></script>
-    <script type="text/javascript" src="/static/rooms/floorplancoords.js"></script>
-    <script type="text/javascript" src="/static/rooms/pdfnames.js"></script>
+  <script type="text/javascript" src="/static/rooms/floorplan.js"></script>
+  <script type="text/javascript" src="/static/rooms/floorplancoords.js"></script>
+  <script type="text/javascript" src="/static/rooms/pdfnames.js"></script>
+   
 </head>
-<body onload="initialize()">
-	{% include "main/jquery.html" %}
 
-	<div id="mainColumn">
-        <div id="map_canvas"></div>
-		<div id="dataPanel"> 
-			<div id="expandMap">&darr;</div>
-			<div id="restoreMap">&loz;</div>
-			<div id="contractMap">&uarr;</div>
-			{% block dataPanel %}
-			Room / Building Information & Queue
-			{% endblock dataPanel %}
-		</div>
-		<div> 
+<body onload="initialize()">
+  {% include "main/jquery.html" %}
+  <div id="wrapper1">
+    <div id="wrapper2">
+      <div id="mainColumn">  
+	<div id="top_half">  
+	  <div id="map_canvas"></div>
+	  <div id="top_right">
+	    <div id="greeting">
+	      <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1> 
+	    </div>
+	    <div id="queues">
+            <h1>Queues</h1>
+            <div id="create_queue" class="queue_button" onclick="$('#create_success').load('/create_queue/'+current_draw)">Create</div>
+            <div id="remove_queue" class="queue_button">Remove</div>
+            <div id="create_success"></div><br><br>
+            <ul id="list_queues">
+                <h1><a href="#">First Queue</a></h1>
+                <ul id="room_queue" class="queue_drag">
+                    <!-- <li class="ui-state-default">Room #1</li> -->
+                    <!-- <li class="ui-state-default">Room #2</li> -->
+                    <!-- <li class="ui-state-default">Room #3</li> -->
+                    <!-- <li class="ui-state-default">Room #4</li> -->
+                    <!-- <li class="ui-state-default">Room #1</li> -->
+                    <!-- <li class="ui-state-default">Room #2</li> -->
+                    <!-- <li class="ui-state-default">Room #3</li> -->
+                    <!-- <li class="ui-state-default">Room #4</li> -->
+                </ul>
+            <!--     <h1><a href="#">Second Queue</a></h1> -->
+            <!--     <ul class="queue_drag"> -->
+            <!--         <li class="ui-state-default">Room #5</li> -->
+            <!--         <li class="ui-state-default">Room #6</li> -->
+            <!--         <li class="ui-state-default">Room #7</li> -->
+            <!--         <li class="ui-state-default">Room #8</li> -->
+            <!--     </ul> -->
+
+            </ul>
+            <div class="clearfloat"></div>
+	    </div>
+	  </div>
 	</div>
+	<div id="middle_buffer"></div>
+	<div id="dataPanel"> 
+	  <div id="roomListWrapper">
+	    {% block dataPanel %}
+            Room / Building Information & Queue
+            {% endblock dataPanel %}
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

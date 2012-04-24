@@ -19,11 +19,10 @@ else:
     CURRENT_HOST_PREFIX = ""
 
 
-
+#For django_cas
 LOGIN_URL = '/login/'
-#paypal only
+#For paypal
 PAYPAL_RECEIVER_EMAIL = 'it@princetonusg.com'
-SITE_NAME = 'http://dev.storage.tigerapps.org'
 
 
 
@@ -104,8 +103,10 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#    'django.template.loaders.filesystem.load_template_source',
+#    'django.template.loaders.app_directories.load_template_source',
 #     'django.template.loaders.eggs.load_template_source',
 )
 

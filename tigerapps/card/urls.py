@@ -56,11 +56,12 @@ urlpatterns = patterns('',
                        # help documentation
                        (r'^help/(?P<path>.*)$', 'card.views.help'),
 
-                       # Uncomment the admin/doc line below to enable admin documentation:
-                       # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-                       # Uncomment the next line to enable the admin:
+                       
+                       # Admin - not upgradable since it doesn't use django_cas
                        (r'^admin/', include(admin.site.urls)),
+                       #url(r'^admin/?$', 'django_cas.views.login', kwargs={'next_page': '/djadmin/'}),
+                       #(r'^djadmin/', include(admin.site.urls)),
+
                        (r'^cardAdmin/', include(cardAdmin.urls)),
                        #(r'^admin/*(.*)',admin.site.root),
 )

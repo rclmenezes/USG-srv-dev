@@ -12,31 +12,30 @@ class SubdomainsMiddleware:
                 # dev.___.tigerapps.org
                 request.subdomain = parts[1]
                 request.domain = '.'.join(parts[2:])
-            elif len(parts) == 3:
+            else:
                 # dev.tigerapps.org
-                request.subdomain == 'www'
+                request.subdomain = 'www'
         else:
             url_prefix = "http://"
-            if len(parts) == 3:
+            if len(parts) == 3 and parts[0] != 'www':
                 # ___.tigerapps.org
                 request.subdomain = parts[0]
                 request.domain = '.'.join(parts[1:])
             else:
-                request.subdomain == 'www'
-
+                request.subdomain = 'www'
+        settings.SITE_DOMAIN = url_prefix+request.domain
 
         # set the right urlconf
-        request.urlconf = request.subdomain + ".urls"
+        if request.subdomain != 'www':
+            request.urlconf = request.subdomain + ".urls"
+        
 
 
         ### INTRODUCING....
         ###
         ### A CONVULTED, HORRIBLE MESS
         ### TEMPORARY (I hope)
-        if request.subdomain == 'ptx':
-            import ptx.ptxsettings
-            
-        elif request.subdomain == 'ttrade':
+        if request.subdomain == 'ttrade':
             settings.AUTHENTICATION_BACKENDS = (
              'django.contrib.auth.backends.ModelBackend',
              'ttrade.casBackend.CASBackend',
@@ -80,4 +79,8 @@ class SubdomainsMiddleware:
             settings.CAS_RETRY_LOGIN = True
             settings.SITE_URL = url_prefix + request.subdomain + '.tigerapps.org/'
             settings.CAS_REDIRECT_URL = settings.SITE_URL
+
+            if request.subdomain == 'ptx':
+                import ptx.ptxsettings
+
 

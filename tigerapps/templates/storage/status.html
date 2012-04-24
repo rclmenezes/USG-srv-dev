@@ -1,0 +1,40 @@
+{% extends "storage/base.html" %}
+
+{% block content %}
+
+	<h2>Order Information</h2>
+	
+	{% if not reg_info %}
+	<p>You haven't made an order yet! Please <a href="/register/">register here</a> - it's convenient, safe, and cheap. If you believe you have already registered and paid, please contact the <a href="mailto:it[-AT-]princetonusg.com">USG IT committee</a> with the details of your order, and we will get back to you shortly.</p>
+	
+	{% else %}
+	<div class="register">
+	<table class="form">
+	
+		{% for type, th, td in reg_info %}
+			<tr><th>{{th}}</th>
+			<td>{%ifequal type 1%}{{td.0}}<br/>{{td.1}}{%else%}{{td}}{%endifequal%}</td></tr>
+		{% endfor %}
+		
+		<form name="proxy_update_form" method="post">
+		<tr><td colspan="2" class="desc">If you're not available to drop off or pick up your boxes yourself, you can select a proxy to drop off and/or pick up your boxes for you.</td></tr>
+		<tr id="row_{{proxy_form.proxy_name.auto_id}}">
+			<th id="th_{{proxy_form.proxy_name.auto_id}}" class="tableLabel">
+				{{proxy_form.proxy_name.label_tag}}:</th>
+			<td><input id="id_proxy_name" type="text" name="proxy_name" maxlength="50" value="{{proxy_info.0}}"/></td>
+		</tr>
+		<tr id="row_{{proxy_form.proxy_email.auto_id}}">
+			<th id="th_{{proxy_form.proxy_email.auto_id}}" class="tableLabel">
+				{{proxy_form.proxy_email.label_tag}}:</th>
+			<td><input id="id_proxy_email" type="text" name="proxy_email" maxlength="50" value="{{proxy_info.1}}"/></td>
+		</tr>
+		
+		<tr><td colspan="2" style='text-align:right;'>
+			<input type="submit" value="Update"/>
+		</td></tr>
+	
+	</table>
+	</div>
+	{% endif %}
+
+{% endblock %}

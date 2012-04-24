@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.http import QueryDict
 from django.db.models import Q
 from ptx.models import Book
-from ptx.ptxlogin import getlogstatus
 from ptx.navbar import getnavbar
 from ptx.ptxrender import render_to_response
 

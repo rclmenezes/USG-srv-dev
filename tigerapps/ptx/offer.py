@@ -11,7 +11,6 @@ from django.utils.safestring import mark_safe
 
 from ptx.ptxrender import render_to_response
 from ptx.models import Offer, Book, Course, User
-from ptx.ptxlogin import logged_in, getlogstatus
 from ptx.bookdata2 import book_details, cleanisbn
 from ptx.dept import is_valid_dept
 
@@ -227,7 +226,7 @@ def process(request, step, ticket):
 
         book = get_ticket_attr(request, ticket, 'book')
         course = get_ticket_attr(request, ticket, 'course')
-        user = request.session['user_data']
+        user, created = User.objects.get_or_create(net_id=request.user.username)
 
         if not form.is_valid():
             return render_offerinfo(book, request.POST, ticket, request)
@@ -263,7 +262,7 @@ def process(request, step, ticket):
         raise PermissionDenied()
 
 def offer(request, ticket=''):
-    if not logged_in(request):
+    if not request.user.is_authenticated():
         return render_to_response(request, 'ptx/needlogin.html',
                                   {'header_text': 'Offer a Book',
                                    'redirect_url': '/offer'} )

@@ -10,7 +10,6 @@ from django.core.exceptions import PermissionDenied
 
 from ptx.ptxrender import render_to_response
 from ptx.models import Request, Offer, Book, Course, User
-from ptx.ptxlogin import logged_in, getlogstatus
 from ptx.bookdata2 import book_details, cleanisbn
 
 COURSE = re.compile(r'^\s*([a-zA-Z]{1,3})\s?([0-9]{3})\s*$')
@@ -41,7 +40,7 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        fields = ('maxprice')
+        fields = ('maxprice',)
 
 class AddBookForm(forms.ModelForm):
     PROC = PROCESS_ADD_BOOK
@@ -183,7 +182,7 @@ def process(request, step, ticket):
             f = form.cleaned_data
 
             book = request.session['request_book_' + ticket]
-            user = request.session['user_data']
+            user, created = User.objects.get_or_create(net_id=request.user.username)
             maxprice = form.cleaned_data['maxprice']
             the_request = Request(
                     book=book,
@@ -207,7 +206,7 @@ def offer(request, ticket=''):
     #ticket = uuid.uuid4().hex
     #return render_form(ChooseCourseForm(), '', ticket, request)
 
-    if logged_in(request):
+    if request.user.is_authenticated():
         ticket = uuid.uuid4().hex
         return render_form(ChooseCourseForm(), '', ticket, request)
 
@@ -218,7 +217,7 @@ def offer(request, ticket=''):
 
 
 def request(request, ticket=''):
-    if logged_in(request):
+    if request.user.is_authenticated():
         ticket = uuid.uuid4().hex
         return render_form(ChooseCourseForm(), '', ticket, request)
 
