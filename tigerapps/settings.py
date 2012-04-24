@@ -101,7 +101,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
 
-# List of callables that know how to import templates from various sources.
+# Tuples of imported modules...
+# XXX: Should be independent of the authentication backend; since several apps
+#   use customized auth backends, we set the auth backend in middleware.py
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -114,8 +116,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-#    'django.contrib.csrf.CsrfViewMiddleware',
     'middleware.SubdomainsMiddleware'
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 
