@@ -82,7 +82,8 @@ def register(request):
                     (0, 'Proxy name:', unpaid_order.proxy_name),
                     (0, 'Proxy email:', unpaid_order.proxy_email))
         pp_details = {
-            'business': 'agencies@princeton.edu',
+            #'business': 'agencies@princeton.edu',
+            'business': 'it@princetonusg.com',
             'item_name': "USG summer storage boxes",
             'item_number': "box",
             'amount': reg_form.BOX_PRICE,
@@ -94,8 +95,8 @@ def register(request):
             'cancel_return': settings.SITE_DOMAIN+'/register/',
         }
         pp_form = PayPalPaymentsForm(initial=pp_details)
-        #pp_form_rendered = pp_form.sandbox()
-        pp_form_rendered = pp_form.render()
+        pp_form_rendered = pp_form.sandbox()
+        #pp_form_rendered = pp_form.render()
         return render_to_response('storage/register_2_paypal.html',
                                   {'reg_info': reg_info,
                                    'pp_info': pp_form_rendered},
