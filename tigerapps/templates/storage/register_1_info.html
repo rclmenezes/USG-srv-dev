@@ -80,29 +80,31 @@
 		<tr id="row_{{reg_form.proxy_name.auto_id}}">
 			<th id="th_{{reg_form.proxy_name.auto_id}}" class="tableLabel">
 				{{reg_form.proxy_name.label_tag}}:</th>
-			<td>{{reg_form.proxy_name}}</td>
+			<td>{{reg_form.proxy_name}}
 				{%if reg_form.proxy_name.errors%}
 					{% for error in reg_form.proxy_name.errors %}
 	               		<br/><span style="color:red;">{{ error }}</span>
 	               	{% endfor %}{%endif%}</td></tr>
-		</tr>
 		<tr id="row_{{reg_form.proxy_email.auto_id}}">
 			<th id="th_{{reg_form.proxy_email.auto_id}}" class="tableLabel">
 				{{reg_form.proxy_email.label_tag}}:</th>
-			<td>{{reg_form.proxy_email}}</td>
+			<td>{{reg_form.proxy_email}}
 				{%if reg_form.proxy_email.errors%}
 					{% for error in reg_form.proxy_email.errors %}
 	               		<br/><span style="color:red;">{{ error }}</span>
 	               	{% endfor %}{%endif%}</td></tr>
-		</tr>
 
         <tr><td colspan="2" class="desc">Please read the storage contract and sign your name below with an electronic signature to indicate acceptance of its terms.</td></tr>
         <tr>
             <th>Contract:</th>
             <td><a href="/static/storage/contract_2012.pdf">2012 USG Storage Contract</a></td></tr>
         <tr>
-            <th>Electronic signature (sign your name):</th>
-            <td>{{reg_form.signature}}</td></tr>
+            <th>Electronic signature*:<br/>(sign your name)</th>
+            <td>{{reg_form.signature}}
+				{%if reg_form.signature.errors%}
+					{% for error in reg_form.signature.errors %}
+	               		<br/><span style="color:red;">{{ error }}</span>
+	               	{% endfor %}{%endif%}</td></tr>
 
 
 		<tr><td colspan="2" class="desc" style='text-align:center;'>
