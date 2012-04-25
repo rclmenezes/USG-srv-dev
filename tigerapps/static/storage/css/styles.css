@@ -385,6 +385,7 @@ div.register table.form td.desc
     padding: 30px 0px 20px;
     margin: 0 auto;
     width: 500px;
+    text-align: center;
 }
 
 .footer small
