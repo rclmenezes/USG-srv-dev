@@ -38,8 +38,8 @@ def register(request):
     #Make sure user didn't already register
     #Make sure user didn't already register
     try:    
-        status = UnpaidOrder.objects.get(user=request.user)
-        return redirect('storage/status.html')
+        status = Order.objects.get(user=request.user)
+        return HttpResponseRedirect('/order/')
     except:
         pass
     
@@ -62,10 +62,10 @@ def register(request):
                                        'dp_choice': c,
                                        'dp_times': dp_times},
                                       RequestContext(request))
-        reg_form.save(request.user, commit=True)
+        form = reg_form.save(request.user, commit=True)
         
         #Render data to show on next page
-        unpaid_order = UnpaidOrder.objects.get(user=request.user)
+        unpaid_order = UnpaidOrder.objects.get(invoice_id=form.invoice_id)
         reg_info = ((0, 'NetID:', request.user.username),
                     (0, 'Email:', request.user.username+'@princeton.edu'),
                     (0, 'Cell phone number*:', unpaid_order.cell_number),
