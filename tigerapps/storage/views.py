@@ -114,6 +114,7 @@ from paypal.standard.ipn import views
 def my_ipn(request):
     try :
         toReturn = ipn.views.ipn(request)
+        payment_was_successful.connect(confirm_payment)
         return toReturn
     except Exception as e:
         s = str(e)
@@ -170,7 +171,11 @@ from django.dispatch import receiver
 def confirm_payment(sender, **kwargs):
     # make Order, put in db
     # look for invoice_id
+    send_mail('Subject here', str(sender), 'from@example.com',
+                  ['mfrankli@princeton.edu'], fail_silently=False)
     try:
+        send_mail('Subject here', str(sender) + '\n' + sender.invoice, 'from@example.com',
+                  ['mfrankli@princeton.edu'], fail_silently=False)
         unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
         order = Order(user=unpaid_order.user,
                       cell_number=unpaid_order.cell_number,
