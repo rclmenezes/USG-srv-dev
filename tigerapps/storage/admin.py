@@ -13,7 +13,7 @@ class TimeAdmin(admin.ModelAdmin):
     
     
 class UnpaidOrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'cell_number', 'n_boxes_bought')
+    list_display = ('user', 'cell_number', 'n_boxes_bought', 'invoice_id')
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 class OrderAdmin(admin.ModelAdmin):
