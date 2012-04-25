@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
-from django.core.mail import send_mail
 
 class Post(models.Model):
     title = models.CharField(max_length=40, unique=True, help_text="Title of the Post")
@@ -49,6 +48,8 @@ class UnpaidOrder(models.Model):
     proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
     n_boxes_bought = models.IntegerField("Quantity", max_length=2)
     invoice_id = models.CharField("Invoice ID", max_length=36, unique=True)
+    timestamp = models.DateTimeField("Timestamp", default=datetime.datetime.now())
+    signature = models.CharField("Signature", max_length=50)
 
     def __unicode__(self):
         return self.user.username
@@ -73,6 +74,8 @@ class Order(models.Model):
     proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
     n_boxes_bought = models.IntegerField("Quantity", max_length=2)
     invoice_id = models.CharField("Invoice ID", max_length=36, unique=True)
+    timestamp = models.DateTimeField("Timestamp", default=datetime.datetime.now())
+    signature = models.CharField("Signature", max_length=50)
     
     bool_picked_empty = models.BooleanField("Picked up Empty Boxes", default=False)
     n_boxes_dropped = models.IntegerField("# Dropped Off", max_length=2, blank=True, default=0)

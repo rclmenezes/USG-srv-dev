@@ -18,7 +18,7 @@ class RegistrationForm(forms.ModelForm):
         model=UnpaidOrder
         fields = ('cell_number',
                  'dropoff_pickup_time', 'n_boxes_bought',
-                 'proxy_name', 'proxy_email',)
+                 'proxy_name', 'proxy_email', 'signature')
     
     def clean_n_boxes_bought(self):
         quantity = self.cleaned_data['n_boxes_bought']
