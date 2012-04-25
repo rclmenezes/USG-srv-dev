@@ -23,7 +23,7 @@ class SubdomainsMiddleware:
                 request.domain = '.'.join(parts[1:])
             else:
                 request.subdomain = 'www'
-        settings.SITE_DOMAIN = url_prefix+request.domain
+        settings.SITE_DOMAIN = url_prefix+request.subdomain+'.'+request.domain
 
         # set the right urlconf
         if request.subdomain != 'www':
