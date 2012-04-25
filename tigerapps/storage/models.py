@@ -37,8 +37,8 @@ class UnpaidOrder(models.Model):
     dropoff_pickup_time = models.ForeignKey(DropoffPickupTime, verbose_name="Dropoff/pickup times", related_name="unpaid_order")
     proxy_name = models.CharField("Proxy name", max_length=50, blank=True)
     proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
-    n_boxes_bought = models.IntegerField("Number of Boxes Bought", max_length=2)
-    invoice_id = models.CharField("Invoice", max_length=36)
+    n_boxes_bought = models.IntegerField("Quantity", max_length=2)
+    invoice_id = models.CharField("Invoice ID", max_length=36, unique=True)
 
     def __unicode__(self):
         return self.user.username
@@ -56,17 +56,17 @@ class Order(models.Model):
         pickup time, # boxes picked up, 
     '''
     
-    user = models.ForeignKey(User, related_name="order")
+    user = models.ForeignKey(User, related_name="order", unique=True)
     cell_number = models.CharField("Cell phone number", max_length=14)
     dropoff_pickup_time = models.ForeignKey(DropoffPickupTime, verbose_name="Dropoff/pickup times", related_name="order")
     proxy_name = models.CharField("Proxy name", max_length=50, blank=True)
     proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
-    n_boxes_bought = models.IntegerField("Number of Boxes Bought", max_length=2)
-    invoice_id = models.CharField("Invoice", max_length=36)
+    n_boxes_bought = models.IntegerField("Quantity", max_length=2)
+    invoice_id = models.CharField("Invoice ID", max_length=36, unique=True)
     
     bool_picked_empty = models.BooleanField("Picked up Empty Boxes", default=False)
-    n_boxes_dropped = models.IntegerField("Number of Boxes Dropped Off", max_length=2, blank=True, default=0)
-    n_boxes_picked = models.IntegerField("Number of Boxes Picked Up", max_length=2, blank=True, default=0)
+    n_boxes_dropped = models.IntegerField("# Dropped Off", max_length=2, blank=True, default=0)
+    n_boxes_picked = models.IntegerField("# Picked Up", max_length=2, blank=True, default=0)
     
     def __unicode__(self):
         return self.user.username

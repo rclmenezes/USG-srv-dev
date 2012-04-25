@@ -10,7 +10,7 @@ class RegistrationForm(forms.ModelForm):
     #dropoff_pickup_time = forms.ModelChoiceField(DropoffPickupTime.objects.all(), widget=forms.RadioSelect, label="Dropoff/pickup time", empty_label=None)
     n_boxes_bought = forms.IntegerField(label='Quantity', widget=forms.TextInput(attrs={'size':'1'}))
     
-    BOX_PRICE = "9.40"
+    BOX_PRICE = "10.00"
     MAX_BOXES = 9
     
     class Meta:
@@ -40,6 +40,7 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             form.save()
         return form
+
 
 class ProxyUpdateForm(forms.Form):
     proxy_name = forms.CharField(label="Proxy name", max_length=50, required=False)
