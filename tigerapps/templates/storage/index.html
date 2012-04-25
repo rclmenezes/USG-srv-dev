@@ -1,6 +1,8 @@
 {% extends "storage/base.html" %}
 
 {% block content %}
+    <div style="width:400px;margin:-10px auto 10px;"><img src="/static/storage/images/boxes.jpg"/></div>
+
     {% for post in posts.object_list %}
         <h2 id="postTitle" style="text-align:center;">{{ post.title }}</h2>
         <p id="postDate" style="text-align:center;margin-top:-8px;">{{ post.posted|date:"F j, Y" }}</h3>

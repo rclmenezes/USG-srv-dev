@@ -13,21 +13,31 @@
 	
 		{% for type, th, td in reg_info %}
 			<tr><th>{{th}}</th>
-			<td>{%ifequal type 1%}{{td.0}}<br/>{{td.1}}{%else%}{{td}}{%endifequal%}</td></tr>
+			<td>{%ifequal type 1%}{{td.0}}<br/>{{td.1}}<br/>{{td.2}}{%else%}{{td}}{%endifequal%}</td></tr>
 		{% endfor %}
+        <tr>
+            <th>Contract:</th>
+            <td><a id="id_contract" href="/static/storage/contract_2012.pdf" target="_blank">2012 USG Storage Contract</a></td></tr>
 		
 		<form name="proxy_update_form" method="post">
 		<tr><td colspan="2" class="desc">If you're not available to drop off or pick up your boxes yourself, you can select a proxy to drop off and/or pick up your boxes for you.</td></tr>
 		<tr id="row_{{proxy_form.proxy_name.auto_id}}">
 			<th id="th_{{proxy_form.proxy_name.auto_id}}" class="tableLabel">
 				{{proxy_form.proxy_name.label_tag}}:</th>
-			<td><input id="id_proxy_name" type="text" name="proxy_name" maxlength="50" value="{{proxy_info.0}}"/></td>
-		</tr>
+			<td><input id="id_proxy_name" type="text" name="proxy_name" maxlength="50" value="{{proxy_info.0}}"/>
+                {%if proxy_form.proxy_name.errors%}
+                    {% for error in proxy_form.proxy_name.errors %}
+                        <br/><span style="color:red;">
+                    {% endfor %}{%endif%}</td></tr>
 		<tr id="row_{{proxy_form.proxy_email.auto_id}}">
 			<th id="th_{{proxy_form.proxy_email.auto_id}}" class="tableLabel">
 				{{proxy_form.proxy_email.label_tag}}:</th>
-			<td><input id="id_proxy_email" type="text" name="proxy_email" maxlength="50" value="{{proxy_info.1}}"/></td>
-		</tr>
+			<td><input id="id_proxy_email" type="text" name="proxy_email" maxlength="50" value="{{proxy_info.1}}"/>
+                {%if proxy_form.proxy_email.errors%}
+                    {% for error in proxy_form.proxy_email.errors %}
+                        <br/><span style="color:red;">{{ error }}</span>
+                    {% endfor %}{%endif%}</td></tr>
+
 		
 		<tr><td colspan="2" style='text-align:right;'>
 			<input type="submit" value="Update"/>

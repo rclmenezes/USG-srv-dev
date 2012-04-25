@@ -9,7 +9,9 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content']
 
 class TimeAdmin(admin.ModelAdmin):
-    list_display = ('dropoff_time', 'pickup_time', 'n_boxes_total', 'n_boxes_bought')
+    list_display = ('slot_id', 'n_boxes_total', 'n_boxes_bought',
+                    'dropoff_date', 'dropoff_time_start', 'dropoff_time_end',
+                    'pickup_date', 'pickup_time_start', 'pickup_time_end')
     
     
 class UnpaidOrderAdmin(admin.ModelAdmin):
@@ -17,7 +19,9 @@ class UnpaidOrderAdmin(admin.ModelAdmin):
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'cell_number', 'n_boxes_bought', 'proxy_name', 'proxy_email', 'dropoff_pickup_time', 'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked')
+    list_display = ('user', 'cell_number', 'n_boxes_bought',
+                    'proxy_name', 'proxy_email', 'dropoff_pickup_time',
+                    'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked')
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 

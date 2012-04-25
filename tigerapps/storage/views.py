@@ -8,12 +8,14 @@ from django.conf import settings
 from django_cas.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from paypal.standard.forms import PayPalPaymentsForm
-from paypal import standard
-from paypal.standard import ipn
 from storage.forms import *
 from storage.models import *
-from django.core.mail import send_mail
+
+from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard import ipn
+from paypal.standard.ipn.signals import payment_was_successful
+from paypal.standard.ipn.signals import payment_was_flagged
+
 
 def home(request):
     postList = Post.objects.all().order_by('posted').reverse()
@@ -38,16 +40,19 @@ def register(request):
     #Make sure user didn't already register
     #Make sure user didn't already register
     try:    
-        status = UnpaidOrder.objects.get(user=request.user)
-        return redirect('storage/status.html')
+        status = Order.objects.get(user=request.user)
+        return HttpResponseRedirect('/order/')
     except:
         pass
     
     #Get the list of dropoffpickuptimes
     dp_qset = DropoffPickupTime.objects.all()
-    dp_times = [(str(x.id), x.dropoff_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                x.pickup_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                x.n_boxes_total-x.n_boxes_bought) for x in dp_qset]
+    tmp = [str(x).split(', ') for x in dp_qset]
+    dp_times = [(str(x.id),
+                 y[0],
+                 y[1],
+                 y[2],
+                 x.n_boxes_total-x.n_boxes_bought) for x,y in zip(dp_qset,tmp)]
     
     #Process the user's input if POST
     if request.method == 'POST':
@@ -62,10 +67,10 @@ def register(request):
                                        'dp_choice': c,
                                        'dp_times': dp_times},
                                       RequestContext(request))
-        reg_form.save(request.user, commit=True)
+        form = reg_form.save(request.user, commit=True)
         
         #Render data to show on next page
-        unpaid_order = UnpaidOrder.objects.get(user=request.user)
+        unpaid_order = UnpaidOrder.objects.get(invoice_id=form.invoice_id)
         reg_info = ((0, 'NetID:', request.user.username),
                     (0, 'Email:', request.user.username+'@princeton.edu'),
                     (0, 'Cell phone number*:', unpaid_order.cell_number),
@@ -77,6 +82,7 @@ def register(request):
                     (0, 'Proxy name:', unpaid_order.proxy_name),
                     (0, 'Proxy email:', unpaid_order.proxy_email))
         pp_details = {
+            #'business': 'agencies@princeton.edu',
             'business': 'it@princetonusg.com',
             'item_name': "USG summer storage boxes",
             'item_number': "box",
@@ -105,33 +111,17 @@ def register(request):
                                'dp_times': dp_times},
                               RequestContext(request))
 
-from django.http import HttpResponse
-from django.views.decorators.http import require_POST
-from paypal import standard
-from paypal.standard import ipn
-from paypal.standard.ipn import views
-
-def my_ipn(request):
-    try :
-        toReturn = ipn.views.ipn(request)
-        return toReturn
-    except Exception as e:
-        s = str(e)
-        try:
-            s += str(sys.exc_info()[2].tb_lineno)
-            fname = os.path.split(sys.exc_info()[2].tb_frame.f_code.co_filename)[1]  
-            s += '\n' + fname
-        except Exception as e2:
-            s += '\n' + str(e2) + '\n'
-        send_mail('Subject here', s, 'from@example.com',
-              ['it@princetonusg.com'], fail_silently=False)
-        return HttpResponse('OKAY')
-
 @login_required
 def register_complete(request):
     return render_to_response('storage/register_3_complete.html',
                               {},
                               RequestContext(request))
+
+
+def my_ipn(request):
+    toReturn = ipn.views.ipn(request)
+    payment_was_successful.connect(confirm_payment)
+    return toReturn
 
 @login_required
 def order(request):
@@ -154,6 +144,7 @@ def order(request):
                 (0, 'Email:', request.user.username+'@princeton.edu'),
                 (0, 'Cell phone number:', order.cell_number),
                 (1, 'Dropoff/pickup time:', str(order.dropoff_pickup_time).split(', ')),
+                (0, 'Box size:', '18"x18"x17"'),
                 (0, 'Price per box:', '$'+RegistrationForm.BOX_PRICE),
                 (0, 'Quantity:', order.n_boxes_bought),
                 (0, 'Total paid:', '$%.2f'%(float(RegistrationForm.BOX_PRICE)*order.n_boxes_bought)))
@@ -165,32 +156,21 @@ def order(request):
                                'proxy_form': form},
                               RequestContext(request))
 
-from paypal.standard.ipn.signals import payment_was_successful
-from paypal.standard.ipn.signals import payment_was_flagged
-from django.dispatch import receiver
-
 def confirm_payment(sender, **kwargs):
     # make Order, put in db
     # look for invoice_id
-    try:
-        unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
-        order = Order(user=unpaid_order.user,
-                      cell_number=unpaid_order.cell_number,
-                      dropoff_pickup_time=unpaid_order.dropoff_pickup_time,
-                      proxy_name=unpaid_order.proxy_name,
-                      proxy_email=unpaid_order.proxy_email,
-                      n_boxes_bought=unpaid_order.n_boxes_bought,
-                      invoice_id=unpaid_order.invoice)
-        order.save()
-    except Exception as e:
-        send_mail('Subject here', str(e), 'from@example.com',
-                  ['mfrankli@princeton.edu'], fail_silently=False)
-        
-
+    unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
+    dropoff_pickup_time = unpaid_order.dropoff_pickup_time
+    dropoff_pickup_time.n_boxes_bought += unpaid_order.n_boxes_bought
+    dropoff_pickup_time.save()
+    order = Order(user=unpaid_order.user,
+                  cell_number=unpaid_order.cell_number,
+                  dropoff_pickup_time=unpaid_order.dropoff_pickup_time,
+                  proxy_name=unpaid_order.proxy_name,
+                  proxy_email=unpaid_order.proxy_email,
+                  n_boxes_bought=unpaid_order.n_boxes_bought,
+                  invoice_id=unpaid_order.invoice_id)
+    order.save()        
+    
 payment_was_successful.connect(confirm_payment)
 
-def handle_flagged(sender, **kwargs):
-    send_mail('Subject here', 'Here is the message. (Flagged!)', 'from@example.com',
-              ['it@princetonusg.com'], fail_silently=False)
-
-payment_was_flagged.connect(handle_flagged)
