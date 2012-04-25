@@ -9,7 +9,9 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content']
 
 class TimeAdmin(admin.ModelAdmin):
-    list_display = ('dropoff_time', 'pickup_time', 'n_boxes_total', 'n_boxes_bought')
+    list_display = ('slot_id', 'n_boxes_total', 'n_boxes_bought',
+                    'dropoff_date', 'dropoff_time_start', 'dropoff_time_end',
+                    'pickup_date', 'pickup_time_start', 'pickup_time_end')
     
     
 class UnpaidOrderAdmin(admin.ModelAdmin):
