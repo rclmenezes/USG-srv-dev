@@ -2,21 +2,23 @@ from django import forms
 from django.contrib.localflavor.us.forms import USPhoneNumberField
 from storage.models import *
 import string
+import uuid
 
 class RegistrationForm(forms.ModelForm):
     cell_number = USPhoneNumberField(label='Cell phone number')
     proxy_email = forms.EmailField(label='Proxy email', max_length=50, required=False)
     #dropoff_pickup_time = forms.ModelChoiceField(DropoffPickupTime.objects.all(), widget=forms.RadioSelect, label="Dropoff/pickup time", empty_label=None)
     n_boxes_bought = forms.IntegerField(label='Quantity', widget=forms.TextInput(attrs={'size':'1'}))
+    signature = forms.CharField(label='Signature', max_length=50, required=True)
     
-    BOX_PRICE = "9.40"
+    BOX_PRICE = "10.00"
     MAX_BOXES = 9
     
     class Meta:
-        model=Status
+        model=UnpaidOrder
         fields = ('cell_number',
                  'dropoff_pickup_time', 'n_boxes_bought',
-                 'proxy_name', 'proxy_email',)
+                 'proxy_name', 'proxy_email', 'signature')
     
     def clean_n_boxes_bought(self):
         quantity = self.cleaned_data['n_boxes_bought']
@@ -35,9 +37,11 @@ class RegistrationForm(forms.ModelForm):
         #dp_time = self.cleaned_data['dropoff_pickup_time']
         form = super(RegistrationForm, self).save(commit=False)
         form.user = user
+        form.invoice_id = str(uuid.uuid1())
         if commit:
             form.save()
         return form
+
 
 class ProxyUpdateForm(forms.Form):
     proxy_name = forms.CharField(label="Proxy name", max_length=50, required=False)
@@ -51,4 +55,5 @@ class ProxyUpdateForm(forms.Form):
         status.proxy_email = self.cleaned_data['proxy_email']
         if commit:
             status.save()
+    
     
