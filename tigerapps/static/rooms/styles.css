@@ -59,6 +59,15 @@ body
     left: 0;
 }
 
+#floorplan_canvas
+{
+    height: 100%;
+    width: 0px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #top_right
 {
     height: 100%;
@@ -252,3 +261,33 @@ input
     /*overflow: scroll;*/
 }
 
+
+/* Floor plan styles */
+.fp_button
+{
+    padding: 8px;
+    position: absolute;
+    background-color: #CC6600;
+    color: #FFFFFF;
+    width: 100px;
+    border: 2px black solid;
+    cursor: pointer;
+}
+
+#fp_back_button
+{
+    left: 30px;
+    top: 30px;
+}
+
+#fp_zoomin_button
+{
+    left: 30px;
+    top: 80px;
+}
+
+#fp_zoomout_button
+{
+    left: 30px;
+    top: 120px;
+}

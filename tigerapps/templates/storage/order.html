@@ -13,7 +13,10 @@
 	
 		{% for type, th, td in reg_info %}
 			<tr><th>{{th}}</th>
-			<td>{%ifequal type 1%}{{td.0}}<br/>{{td.1}}<br/>{{td.2}}{%else%}{{td}}{%endifequal%}</td></tr>
+			<td>
+                {%ifequal type 1%}<table><tr><td><span style="color:red;font-weight:bold;">{{td.0}}</span></td>
+                    <td style="padding-left:8px;">{{td.1}}<br/>{{td.2}}</td></tr></table>
+                {%else%}{{td}}{%endifequal%}</td></tr>
 		{% endfor %}
         <tr>
             <th>Contract:</th>

@@ -112,5 +112,32 @@ class Photo(models.Model):
     date = models.DateField(auto_now_add=True)
     photo = models.ImageField(upload_to=photopath)
     
-    def __unicode(self):
+    def __unicode__(self):
         return "Photo on %s" % (self.date)
+
+# Information (size, timeframe, etc) about a past draw
+class PastDraw(models.Model):
+    draw = models.ForeignKey('Draw')
+    year = models.IntegerField()
+    # The number of rooms that drew in this draw
+    numrooms = models.IntegerField()
+    # The number of people that drew in this draw
+    numpeople = models.IntegerField()
+
+    def __unicode__(self):
+        return "%s %d" % (self.draw.name, self.year)
+    
+# A past draw entry
+class PastDrawEntry(models.Model):
+    pastdraw = models.ForeignKey('PastDraw')
+    room = models.ForeignKey('Room')
+    # A UNIX timestamp for the time room was selected
+    timestamp = models.IntegerField()
+    # The number of *rooms* that drew in this draw before this room
+    roomrank = models.IntegerField()
+    # The number of *people* who drew in this draw before this room
+    peoplerank = models.IntegerField()
+
+    def __unicode__(self):
+        return "%s %s %d" % (self.room.number, self.room.building.name,
+                             self.pastdraw.year)

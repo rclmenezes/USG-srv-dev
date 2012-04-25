@@ -1,3 +1,5 @@
+floorplancoordsWidth = 1200;
+
 floorplancoords = []
 floorplancoords["0007-00"] =
 {

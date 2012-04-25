@@ -1,7 +1,9 @@
 {% extends "storage/base.html" %}
 
 {% block content %}
-    <div style="width:400px;margin:-10px auto 10px;"><img src="/static/storage/images/boxes.jpg"/></div>
+    <div style="width:560px;margin:0 auto 20px;">
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/89Nhqa4asUE" frameborder="0" allowfullscreen></iframe>
+    </div>
 
     {% for post in posts.object_list %}
         <h2 id="postTitle" style="text-align:center;">{{ post.title }}</h2>

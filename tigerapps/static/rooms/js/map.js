@@ -33,7 +33,7 @@ function initialize() {
 
     var markers = new Array();
     var clicklistener = function(name) {
-        return function() {
+	return function() {
             displayFloorPlan(name);
         }
     }
