@@ -170,6 +170,8 @@ from django.dispatch import receiver
 def confirm_payment(sender, **kwargs):
     # make Order, put in db
     # look for invoice_id
+    send_mail('Subject here', str(sender) + '\n' + sender.invoice_id, 'from@example.com',
+                  ['mfrankli@princeton.edu'], fail_silently=False)
     try:
         send_mail('Subject here', str(sender) + '\n' + sender.invoice, 'from@example.com',
                   ['mfrankli@princeton.edu'], fail_silently=False)
