@@ -9,7 +9,6 @@ from django_cas.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from paypal.standard.forms import PayPalPaymentsForm
-from utils import paypal
 from paypal import standard
 from paypal.standard import ipn
 from storage.forms import *
@@ -66,27 +65,27 @@ def register(request):
         reg_form.save(request.user, commit=True)
         
         #Render data to show on next page
-        status = UnpaidOrder.objects.get(user=request.user)
+        unpaid_order = UnpaidOrder.objects.get(user=request.user)
         reg_info = ((0, 'NetID:', request.user.username),
                     (0, 'Email:', request.user.username+'@princeton.edu'),
-                    (0, 'Cell phone number*:', status.cell_number),
-                    (1, 'Dropoff/pickup time*:', str(status.dropoff_pickup_time).split(', ')),
+                    (0, 'Cell phone number*:', unpaid_order.cell_number),
+                    (1, 'Dropoff/pickup time*:', str(unpaid_order.dropoff_pickup_time).split(', ')),
                     (0, 'Price per box:', '$'+reg_form.BOX_PRICE),
-                    (0, 'Quantity (max %d)*:'%reg_form.MAX_BOXES, status.n_boxes_bought),
-                    (0, 'Total price:', '$%.2f'%(float(reg_form.BOX_PRICE)*status.n_boxes_bought)),
+                    (0, 'Quantity (max %d)*:'%reg_form.MAX_BOXES, unpaid_order.n_boxes_bought),
+                    (0, 'Total price:', '$%.2f'%(float(reg_form.BOX_PRICE)*unpaid_order.n_boxes_bought)),
                     (0, ' ', ' '),
-                    (0, 'Proxy name:', status.proxy_name),
-                    (0, 'Proxy email:', status.proxy_email))
+                    (0, 'Proxy name:', unpaid_order.proxy_name),
+                    (0, 'Proxy email:', unpaid_order.proxy_email))
         pp_details = {
             'business': 'it@princetonusg.com',
             'item_name': "USG summer storage boxes",
             'item_number': "box",
             'amount': reg_form.BOX_PRICE,
-            'quantity': status.n_boxes_bought,
+            'quantity': unpaid_order.n_boxes_bought,
             
-            'invoice': str(uuid.uuid1()), #PayPal wants a unique invoice ID 
-            'notify_url': 'http://dev.storage.tigerapps.org/paypal/ipntesturl123/',
-            'return_url': 'http://dev.storage.tigerapps.org/register/complete/',
+            'invoice': unpaid_order.invoice_id,
+            'notify_url': settings.SITE_DOMAIN+'/paypal/ipntesturl123/',
+            'return_url': settings.SITE_DOMAIN+'/register/complete/',
             'cancel_return': settings.SITE_DOMAIN+'/register/',
         }
         pp_form = PayPalPaymentsForm(initial=pp_details)
@@ -135,32 +134,61 @@ def register_complete(request):
                               RequestContext(request))
 
 @login_required
-def status(request):
+def order(request):
     try:
-        status = UnpaidOrder.objects.get(user=request.user)
+        order = Order.objects.get(user=request.user)
     except:
-        return render_to_response('storage/status.html',
+        return render_to_response('storage/order.html',
                                   {},
                                   RequestContext(request))
 
     reg_info = ((0, 'NetID:', request.user.username),
                 (0, 'Email:', request.user.username+'@princeton.edu'),
-                (0, 'Cell phone number:', status.cell_number),
-                (1, 'Dropoff/pickup time:', str(status.dropoff_pickup_time).split(', ')),
+                (0, 'Cell phone number:', order.cell_number),
+                (1, 'Dropoff/pickup time:', str(order.dropoff_pickup_time).split(', ')),
                 (0, 'Price per box:', '$'+RegistrationForm.BOX_PRICE),
-                (0, 'Quantity:', status.n_boxes_bought),
-                (0, 'Total paid:', '$%.2f'%(float(RegistrationForm.BOX_PRICE)*status.n_boxes_bought)))
-    proxy_info = (status.proxy_name, status.proxy_email)
+                (0, 'Quantity:', order.n_boxes_bought),
+                (0, 'Total paid:', '$%.2f'%(float(RegistrationForm.BOX_PRICE)*order.n_boxes_bought)))
+    proxy_info = (order.proxy_name, order.proxy_email)
     
     if request.method == 'POST':
         form = ProxyUpdateForm(request.POST)
         if form.is_valid():
-            form.save(status)
+            form.save(order)
     form = ProxyUpdateForm()
     
-    return render_to_response('storage/status.html',
+    return render_to_response('storage/order.html',
                               {'reg_info': reg_info,
                                'proxy_info': proxy_info,
                                'proxy_form': form},
                               RequestContext(request))
 
+from paypal.standard.ipn.signals import payment_was_successful
+from paypal.standard.ipn.signals import payment_was_flagged
+from django.dispatch import receiver
+
+def confirm_payment(sender, **kwargs):
+    # make Order, put in db
+    # look for invoice_id
+    try:
+        unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
+        order = Order(user=unpaid_order.user,
+                      cell_number=unpaid_order.cell_number,
+                      dropoff_pickup_time=unpaid_order.dropoff_pickup_time,
+                      proxy_name=unpaid_order.proxy_name,
+                      proxy_email=unpaid_order.proxy_email,
+                      n_boxes_bought=unpaid_order.n_boxes_bought,
+                      invoice_id=unpaid_order.invoice)
+        order.save()
+    except Exception as e:
+        send_mail('Subject here', str(e), 'from@example.com',
+                  ['mfrankli@princeton.edu'], fail_silently=False)
+        
+
+payment_was_successful.connect(confirm_payment)
+
+def handle_flagged(sender, **kwargs):
+    send_mail('Subject here', 'Here is the message. (Flagged!)', 'from@example.com',
+              ['it@princetonusg.com'], fail_silently=False)
+
+payment_was_flagged.connect(handle_flagged)
