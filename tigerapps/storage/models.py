@@ -70,23 +70,3 @@ class Order(models.Model):
     
     def __unicode__(self):
         return self.user.username
-
-
-from paypal.standard.ipn.signals import payment_was_successful
-from paypal.standard.ipn.signals import payment_was_flagged
-from django.dispatch import receiver
-
-def confirm_payment(sender, **kwargs):
-    s = sender.business
-    s += '\n' + sender.invoice
-    send_mail('Subject here', 'Here is the message. (Success!)\n' + s, 'from@example.com',
-              ['it@princetonusg.com'], fail_silently=False)
-    
-
-payment_was_successful.connect(confirm_payment)
-
-def handle_flagged(sender, **kwargs):
-    send_mail('Subject here', 'Here is the message. (Flagged!)', 'from@example.com',
-              ['it@princetonusg.com'], fail_silently=False)
-    
-payment_was_flagged.connect(handle_flagged)
