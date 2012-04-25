@@ -11,7 +11,7 @@ class RegistrationForm(forms.ModelForm):
     n_boxes_bought = forms.IntegerField(label='Quantity', widget=forms.TextInput(attrs={'size':'1'}))
     signature = forms.CharField(label='Signature', max_length=50, required=True)
     
-    BOX_PRICE = "10.00"
+    BOX_PRICE = "0.01"
     MAX_BOXES = 9
     
     class Meta:

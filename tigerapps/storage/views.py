@@ -116,12 +116,6 @@ def register_complete(request):
                               {},
                               RequestContext(request))
 
-
-def my_ipn(request):
-    toReturn = ipn.views.ipn(request)
-    payment_was_successful.connect(confirm_payment)
-    return toReturn
-
 @login_required
 def order(request):
     try:
@@ -153,9 +147,18 @@ def order(request):
                                'proxy_form': form},
                               RequestContext(request))
 
+from django.core.mail import send_mail
+
+def my_ipn(request):
+    send_mail('my_ipn', str(sender), 'from@example.com', ['jwcstar@gmail.com'], fail_silently=False)
+    toReturn = ipn.views.ipn(request)
+    payment_was_successful.connect(confirm_payment)
+    return toReturn
+
 def confirm_payment(sender, **kwargs):
     # make Order, put in db
     # look for invoice_id
+    send_mail('confirm_payment', str(sender), 'from@example.com', ['jwcstar@gmail.com'], fail_silently=False)
     unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
     dropoff_pickup_time = unpaid_order.dropoff_pickup_time
     dropoff_pickup_time.n_boxes_bought += unpaid_order.n_boxes_bought
