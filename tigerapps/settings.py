@@ -22,7 +22,7 @@ else:
 #For django_cas
 LOGIN_URL = '/login/'
 #For paypal
-PAYPAL_RECEIVER_EMAIL = 'it@princetonusg.com'
+PAYPAL_RECEIVER_EMAIL = 'agencies@princeton.edu'
 
 
 
