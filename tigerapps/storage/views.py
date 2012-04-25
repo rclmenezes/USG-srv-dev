@@ -178,7 +178,7 @@ def confirm_payment(sender, **kwargs):
                       proxy_name=unpaid_order.proxy_name,
                       proxy_email=unpaid_order.proxy_email,
                       n_boxes_bought=unpaid_order.n_boxes_bought,
-                      invoice_id=unpaid_order.invoice)
+                      invoice_id=unpaid_order.invoice_id)
         order.save()
     except Exception as e:
         send_mail('Subject here', str(e), 'from@example.com',
