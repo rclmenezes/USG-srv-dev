@@ -180,7 +180,7 @@ def confirm_payment(sender, **kwargs):
         send_mail('Subject here', str(sender) + '\n' + sender.invoice, 'from@example.com',
                   ['mfrankli@princeton.edu'], fail_silently=False)
         unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
-        dropoff_pickup_time = unpaid_order.dropoff_pickup_time
+        dropoff_pickup_time = DropoffPickupTime.objects.get(unpaid_order.dropoff_pickup_time)
         send_mail('Subject here', str(dropoff_pickup_time), 'from@example.com',
                   ['mfrankli@princeton.edu'], fail_silently=False)
         dropoff_pickup_time.n_boxes_bought = unpaid_order.n_boxes_bought
