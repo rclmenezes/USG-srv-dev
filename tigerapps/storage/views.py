@@ -37,10 +37,10 @@ def home(request):
 @login_required
 def register(request):
     #Make sure user didn't already register
-    try:
+    #Make sure user didn't already register
+    try:    
         status = UnpaidOrder.objects.get(user=request.user)
-        UnpaidOrder.delete(status)
-        #return render_to_response('storage/register_1_info.html', {'bool_registered': True}, RequestContext(request))
+        return redirect('storage/status.html')
     except:
         pass
     
