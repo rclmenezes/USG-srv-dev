@@ -19,7 +19,7 @@ class UnpaidOrderAdmin(admin.ModelAdmin):
     fieldsets = [(None, {'fields': ['user', 'cell_number', 'dropoff_pickup_time',
                                     'proxy_name', 'proxy_email',
                                     'n_boxes_bought', 'invoice_id', 'signature']})]
-    list_display = ('user', 'cell_number', 'n_boxes_bought', 'invoice_id')
+    list_display = ('user', 'cell_number', 'n_boxes_bought', 'invoice_id', 'timestamp')
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 class OrderAdmin(admin.ModelAdmin):
@@ -30,7 +30,7 @@ class OrderAdmin(admin.ModelAdmin):
                                     'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked']})]
     list_display = ('user', 'cell_number', 'n_boxes_bought',
                     'proxy_name', 'proxy_email', 'dropoff_pickup_time',
-                    'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked')
+                    'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked', 'timestamp')
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 
