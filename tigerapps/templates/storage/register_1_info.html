@@ -12,6 +12,7 @@
 					$('#output_price').html((quantity*price).toFixed(2));
 				}
 			});
+            //$('#id_signature').attr('disabled','disabled');
 		});
 	</script>
 {% endblock %}
@@ -80,17 +81,30 @@
 			<th id="th_{{reg_form.proxy_name.auto_id}}" class="tableLabel">
 				{{reg_form.proxy_name.label_tag}}:</th>
 			<td>{{reg_form.proxy_name}}</td>
+				{%if reg_form.proxy_name.errors%}
+					{% for error in reg_form.proxy_name.errors %}
+	               		<br/><span style="color:red;">{{ error }}</span>
+	               	{% endfor %}{%endif%}</td></tr>
 		</tr>
 		<tr id="row_{{reg_form.proxy_email.auto_id}}">
 			<th id="th_{{reg_form.proxy_email.auto_id}}" class="tableLabel">
 				{{reg_form.proxy_email.label_tag}}:</th>
 			<td>{{reg_form.proxy_email}}</td>
+				{%if reg_form.proxy_email.errors%}
+					{% for error in reg_form.proxy_email.errors %}
+	               		<br/><span style="color:red;">{{ error }}</span>
+	               	{% endfor %}{%endif%}</td></tr>
 		</tr>
-			
-		<tr><td colspan="2">
-			{% for field in buy_form %}{{ field }}{% endfor %}</td></tr>
-			
-			
+
+        <tr><td colspan="2" class="desc">Please read the storage contract and sign your name below with an electronic signature to indicate acceptance of its terms.</td></tr>
+        <tr>
+            <th>Contract:</th>
+            <td><a href="/static/storage/contract_2012.pdf">2012 USG Storage Contract</a></td></tr>
+        <tr>
+            <th>Electronic signature (sign your name):</th>
+            <td>{{reg_form.signature}}</td></tr>
+
+
 		<tr><td colspan="2" class="desc" style='text-align:center;'>
 			<input type="submit" value="Continue &gt;&gt;"/>
 		</td></tr>
