@@ -12,7 +12,12 @@
 					$('#output_price').html((quantity*price).toFixed(2));
 				}
 			});
-            //$('#id_signature').attr('disabled','disabled');
+            $('#id_signature').attr('disabled','disabled');
+            $('#id_signature').attr('value','Click the contract above');
+            $('#id_contract').click(function() {
+                $('#id_signature').removeAttr('disabled');
+                $('#id_signature').removeAttr('value');
+            });
 		});
 	</script>
 {% endblock %}
@@ -95,10 +100,10 @@
 	               		<br/><span style="color:red;">{{ error }}</span>
 	               	{% endfor %}{%endif%}</td></tr>
 
-        <tr><td colspan="2" class="desc">Please read the storage contract and sign your name below with an electronic signature to indicate acceptance of its terms.</td></tr>
+        <tr><td colspan="2" class="desc">Please read the storage contract and sign your name below as an electronic signature to indicate acceptance of its terms.</td></tr>
         <tr>
             <th>Contract:</th>
-            <td><a href="/static/storage/contract_2012.pdf">2012 USG Storage Contract</a></td></tr>
+            <td><a id="id_contract" href="/static/storage/contract_2012.pdf" target="_blank">2012 USG Storage Contract</a></td></tr>
         <tr>
             <th>Electronic signature*:<br/>(sign your name)</th>
             <td>{{reg_form.signature}}
