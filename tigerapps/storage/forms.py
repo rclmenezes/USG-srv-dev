@@ -9,6 +9,7 @@ class RegistrationForm(forms.ModelForm):
     proxy_email = forms.EmailField(label='Proxy email', max_length=50, required=False)
     #dropoff_pickup_time = forms.ModelChoiceField(DropoffPickupTime.objects.all(), widget=forms.RadioSelect, label="Dropoff/pickup time", empty_label=None)
     n_boxes_bought = forms.IntegerField(label='Quantity', widget=forms.TextInput(attrs={'size':'1'}))
+    signature = forms.CharField(label='Signature', max_length=50, required=True)
     
     BOX_PRICE = "10.00"
     MAX_BOXES = 9

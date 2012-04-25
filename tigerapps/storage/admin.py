@@ -19,7 +19,9 @@ class UnpaidOrderAdmin(admin.ModelAdmin):
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'cell_number', 'n_boxes_bought', 'proxy_name', 'proxy_email', 'dropoff_pickup_time', 'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked')
+    list_display = ('user', 'cell_number', 'n_boxes_bought',
+                    'proxy_name', 'proxy_email', 'dropoff_pickup_time',
+                    'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked')
     search_fields = ['user', 'proxy_name', 'proxy_email']
     
 
