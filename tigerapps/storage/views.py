@@ -36,10 +36,10 @@ def home(request):
 @login_required
 def register(request):
     #Make sure user didn't already register
-    try:
+    #Make sure user didn't already register
+    try:    
         status = UnpaidOrder.objects.get(user=request.user)
-        UnpaidOrder.delete(status)
-        #return render_to_response('storage/register_1_info.html', {'bool_registered': True}, RequestContext(request))
+        return redirect('storage/status.html')
     except:
         pass
     
@@ -163,3 +163,32 @@ def order(request):
                                'proxy_form': form},
                               RequestContext(request))
 
+from paypal.standard.ipn.signals import payment_was_successful
+from paypal.standard.ipn.signals import payment_was_flagged
+from django.dispatch import receiver
+
+def confirm_payment(sender, **kwargs):
+    # make Order, put in db
+    # look for invoice_id
+    try:
+        unpaid_order = UnpaidOrder.objects.get(invoice_id=sender.invoice)
+        order = Order(user=unpaid_order.user,
+                      cell_number=unpaid_order.cell_number,
+                      dropoff_pickup_time=unpaid_order.dropoff_pickup_time,
+                      proxy_name=unpaid_order.proxy_name,
+                      proxy_email=unpaid_order.proxy_email,
+                      n_boxes_bought=unpaid_order.n_boxes_bought,
+                      invoice_id=unpaid_order.invoice)
+        order.save()
+    except Exception as e:
+        send_mail('Subject here', str(e), 'from@example.com',
+                  ['mfrankli@princeton.edu'], fail_silently=False)
+        
+
+payment_was_successful.connect(confirm_payment)
+
+def handle_flagged(sender, **kwargs):
+    send_mail('Subject here', 'Here is the message. (Flagged!)', 'from@example.com',
+              ['it@princetonusg.com'], fail_silently=False)
+
+payment_was_flagged.connect(handle_flagged)
