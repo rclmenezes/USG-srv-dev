@@ -20,6 +20,7 @@
 
 	<h2>Register for Storage</h2>
 	<p>Register here to store yo' junk with the USG Summer Storage Initiative this summer. Over 2000 boxes were stored with us over the summer of 2011, and we've expanded the service for you this year - it's as convenient, safe, and cheap as ever!</p>
+	<p><strong>Currently, you are limited to a single order so make it count!</strong></p>
 	
 	<p style="text-align:center;margin:30px 0 20px 0;">
 		<span class="payment" style="color:orange;font-weight:bold;">1. Provide information</span>
@@ -49,11 +50,13 @@
 		<tr id="row_{{reg_form.dropoff_pickup_time.auto_id}}">
 			<th id="th_{{reg_form.dropoff_pickup_time.auto_id}}" class="tableLabel">
 				Dropoff/pickup time*:</th>
-			<td><table>{% for dp_id, dp_d, dp_p, dp_n in dp_times %}
+			<td><table>{% for dp_id, dp_slot, dp_d, dp_p, dp_n in dp_times %}
 					<tr><td><input type="radio" name="dropoff_pickup_time" value="{{dp_id}}" {%ifequal dp_id dp_choice%}checked="checked"{%endifequal%}></td>
 					<td style="padding-left:2px;">
-                        Dropoff: {{dp_d}}<br/>
-    					Pickup: {{dp_p}}<br/>
+                        <span style="color:red;font-weight:bold;">{{dp_slot}}</span></td>
+                    <td style="padding-left:8px;">
+                        {{dp_d}}<br/>
+    					{{dp_p}}<br/>
     					<span style="color:gray;">({{dp_n}} boxes left)</span></td></tr>
 				{% endfor %}
 				{%if reg_form.dropoff_pickup_time.errors%}{% for error in reg_form.dropoff_pickup_time.errors %}

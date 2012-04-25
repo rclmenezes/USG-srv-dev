@@ -15,14 +15,24 @@ class DropoffPickupTime(models.Model):
     '''
     User's selection from possible dropoff and pickup times of an order
     '''
-    dropoff_time = models.DateTimeField("Dropoff Time")
-    pickup_time = models.DateTimeField("Pickup Time")
+    slot_id = models.CharField("Slot ID", max_length=1)
+    dropoff_date = models.DateField("Dropoff date")
+    dropoff_time_start = models.TimeField("Dropoff time start")
+    dropoff_time_end = models.TimeField("Dropoff time end")
+    pickup_date = models.DateField("Pickup date")
+    pickup_time_start = models.TimeField("Pickup time start")
+    pickup_time_end = models.TimeField("Pickup time end")
     n_boxes_total = models.IntegerField("Total boxes available")
     n_boxes_bought = models.IntegerField("Total boxes bought", default=0)
 
     def __unicode__(self):
-        return "Dropoff: %s, Pickup: %s" % (self.dropoff_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                                            self.pickup_time.strftime("%a %m/%d/%Y %I:%M%p"))
+        return "%s, Dropoff: %s %s-%s, Pickup: %s %s-%s" % (self.slot_id,
+                                                            self.dropoff_date.strftime("%a %m/%d/%Y"),
+                                                            self.dropoff_time_start.strftime("%I:%M").lstrip('0'),
+                                                            self.dropoff_time_end.strftime("%I:%M%p").lstrip('0'),
+                                                            self.pickup_date.strftime("%a %m/%d/%Y"),
+                                                            self.pickup_time_start.strftime("%I:%M").lstrip('0'),
+                                                            self.pickup_time_end.strftime("%I:%M%p").lstrip('0'))
 
 class UnpaidOrder(models.Model):
     '''

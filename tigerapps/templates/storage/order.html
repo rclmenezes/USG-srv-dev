@@ -13,7 +13,7 @@
 	
 		{% for type, th, td in reg_info %}
 			<tr><th>{{th}}</th>
-			<td>{%ifequal type 1%}{{td.0}}<br/>{{td.1}}{%else%}{{td}}{%endifequal%}</td></tr>
+			<td>{%ifequal type 1%}{{td.0}}<br/>{{td.1}}<br/>{{td.2}}{%else%}{{td}}{%endifequal%}</td></tr>
 		{% endfor %}
 		
 		<form name="proxy_update_form" method="post">

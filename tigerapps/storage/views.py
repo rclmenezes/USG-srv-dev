@@ -45,9 +45,12 @@ def register(request):
     
     #Get the list of dropoffpickuptimes
     dp_qset = DropoffPickupTime.objects.all()
-    dp_times = [(str(x.id), x.dropoff_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                x.pickup_time.strftime("%a %m/%d/%Y %I:%M%p"),
-                x.n_boxes_total-x.n_boxes_bought) for x in dp_qset]
+    tmp = [str(x).split(', ') for x in dp_qset]
+    dp_times = [(str(x.id),
+                 y[0],
+                 y[1],
+                 y[2],
+                 x.n_boxes_total-x.n_boxes_bought) for x,y in zip(dp_qset,tmp)]
     
     #Process the user's input if POST
     if request.method == 'POST':
