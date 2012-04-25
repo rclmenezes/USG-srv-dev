@@ -23,7 +23,7 @@ class SubdomainsMiddleware:
                 request.domain = '.'.join(parts[1:])
             else:
                 request.subdomain = 'www'
-        settings.SITE_DOMAIN = url_prefix+request.domain
+        settings.SITE_DOMAIN = url_prefix+request.subdomain+'.'+request.domain
 
         # set the right urlconf
         if request.subdomain != 'www':
@@ -36,10 +36,9 @@ class SubdomainsMiddleware:
         ### A CONVULTED, HORRIBLE MESS
         ### TEMPORARY (I hope)
         if request.subdomain == 'ttrade':
-            settings.AUTHENTICATION_BACKENDS = (
-             'django.contrib.auth.backends.ModelBackend',
-             'ttrade.casBackend.CASBackend',
-             'ttrade.iasBackend.IASBackend',
+            settings.AUTHENTICATION_BACKENDS += (
+                'ttrade.casBackend.CASBackend',
+                'ttrade.iasBackend.IASBackend',
             )
             
             # CAS URL.
@@ -49,27 +48,15 @@ class SubdomainsMiddleware:
             settings.IAS_SERVICE = url_prefix + 'ttrade.tigerapps.org/ias/login/'    
             
         elif request.subdomain == 'cal':
-            settings.MIDDLEWARE_CLASSES = (
-                'django.middleware.common.CommonMiddleware',
-                'django.contrib.sessions.middleware.SessionMiddleware',
-                'django.contrib.auth.middleware.AuthenticationMiddleware',
-                'middleware.SubdomainsMiddleware',
-            )
-            settings.AUTHENTICATION_BACKENDS = (
-                'django.contrib.auth.backends.ModelBackend',
-            )
+            #Nothing different from default; no auth backend (weird)
+            pass
           
         else:
-            settings.MIDDLEWARE_CLASSES = (
-                'django.middleware.common.CommonMiddleware',
-                'django.contrib.sessions.middleware.SessionMiddleware',
-                'django.contrib.auth.middleware.AuthenticationMiddleware',
-                'middleware.SubdomainsMiddleware',
+            settings.MIDDLEWARE_CLASSES += (
                 'django_cas.middleware.CASMiddleware',
                 'django.middleware.doc.XViewMiddleware',
             )
-            settings.AUTHENTICATION_BACKENDS = (
-                'django.contrib.auth.backends.ModelBackend',
+            settings.AUTHENTICATION_BACKENDS += (
                 'django_cas.backends.CASBackend',
             )
             settings.CAS_SERVER_URL = 'https://fed.princeton.edu/cas/'

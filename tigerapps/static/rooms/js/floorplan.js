@@ -12,6 +12,7 @@ function displayFloorPlan(name)
 
 function getFloorPlanImg(name)
 {
+    console.log(pdfByBldg);
     // Some buildings start with floor 0, while other start with 1
     var bldgId = pdfByBldg[name][0];
     if(! bldgId)
