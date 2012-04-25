@@ -126,6 +126,14 @@ def order(request):
                                   {},
                                   RequestContext(request))
 
+    #render the form, or update the form if a POST
+    if request.method == 'POST':
+        form = ProxyUpdateForm(request.POST)
+        if form.is_valid():
+            form.save(order)
+    form = ProxyUpdateForm()
+    
+    #render the other info
     reg_info = ((0, 'NetID:', request.user.username),
                 (0, 'Email:', request.user.username+'@princeton.edu'),
                 (0, 'Cell phone number:', order.cell_number),
@@ -135,12 +143,6 @@ def order(request):
                 (0, 'Quantity:', order.n_boxes_bought),
                 (0, 'Total paid:', '$%.2f'%(float(RegistrationForm.BOX_PRICE)*order.n_boxes_bought)))
     proxy_info = (order.proxy_name, order.proxy_email)
-    
-    if request.method == 'POST':
-        form = ProxyUpdateForm(request.POST)
-        if form.is_valid():
-            form.save(order)
-    form = ProxyUpdateForm()
     
     return render_to_response('storage/order.html',
                               {'reg_info': reg_info,
