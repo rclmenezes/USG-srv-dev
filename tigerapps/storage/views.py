@@ -150,6 +150,7 @@ def order(request):
                 (0, 'Email:', request.user.username+'@princeton.edu'),
                 (0, 'Cell phone number:', order.cell_number),
                 (1, 'Dropoff/pickup time:', str(order.dropoff_pickup_time).split(', ')),
+                (0, 'Box size:', '18"x18"x17"'),
                 (0, 'Price per box:', '$'+RegistrationForm.BOX_PRICE),
                 (0, 'Quantity:', order.n_boxes_bought),
                 (0, 'Total paid:', '$%.2f'%(float(RegistrationForm.BOX_PRICE)*order.n_boxes_bought)))
@@ -166,7 +167,7 @@ def order(request):
                                'proxy_info': proxy_info,
                                'proxy_form': form},
                               RequestContext(request))
-
+'''
 from paypal.standard.ipn.signals import payment_was_successful
 from paypal.standard.ipn.signals import payment_was_flagged
 from django.dispatch import receiver
@@ -205,3 +206,4 @@ def handle_flagged(sender, **kwargs):
               ['it@princetonusg.com'], fail_silently=False)
 
 payment_was_flagged.connect(handle_flagged)
+'''
