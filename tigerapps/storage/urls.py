@@ -11,10 +11,11 @@ urlpatterns = patterns('',
     url(r'^register/complete/?$', 'storage.views.register_complete'),
     url(r'^status/?$', 'storage.views.status'),
     
-    
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
     
+    (r'^paypal/ipntesturl123/?$', 'storage.views.my_ipn'),
+
     #Example
     #url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
 

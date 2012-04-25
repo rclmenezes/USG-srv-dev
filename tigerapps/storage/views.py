@@ -1,4 +1,6 @@
+import sys, os
 import uuid
+from os import path
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
@@ -8,9 +10,11 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from paypal.standard.forms import PayPalPaymentsForm
 from utils import paypal
+from paypal import standard
+from paypal.standard import ipn
 from storage.forms import *
 from storage.models import *
-
+from django.core.mail import send_mail
 
 def home(request):
     postList = Post.objects.all().order_by('posted').reverse()
@@ -34,8 +38,8 @@ def home(request):
 def register(request):
     #Make sure user didn't already register
     try:
-        status = Status.objects.get(user=request.user)
-        Status.delete(status)
+        status = UnpaidOrder.objects.get(user=request.user)
+        UnpaidOrder.delete(status)
         #return render_to_response('storage/register_1_info.html', {'bool_registered': True}, RequestContext(request))
     except:
         pass
@@ -62,7 +66,7 @@ def register(request):
         reg_form.save(request.user, commit=True)
         
         #Render data to show on next page
-        status = Status.objects.get(user=request.user)
+        status = UnpaidOrder.objects.get(user=request.user)
         reg_info = ((0, 'NetID:', request.user.username),
                     (0, 'Email:', request.user.username+'@princeton.edu'),
                     (0, 'Cell phone number*:', status.cell_number),
@@ -74,13 +78,15 @@ def register(request):
                     (0, 'Proxy name:', status.proxy_name),
                     (0, 'Proxy email:', status.proxy_email))
         pp_details = {
+            'business': 'it@princetonusg.com',
             'item_name': "USG summer storage boxes",
             'item_number': "box",
             'amount': reg_form.BOX_PRICE,
             'quantity': status.n_boxes_bought,
             
             'invoice': str(uuid.uuid1()), #PayPal wants a unique invoice ID 
-            'return_url': settings.SITE_DOMAIN+'/register/complete/',
+            'notify_url': 'http://dev.storage.tigerapps.org/paypal/ipntesturl123/',
+            'return_url': 'http://dev.storage.tigerapps.org/register/complete/',
             'cancel_return': settings.SITE_DOMAIN+'/register/',
         }
         pp_form = PayPalPaymentsForm(initial=pp_details)
@@ -100,6 +106,28 @@ def register(request):
                                'dp_times': dp_times},
                               RequestContext(request))
 
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
+from paypal import standard
+from paypal.standard import ipn
+from paypal.standard.ipn import views
+
+def my_ipn(request):
+    try :
+        toReturn = ipn.views.ipn(request)
+        return toReturn
+    except Exception as e:
+        s = str(e)
+        try:
+            s += str(sys.exc_info()[2].tb_lineno)
+            fname = os.path.split(sys.exc_info()[2].tb_frame.f_code.co_filename)[1]  
+            s += '\n' + fname
+        except Exception as e2:
+            s += '\n' + str(e2) + '\n'
+        send_mail('Subject here', s, 'from@example.com',
+              ['it@princetonusg.com'], fail_silently=False)
+        return HttpResponse('OKAY')
+
 @login_required
 def register_complete(request):
     return render_to_response('storage/register_3_complete.html',
@@ -109,7 +137,7 @@ def register_complete(request):
 @login_required
 def status(request):
     try:
-        status = Status.objects.get(user=request.user)
+        status = UnpaidOrder.objects.get(user=request.user)
     except:
         return render_to_response('storage/status.html',
                                   {},
