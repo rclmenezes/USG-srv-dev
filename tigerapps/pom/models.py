@@ -1,5 +1,5 @@
 from django.db import models
-from cal import Event
+from cal.models import Event
 
 
 class BuildingCalEventManager(models.Manager):
