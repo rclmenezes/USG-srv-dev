@@ -104,7 +104,7 @@ function loadTiles() {
 			if (jmap.loadedTiles[id] == undefined) {
 				var domEle = document.createElement('img');
 				jmap.loadedTiles[id] = domEle;
-				domEle.setAttribute('src', jmap.tilesDir+id+'.jpg');
+				domEle.setAttribute('src', jmap.tilesDir+id+'.png');
 				domEle.setAttribute('class', 'jmap-tile');
 				domEle.setAttribute('id', id);
 				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
