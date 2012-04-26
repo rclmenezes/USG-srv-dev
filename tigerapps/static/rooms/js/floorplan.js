@@ -126,9 +126,9 @@ function displayFloorPlan(name, floor)
 	var area = document.createElement("area");
 	area.shape = "rect";
 	area.coords = rectCoords.join();
-	console.log("area.coords:" + area.coords);
 	area.onclick = function(){
-	    alert("displaying information for room: " + roomName);
+	    alert("Here you would see information about room id: "
+		  + roomIdByName[name][String(roomName)] + "(" + name + " " + roomName + ")");
 	}
 	return area;
     }
