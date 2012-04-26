@@ -48,7 +48,7 @@ class UnpaidOrder(models.Model):
     proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
     n_boxes_bought = models.IntegerField("Quantity", max_length=2)
     invoice_id = models.CharField("Invoice ID", max_length=36, unique=True)
-    timestamp = models.DateTimeField("Timestamp", default=datetime.datetime.now())
+    timestamp = models.DateTimeField("Timestamp", auto_now_add=True)
     signature = models.CharField("Signature", max_length=50)
 
     def __unicode__(self):
@@ -74,7 +74,7 @@ class Order(models.Model):
     proxy_email = models.CharField("Proxy email", max_length=50, blank=True)
     n_boxes_bought = models.IntegerField("Quantity", max_length=2)
     invoice_id = models.CharField("Invoice ID", max_length=36, unique=True)
-    timestamp = models.DateTimeField("Timestamp", default=datetime.datetime.now())
+    timestamp = models.DateTimeField("Timestamp", auto_now_add=True)
     signature = models.CharField("Signature", max_length=50)
     
     bool_picked_empty = models.BooleanField("Picked up Empty Boxes", default=False)
