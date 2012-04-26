@@ -1,49 +1,106 @@
-var FLOOR_PLAN_ZOOM_LEVELS = [.4, .55, .7, .85, 1, 1.15, 1.3];
-var FLOOR_PLAN_DEFAULT_ZOOM = 3;
+var FLOOR_PLAN_ZOOM_LEVELS = [.4, .55, .7, .85, 1, 1.2, 1.5, 2];
+var FLOOR_PLAN_DEFAULT_ZOOM = 1;
 
-function displayFloorPlan(name)
+function displayFloorPlan(name, floor)
 {
     console.log("Floor plan for: " + name);
     var map_canvas = document.getElementById("map_canvas");
     var fp_canvas = document.getElementById("floorplan_canvas");
     var bldgId;
     var current_zoom = FLOOR_PLAN_DEFAULT_ZOOM;
+    var current_view_pos = {x: 0, y: 0};
+    var mousedown_pos = undefined; 
 
-
+    if(! floor)
+	floor = 1;
     
     map_canvas.style.display = "none";
     fp_canvas.style.display = "inline";
+
+    fp_canvas.style.height = "100%";
+    fp_canvas.style.width = "69.5%";
+
 
     fp_canvas.innerHTML = "";
     fp_canvas.appendChild(getFloorPlanImg(name));
     fp_canvas.appendChild(getBackButton());
     fp_canvas.appendChild(getZoomInButton());
     fp_canvas.appendChild(getZoomOutButton());
+    fp_canvas.appendChild(getFloorUpButton());
+    fp_canvas.appendChild(getFloorDownButton());
 
     function getFloorPlanImg(name)
     {
-	// Some buildings start with floor 0, while other start with 1
-	// Let's just always start at floor 1 
-	bldgId = pdfByBldg[name][1];
+	
+	bldgId = pdfByBldg[name][floor];
 
-	var default_zoom = FLOOR_PLAN_ZOOM_LEVELS[FLOOR_PLAN_DEFAULT_ZOOM];
-    
+	var default_zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[FLOOR_PLAN_DEFAULT_ZOOM];
+
 	var img = document.createElement("img");
 	img.src = "static/rooms/images/floorplans/" + bldgId + "-001.jpg";
-	img.width = floorplancoordsWidth * default_zoom;
+	img.style.width = floorplancoordsWidth * default_zoom_factor + "px";
 	img.id = "floorplan_img";
 
-	var imgmap = getFloorPlanImgMap(default_zoom);
+	var imgmap = getFloorPlanImgMap(FLOOR_PLAN_DEFAULT_ZOOM);
 	img.useMap = "#" + imgmap.name;
+
+	img.onmousedown = function(ev)
+	{
+	    mousedown_pos = {x: ev.clientX, y: ev.clientY};
+	    img.style.cursor = "-moz-grabbing";
+	};
+
+	img.onmouseup = handleMouseDrag;
+
+	// Disable browser's default drag and drop
+	img.ondragstart = function() { return false; };
 
 	return img;
     }
 
-    function getFloorPlanImgMap(zoom)
+    function handleMouseDrag(ev)
+    {
+	if(! mousedown_pos)
+	    return;
+
+	if((ev.x == mousedown_pos.x)
+	   && (ev.y == mousedown_pos.y))
+	{
+	    mousedown_pos = undefined;
+	    return;
+	}
+
+	var zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[current_zoom];
+	var width = floorplancoordsWidth * zoom_factor;
+	var height = width * this.height / this.width;
+	  
+	current_view_pos.x += mousedown_pos.x - ev.x;
+	current_view_pos.y += mousedown_pos.y - ev.y;
+	if(current_view_pos.x < 0)
+	    current_view_pos.x = 0;
+	if(current_view_pos.y < 0)
+	    current_view_pos.y = 0;
+	if(current_view_pos.x > width)
+	    current_view_pos.x = width;
+	if(current_view_pos.y > height)
+	    current_view_pos.y = height;
+
+	this.style.left = -current_view_pos.x + "px";
+	this.style.top = -current_view_pos.y + "px";
+	
+	mousedown_pos = undefined;
+	this.style.cursor = "-moz-grab";
+    }
+
+
+    function getFloorPlanImgMap(zoom_index)
     {
 	var imgmap = document.createElement("map");
 	imgmap.name = bldgId + "_map";
 	imgmap.id = bldgId + "_map";
+
+
+	var zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[zoom_index];
 
 	for(var roomName in floorplancoords[bldgId])
 	{
@@ -53,10 +110,9 @@ function displayFloorPlan(name)
 		var rectCoords = [];
 		for(var i in floorplancoords[bldgId][roomName][r])
 		{
-		    rectCoords[i] = zoom * floorplancoords[bldgId][roomName][r][i];
+		    rectCoords[i] = floorplancoords[bldgId][roomName][r][i] * zoom_factor;
 		    rectCoords[i] = parseInt(rectCoords[i]);
 		}
-		console.log(rectCoords);
 		imgmap.appendChild(getMapArea(bldgId, roomName, rectCoords));
 	    }
 	}
@@ -70,24 +126,34 @@ function displayFloorPlan(name)
 	var area = document.createElement("area");
 	area.shape = "rect";
 	area.coords = rectCoords.join();
+	console.log("area.coords:" + area.coords);
 	area.onclick = function(){
 	    alert("displaying information for room: " + roomName);
 	}
 	return area;
     }
 
-    function resizeFloorPlan(zoom)
+
+    function resizeFloorPlan(old_zoom_index, new_zoom_index)
     {
 	var img = document.getElementById("floorplan_img");
-	var oldmap = document.getElementById(bldgId + "_map");
-	
-	img.width = floorplancoordsWidth * zoom;
+	var old_map = document.getElementById(bldgId + "_map");
+	var old_zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[old_zoom_index];
+	var new_zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[new_zoom_index];
+
+	img.style.width = floorplancoordsWidth * new_zoom_factor + "px";
 
 	// Remove old image map.
-	oldmap.parentNode.removeChild(oldmap);
+	old_map.parentNode.removeChild(old_map);
+
+	// Recenter
+	current_view_pos.x = current_view_pos.x * new_zoom_factor / old_zoom_factor;
+	current_view_pos.y = current_view_pos.y * new_zoom_factor / old_zoom_factor;
+	img.style.left = -current_view_pos.x + "px";
+	img.style.top = -current_view_pos.y + "px";
 
 	// Now create a new image map.
-	getFloorPlanImgMap(zoom);
+	getFloorPlanImgMap(new_zoom_index);
     }
 
     function getBackButton()
@@ -115,10 +181,11 @@ function displayFloorPlan(name)
 	{
 	    if(current_zoom < FLOOR_PLAN_ZOOM_LEVELS.length - 1)
 	    {
+		resizeFloorPlan(current_zoom, current_zoom + 1);
 		current_zoom++;
-		resizeFloorPlan(FLOOR_PLAN_ZOOM_LEVELS[current_zoom]);
 	    }
 	}
+
 	return button;
     }
 
@@ -133,10 +200,40 @@ function displayFloorPlan(name)
 	{
 	    if(current_zoom > 0)
 	    {
+		resizeFloorPlan(current_zoom, current_zoom - 1);
 		current_zoom--;
-		resizeFloorPlan(FLOOR_PLAN_ZOOM_LEVELS[current_zoom]);
 	    }
 	}
+	return button;
+    }
+
+    function getFloorUpButton()
+    {
+	var button = document.createElement("span");
+	button.innerHTML = "^ floor up";
+	button.id = "fp_floorup_button";
+	button.className = "fp_button";
+
+	button.onclick = function()
+	{
+	    displayFloorPlan(name, floor+1);
+	}
+
+	return button;
+    }
+
+    function getFloorDownButton()
+    {
+	var button = document.createElement("span");
+	button.innerHTML = "V floor down";
+	button.id = "fp_floordown_button";
+	button.className = "fp_button";
+
+	button.onclick = function()
+	{
+	    displayFloorPlan(name, floor-1);
+	}
+
 	return button;
     }
 
