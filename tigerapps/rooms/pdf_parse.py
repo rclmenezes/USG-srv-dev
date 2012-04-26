@@ -43,13 +43,16 @@ drawtags = soup.find(id="tree1")
 
 drawtag = drawtags.contents[0]
 
+print "bldgByPdf = [];"
+print "pdfByBldg = [];"
+
 while drawtag:
     if not type(drawtag) is Tag:
         drawtag = drawtag.nextSibling
         continue
     drawname = split(drawtag.b.string)[0]
     draw = Draw.objects.get(name=drawname)
-    print draw
+    #print draw
     buildingtag = drawtag.ul.li
 
     while buildingtag:
@@ -65,16 +68,20 @@ while drawtag:
             building.save()
         building.draw.add(draw)
         
-        print '\t%s' % building
+        #print '\t%s' % building
+        print "pdfByBldg['%s'] = [];" % building.name
         floors = buildingtag.findAll('a')
-        # for floor in floors:
-        #     fname = rsplit(floor['href'],'/',1)[1]
-        #     num = floor_terms[floor.string.strip()]
-        #     print "\t\t%d %s" % (num, fname)
+        for floor in floors:
+             fname = rsplit(floor['href'],'/',1)[1]
+             num = floor_terms[floor.string.strip()]
+
+             pdfid = rsplit(fname, ".", 1)[0]
+             print "bldgByPdf['%s'] = { building: '%s', floornum : %d };" % (pdfid, building.name, num)
+             print "pdfByBldg['%s']['%d'] = '%s';" % (building.name, num, pdfid)
         buildingtag = buildingtag.nextSibling
 
     drawtag = drawtag.nextSibling
             
             
-print Draw.objects.all()
-print Draw.objects.get(name="Butler")
+#print Draw.objects.all()
+#print Draw.objects.get(name="Butler")

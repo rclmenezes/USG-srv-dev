@@ -1,6 +1,10 @@
 {% extends "storage/base.html" %}
 
 {% block content %}
+    <div style="width:560px;margin:0 auto 20px;">
+        <iframe width="560" height="315" src="http://www.youtube.com/embed/89Nhqa4asUE" frameborder="0" allowfullscreen></iframe>
+    </div>
+
     {% for post in posts.object_list %}
         <h2 id="postTitle" style="text-align:center;">{{ post.title }}</h2>
         <p id="postDate" style="text-align:center;margin-top:-8px;">{{ post.posted|date:"F j, Y" }}</h3>

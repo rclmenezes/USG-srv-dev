@@ -15,12 +15,6 @@ body {
     background-repeat: repeat-x, repeat;*/
 }
 
-a img
-{
-    border: none;
-    text-decoration: none;
-}
-
 .wrapper
 {
     width: 800px;
@@ -32,7 +26,6 @@ a img
 	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
 	box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
 }
-
 .wrapper:after
 {
     clear:both;
@@ -47,11 +40,6 @@ a img
     margin-left: 20px
 }
 
-a {
-    text-decoration: none;
-    color: #000000;
-}
-
 p {
     text-decoration: none;
     color: black;
@@ -63,10 +51,19 @@ h2
     text-align: center;
 }
 
+a {
+    color: #F96B02;
+}
+
 a:hover
 {
+    color: #000000;
+}
+
+a img
+{
+    border: none;
     text-decoration: none;
-    color: #F96B02;
 }
 
 a#edit
@@ -91,6 +88,12 @@ span#right
     margin-right: 5px;
     float: right;
 }
+
+git 
+{
+	display:inline;
+}
+
 
 /* page numbers at bottom */
 div.pagination
@@ -145,10 +148,24 @@ span.payment
     left: 7px;
 }
 
-#ttradelogo
+#storagelogo
 {
     top: 15px;
     left: 107px;
+}
+#storagelogo a
+{
+	text-decoration:none;
+	color: black;
+}
+#storagelogo a:hover
+{
+	text-decoration:none;
+    color: #F96B02;
+}
+#storagelogo a:active
+{
+	text-decoration:none;
 }
 
 #account
@@ -157,6 +174,10 @@ span.payment
     right: 15px;
     top: 5px;
     font-weight: bold;
+}
+#account a
+{
+	text-decoration:none;
 }
 
 .header table, tr, td, th
@@ -171,7 +192,7 @@ span.payment
 ul.subsection_tabs {
 	list-style:none;
 	width:550px;
-	margin:0 0 25px 40px;
+	margin:0 0 30px 40px;
 	padding:0;
 	border-bottom:1px solid orange;
 	height:25px;
@@ -193,11 +214,15 @@ ul.subsection_tabs li.tab a {
 	width:90px;
 }
 
+ul.subsection_tabs li.tab a {
+    text-decoration: none;
+}
 ul.subsection_tabs li.tab a:hover {
+    text-decoration: none;
 	color:#888;
 }
-
 ul.subsection_tabs li.tab a.active {
+    text-decoration: none;
 	background-color:#ddd;
 }
 
@@ -294,24 +319,29 @@ span.th, span.tr
     vertical-align: middle;
 }
 
-table.form
+div.register
 {
 	margin: auto;
 	width: 500px;
 }
-table.form td
+div.register table.form
+{
+    margin: auto;
+    width: 100%;
+}
+div.register table.form td
 {
 	vertical-align: top;
 	padding-top: 4px;
 }
-table.form th
+div.register table.form th
 {
 	vertical-align: top;
 	text-align: left;
 	padding-right: 20px;
 	padding-top: 4px;
 }
-table.form td.desc
+div.register table.form td.desc
 {
 	padding-top: 30px;
 }
@@ -355,6 +385,7 @@ table.form td.desc
     padding: 30px 0px 20px;
     margin: 0 auto;
     width: 500px;
+    text-align: center;
 }
 
 .footer small
@@ -366,6 +397,7 @@ table.form td.desc
 .footer a
 {
 	color:white;
+    text-decoration: none;
 }
 .footer a:hover
 {

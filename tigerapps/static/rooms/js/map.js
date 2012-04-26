@@ -33,8 +33,8 @@ function initialize() {
 
     var markers = new Array();
     var clicklistener = function(name) {
-        return function() {
-            alert(name);
+	return function() {
+            displayFloorPlan(name);
         }
     }
     for (var i = 0; i < mapdata.length; i++) {

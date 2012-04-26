@@ -1,0 +1,19 @@
+{% extends "storage/base.html" %}
+
+{% block content %}
+
+	<h2>Register for Storage</h2>
+	
+	<p style="text-align:center;margin:10px 0 20px 0;">
+		<span class="payment">1. Provide information</span>
+		<span class="payment">2. Confirm & pay with PayPal</span>
+		<span class="payment" style="color:orange;font-weight:bold;">3. Complete!</span>
+	</p>
+	
+	<div class="register">
+		<p>Thanks for registering to store your boxes with the USG Summer Storage Initiative! We'll send out more updates to your email address at <b>{{user.username}}@princeton.edu</b> as the time nears for you to pick up your empty boxes. In the meantime, you may:</p>
+		<p style="text-align:center;"><a href="/order/">View your order</a></p>
+		<p style="text-align:center;"><a href="/">Return home</a></p>
+	</div>
+
+{% endblock %}

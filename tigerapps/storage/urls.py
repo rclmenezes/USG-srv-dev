@@ -8,11 +8,14 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^/?$', 'storage.views.home'),
     url(r'^register/?$', 'storage.views.register'),
-    
+    url(r'^register/complete/?$', 'storage.views.register_complete'),
+    url(r'^order/?$', 'storage.views.order'),
     
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
     
+    (r'^paypal/ipntesturl123/?$', 'storage.views.my_ipn'),
+
     #Example
     #url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
 
