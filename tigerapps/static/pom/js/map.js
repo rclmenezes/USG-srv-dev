@@ -21,7 +21,7 @@ function init() {
 	
 	//static constants
 	jmap.tileSZ = 256; //square
-	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2816,y:2048,scale:1}];
+	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2816, y:2048,scale:1}];
 	
 	//for dragging
 	jmap.isDragging = false;
@@ -100,7 +100,7 @@ function loadTiles() {
 	//alert(tileBounds.minX+','+tileBounds.maxX+';'+tileBounds.minY+','+tileBounds.maxY);
 	for (x=tileBounds.minX; x<=tileBounds.maxX; x++) {
 		for (y=tileBounds.minY; y<=tileBounds.maxY; y++) {
-			var id = tileIndexToId(y,x);
+			var id = tileIndexToId(x,y);
 			if (jmap.loadedTiles[id] == undefined) {
 				var domEle = document.createElement('img');
 				jmap.loadedTiles[id] = domEle;
@@ -263,6 +263,7 @@ function mouseCoords(ev){
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
 	alert(errorThrown);
 }
+
 
 
 
