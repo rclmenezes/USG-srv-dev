@@ -22,6 +22,7 @@ class Building(models.Model):
     bldg_code = models.CharField(max_length=32)
     name = models.CharField(max_length=64)
     
+    objects = models.Manager()
     cal_events = BuildingCalEventManager()
 
 

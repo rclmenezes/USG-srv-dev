@@ -11,8 +11,8 @@ function init() {
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
 	jmap.bldgsClick = '/bldg/';
-	jmap.bldgsPlainSrc = '.jpg';
-	jmap.bldgsHoverSrc = '-h.jpg';
+	jmap.bldgsPlainSrc = '.png';
+	jmap.bldgsHoverSrc = '-h.png';
 	
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
@@ -104,7 +104,7 @@ function loadTiles() {
 			if (jmap.loadedTiles[id] == undefined) {
 				var domEle = document.createElement('img');
 				jmap.loadedTiles[id] = domEle;
-				domEle.setAttribute('src', jmap.tilesDir+id+'.jpg');
+				domEle.setAttribute('src', jmap.tilesDir+id+'.png');
 				domEle.setAttribute('class', 'jmap-tile');
 				domEle.setAttribute('id', id);
 				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
@@ -147,7 +147,7 @@ function loadTileBldgs(id) {
 			domEle.setAttribute('src', jmap.bldgsDir+id+jmap.bldgsPlainSrc);
 			domEle.setAttribute('class', 'jmap-bldg');
 			domEle.setAttribute('id', id);
-			domEle.setAttribute('style', 'position:absolute;');
+			domEle.setAttribute('style', 'position:absolute;z-index:1;');
 			var bldg = jmap.bldgsInfo[id];
 			domEle.style.height = bldg.height;
 			domEle.style.width = bldg.width;
@@ -180,12 +180,20 @@ function setupBldgClick(domEle) {
 }
 
 function handleBldgClick(ev,domEle) {
-	$.ajax(jmap.bldgsClick+domEle.id, {
-		success: function(data) {
-			$('#info-bldgName').html(data);
-		},
+	$.ajax(jmap.bldgsClick+domEle.id.split('-')[1], {
+		dataType: 'json',
+		success: insertJSON,
 		error: handleAjaxError
 	});
+}
+
+function insertJSON(data) {
+    $('#jmap-info').append('<div>Building Name: ' + data.bldgName + '</div>')
+    $('#jmap-info').append('<div>Events:</div>')
+    for (i in data.events) {
+        $('#jmap-info').append('<div>' + data.events[i] + '</div>')
+    }
+
 }
 
 

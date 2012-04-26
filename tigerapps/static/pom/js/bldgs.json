@@ -1,4 +1,10 @@
 {
- "bldgsTile":{"4-2-3":["4-test"]},
- "bldgsInfo":{"4-test":{"height":100,"width":100,"left":510,"top":730}}
+ "bldgsTile":{"4-2-3":["4-test"],
+ 			  "4-6-2":["4-FRIST"],
+ 			  "4-6-3":["4-FRIST"],
+ 		      "4-5-0":["4-NASHALL"],
+ 		      "4-5-1":["4-NASHALL"]},
+ "bldgsInfo":{"4-test":{"height":100,"width":100,"left":510,"top":730},
+ 		     "4-FRIST":{"height":87,"width":107,"left":1574,"top":717},
+ 		     "4-NASHALL":{"height":46,"width":81,"left":1275,"top":364}}
 }
