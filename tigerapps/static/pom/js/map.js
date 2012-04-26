@@ -147,7 +147,7 @@ function loadTileBldgs(id) {
 			domEle.setAttribute('src', jmap.bldgsDir+id+jmap.bldgsPlainSrc);
 			domEle.setAttribute('class', 'jmap-bldg');
 			domEle.setAttribute('id', id);
-			domEle.setAttribute('style', 'position:absolute;');
+			domEle.setAttribute('style', 'position:absolute;z-index:1;');
 			var bldg = jmap.bldgsInfo[id];
 			domEle.style.height = bldg.height;
 			domEle.style.width = bldg.width;
