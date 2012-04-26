@@ -1,10 +1,12 @@
 # Create your views here.
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
 from models import *
+from views import *
+from django.core.urlresolvers import reverse
 from django import forms
 import json
 
@@ -114,18 +116,26 @@ def get_queue(request, drawid):
 #for testing
 def review(request, roomid):
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
-    
-        if form.is_valid():
-            print 'ok valid'
-            rev = form.save(commit=False)
-            rev.user = check_undergraduate(request.user)
-            rev.room = Room.objects.filter(id=roomid)[0]
-            rev.save()
-            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True})
-        else:
-            form = ReviewForm()
-            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': True})
+    	cancel = request.POST.get('cancel', None)
+        
+        if cancel:
+        	return HttpResponseRedirect(reverse(index))	#redirects to the view index
+    	else:
+    		form = ReviewForm(request.POST)
+    	
+	        if form.is_valid():
+	            print 'ok valid'
+	            rev = form.save(commit=False)
+	            rev.user = check_undergraduate(request.user)
+	            roomid = Room.objects.filter(id=roomid)
+	            if len(roomid) == 0:
+	            	return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid Room'})
+	            else:
+	            	rev.save()
+	            	return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True})
+	        else:
+	            form = ReviewForm()
+	            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
     else:
         form = ReviewForm()
         
