@@ -181,11 +181,18 @@ function setupBldgClick(domEle) {
 
 function handleBldgClick(ev,domEle) {
 	$.ajax(jmap.bldgsClick+domEle.id, {
-		success: function(data) {
-			$('#info-bldgName').html(data);
-		},
+		success: insertJSON,
 		error: handleAjaxError
 	});
+}
+
+function insertJSON(data) {
+    $('#jmap-info').append('<span>Building Name: ' + data[bldgName] + '</span>')
+    $('#jmap-info').append('<span>Events:</span>')
+    for (e in data[events]) {
+        $('#jmap-info').append('<span>' + e + '</span>')
+    }
+
 }
 
 
