@@ -180,12 +180,20 @@ function setupBldgClick(domEle) {
 }
 
 function handleBldgClick(ev,domEle) {
-	$.ajax(jmap.bldgsClick+domEle.id, {
-		success: function(data) {
-			$('#info-bldgName').html(data);
-		},
+	$.ajax(jmap.bldgsClick+domEle.id.split('-')[1], {
+		dataType: 'json',
+		success: insertJSON,
 		error: handleAjaxError
 	});
+}
+
+function insertJSON(data) {
+    $('#jmap-info').append('<div>Building Name: ' + data.bldgName + '</div>')
+    $('#jmap-info').append('<div>Events:</div>')
+    for (i in data.events) {
+        $('#jmap-info').append('<div>' + data.events[i] + '</div>')
+    }
+
 }
 
 

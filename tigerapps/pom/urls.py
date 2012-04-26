@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Map-related
     url(r'^/?$', direct_to_template,
         {'template': 'pom/index.html'}),
-    url(r'^bldg/(?P<bldg_id>\S+)/?$', 'pom.views.map_bldg_clicked'),
+    url(r'^bldg/(?P<bldg_code>\S+)/?$', 'pom.views.map_bldg_clicked'),
     
     url(r'^pmap/?$', direct_to_template,
         {'template': 'pom/pmap.html'}),
