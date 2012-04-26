@@ -61,11 +61,12 @@ body
 
 #floorplan_canvas
 {
-    height: 100%;
+    height:0px;
     width: 0px;
     position: absolute;
     top: 0;
     left: 0;
+    display: none;
 }
 
 #top_right
@@ -263,6 +264,14 @@ input
 
 
 /* Floor plan styles */
+
+#floorplan_canvas img
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
 .fp_button
 {
     padding: 8px;
