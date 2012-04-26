@@ -11,8 +11,8 @@ function init() {
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
 	jmap.bldgsClick = '/bldg/';
-	jmap.bldgsPlainSrc = '.jpg';
-	jmap.bldgsHoverSrc = '-h.jpg';
+	jmap.bldgsPlainSrc = '.png';
+	jmap.bldgsHoverSrc = '-h.png';
 	
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
