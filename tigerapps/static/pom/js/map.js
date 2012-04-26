@@ -21,7 +21,7 @@ function init() {
 	
 	//static constants
 	jmap.tileSZ = 256; //square
-	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2048,y:2048,scale:1}];
+	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2816, y:2048,scale:1}];
 	
 	//for dragging
 	jmap.isDragging = false;
@@ -104,7 +104,7 @@ function loadTiles() {
 			if (jmap.loadedTiles[id] == undefined) {
 				var domEle = document.createElement('img');
 				jmap.loadedTiles[id] = domEle;
-				domEle.setAttribute('src', jmap.tilesDir+'lol.jpg');
+				domEle.setAttribute('src', jmap.tilesDir+id+'.jpg');
 				domEle.setAttribute('class', 'jmap-tile');
 				domEle.setAttribute('id', id);
 				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
@@ -263,6 +263,7 @@ function mouseCoords(ev){
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
 	alert(errorThrown);
 }
+
 
 
 
