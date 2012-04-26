@@ -1,23 +1,24 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
-from django.core.paginator import Paginator
-from django.core.mail import send_mail
-from ccc.models import *
-from ccc.forms import *
+from django.template import RequestContext
 import datetime
+import simplejson
 
 def index(request, offset):
-    if offset != '':
-        try:
-            offset = int(offset)
-        except:
-            raise Http404()
-        current_time = datetime.datetime.now() + datetime.timedelta(hours=offset)
-    else:
-        current_time = datetime.datetime.now()
-    
-    return render_to_response('pom/index.html', {'current_time': current_time})
+    # not used due to direct_to_template in urls.py
+    return render_to_response('pom/index.html', {}, RequestContext(context))
 
-def map_bldg_clicked(request, bldg_id):
-    return HttpResponse('Test Buliding')
+def map_bldg_clicked(request, bldg_code):
+    try:
+        bldg = Building.objects.get()
+        bldg_name = bldg.name
+        events = Building.cal_events.all(bldg)
+        response_json = simplejson.dumps({'bldgName': bldg_name,
+                                          'events': [event.event_cluster.cluster_title for event in events],
+                                          'error': False})
+    except Exception as e:
+        response_json = simplejson.dumps({'error': e})
+        
+    
+    return HttpResponse(response_json, content_type="application/javascript")
