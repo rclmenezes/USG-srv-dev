@@ -44,7 +44,8 @@ class Command(BaseCommand):
         users = User.objects.filter(queues__in=queues).distinct()
         #self.stdout.write('%s\n' % users)
         for user in users:
-            self.email(user, room)
+            if user.do_email:
+                self.email(user, room)
 
     def email(self, user, room):
         subject = 'Rooms: %s Taken' % room

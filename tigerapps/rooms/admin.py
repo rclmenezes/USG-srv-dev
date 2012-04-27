@@ -8,4 +8,4 @@ admin.site.register(User)
 admin.site.register(Queue)
 admin.site.register(PastDraw)
 admin.site.register(PastDrawEntry)
-
+admin.site.register(Carrier)

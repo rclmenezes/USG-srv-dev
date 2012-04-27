@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -21,6 +21,11 @@ def check_undergraduate(username):
         if info.get('puclassyear'):
             user.puclassyear = int(info.get('puclassyear'))
         user.save()
+        #Create queues for each draw
+        for draw in Draw.objects.all():
+            queue = Queue(draw=draw)
+            queue.save()
+            user.queues.add(queue)
     if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
         return user
     return None
@@ -37,6 +42,9 @@ def index(request):
 
 @login_required
 def draw(request, drawid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
     room_list = Room.objects.filter(building__draw__id=drawid)
     return render_to_response('rooms/drawtab.html', locals())
 
@@ -53,6 +61,15 @@ def mapdata():
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript
 
+# Single room view function
+@login_required
+def get_room(request, roomid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    room = get_object_or_404(Room, pk=roomid)
+    return HttpResponse('Win!')
+    
 @login_required
 def create_queue(request, drawid):
     user = check_undergraduate(request.user.username)
