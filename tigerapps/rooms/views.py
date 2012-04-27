@@ -9,6 +9,7 @@ from views import *
 from django.core.urlresolvers import reverse
 from django import forms
 import json
+import sys
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -116,27 +117,35 @@ def get_queue(request, drawid):
 #for testing
 def review(request, roomid):
     if request.method == 'POST':
-    	cancel = request.POST.get('cancel', None)
+        cancel = request.POST.get('cancel', None)
+        review = request.POST.get('review', None)
+        submit = request.POST.get('submit', None)
+        display = request.POST.get('display', None)
         
         if cancel:
-        	return HttpResponseRedirect(reverse(index))	#redirects to the view index
-    	else:
-    		form = ReviewForm(request.POST)
-    	
-	        if form.is_valid():
-	            print 'ok valid'
-	            rev = form.save(commit=False)
-	            rev.user = check_undergraduate(request.user)
-	            roomid = Room.objects.filter(id=roomid)
-	            if len(roomid) == 0:
-	            	return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid Room'})
-	            else:
-	            	rev.save()
-	            	return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True})
-	        else:
-	            form = ReviewForm()
-	            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
+            return HttpResponseRedirect(reverse(index))	#redirects to the view index
+        if review:
+            form = ReviewForm()
+            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+        if display:
+            revs = Review.objects.filter(room=Room.objects.filter(id=roomid))
+            print 'num reviews found: %d' % (len(revs))
+            return render_to_response('rooms/reviewtest.html', {'reviews': revs, 'display': display})
+        if submit:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                print 'ok valid'
+                rev = form.save(commit=False)
+                rev.user = check_undergraduate(request.user)
+                room = Room.objects.filter(id=roomid)
+                if len(room) == 0:
+                    return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid Room'})
+                else:
+                    rev.room = room[0]
+                    rev.save()
+                    return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True})
+            else:
+                form = ReviewForm()
+                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
     else:
-        form = ReviewForm()
-        
-    return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+        return render_to_response('rooms/reviewtest.html', {'submitted': False})
