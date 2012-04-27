@@ -133,36 +133,64 @@ def get_queue(request, drawid):
 @login_required
 #for testing
 def review(request, roomid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+        
+    try:
+        room = Room.objects.get(id=roomid)
+    except Room.DoesNotExist:
+        return HttpResponseRedirect(reverse(index))
+        
+    pastReview = None
+    try:
+        pastReview = Review.objects.get(room=room, user=user)    #the review that the user has posted already (if it exists)
+    except Review.DoesNotExist:
+        pass
+        
     if request.method == 'POST':
-        cancel = request.POST.get('cancel', None)
         review = request.POST.get('review', None)
         submit = request.POST.get('submit', None)
         display = request.POST.get('display', None)
+        delete = request.POST.get('delete', None)
         
-        if cancel:
-            return HttpResponseRedirect(reverse(index))	#redirects to the view index
+        # user asked to review the current room
         if review:
-            form = ReviewForm()
-            return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
-        if display:
-            revs = Review.objects.filter(room=Room.objects.filter(id=roomid))
+            if pastReview:
+                form = ReviewForm(instance=pastReview)
+                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False, 'edit': True})
+            else:   
+                form = ReviewForm()
+                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+                
+        #user asked to display current reviews
+        elif display:
+            revs = Review.objects.filter(room=room)
             print 'num reviews found: %d' % (len(revs))
             return render_to_response('rooms/reviewtest.html', {'reviews': revs, 'display': display})
-        if submit:
-            form = ReviewForm(request.POST)
+        # user submitted the review
+        elif submit:
+            if pastReview:
+                form = ReviewForm(request.POST, instance=pastReview)
+            else:
+                form = ReviewForm(request.POST)
+                
             if form.is_valid():
                 print 'ok valid'
                 rev = form.save(commit=False)
-                rev.user = check_undergraduate(request.user)
-                room = Room.objects.filter(id=roomid)
-                if len(room) == 0:
-                    return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid Room'})
-                else:
-                    rev.room = room[0]
-                    rev.save()
-                    return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True})
+                rev.user = user
+                rev.room = room
+                rev.save()
+                return render_to_response('rooms/reviewtest.html', {'submitted': True})
             else:
                 form = ReviewForm()
                 return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
+        elif delete:
+            if pastReview:
+                pastReview.delete()
+                return render_to_response('rooms/reviewtest.html', {'deleted': True})
+        else:
+            #someone's messing with the post params
+            return HttpResponseRedirect(reverse(index))
     else:
         return render_to_response('rooms/reviewtest.html', {'submitted': False})
