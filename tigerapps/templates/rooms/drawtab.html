@@ -5,7 +5,7 @@
     <th>Room</th>
     <th>Building</th>	
     <th>Sqft</th>
-    <th>Rated Occupancy</th>
+    <th>Occupancy</th>
     <th>Floor</th>
     <th>Num Rooms</th>
     <th>Gender</th>    
@@ -17,8 +17,7 @@
     {% for room in room_list %}
     <tr>
     <td>
-        <a id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">add</a>
-        <a id="addremove" onclick="$.publish('queue/remove', {{ room.id }})">rem</a>
+        <a id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">add</a>/<a id="addremove" onclick="$.publish('queue/remove', {{ room.id }})">rem</a>
       </td>
       <td>{{ room.number }}</td>
       <td>{{ room.building }}</td>
