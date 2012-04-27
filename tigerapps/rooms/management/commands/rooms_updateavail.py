@@ -3,6 +3,7 @@ from tigerapps.rooms.models import *
 from django.core.mail import send_mail
 import random
 
+
 class Command(BaseCommand):
     args = '<random|past|real [num]>'
     help = 'Mark newly unavailable rooms as such. Testing:random,past.'
@@ -15,6 +16,7 @@ class Command(BaseCommand):
         if updatetype == 'random':
             self.randomupdate(num)
 
+
     def randomupdate(self, num):
         left = Room.objects.filter(avail=True).values_list('id',flat=True)
         if not left:
@@ -26,6 +28,8 @@ class Command(BaseCommand):
             taken = left
         roomset = Room.objects.filter(id__in=taken)
         self.update(roomset)
+        
+
 
     def pastupdate(self, num):
         return
@@ -46,6 +50,8 @@ class Command(BaseCommand):
         for user in users:
             if user.do_email:
                 self.email(user, room)
+            if user.do_text:
+                self.text(user, room)
 
     def email(self, user, room):
         subject = 'Rooms: %s Taken' % room
@@ -61,3 +67,7 @@ The Rooms Team
         send_mail(subject, content, 'rooms@tigerapps.org',
                   ['%s@princeton.edu' % user.netid], fail_silently=False)
 
+    def text(self, user, room):
+        content = "The room %s is no longer available. Oh no!" % room
+        send_mail("", content, 'room@tigerapps.org',
+                  ['%s@%s' % (user.phone, user.carrier.address)], fail_silently=False)
