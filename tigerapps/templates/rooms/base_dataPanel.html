@@ -3,9 +3,11 @@
 {% block dataPanel %}
 <script type="text/javascript">
   $(function() {
-  $( "#tabs" ).tabs({show: function(event, ui) {
+  $( "#tabs" ).tabs({load: function(event, ui) {
   current_draw = ui.tab.id.substring(ui.tab.id.length-1);
   $.publish("draw", current_draw);
+  $("#drawtable").tablesorter({headers: { 0: { sorter: false}}});
+  $("#drawtable").tableFilter();
   }});
   });
   $("#tabs").tabs("option", "cache", true);

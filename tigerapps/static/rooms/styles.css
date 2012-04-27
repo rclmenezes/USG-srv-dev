@@ -99,7 +99,8 @@ body
 
 .queue_drag
 {
-    max-height: 130px; 
+    /*max-height: 130px;*/
+    height: 75%;
     overflow:scroll; 
 }
 
@@ -194,6 +195,11 @@ input
     cursor: pointer;
 }
 
+#addremove:hover
+{
+    cursor: pointer;
+    font-weight: bold;
+}
 #roomListWrapper
 {
     display: block;

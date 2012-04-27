@@ -23,9 +23,9 @@
 
 <body> 
   <div id="test">
-  <table id="drawtable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
-    <thead>
-      <tr>
+<table id="drawtable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">    
+  <thead>
+    <tr>
     <th></th>
 	<th>Room</th>
 	<th>Building</th>
@@ -34,15 +34,15 @@
 	<th>Floor</th>
 	<th>Num Rooms</th>
 	<th>Gender</th>
-      </tr>
-    </thead>
-    <!--div id="test"-->
+        <th>Available?</th>
+    </tr>
+  </thead>
     <tbody id="scrollarea">
     {% for room in room_list %}
     <tr>
       <td>
-        <a onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">a</a>
-        <a onclick="$.publish('queue/remove', {{ room.id }})">r</a>
+        <a id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">a</a>
+        <a id="addremove" onclick="$.publish('queue/remove', {{ room.id }})">r</a>
       </td>
       <td>{{ room.number }}</td>
       <td>{{ room.building }}</td>
@@ -51,12 +51,9 @@
       <td>{{ room.floor }}</td>
       <td>{{ room.numrooms }}</td>
       <td>{{ room.gender }}</td>
+      <td>{{ room.avail }}</td>
       <td><a href="review/{{ room.id }}">Review</a>
     </tr>
     {% endfor %}
     </tbody>
-    <!--/div-->
-  </table>
-  </div>
-</body>  
-</html>
+</table>
