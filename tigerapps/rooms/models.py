@@ -72,6 +72,11 @@ class User(models.Model):
     pustatus = models.CharField(max_length=20, null=True, blank=True) # undergraduate or graduate
     puclassyear = models.IntegerField('Class Year', null=True, blank=True) # puclassyear
     queues = models.ManyToManyField('Queue')
+    do_email = models.BooleanField(default=True)
+    phone = models.CharField(max_length=12, blank=True)
+    do_text = models.BooleanField(default=False)
+    carrier = models.ForeignKey('Carrier', null=True)
+    
     def __unicode__(self):
         return self.netid
 
@@ -141,3 +146,48 @@ class PastDrawEntry(models.Model):
     def __unicode__(self):
         return "%s %s %d" % (self.room.number, self.room.building.name,
                              self.pastdraw.year)
+
+# A phone carrier, used for text notifications
+class Carrier(models.Model):
+    #email-to-text address
+    name = models.CharField(max_length=30)
+    address = models.CharField(max_length=30)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
