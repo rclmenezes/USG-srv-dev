@@ -1,0 +1,38 @@
+<html>
+<head>
+
+
+<style type="text/css" src="styles.css">
+body
+{
+margin: 100px;
+font-family: Calibri;
+}
+</style>
+
+
+<script type="text/javascript">
+
+function onformsubmit()
+{
+alert("Submitting form");
+return false;
+}
+
+</script>
+
+
+</head>
+
+<body>
+<h1>hello user please put your settings here</h1>
+
+
+<form action="/" onsubmit="onformsubmit()" method="post">{% csrf_token %}
+Phone #: <input type="text" name="phone" id="phone"></input>
+<input type="submit"></input>
+</form>
+
+
+</body>
+</html>

@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     
     #for testing purposes
     (r'^review/(?P<roomid>\d+)$', 'rooms.views.review'),
+    (r'^usersettings.html','rooms.views.settings')
 )
