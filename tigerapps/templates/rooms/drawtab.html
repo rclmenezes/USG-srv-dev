@@ -43,8 +43,9 @@
       <td>
         <a onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">a</a>
         <a onclick="$.publish('queue/remove', {{ room.id }})">r</a>
-      </td>
-      <td>{{ room.number }}</td>
+      </td> 
+      <td onclick="$('#dataPanel').load('/get_room/{{ room.id }}')">{{ room.number }}</td>
+
       <td>{{ room.building }}</td>
       <td>{{ room.sqft }}</td>
       <td>{{ room.occ }}</td>
