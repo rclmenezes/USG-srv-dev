@@ -35,6 +35,7 @@ def check_undergraduate(username):
 def index(request):
     draw_list = Draw.objects.order_by('id')
     mapscript = mapdata()
+    drawscript = drawdata()
 #    return HttpResponse(request.user.username);
     user = check_undergraduate(request.user.username)
 
@@ -66,6 +67,15 @@ def mapdata():
     mapstring = json.dumps(maplist)
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript
+
+def drawdata():
+    draws = Draw.objects.order_by('id')
+    drawlist = []
+    for draw in draws:
+        drawlist.append({'name':draw.name, 'id':draw.id})
+    drawstring = json.dumps(drawlist)
+    drawscript = '<script type="text/javascript">drawdata = %s</script>' % drawstring
+    return drawscript
 
 # Single room view function
 @login_required

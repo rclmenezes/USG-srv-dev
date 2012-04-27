@@ -75,11 +75,17 @@ body
     width: 100%;    
 }
 
+#settings
+{
+    width: 100%;
+    height: 10%;
+}
+
 #queues
 {
-    height: 90%;
+    height: 80%;
     width: 100%;
-    position: absolute;
+    position: static;
 }
 
 .queue_button
@@ -104,8 +110,8 @@ body
     overflow:scroll; 
 }
 
-thead 
-{
+thead {
+
     background-color: #eee;
     color: #666666;
     font-weight: bold;

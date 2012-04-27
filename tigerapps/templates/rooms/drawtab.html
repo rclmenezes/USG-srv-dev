@@ -1,48 +1,24 @@
-<!DOCTYPE html>
-<html id="drawtab">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" href="/static/rooms/themes/blue/style.css" type="text/css" media="print, projection, screen" />
-  <link rel="stylesheet" href="/static/rooms/styles.css" type="text/css"/>
-  <script src="http://www.google.com/jsapi"></script>
-  <script>google.load("jquery", "1");</script>
-  <script>google.load("jqueryui", "1");</script>
-  <script type="text/javascript" src="/static/rooms/js/jquery.tablesorter.js"></script>
-  <script type="text/javascript" src="/static/rooms/js/picnet.table.filter.min.js"></script>
-  <script type="text/javascript">
-  $(function() {
-  $("#drawtable").tablesorter({headers: { 0: { sorter: false}}});
-  });
-  </script>
-  <script type="text/javascript">
-    $(function () {
-    $("#drawtable").tableFilter();
-    });
-  </script>
-</head>
-
-<body> 
-  <div id="test">
 <table id="drawtable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">    
   <thead>
     <tr>
     <th></th>
-	<th>Room</th>
-	<th>Building</th>
-	<th>Sqft</th>
-	<th>Rated Occupancy</th>
-	<th>Floor</th>
-	<th>Num Rooms</th>
-	<th>Gender</th>
-        <th>Available?</th>
+    <th>Room</th>
+    <th>Building</th>	
+    <th>Sqft</th>
+    <th>Rated Occupancy</th>
+    <th>Floor</th>
+    <th>Num Rooms</th>
+    <th>Gender</th>    
+    <th>Available?</th>
+    <th></th>
     </tr>
   </thead>
     <tbody id="scrollarea">
     {% for room in room_list %}
     <tr>
-      <td>
-        <a id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">a</a>
-        <a id="addremove" onclick="$.publish('queue/remove', {{ room.id }})">r</a>
+    <td>
+        <a id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">add</a>
+        <a id="addremove" onclick="$.publish('queue/remove', {{ room.id }})">rem</a>
       </td>
       <td>{{ room.number }}</td>
       <td>{{ room.building }}</td>
@@ -51,7 +27,11 @@
       <td>{{ room.floor }}</td>
       <td>{{ room.numrooms }}</td>
       <td>{{ room.gender }}</td>
-      <td>{{ room.avail }}</td>
+      {% if room.avail %}
+      <td>Yes</td>
+      {% else %}
+      <td>No</td>
+      {% endif %}
       <td><a href="review/{{ room.id }}">Review</a>
     </tr>
     {% endfor %}

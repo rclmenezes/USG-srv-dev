@@ -16,7 +16,7 @@
   </script>
   {{ mapscript|safe }}
   <script type="text/javascript" src="/static/rooms/js/map.js"></script>
-  
+  {{ drawscript|safe }}
   <script src="http://www.google.com/jsapi"></script>
   <script>google.load("jquery", "1");</script>
   <script>google.load("jqueryui", "1");</script>
@@ -30,8 +30,8 @@
   <script type="text/javascript" src="/static/rooms/js/floorplan.js"></script>
   <script type="text/javascript" src="/static/rooms/js/floorplancoords.js"></script>
   <script type="text/javascript" src="/static/rooms/js/roomnames.js"></script>
-  <script type="text/javascript" src="/static/rooms/jquery.tablesorter.js"></script>
-  <script type="text/javascript" src="/static/rooms/picnet.table.filter.min.js"></script>
+  <script type="text/javascript" src="/static/rooms/js/jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="/static/rooms/js/picnet.table.filter.min.js"></script>
   <script type="text/javascript">
   $(function() {
   $("#drawtable").tablesorter({headers: { 0: { sorter: false}}});
@@ -54,12 +54,12 @@
 	  <div id="floorplan_canvas"></div>
 	  <div id="top_right">
 	    <div id="greeting">
-	      <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1> 
-	    </div>
-	    <div id="queues">
-            <h1>Queue</h1>
+	      <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1>
+            </div>
+	    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
+            <div id="queues">
             <!--ul id="list_queues"-->
-                <h1><a id="queuehead" href="#">First Queue</a></h1>
+                <h1 id="queuehead"> Queue</h1>
                 <div id="room_queue" class="queue_drag"></div>
             <!--/ul-->
             <div class="clearfloat"></div>
