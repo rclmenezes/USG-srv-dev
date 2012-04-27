@@ -57,9 +57,6 @@ class Room(models.Model):
     # connecting single
     con = models.BooleanField();
     bathroom = models.CharField(max_length=2, choices=BATHROOM_CHOICES)
-    reviews = models.CommaSeparatedIntegerField(max_length=50)
-    photos = models.CommaSeparatedIntegerField(max_length=200)
-    rating = models.IntegerField(choices=RATINGS)
     
     def __unicode__(self):
         return "%s %s" % (self.building.name, self.number)
