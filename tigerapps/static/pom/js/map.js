@@ -29,19 +29,18 @@ function init() {
 	jmap.mapStart   = null;
 	jmap.objId		= null;
 
-	//for loading tiles
+	//variables for loading tiles and buildings
 	jmap.zoom = 4; 			//0=out,4=in
 	var start = mapCenterToDisp(900,900);
 	jmap.dispX = start.x;	//displacement from the top-left
 	jmap.dispY = start.y;
 	jmap.map.style.left = -jmap.dispX;
 	jmap.map.style.top = -jmap.dispY;
-	
-
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
 	jmap.loadedBldgs = {};
 	
+	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
 	window.onresize = loadTiles;
 	loadTiles();
@@ -229,9 +228,6 @@ function recordMouseUp() {
 	jmap.mouseStart = null;
 	jmap.mapStart   = null;
 	loadTiles();
-	
-	$('#box1x').val(jmap.map.style.left);
-	$('#box1y').val(jmap.map.style.top);
 }
 // Moves the map if mouse is clicked down on the map
 function mouseMove(ev){
@@ -247,9 +243,8 @@ function mouseMove(ev){
 		jmap.dispY = boundDispY(jmap.mapStart.y+diffY);
 		jmap.map.style.left = -jmap.dispX;
 		jmap.map.style.top  = -jmap.dispY;
-		
-		$('#box1x').val(jmap.map.style.left);
-		$('#box1y').val(jmap.map.style.top);
+
+		loadTiles();
 	}
 }
 
