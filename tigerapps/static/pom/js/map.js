@@ -4,7 +4,7 @@
 //functions used by the main application page.
 
 var jmap = {};
-function init() {
+function mapInit() {
 	//links
 	jmap.cursorGrabbing = 'url(/static/pom/img/closedhand.cur)';
 	jmap.tilesDir = '/static/pom/img/tiles/';
@@ -181,12 +181,12 @@ function setupBldgClick(domEle) {
 function handleBldgClick(ev,domEle) {
 	$.ajax(jmap.bldgsClick+domEle.id.split('-')[1], {
 		dataType: 'json',
-		success: insertJSON,
+		success: insertBldgEvent,
 		error: handleAjaxError
 	});
 }
 
-function insertJSON(data) {
+function insertBldgEvent(data) {
     $('#jmap-info').append('<div>Building Name: ' + data.bldgName + '</div>')
     $('#jmap-info').append('<div>Events:</div>')
     for (i in data.events) {
