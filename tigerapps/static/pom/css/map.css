@@ -29,3 +29,17 @@
     opacity:0.95;
     box-shadow:3px -2px 1.5em hsla(0, 0%, 0%, 1.0);
 }
+
+#jmap-slider-box {
+	position:absolute;
+	bottom: 30px;
+	left: 420px;
+	right: 10px;
+	height: 40px;
+    padding:0 20px 0;
+    z-index:100; 
+    
+	background-color:#FFEBCC;
+    opacity:0.95;
+    box-shadow:3px -2px 1.5em hsla(0, 0%, 0%, 1.0);
+}
