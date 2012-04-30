@@ -3,7 +3,8 @@
 //the Princeton University Campus Map app, as well as some
 //functions used by the main application page.
 
-var jmap = {};
+jmap = {};
+info = {};
 function mapInit() {
 	//links
 	jmap.cursorGrabbing = 'url(/static/pom/img/closedhand.cur)';
@@ -18,6 +19,7 @@ function mapInit() {
 	jmap.mapContainer = document.getElementById('jmap-container');
 	jmap.map = document.getElementById('jmap-movable');
 	//jmap.$mapContainer = $('#jmap-container');
+	jmap.infoTop = document.getElementById('info-top');
 	
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -39,6 +41,9 @@ function mapInit() {
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
 	jmap.loadedBldgs = {};
+	
+	//for info
+	jmap.bldgDisplayed = null;
 	
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
@@ -167,33 +172,72 @@ function loadBldgsJSON() {
 			jmap.bldgsTile = data.bldgsTile;
 			jmap.bldgsInfo = data.bldgsInfo;
 		},
-		error: handleAjaxError
+		error: function(jqXHR, textStatus, errorThrown) {
+			$('#info-bot').html('Error');
+			handleAjaxError(jqXHR, textStatus, errorThrown);
+		}
 	});
 }
 
 function setupBldgClick(domEle) {
+	/* for map drag */
+	domEle.onmousedown = function(ev){recordMouseDown(ev, jmap.map);};
 	domEle.ondragstart = function(ev){ev.preventDefault();};
+	/* for hover */
 	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
 	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsPlainSrc;};
+	/* for click */
 	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
 }
 
+
+/***************************************/
+/* For event loading function of map */
+/***************************************/
+
 function handleBldgClick(ev,domEle) {
-	$.ajax(jmap.bldgsClick+domEle.id.split('-')[1], {
-		dataType: 'json',
-		success: insertBldgEvent,
-		error: handleAjaxError
-	});
+	var bldgId = domEle.id.split('-')[1];
+	if (jmap.bldgDisplayed == bldgId) {
+		jmap.bldgDisplayed = null;
+		$('#info-bot').animate({
+			height:'0px',
+		}, 400);
+	} else {
+		displayInfoLoading();
+		$.ajax(jmap.bldgsClick+bldgId, {
+			dataType: 'json',
+			success: displayInfoEvent,
+			error: handleAjaxError
+		});
+	}
 }
 
-function insertBldgEvent(data) {
-    $('#jmap-info').append('<div>Building Name: ' + data.bldgName + '</div>')
-    $('#jmap-info').append('<div>Events:</div>')
-    for (i in data.events) {
-        $('#jmap-info').append('<div>' + data.events[i] + '</div>')
-    }
-
+function displayInfoLoading() {
+	$('#info-bot').html('Loading...');
+	if (jmap.bldgDisplayed == null) {
+		$('#info-bot').animate({
+			height:'20px',
+		}, 100);
+	}
 }
+
+function displayInfoEvent(data) {
+	if (data.error != null)
+		$('#box1').val(data.error);
+	else {
+		$('#info-bot').html(data.html);
+		if (jmap.bldgDisplayed == null) {
+			jmap.bldgDisplayed = data.bldgId;
+			var infoBotHeight = jmap.mapContainer.offsetHeight - 80 - jmap.infoTop.offsetHeight;
+			$('#info-bot').css('overflow-y', 'scroll');
+			$('#info-bot').animate({
+				height: infoBotHeight+'px',
+			}, 400);
+		}
+	}
+}
+
+
 
 
 /***************************************/
@@ -244,7 +288,8 @@ function mouseMove(ev){
 		jmap.map.style.left = -jmap.dispX;
 		jmap.map.style.top  = -jmap.dispY;
 
-		loadTiles();
+		//it's actually noticeably slower if we load for every drag
+		//loadTiles();
 	}
 }
 
@@ -264,7 +309,10 @@ function mouseCoords(ev){
 /***************************************/
 
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
-	alert(errorThrown);
+	if (confirm(errorThrown + ': Show error?')) {
+		win = window.open();
+		win.document.write(jqXHR.responseText);
+	}
 }
 
 

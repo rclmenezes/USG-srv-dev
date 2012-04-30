@@ -1,28 +1,35 @@
 <html>
-  <head>
-    <title>HelloWorld</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<head>
+	<title>HelloWorld</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
-  </head>
+	{% include 'main/head.html' %}
+</head>
   
-  <body onload="mapInit();">
-  	{% include 'main/jquery.html' %}
-  
-	<div id="content">
-		<div id="jmap-info">
-	        <H2>Pursuit of Mappyness</H2>
+<body onload="mapInit();">
+{% include 'main/links.html' %}
+
+<div id="jmap-container">
+	<div id="jmap-movable">
+	</div>
+	
+	<div id="jmap-info">
+		<div id="info-top">
+	        <H2 id="info-title">Pursuit of Mappyness</H2>
 			<p>
 				Debug Box1: <input id="box1"/><br/>
-				Debug Box2: <input id="box2"/>
+				Debug Box2: <input id="box2"/><br/>
+				Debug Box3: <input id="box3"/><br/>
+				Debug Box4: <input id="box4"/><br/>
+				Debug Box5: <input id="box5"/>
 			</p>
 		</div>
-		
-		<div id="jmap-container">
-			<div id="jmap-movable">
-			</div>
+		<div id="info-bot">
 		</div>
 	</div>
-  </body>
+</div>
+	
+</body>
 </html>
