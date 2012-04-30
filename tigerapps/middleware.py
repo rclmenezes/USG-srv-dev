@@ -6,23 +6,27 @@ class SubdomainsMiddleware:
         request.domain = request.META['HTTP_HOST']
         parts = request.domain.split('.')
 
-        if parts[0] == "dev":
-            url_prefix = "http://dev."
-            if len(parts) == 4:
-                # dev.___.tigerapps.org
-                request.subdomain = parts[1]
-                request.domain = '.'.join(parts[2:])
-            else:
-                # dev.tigerapps.org
+        # Set subdomain, allow an error if no match
+        if len(parts) == 3:
+            if parts[0] == "www":
+                # www.tigerapps.org
+                url_prefix = "http://"
                 request.subdomain = 'www'
-        else:
-            url_prefix = "http://"
-            if len(parts) == 3 and parts[0] != 'www':
+            if parts[0] == "dev":
+                # dev.tigerapps.org
+                url_prefix = "http://dev."
+                request.subdomain = 'www'
+            else:
                 # ___.tigerapps.org
+                url_prefix = "http://"
                 request.subdomain = parts[0]
                 request.domain = '.'.join(parts[1:])
-            else:
-                request.subdomain = 'www'
+        else:
+            if parts[0] == "dev":
+                # dev.___.tigerapps.org
+                url_prefix = "http://dev."
+                request.subdomain = parts[1]
+                request.domain = '.'.join(parts[2:])
         settings.SITE_DOMAIN = url_prefix+request.subdomain+'.'+request.domain
 
         # set the right urlconf
