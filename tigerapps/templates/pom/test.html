@@ -14,6 +14,27 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/black-tie/jquery-ui.css"/>
+
+	<style>
+		div.demo { padding: 10px !important; }
+	</style>
+	<script>
+	$(function() {
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 0,
+			max: 500,
+			values: [ 75, 300 ],
+			slide: function( event, ui ) {
+				$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+			}
+		});
+		$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+	});
+	</script>
+	
+
 </head>
 
 
@@ -22,18 +43,14 @@
 
 <body>
 
-<style>
-	div.demo { padding: 10px !important; }
-</style>
-<script>
-	$(function() {
-		$( "#slider" ).slider();
-	});
-</script>
-
-
 <div class="demo">
-<div id="slider"></div>
+
+<p>
+	<label for="amount">Price range:</label>
+	<input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" />
+</p>
+
+<div id="slider-range"></div>
 </div><!-- End demo -->
 
 </body>

@@ -1,26 +1,26 @@
 <html>
   <head>
     <title>HelloWorld</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<script type="text/javascript" src="/static/pom/js/slider.js"></script>
 	
-	<!--Slider imports
-	<script src="../../jquery-1.7.2.js"></script>
-	<script src="../../ui/jquery.ui.core.js"></script>
-	<script src="../../ui/jquery.ui.widget.js"></script>
-	<script src="../../ui/jquery.ui.mouse.js"></script>
-	<script src="../../ui/jquery.ui.slider.js"></script> -->
-	
 	
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/black-tie/jquery-ui.css"/>
+	
+	
+	<script>
+	</script>
   </head>
   
   <body onload="mapInit();sliderInit();">
   	{% include 'main/jquery.html' %}
   
-	<div id="content">
+  <!-- killme3 -->
+  	
+ 	<div id="content">
 		<div id="jmap-info">
 	        <H2>Pursuit of Mappyness</H2>
 			<p>
@@ -34,14 +34,18 @@
 			</div>
 		</div>
 		
-		
-		<div id="jmap-slider-box">
-		<div id="jmap-slider">
+		<div id = "jmap-slider-box">
+			<div id = "jmap-slider">
+			</div>
+			<p>
+				<label for="slider-left-value">Left Value:</label>
+				<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" />
+				<label for="slider-right-value">Right Value:</label>
+				<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
+			</p>
 		</div>
-		</div>
-		
-		<div id="slider-range"></div>
 		
 	</div>
+
   </body>
 </html>
