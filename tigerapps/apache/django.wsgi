@@ -4,7 +4,7 @@ import socket
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
-path = '/srv/tigerapps'
+path = '/home/nbal/USG-srv-dev/tigerapps'#'/srv/tigerapps'
 if path not in sys.path:
     sys.path.append(path)
 
