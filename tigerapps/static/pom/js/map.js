@@ -213,10 +213,13 @@ function handleBldgClick(ev,domEle) {
 }
 
 function displayInfoLoading() {
-	$('#info-bot').html('Loading...');
+	$('#info-bot').css('overflow-y', 'hidden');
+	$('#info-bot').html('<table style="margin:auto;height:23px;"><tr>' +
+			'<td style="padding:1px 4px 0;">Loading...</td>' +
+			'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>');
 	if (jmap.bldgDisplayed == null) {
 		$('#info-bot').animate({
-			height:'20px',
+			height:'23px',
 		}, 100);
 	}
 }
