@@ -17,10 +17,22 @@ def map_bldg_clicked(request, bldg_code):
         events = Building.cal_events.all(bldg)
         html = render_to_string('pom/event_info.html',
                          {'bldg_name': bldg.name,
-                          'events': [event.event_cluster.cluster_title for event in events]})
+                          'events': events})
         response_json = simplejson.dumps({'error': None,
                                           'html': html,
                                           'bldgId': bldg_code})
+    except Exception, e:
+        response_json = simplejson.dumps({'error': str(e)})
+        
+    
+    return HttpResponse(response_json, content_type="application/javascript")
+
+def date_filter_time(request, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
+    try:
+        events = Building.cal_events.date_filtered(leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour)
+        html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
+        response_json = simplejson.dumps({'error': None,
+                                          'html': html})
     except Exception, e:
         response_json = simplejson.dumps({'error': str(e)})
         
