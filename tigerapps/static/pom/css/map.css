@@ -30,22 +30,49 @@ h2 {
 	background-color:LightGray;
 }
 
+
+
+.map-box {
+	background-color:#FCFAF8;
+    opacity:0.92;
+    box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
+    z-index:100;
+    border-radius: 1px;
+}
+#map-loading {
+	position:absolute;
+	padding:10px;
+	top:50%;
+	left:50%;
+	height:24px;
+	width:125px;
+	margin-top:-22px;
+	margin-left:-62px;
+}
+
 #jmap-info {
 	position:absolute;
 	bottom: 20px;
 	left: 20px;
 	width: 350px;
     padding: 20px 20px;
-    z-index:100;
-
-	background-color:#FFF8F4;
-    opacity:0.92;
-    box-shadow:3px -2px 1.5em hsla(0, 0%, 0%, 1.0);
 }
+
 #info-title {
+	padding-bottom: 10px;
 }
 #info-top {
 	height: 200px;
+}
+#info-top-left {
+	float: left;
+	width: 170px;
+	padding-right: 10px;
+}
+#info-top-right {
+	float: right;
+	width: 160px;
+	padding-left: 10px;
 }
 #info-bot {
 	height: 0px;
@@ -53,9 +80,9 @@ h2 {
 }
 
 
-#jmap-slider-box {
+#jmap-options {
 	position:absolute;
-	bottom: 100px;
+	bottom: 80px;
 	left: 420px;
 	right: 10px;
 	height: 0px;

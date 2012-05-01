@@ -24,8 +24,13 @@ def bldgs_for_filter(request):
         #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
         response_json = simplejson.dumps({'error': None,
                                           'bldgs': list(set((event.event_location for event in events)))})
-    elif 'hasLaundry' in request.GET:
+    elif 'hours' in request.GET:
         pass
+    elif 'menus' in request.GET:
+        pass
+    elif 'laundry' in request.GET:
+        pass
+    
     
     return HttpResponse(response_json, content_type="application/javascript")
 
