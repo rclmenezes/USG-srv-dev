@@ -11,16 +11,24 @@ function convertToDate(sliderVal) {
     return (lastTime);
 }
 
+function printDateTime(dateObj) {
+    var hours = dateObj.getHours();
+    var am = true;
+    if (hours > 12) {
+       am = false;
+       hours -= 12;
+    } else if (hours == 12) {
+       am = false;
+    } else if (hours == 0) {
+       hours = 12;
+    }
+    return weekday[dateObj.getDay()] + " " + (dateObj.getMonth()+1) + "/" +
+    	dateObj.getDate() + "/" + dateObj.getFullYear() + ": " +
+    	hours + (am ? "AM" : "PM");
+}
+
 function sliderInit() {
-	var weekday=new Array(7);
-	weekday[0]="Sunday";
-	weekday[1]="Monday";
-	weekday[2]="Tuesday";
-	weekday[3]="Wednesday";
-	weekday[4]="Thursday";
-	weekday[5]="Friday";
-	weekday[6]="Saturday";
-	
+	weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	
     $( "#jmap-slider" ).slider({
         range: true,
@@ -28,39 +36,16 @@ function sliderInit() {
         max: 500,
         values: [0, 500],
         slide: function( event, ui ) {
-            sliderLeftDate = convertToDate(ui.values[0]);
-            var hours = sliderLeftDate.getHours();
-            var am = true;
-            if (hours > 12) {
-               am = false;
-               hours -= 12;
-            } if (hours == 12) {
-               am = false;
-            } if (hours == 0) {
-               hours = 12;
-            }
-            $( "#slider-left-value" ).val(weekday[sliderLeftDate.getDay()] + " " + sliderLeftDate.getMonth() + "/" + sliderLeftDate.getDate() + "/" + sliderLeftDate.getFullYear() + ": " + hours + (am ? "AM" : "PM"));
+            jevent.sliderLeftDate = convertToDate(ui.values[0]);
+            $( "#slider-left-value" ).val(printDateTime(jevent.sliderLeftDate));
             
-            
-            sliderRightDate = convertToDate(ui.values[1]);
-            var hours = sliderRightDate.getHours();
-            var am = true;
-            if (hours > 12) {
-               am = false;
-               hours -= 12;
-            } if (hours == 12) {
-               am = false;
-            } if (hours == 0) {
-               hours = 12;
-            }
-            $( "#slider-right-value" ).val(weekday[sliderRightDate.getDay()] + " " + sliderRightDate.getMonth() + "/" + sliderRightDate.getDate() + "/" + sliderRightDate.getFullYear() + ": " + hours + (am ? "AM" : "PM"));
-            
+            jevent.sliderRightDate = convertToDate(ui.values[1]);
+            $( "#slider-right-value" ).val(printDateTime(jevent.sliderRightDate));
         },
         
         stop: function (event, ui) {
         	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
-        		var get_params = datesToFilter(sliderLeftDate, sliderRightDate);
-        		console.log(get_params);
+        		var get_params = datesToFilter(jevent.sliderLeftDate, jevent.sliderRightDate);
         		bldgsForFilter(get_params);
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
@@ -72,31 +57,9 @@ function sliderInit() {
     oldLeft = 0;
     oldRight = 500;
     
-    sliderLeftDate = convertToDate($( "#jmap-slider" ).slider( "values", 0 ));
-    var hours = sliderLeftDate.getHours();
-    var am = true;
-    if (hours > 12) {
-       am = false;
-       hours -= 12;
-    } if (hours == 12) {
-       am = false;
-    } if (hours == 0) {
-       hours = 12;
-    }
-    $( "#slider-left-value" ).val(weekday[sliderLeftDate.getDay()] + " " + sliderLeftDate.getMonth() + "/" + sliderLeftDate.getDate() + "/" + sliderLeftDate.getFullYear() + ": " + hours + (am ? "AM" : "PM"));
+    jevent.sliderLeftDate = convertToDate($( "#jmap-slider" ).slider( "values", 0 ));
+    $( "#slider-left-value" ).val(printDateTime(jevent.sliderLeftDate));
 
-
-    sliderRightDate = convertToDate($( "#jmap-slider" ).slider( "values", 1 ));
-    var hours = sliderRightDate.getHours();
-    var am = true;
-    if (hours > 12) {
-       am = false;
-       hours -= 12;
-    } if (hours == 12) {
-       am = false;
-    } if (hours == 0) {
-       hours = 12;
-    }
-    $( "#slider-right-value" ).val(weekday[sliderRightDate.getDay()] + " " + sliderRightDate.getMonth() + "/" + sliderRightDate.getDate() + "/" + sliderRightDate.getFullYear() + ": " + hours + (am ? "AM" : "PM"));
-
+    jevent.sliderRightDate = convertToDate($( "#jmap-slider" ).slider( "values", 1 ));
+    $( "#slider-right-value" ).val(printDateTime(jevent.sliderRightDate));
 } 

@@ -9,14 +9,16 @@ function mapInit() {
 	jmap.tilesDir = '/static/pom/img/tiles/';
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
-	jmap.bldgsClick = '/bldg/';
 	jmap.bldgsPlainSrc = '.png';
 	jmap.bldgsHoverSrc = '-h.png';
+	jmap.bldgsEventPlainSrc = '-e.png';
+	jmap.bldgsEventHoverSrc = '-eh.png';
 	
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
 	jmap.map = document.getElementById('jmap-movable');
 	//jmap.$mapContainer = $('#jmap-container');
+	jmap.infoTop = document.getElementById('info-top');
 	
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -259,3 +261,148 @@ function mouseCoords(ev){
 
 
 
+
+/***************************************************************************/
+/***************************************************************************/
+/***************************************************************************/
+
+//Sets up all functionality related to making ajax calls to the server
+//for filtering events + loading events in the info box
+//NOTE: should be loaded before map.js
+
+jevent = {};
+function eventInit() {
+	//links
+	jevent.urlBldgsForFilter = '/bldgs/filter/';
+	jevent.urlEventsForBldg = '/events/bldg/';
+	
+	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
+		'<td style="padding:1px 4px 0;">Loading...</td>' +
+		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
+	
+	jevent.bldgDisplayed = null;
+	jevent.options = 0; //slider=0, hours=1, menus=2, machines=3
+	jevent.sliderLeftDate = null;
+	jevent.sliderRightDate = null;
+	
+	$('#disp-hours').click(setFilterHours);
+	$('#disp-menus').click(setFilterMenus);
+	$('#disp-laundry').click(setFilterLaundry);
+}
+
+
+/***************************************/
+/* For lighting up the correct buildings */
+/***************************************/
+
+function bldgsForFilter(get_params) {
+	showMapLoading();
+	$.ajax(jevent.urlBldgsForFilter, {
+		data: get_params,
+		dataType: 'json',
+		success: displayFilteredBldgs,
+		error: function(jqXHR, textStatus, errorThrown) {
+			hideMapLoading();
+			handleAjaxError(jqXHR, textStatus, errorThrown);
+		}
+	});
+}
+
+function showMapLoading() {
+	var domEle = document.createElement('div');
+	domEle.setAttribute('id','map-loading');
+	domEle.setAttribute('class','map-box');
+	domEle.innerHTML = jevent.htmlLoading;
+	jmap.mapContainer.appendChild(domEle);
+}
+function hideMapLoading() {
+	jmap.mapContainer.removeChild(document.getElementById('map-loading'));
+}
+
+function displayFilteredBldgs(data) {
+	hideMapLoading();
+	alert(data.bldgs);
+	/*
+	for (
+	*/
+}
+
+
+function datesToFilter(startDate, endDate) {
+	return {
+		m0: startDate.getMonth()+1,
+		d0: startDate.getDate(),
+		y0: startDate.getFullYear(),
+		h0: startDate.getHours(),
+		m1: endDate.getMonth()+1,
+		d1: endDate.getDate(),
+		y1: endDate.getFullYear(),
+		h1: endDate.getHours()
+	}
+}
+
+
+function setFilterHours() {
+	if (jevent.options != 1) {
+		bldgsForFilter({'hours': 1});
+	}
+}
+function setFilterMenus() {
+	if (jevent.options != 2) {
+		bldgsForFilter({'menus': 1});
+	}
+}
+function setFilterLaundry() {
+	if (jevent.options != 3) {
+		bldgsForFilter({'laundry': 1});
+	}
+}
+
+
+/***************************************/
+/* For rendering data in the info box */ 
+/***************************************/
+
+function eventsForBldg(bldgId, get_params) {
+	displayInfoLoading();
+	$.ajax(jevent.urlEventsForBldg+bldgId, {
+		dataType: 'json',
+		success: displayInfoEvent,
+		error: function(jqXHR, textStatus, errorThrown) {
+			$('#info-bot').animate({
+				height:'0px',
+			}, 400);
+			handleAjaxError(jqXHR, textStatus, errorThrown);
+		}
+	});
+}
+
+
+function infoBotMaxHeight() {
+	return jmap.map.offsetHeight - jmap.infoTop.offsetHeight - 80;
+}
+
+function displayInfoLoading() {
+	$('#info-bot').css('overflow-y', 'hidden');
+	$('#info-bot').html(jevent.htmlLoading);
+	if (jevent.bldgDisplayed == null) {
+		$('#info-bot').animate({
+			height:'23px',
+		}, 100);
+	}
+}
+
+function displayInfoEvent(data) {
+	if (data.error != null)
+		$('#box1').val(data.error);
+	else {
+		$('#info-bot').html(data.html);
+		if (jevent.bldgDisplayed == null) {
+			jevent.bldgDisplayed = data.bldgId;
+			$('#info-bot').css('overflow-y', 'scroll');
+			$('#info-bot').animate({
+				height: infoBotMaxHeight()+'px',
+			}, 400);
+		}
+	}
+}
