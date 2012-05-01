@@ -1,8 +1,13 @@
-//Sets up all functionality related to events triggered by interactions
+//MAP: Sets up all functionality related to events triggered by interactions
 //with the map, including map scroll + tile/building loading, building
 //click, and zoom (future)
 
+//EVENTS: Sets up all functionality related to making ajax calls to the
+//server for filtering events + loading events in the info box
+//NOTE: should be loaded before map.js
+
 jmap = {};
+jevent = {};
 function mapInit() {
 	//links
 	jmap.cursorGrabbing = 'url(/static/pom/img/closedhand.cur)';
@@ -40,11 +45,28 @@ function mapInit() {
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
 	jmap.loadedBldgs = {};
-	
+
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
 	window.onresize = loadTiles;
 	loadTiles();
+	
+	/***/
+	
+	//links
+	jevent.urlBldgsForFilter = '/bldgs/filter/';
+	jevent.urlEventsForBldg = '/events/bldg/';
+	
+	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
+		'<td style="padding:1px 4px 0;">Loading...</td>' +
+		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
+
+	jevent.bldgDisplayed = null;
+	jevent.filterType = 0; //slider=0, hours=1, menus=2, machines=3
+	jevent.eventLeftDate = null;
+	jevent.eventRightDate = null;
+	
+	setupFilterDisplay();
 }
 
 
@@ -266,28 +288,34 @@ function mouseCoords(ev){
 /***************************************************************************/
 /***************************************************************************/
 
-//Sets up all functionality related to making ajax calls to the server
-//for filtering events + loading events in the info box
-//NOTE: should be loaded before map.js
+/***************************************/
+/* For loading the filter options */
+/***************************************/
 
-jevent = {};
-function eventInit() {
-	//links
-	jevent.urlBldgsForFilter = '/bldgs/filter/';
-	jevent.urlEventsForBldg = '/events/bldg/';
-	
-	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
-		'<td style="padding:1px 4px 0;">Loading...</td>' +
-		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
-	
-	jevent.bldgDisplayed = null;
-	jevent.options = 0; //slider=0, hours=1, menus=2, machines=3
-	jevent.sliderLeftDate = null;
-	jevent.sliderRightDate = null;
-	
-	$('#disp-hours').click(setFilterHours);
-	$('#disp-menus').click(setFilterMenus);
-	$('#disp-laundry').click(setFilterLaundry);
+function setupFilterDisplay() {
+	$('.filter-button').click(function(ev) {
+		ev.preventDefault();
+		displayFilter(ev.target.title);
+	});
+	$(".top-tab").css('display', 'none');
+	$("#top-tab-0").css('display', 'block');
+}
+
+function displayFilter(newFilterType) {
+	if (jevent.filterType != newFilterType) {
+		jevent.filterType = newFilterType;
+		$(".top-tab").css('display', 'none');
+		$("#top-tab-"+newFilterType).css('display', 'block');
+		loadFilterBldgs();
+	}
+}
+function loadFilterBldgs() {
+	var get_params = {type: jevent.filterType};
+	if (jevent.filterType == 0) {
+		//get dates from slider
+		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
+	}
+	bldgsForFilter(get_params);
 }
 
 
@@ -327,7 +355,6 @@ function displayFilteredBldgs(data) {
 	*/
 }
 
-
 function datesToFilter(startDate, endDate) {
 	return {
 		m0: startDate.getMonth()+1,
@@ -338,23 +365,6 @@ function datesToFilter(startDate, endDate) {
 		d1: endDate.getDate(),
 		y1: endDate.getFullYear(),
 		h1: endDate.getHours()
-	}
-}
-
-
-function setFilterHours() {
-	if (jevent.options != 1) {
-		bldgsForFilter({'hours': 1});
-	}
-}
-function setFilterMenus() {
-	if (jevent.options != 2) {
-		bldgsForFilter({'menus': 1});
-	}
-}
-function setFilterLaundry() {
-	if (jevent.options != 3) {
-		bldgsForFilter({'laundry': 1});
 	}
 }
 
@@ -394,7 +404,7 @@ function displayInfoLoading() {
 
 function displayInfoEvent(data) {
 	if (data.error != null)
-		$('#box1').val(data.error);
+		alert(data.error);
 	else {
 		$('#info-bot').html(data.html);
 		if (jevent.bldgDisplayed == null) {

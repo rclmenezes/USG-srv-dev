@@ -8,13 +8,17 @@
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<script type="text/javascript" src="/static/pom/js/slider.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/humanity/jquery-ui.css"/>
+			<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/overcast/jquery-ui.css"/>
+		<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
+	
+	<!--
+		<link rel="stylesheet" type="text/css" href="/static/css/jqueryui-absolution/absolution.blue.css"/>
+	-->
   
 	{% include 'main/head.html' %}
 </head>
   
-<body onload="mapInit();eventInit();sliderInit();">
+<body onload="mapInit();sliderInit();">
 {% include 'main/links.html' %}
 
 
@@ -25,29 +29,39 @@
 	<div id="jmap-info" class="map-box">
 		<div id="info-top">
 	        <H2 id="info-title">Pursuit of Mappyness</H2>
-	        <div id="info-top-left">
-	        	Search events...
-	        	<input id="disp-events" type="text" maxlength="30" name="events"/><br/>
-	        	Search events<br/>
-	        	
-	        	<br/>Debug Box1:<br/>
-	        	<input id="box1"/><br/>
-	        </div>
-	        <div id="info-top-right">
-	        	...or display<br/>
-	        	<ul>
-	        		<li><a id="disp-hours" href="#">Facilities hours</a></li>
-	        		<li><a id="disp-menus" href="#">Dining menus</a></li>
-	        		<li><a id="disp-laundry" href="#">Laundry machines</a></li>
-	        	</ul>
-			</div>
+	        
+<div id="info-top-left">
+	<div id="top-tab-0" class="top-tab">
+		<input id="events-search" type="text" style="width:160px;" name="events"/>&nbsp;
+		<button id="events-search-submit">Search events</button><br/>
+	</div>
+	<div id="top-tab-1" class="top-tab">
+		Hours
+	</div>
+	<div id="top-tab-2" class="top-tab">
+		Menus
+	</div>
+	<div id="top-tab-3" class="top-tab">
+		Search random shit about laundry
+	</div>				
+</div>
+
+<div id="info-top-right">
+	<ul>
+		<li>(buttons)</li>
+		<li><a class="filter-button" id="filter-events" href="#" title="0">Events</a></li>
+		<li><a class="filter-button" id="filter-hours" href="#" title="1">Facilities hours</a></li>
+		<li><a class="filter-button" id="filter-menus" href="#" title="2">Dining menus</a></li>
+		<li><a class="filter-button" id="filter-laundry" href="#" title="3">Laundry machines</a></li>
+	</ul>
+</div>
+
 		</div>
 		<div id="info-bot"></div>
 	</div>
 	
 	<div id="jmap-options">
-		<div id="jmap-slider">
-		</div>
+		<div id="jmap-slider"></div>
 		<p>
 			<label for="slider-left-value">Left Value:</label>
 			<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" />

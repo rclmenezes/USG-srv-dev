@@ -36,17 +36,16 @@ function sliderInit() {
         max: 500,
         values: [0, 500],
         slide: function( event, ui ) {
-            jevent.sliderLeftDate = convertToDate(ui.values[0]);
-            $( "#slider-left-value" ).val(printDateTime(jevent.sliderLeftDate));
+            jevent.eventLeftDate = convertToDate(ui.values[0]);
+            $( "#slider-left-value" ).val(printDateTime(jevent.eventLeftDate));
             
-            jevent.sliderRightDate = convertToDate(ui.values[1]);
-            $( "#slider-right-value" ).val(printDateTime(jevent.sliderRightDate));
+            jevent.eventRightDate = convertToDate(ui.values[1]);
+            $( "#slider-right-value" ).val(printDateTime(jevent.eventRightDate));
         },
         
         stop: function (event, ui) {
         	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
-        		var get_params = datesToFilter(jevent.sliderLeftDate, jevent.sliderRightDate);
-        		bldgsForFilter(get_params);
+        		loadFilterBldgs();
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
             }
@@ -57,9 +56,10 @@ function sliderInit() {
     oldLeft = 0;
     oldRight = 500;
     
-    jevent.sliderLeftDate = convertToDate($( "#jmap-slider" ).slider( "values", 0 ));
-    $( "#slider-left-value" ).val(printDateTime(jevent.sliderLeftDate));
+    jevent.eventLeftDate = convertToDate($( "#jmap-slider" ).slider( "values", 0 ));
+    $( "#slider-left-value" ).val(printDateTime(jevent.eventLeftDate));
 
-    jevent.sliderRightDate = convertToDate($( "#jmap-slider" ).slider( "values", 1 ));
-    $( "#slider-right-value" ).val(printDateTime(jevent.sliderRightDate));
+    jevent.eventRightDate = convertToDate($( "#jmap-slider" ).slider( "values", 1 ));
+    $( "#slider-right-value" ).val(printDateTime(jevent.eventRightDate));
+	loadFilterBldgs();
 } 

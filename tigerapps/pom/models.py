@@ -7,9 +7,16 @@ class BuildingCalEventManager(models.Manager):
     Allows us to integrate with cal.models.Event
     '''
     
-    def all(self, building):
+    def all(self):
         '''
-        Get all events for the building
+        Get all events
+        '''
+        return Event.objects.all()
+        
+    
+    def bldg_filtered(self, building):
+        '''
+        Get all events for `building`
         '''
         return Event.objects.filter(event_location=building.bldg_code)
     
