@@ -13,11 +13,14 @@ class BuildingCalEventManager(models.Manager):
         '''
         return Event.objects.filter(event_location=building.bldg_code)
     
-    '''DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!'''
+    
     def date_filtered(self, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
+        '''DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!'''
+        #TODO: above
         left = datetime.datetime(year = int(leftYear) - 1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
         right = datetime.datetime(year = int(rightYear) - 1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
         return Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right)
+
 
 class Building(models.Model):
     '''
@@ -26,10 +29,13 @@ class Building(models.Model):
     bldg_code = models.CharField(max_length=32)
     name = models.CharField(max_length=64)
     
+    has_hours = models.BooleanField(default=False)
+    has_laundry = models.BooleanField(default=False)
+    has_menu = models.BooleanField(default=False)
+    
     objects = models.Manager()
     cal_events = BuildingCalEventManager()
-
-
+    
 
 
 

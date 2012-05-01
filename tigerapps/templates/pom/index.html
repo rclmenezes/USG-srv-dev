@@ -3,9 +3,11 @@
     <title>HelloWorld</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	
+	<script type="text/javascript" src="/static/pom/js/util.js"></script>
+	<script type="text/javascript" src="/static/pom/js/event.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<script type="text/javascript" src="/static/pom/js/slider.js"></script>
-	
 	
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/humanity/jquery-ui.css"/>
@@ -13,7 +15,7 @@
 	{% include 'main/head.html' %}
 </head>
   
-<body onload="mapInit();sliderInit();">
+<body onload="eventInit();mapInit();sliderInit();">
 {% include 'main/links.html' %}
 
 <!-- killme -->

@@ -11,15 +11,6 @@ function convertToDate(sliderVal) {
     return (lastTime);
 }
 
-function insertRelevantEvents(data) {
-    /*$('#jmap-info').append('<div>Building Name: ' + data.bldgName + '</div>')
-    $('#jmap-info').append('<div>Events:</div>')
-    for (i in data.events) {
-        $('#jmap-info').append('<div>' + data.events[i] + '</div>')
-    }*/
-
-}
-
 function sliderInit() {
 	var weekday=new Array(7);
 	weekday[0]="Sunday";
@@ -67,17 +58,13 @@ function sliderInit() {
         },
         
         stop: function (event, ui) {
-            	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
-                //Ajax call to get the list of events..
-                	$.ajax("date_filter" + sliderLeftDate.getMonth() + "/" + sliderLeftDate.getDate() + "/" + sliderLeftDate.getFullYear() + ":" + sliderLeftDate.getHours()
-                			+ "to" + sliderRightDate.getMonth() + "/" + sliderRightDate.getDate() + "/" + sliderRightDate.getFullYear() + ":" + sliderRightDate.getHours(), {
-            			dataType: 'json',
-            			success: insertRelevantEvents,
-            			error: handleAjaxError
-            		});
-                	oldLeft = ui.values[0];
-                	oldRight = ui.values[1];
-                }       	
+        	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
+        		var get_params = datesToFilter(sliderLeftDate, sliderRightDate);
+        		console.log(get_params);
+        		bldgsForFilter(get_params);
+            	oldLeft = ui.values[0];
+            	oldRight = ui.values[1];
+            }
         }
     
     
@@ -112,5 +99,4 @@ function sliderInit() {
     }
     $( "#slider-right-value" ).val(weekday[sliderRightDate.getDay()] + " " + sliderRightDate.getMonth() + "/" + sliderRightDate.getDate() + "/" + sliderRightDate.getFullYear() + ": " + hours + (am ? "AM" : "PM"));
 
-alert('hhk')
 } 

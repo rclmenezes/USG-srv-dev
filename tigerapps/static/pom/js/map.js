@@ -1,10 +1,8 @@
-
-//PMAP - This file defines the "pmap" JS object which holds data for
-//the Princeton University Campus Map app, as well as some
-//functions used by the main application page.
+//Sets up all functionality related to events triggered by interactions
+//with the map, including map scroll + tile/building loading, building
+//click, and zoom (future)
 
 jmap = {};
-info = {};
 function mapInit() {
 	//links
 	jmap.cursorGrabbing = 'url(/static/pom/img/closedhand.cur)';
@@ -19,7 +17,6 @@ function mapInit() {
 	jmap.mapContainer = document.getElementById('jmap-container');
 	jmap.map = document.getElementById('jmap-movable');
 	//jmap.$mapContainer = $('#jmap-container');
-	jmap.infoTop = document.getElementById('info-top');
 	
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -41,9 +38,6 @@ function mapInit() {
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
 	jmap.loadedBldgs = {};
-	
-	//for info
-	jmap.bldgDisplayed = null;
 	
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
@@ -172,10 +166,7 @@ function loadBldgsJSON() {
 			jmap.bldgsTile = data.bldgsTile;
 			jmap.bldgsInfo = data.bldgsInfo;
 		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			$('#info-bot').html('Error');
-			handleAjaxError(jqXHR, textStatus, errorThrown);
-		}
+		error: handleAjaxError
 	});
 }
 
@@ -190,56 +181,16 @@ function setupBldgClick(domEle) {
 	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
 }
 
-
-/***************************************/
-/* For event loading function of map */
-/***************************************/
-
 function handleBldgClick(ev,domEle) {
 	var bldgId = domEle.id.split('-')[1];
-	if (jmap.bldgDisplayed == bldgId) {
-		jmap.bldgDisplayed = null;
+	if (jevent.bldgDisplayed == bldgId) {
+		jevent.bldgDisplayed = null;
 		$('#info-bot').animate({
 			height:'0px',
 		}, 400);
-	} else {
-		displayInfoLoading();
-		$.ajax(jmap.bldgsClick+bldgId, {
-			dataType: 'json',
-			success: displayInfoEvent,
-			error: handleAjaxError
-		});
-	}
+	} else
+		eventsForBldg(bldgId);
 }
-
-function displayInfoLoading() {
-	$('#info-bot').css('overflow-y', 'hidden');
-	$('#info-bot').html('<table style="margin:auto;height:23px;"><tr>' +
-			'<td style="padding:1px 4px 0;">Loading...</td>' +
-			'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>');
-	if (jmap.bldgDisplayed == null) {
-		$('#info-bot').animate({
-			height:'23px',
-		}, 100);
-	}
-}
-
-function displayInfoEvent(data) {
-	if (data.error != null)
-		$('#box1').val(data.error);
-	else {
-		$('#info-bot').html(data.html);
-		if (jmap.bldgDisplayed == null) {
-			jmap.bldgDisplayed = data.bldgId;
-			var infoBotHeight = jmap.mapContainer.offsetHeight - 80 - jmap.infoTop.offsetHeight;
-			$('#info-bot').css('overflow-y', 'scroll');
-			$('#info-bot').animate({
-				height: infoBotHeight+'px',
-			}, 400);
-		}
-	}
-}
-
 
 
 
@@ -305,19 +256,6 @@ function mouseCoords(ev){
 		y:ev.clientY + document.body.scrollTop  - document.body.clientTop
 	};	
 }
-
-
-/***************************************/
-/* Utility functions */
-/***************************************/
-
-function handleAjaxError(jqXHR, textStatus, errorThrown) {
-	if (confirm(errorThrown + ': Show error?')) {
-		win = window.open();
-		win.document.write(jqXHR.responseText);
-	}
-}
-
 
 
 
