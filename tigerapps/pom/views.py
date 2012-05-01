@@ -17,7 +17,7 @@ def map_bldg_clicked(request, bldg_code):
         events = Building.cal_events.all(bldg)
         html = render_to_string('pom/event_info.html',
                          {'bldg_name': bldg.name,
-                          'events': [event.event_cluster.cluster_title for event in events]})
+                          'events': events})
         response_json = simplejson.dumps({'error': None,
                                           'html': html,
                                           'bldgId': bldg_code})
