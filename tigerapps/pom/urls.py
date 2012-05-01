@@ -12,7 +12,9 @@ urlpatterns = patterns('',
     url(r'^test/?$', direct_to_template,
         {'template': 'pom/test.html'}),
     url(r'^bldg/(?P<bldg_code>\S+)/?$', 'pom.views.map_bldg_clicked'),
-    
+
+    url(r'^date_filter(\d+)/(\d+)/(\d+):(\d+)to(\d+)/(\d+)/(\d+):(\d+)$', 'pom.views.date_filter_time'),
+        
     url(r'^pmap/?$', direct_to_template,
         {'template': 'pom/pmap.html'}),
 
