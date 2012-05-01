@@ -1,5 +1,28 @@
+div, span {
+	margin:0;
+	padding:0;
+}
+body {
+	font-family: helvetica,sans-serif;
+	font-size: 0.95em;
+}
+h2 {
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+}
+
 #jmap-container {
-	position: fixed;
+	position: absolute;
+	top: 28px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color:LightGray;
+	overflow: hidden;
+}
+
+#jmap-movable {
+	position:absolute;
 	top: 0px;
 	left: 0px;
 	width: 100%;
@@ -7,25 +30,67 @@
 	background-color:LightGray;
 }
 
-#jmap-movable {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	background-color:LightGray;
+
+
+.map-box {
+	background-color:#FCFAF8;
+    opacity:0.92;
+    box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
+    z-index:100;
+    border-radius: 1px;
+}
+#map-loading {
+	position:absolute;
+	padding:10px;
+	top:50%;
+	left:50%;
+	height:24px;
+	width:125px;
+	margin-top:-22px;
+	margin-left:-62px;
 }
 
 #jmap-info {
 	position:absolute;
-	bottom:0px;
-	left:24px;
-	width:300px;
-	height:580px;
+	bottom: 20px;
+	left: 20px;
+	width: 350px;
+    padding: 20px 20px;
+}
+
+#info-title {
+	padding-bottom: 10px;
+}
+#info-top {
+	height: 200px;
+}
+#info-top-left {
+	float: left;
+	width: 170px;
+	padding-right: 10px;
+}
+#info-top-right {
+	float: right;
+	width: 160px;
+	padding-left: 10px;
+}
+#info-bot {
+	height: 0px;
+	overflow: hidden;
+}
+
+
+#jmap-options {
+	position:absolute;
+	bottom: 80px;
+	left: 420px;
+	right: 10px;
+	height: 0px;
     padding:0 20px 0;
     z-index:100;
-
-	background-color:#FFEBCC;
-    opacity:0.95;
-    box-shadow:3px -2px 1.5em hsla(0, 0%, 0%, 1.0);
 }
+
+#jmap-slider {
+    z-index: 101
+}
+

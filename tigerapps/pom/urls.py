@@ -9,8 +9,14 @@ urlpatterns = patterns('',
     # Map-related
     url(r'^/?$', direct_to_template,
         {'template': 'pom/index.html'}),
-    url(r'^bldg/(?P<bldg_code>\S+)/?$', 'pom.views.map_bldg_clicked'),
+    url(r'^test/?$', direct_to_template,
+        {'template': 'pom/test.html'}),
+    url(r'^bldg/(?P<bldg_code>\S+)/?$', 'pom.views.events_for_bldg'),
+    url(r'^date_filter(\d+)/(\d+)/(\d+):(\d+)to(\d+)/(\d+)/(\d+):(\d+)$', 'pom.views.date_filter_time'),
     
+    url(r'^bldgs/filter/?$', 'pom.views.bldgs_for_filter'),
+    url(r'^events/bldg/(?P<bldg_code>\S+)/?$', 'pom.views.events_for_bldg'),
+
     url(r'^pmap/?$', direct_to_template,
         {'template': 'pom/pmap.html'}),
 

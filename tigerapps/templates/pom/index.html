@@ -1,23 +1,61 @@
 <html>
-  <head>
+<head>
     <title>HelloWorld</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	
+	<script type="text/javascript" src="/static/pom/js/util.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
+	<script type="text/javascript" src="/static/pom/js/slider.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
- 
-  </head>
-  <body onload="init();">
-	<div id="jmap-container">
-		<div id="jmap-movable">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/humanity/jquery-ui.css"/>
+  
+	{% include 'main/head.html' %}
+</head>
+  
+<body onload="mapInit();eventInit();sliderInit();">
+{% include 'main/links.html' %}
+
+
+<div id="jmap-container">
+	<div id="jmap-movable">
+	</div>
+	
+	<div id="jmap-info" class="map-box">
+		<div id="info-top">
+	        <H2 id="info-title">Pursuit of Mappyness</H2>
+	        <div id="info-top-left">
+	        	Search events...
+	        	<input id="disp-events" type="text" maxlength="30" name="events"/><br/>
+	        	Search events<br/>
+	        	
+	        	<br/>Debug Box1:<br/>
+	        	<input id="box1"/><br/>
+	        </div>
+	        <div id="info-top-right">
+	        	...or display<br/>
+	        	<ul>
+	        		<li><a id="disp-hours" href="#">Facilities hours</a></li>
+	        		<li><a id="disp-menus" href="#">Dining menus</a></li>
+	        		<li><a id="disp-laundry" href="#">Laundry machines</a></li>
+	        	</ul>
+			</div>
 		</div>
+		<div id="info-bot"></div>
 	</div>
 	
-	<div id="jmap-info">
-        <H2>Pursuit of Mappyness</H2>
-		<p><fieldset id="coordTest"><legend>Test - Move your mouse</legend>Mouse X Position: <input id="box1x"/> <br/> Mouse Y Position: <input id="box1y"/></fieldset></p>
-		
+	<div id="jmap-options">
+		<div id="jmap-slider">
+		</div>
+		<p>
+			<label for="slider-left-value">Left Value:</label>
+			<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" />
+			<label for="slider-right-value">Right Value:</label>
+			<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
+		</p>
 	</div>
+</div>
 	
-  </body>
+</body>
 </html>

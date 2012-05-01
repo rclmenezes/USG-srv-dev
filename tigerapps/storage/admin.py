@@ -20,7 +20,7 @@ class UnpaidOrderAdmin(admin.ModelAdmin):
                                     'proxy_name', 'proxy_email',
                                     'n_boxes_bought', 'invoice_id', 'signature']})]
     list_display = ('user', 'cell_number', 'n_boxes_bought', 'invoice_id', 'timestamp')
-    search_fields = ['user', 'proxy_name', 'proxy_email']
+    search_fields = ['user__username', 'proxy_name', 'proxy_email']
     
 class OrderAdmin(admin.ModelAdmin):
     #everything but timestamp
@@ -31,7 +31,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('user', 'cell_number', 'n_boxes_bought',
                     'proxy_name', 'proxy_email', 'dropoff_pickup_time',
                     'bool_picked_empty', 'n_boxes_dropped', 'n_boxes_picked', 'timestamp')
-    search_fields = ['user', 'proxy_name', 'proxy_email']
+    search_fields = ['user__username', 'proxy_name', 'proxy_email']
     
 
 admin.site.register(Post, PostAdmin)
