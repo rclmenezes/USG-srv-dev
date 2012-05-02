@@ -1,10 +1,1308 @@
 {
- "bldgsTile":{
- 	"4-6-2":["4-FRIST"],
-	"4-6-3":["4-FRIST"],
-	"4-5-0":["4-NASHALL"],
-	"4-5-1":["4-NASHALL"]},
- "bldgsInfo":{
-	"4-FRIST":{"height":87,"width":107,"left":1574,"top":717},
-	"4-NASHALL":{"height":46,"width":81,"left":1275,"top":364}}
+    "bldgsTile": {
+        "4-7-6": [
+            "4-1952S"
+        ], 
+        "4-5-0": [
+            "4-114NA"
+        ], 
+        "4-5-1": [
+            "4-FIRES", 
+            "4-CLIOH", 
+            "4-EPYNE", 
+            "4-SCCAH", 
+            "4-WHIG", 
+            "4-NASSH", 
+            "4-MCCOS", 
+            "4-HENHO", 
+            "4-CHAPE", 
+            "4-MURRA", 
+            "4-CHANC"
+        ], 
+        "4-5-2": [
+            "4-CLIOH", 
+            "4-CUYLE", 
+            "4-WALKE", 
+            "4-MURRA", 
+            "4-WHIG", 
+            "4-JONES", 
+            "4-BROWN", 
+            "4-MCCOS", 
+            "4-PRO58", 
+            "4-DODHA", 
+            "4-DILLG", 
+            "4-ARTMU"
+        ], 
+        "4-5-3": [
+            "4-SCULL", 
+            "4-YOSEL", 
+            "4-CUYLE", 
+            "4-WALKE", 
+            "4-ENOHA", 
+            "4-GAUSS", 
+            "4-HARGH", 
+            "4-C1915", 
+            "4-MCCOH", 
+            "4-WILCH", 
+            "4-1938H", 
+            "4-DILLG", 
+            "4-JONES"
+        ], 
+        "4-5-4": [
+            "4-FITZO", 
+            "4-BLOOM", 
+            "4-SCULL", 
+            "4-YOSEL", 
+            "4-POEFI", 
+            "4-HARGH", 
+            "4-1967H", 
+            "4-200EL", 
+            "4-1895F", 
+            "4-MACMI"
+        ], 
+        "4-5-5": [
+            "4-COGEN", 
+            "4-SOUGB", 
+            "4-LENZT", 
+            "4-GULIC", 
+            "4-1895F"
+        ], 
+        "4-8-1": [
+            "4-EQUAJ", 
+            "4-VONNH", 
+            "4-FRIEN", 
+            "4-EQUAA", 
+            "4-EQUAB", 
+            "4-EQUAC", 
+            "4-EQUAD", 
+            "4-EQUAE", 
+            "4-EQUAF", 
+            "4-EQUAG", 
+            "4-COMPU", 
+            "4-MUDDL", 
+            "4-221NA"
+        ], 
+        "4-8-0": [
+            "4-221NA"
+        ], 
+        "4-8-3": [
+            "4-POWER", 
+            "4-CLARK"
+        ], 
+        "4-8-2": [
+            "4-VONNH", 
+            "4-EQUAE", 
+            "4-BOWEN", 
+            "4-CFCTR", 
+            "4-MUDDL", 
+            "4-STH91", 
+            "4-BOBSH"
+        ], 
+        "4-8-5": [
+            "4-JADWG", 
+            "4-DENUN", 
+            "4-CALDW"
+        ], 
+        "4-8-4": [
+            "4-POWER", 
+            "4-FRELI", 
+            "4-CALDW", 
+            "4-FINNE", 
+            "4-CLARK"
+        ], 
+        "4-4-5": [
+            "4-COGEN", 
+            "4-WESTG", 
+            "4-180AL"
+        ], 
+        "4-4-4": [
+            "4-DINKY", 
+            "4-BAKER", 
+            "4-WESTG", 
+            "4-HARGH", 
+            "4-130AL", 
+            "4-200EL", 
+            "4-NEWSO", 
+            "4-MACMI"
+        ], 
+        "4-4-1": [
+            "4-WESTC", 
+            "4-BLAIR", 
+            "4-ALEXH", 
+            "4-CARRS", 
+            "4-NTHGB", 
+            "4-CLIOH", 
+            "4-MACLE", 
+            "4-NASSH", 
+            "4-HOLDE", 
+            "4-HAMIL", 
+            "4-JOLIN", 
+            "4-BUYER", 
+            "4-STANH", 
+            "4-CAMPB", 
+            "4-WITH"
+        ], 
+        "4-4-3": [
+            "4-DINKY", 
+            "4-HARGH", 
+            "4-PYNEH", 
+            "4-FISHE", 
+            "4-FEINB", 
+            "4-SPELM", 
+            "4-DILLG"
+        ], 
+        "4-4-2": [
+            "4-PYNEH", 
+            "4-FOULK", 
+            "4-48UNI", 
+            "4-CARRS", 
+            "4-CLIOH", 
+            "4-1901H", 
+            "4-LITTL", 
+            "4-HENRY", 
+            "4-LOCKH", 
+            "4-DODHA", 
+            "4-BUYER", 
+            "4-EDWAR", 
+            "4-DILLG", 
+            "4-WITH"
+        ], 
+        "4-7-4": [
+            "4-FRELI", 
+            "4-POWER", 
+            "4-JADWH", 
+            "4-FRICK"
+        ], 
+        "4-6-5": [
+            "4-GULIC", 
+            "4-1952S", 
+            "4-BEDFO"
+        ], 
+        "4-9-4": [
+            "4-STRUB", 
+            "4-SEXTO", 
+            "4-FINNE", 
+            "4-CLARK"
+        ], 
+        "4-9-5": [
+            "4-ELPLE"
+        ], 
+        "4-6-4": [
+            "4-POEFI", 
+            "4-SCULL", 
+            "4-THOML", 
+            "4-ICAHN"
+        ], 
+        "4-9-1": [
+            "4-EQUAG"
+        ], 
+        "4-9-2": [
+            "4-120PR", 
+            "4-STH91"
+        ], 
+        "4-9-3": [
+            "4-STRUB", 
+            "4-CLARK"
+        ], 
+        "4-3-2": [
+            "4-31EDW", 
+            "4-48UNI", 
+            "4-CARRS", 
+            "4-LOCKH", 
+            "4-45UNI", 
+            "4-35UNI", 
+            "4-29EDW"
+        ], 
+        "4-3-3": [
+            "4-BERTL", 
+            "4-AL099", 
+            "4-MCCAR", 
+            "4-81ALE"
+        ], 
+        "4-3-0": [
+            "4-PALMH", 
+            "4-22CHA"
+        ], 
+        "4-3-1": [
+            "4-BLAIR", 
+            "4-CARRS", 
+            "4-23UNI", 
+            "4-HAMIL", 
+            "4-JOLIN", 
+            "4-11UNI", 
+            "4-35UNI", 
+            "4-29EDW"
+        ], 
+        "4-1-1": [
+            "4-LOWRI"
+        ], 
+        "4-3-4": [
+            "4-136AL", 
+            "4-FORBC", 
+            "4-130AL", 
+            "4-126AL", 
+            "4-AL099", 
+            "4-106AL", 
+            "4-144AL", 
+            "4-THEWA"
+        ], 
+        "4-3-5": [
+            "4-180AL"
+        ], 
+        "4-6-7": [
+            "4-SHEAR"
+        ], 
+        "4-1-4": [
+            "4-GRADC"
+        ], 
+        "4-10-3": [
+            "4-BR171"
+        ], 
+        "4-7-5": [
+            "4-1952S", 
+            "4-JADWG", 
+            "4-ARCHL", 
+            "4-FRICK"
+        ], 
+        "4-6-6": [
+            "4-1952S", 
+            "4-BEDFO", 
+            "4-SHEAR"
+        ], 
+        "4-6-3": [
+            "4-CENJL", 
+            "4-SCULL", 
+            "4-THOML", 
+            "4-GUYOT", 
+            "4-ENOHA", 
+            "4-FINEH", 
+            "4-JONES", 
+            "4-MCCOH", 
+            "4-ROCKL", 
+            "4-FRIST", 
+            "4-1938H", 
+            "4-LEWLI"
+        ], 
+        "4-6-2": [
+            "4-ROBEH", 
+            "4-C1879", 
+            "4-BENDH", 
+            "4-MCCOS", 
+            "4-FRIST", 
+            "4-JONES", 
+            "4-CCAMP", 
+            "4-MARXH", 
+            "4-ARCHB", 
+            "4-WOOLC"
+        ], 
+        "4-6-1": [
+            "4-WIL41", 
+            "4-CHAPE", 
+            "4-NA185", 
+            "4-MCCOS", 
+            "4-FIRES", 
+            "4-185NA", 
+            "4-GREEN", 
+            "4-DICKH", 
+            "4-179NA", 
+            "4-BURRH", 
+            "4-169NA", 
+            "4-BENDH", 
+            "4-HOYTL"
+        ], 
+        "4-6-0": [
+            "4-169NA", 
+            "4-GARDE", 
+            "4-179NA"
+        ], 
+        "4-7-2": [
+            "4-WALLB", 
+            "4-BENDC", 
+            "4-BENDH", 
+            "4-CFCTR", 
+            "4-MUDDL", 
+            "4-FISHH", 
+            "4-ORFES"
+        ], 
+        "4-7-3": [
+            "4-CENJL", 
+            "4-JADWH", 
+            "4-PEYTH", 
+            "4-POWER", 
+            "4-FINEH", 
+            "4-IVY05", 
+            "4-LEWLI"
+        ], 
+        "4-7-0": [
+            "4-201NA", 
+            "4-221NA"
+        ], 
+        "4-7-1": [
+            "4-WIL41", 
+            "4-WALLB", 
+            "4-201NA", 
+            "4-BENDH", 
+            "4-NA185", 
+            "4-MUDDL", 
+            "4-FRIEN", 
+            "4-185NA", 
+            "4-HOYTL", 
+            "4-221NA", 
+            "4-ORFES"
+        ], 
+        "4-0-1": [
+            "4-LOWRI"
+        ], 
+        "4-10-4": [
+            "4-SEXTO", 
+            "4-BR171"
+        ], 
+        "4-0-4": [
+            "4-GRADC"
+        ]
+    }, 
+    "bldgsInfo": {
+        "200EL": {
+            "width": 43, 
+            "top": 1166, 
+            "left": 1242, 
+            "height": 24
+        }, 
+        "EPYNE": {
+            "width": 65, 
+            "top": 379, 
+            "left": 1368, 
+            "height": 72
+        }, 
+        "NA185": {
+            "width": 100, 
+            "top": 264, 
+            "left": 1783, 
+            "height": 53
+        }, 
+        "HOYTL": {
+            "width": 39, 
+            "top": 399, 
+            "left": 1789, 
+            "height": 41
+        }, 
+        "22CHA": {
+            "width": 51, 
+            "top": 75, 
+            "left": 972, 
+            "height": 53
+        }, 
+        "DILLG": {
+            "width": 110, 
+            "top": 696, 
+            "left": 1184, 
+            "height": 169
+        }, 
+        "WESTC": {
+            "width": 36, 
+            "top": 422, 
+            "left": 1222, 
+            "height": 47
+        }, 
+        "THEWA": {
+            "width": 35, 
+            "top": 1036, 
+            "left": 938, 
+            "height": 35
+        }, 
+        "MACLE": {
+            "width": 27, 
+            "top": 282, 
+            "left": 1237, 
+            "height": 41
+        }, 
+        "JADWG": {
+            "width": 133, 
+            "top": 1324, 
+            "left": 2029, 
+            "height": 145
+        }, 
+        "JADWH": {
+            "width": 140, 
+            "top": 992, 
+            "left": 1797, 
+            "height": 161
+        }, 
+        "WITH": {
+            "width": 53, 
+            "top": 485, 
+            "left": 1153, 
+            "height": 34
+        }, 
+        "MUDDL": {
+            "width": 59, 
+            "top": 495, 
+            "left": 2029, 
+            "height": 37
+        }, 
+        "169NA": {
+            "width": 22, 
+            "top": 248, 
+            "left": 1699, 
+            "height": 20
+        }, 
+        "SOUGB": {
+            "width": 12, 
+            "top": 1297, 
+            "left": 1334, 
+            "height": 11
+        }, 
+        "MARXH": {
+            "width": 31, 
+            "top": 555, 
+            "left": 1630, 
+            "height": 38
+        }, 
+        "POWER": {
+            "width": 212, 
+            "top": 931, 
+            "left": 1973, 
+            "height": 239
+        }, 
+        "BOWEN": {
+            "width": 50, 
+            "top": 561, 
+            "left": 2190, 
+            "height": 47
+        }, 
+        "23UNI": {
+            "width": 40, 
+            "top": 405, 
+            "left": 930, 
+            "height": 27
+        }, 
+        "CARRS": {
+            "width": 55, 
+            "top": 475, 
+            "left": 1003, 
+            "height": 41
+        }, 
+        "STH91": {
+            "width": 37, 
+            "top": 676, 
+            "left": 2298, 
+            "height": 26
+        }, 
+        "FIRES": {
+            "width": 140, 
+            "top": 271, 
+            "left": 1460, 
+            "height": 131
+        }, 
+        "MCCAR": {
+            "width": 52, 
+            "top": 854, 
+            "left": 960, 
+            "height": 66
+        }, 
+        "BURRH": {
+            "width": 51, 
+            "top": 261, 
+            "left": 1618, 
+            "height": 49
+        }, 
+        "DENUN": {
+            "width": 90, 
+            "top": 1337, 
+            "left": 2190, 
+            "height": 66
+        }, 
+        "DODHA": {
+            "width": 23, 
+            "top": 597, 
+            "left": 1278, 
+            "height": 72
+        }, 
+        "FEINB": {
+            "width": 77, 
+            "top": 812, 
+            "left": 1141, 
+            "height": 27
+        }, 
+        "SEXTO": {
+            "width": 176, 
+            "top": 1088, 
+            "left": 2393, 
+            "height": 82
+        }, 
+        "GULIC": {
+            "width": 189, 
+            "top": 1413, 
+            "left": 1476, 
+            "height": 68
+        }, 
+        "29EDW": {
+            "width": 28, 
+            "top": 487, 
+            "left": 834, 
+            "height": 25
+        }, 
+        "BAKER": {
+            "width": 105, 
+            "top": 1108, 
+            "left": 1139, 
+            "height": 64
+        }, 
+        "31EDW": {
+            "width": 21, 
+            "top": 512, 
+            "left": 823, 
+            "height": 20
+        }, 
+        "FOULK": {
+            "width": 55, 
+            "top": 592, 
+            "left": 1029, 
+            "height": 46
+        }, 
+        "1895F": {
+            "width": 90, 
+            "top": 1255, 
+            "left": 1364, 
+            "height": 91
+        }, 
+        "1901H": {
+            "width": 47, 
+            "top": 687, 
+            "left": 1087, 
+            "height": 54
+        }, 
+        "NEWSO": {
+            "width": 40, 
+            "top": 1031, 
+            "left": 1091, 
+            "height": 36
+        }, 
+        "1938H": {
+            "width": 40, 
+            "top": 938, 
+            "left": 1503, 
+            "height": 37
+        }, 
+        "BEDFO": {
+            "width": 111, 
+            "top": 1480, 
+            "left": 1580, 
+            "height": 164
+        }, 
+        "GAUSS": {
+            "width": 74, 
+            "top": 859, 
+            "left": 1380, 
+            "height": 61
+        }, 
+        "ICAHN": {
+            "width": 112, 
+            "top": 1071, 
+            "left": 1631, 
+            "height": 104
+        }, 
+        "FITZO": {
+            "width": 71, 
+            "top": 1197, 
+            "left": 1430, 
+            "height": 40
+        }, 
+        "HARGH": {
+            "width": 146, 
+            "top": 920, 
+            "left": 1167, 
+            "height": 163
+        }, 
+        "BUYER": {
+            "width": 48, 
+            "top": 448, 
+            "left": 1099, 
+            "height": 71
+        }, 
+        "LOWRI": {
+            "width": 65, 
+            "top": 292, 
+            "left": 218, 
+            "height": 57
+        }, 
+        "1967H": {
+            "width": 60, 
+            "top": 1064, 
+            "left": 1404, 
+            "height": 31
+        }, 
+        "ARCHL": {
+            "width": 72, 
+            "top": 1302, 
+            "left": 1952, 
+            "height": 35
+        }, 
+        "CHAPE": {
+            "width": 104, 
+            "top": 420, 
+            "left": 1493, 
+            "height": 40
+        }, 
+        "HENHO": {
+            "width": 23, 
+            "top": 290, 
+            "left": 1372, 
+            "height": 32
+        }, 
+        "JONES": {
+            "width": 62, 
+            "top": 754, 
+            "left": 1512, 
+            "height": 40
+        }, 
+        "LENZT": {
+            "width": 86, 
+            "top": 1366, 
+            "left": 1355, 
+            "height": 103
+        }, 
+        "FRIST": {
+            "width": 101, 
+            "top": 717, 
+            "left": 1574, 
+            "height": 88
+        }, 
+        "CAMPB": {
+            "width": 48, 
+            "top": 370, 
+            "left": 1071, 
+            "height": 45
+        }, 
+        "CFCTR": {
+            "width": 31, 
+            "top": 555, 
+            "left": 2044, 
+            "height": 53
+        }, 
+        "ARCHB": {
+            "width": 64, 
+            "top": 555, 
+            "left": 1539, 
+            "height": 78
+        }, 
+        "THOML": {
+            "width": 109, 
+            "top": 1002, 
+            "left": 1618, 
+            "height": 62
+        }, 
+        "179NA": {
+            "width": 40, 
+            "top": 245, 
+            "left": 1736, 
+            "height": 33
+        }, 
+        "STANH": {
+            "width": 24, 
+            "top": 335, 
+            "left": 1237, 
+            "height": 32
+        }, 
+        "BOBSH": {
+            "width": 39, 
+            "top": 676, 
+            "left": 2248, 
+            "height": 26
+        }, 
+        "CCAMP": {
+            "width": 42, 
+            "top": 670, 
+            "left": 1712, 
+            "height": 26
+        }, 
+        "SPELM": {
+            "width": 99, 
+            "top": 838, 
+            "left": 1081, 
+            "height": 96
+        }, 
+        "106AL": {
+            "width": 22, 
+            "top": 1040, 
+            "left": 916, 
+            "height": 19
+        }, 
+        "185NA": {
+            "width": 104, 
+            "top": 263, 
+            "left": 1779, 
+            "height": 59
+        }, 
+        "126AL": {
+            "width": 58, 
+            "top": 1100, 
+            "left": 927, 
+            "height": 59
+        }, 
+        "45UNI": {
+            "width": 35, 
+            "top": 549, 
+            "left": 968, 
+            "height": 40
+        }, 
+        "ROBEH": {
+            "width": 88, 
+            "top": 544, 
+            "left": 1700, 
+            "height": 54
+        }, 
+        "PALMH": {
+            "width": 37, 
+            "top": 140, 
+            "left": 836, 
+            "height": 51
+        }, 
+        "ENOHA": {
+            "width": 110, 
+            "top": 859, 
+            "left": 1470, 
+            "height": 85
+        }, 
+        "BR171": {
+            "width": 67, 
+            "top": 986, 
+            "left": 2631, 
+            "height": 61
+        }, 
+        "FRELI": {
+            "width": 212, 
+            "top": 1170, 
+            "left": 1973, 
+            "height": 103
+        }, 
+        "WALKE": {
+            "width": 61, 
+            "top": 745, 
+            "left": 1380, 
+            "height": 114
+        }, 
+        "FRIEN": {
+            "width": 84, 
+            "top": 383, 
+            "left": 1964, 
+            "height": 45
+        }, 
+        "HENRY": {
+            "width": 46, 
+            "top": 638, 
+            "left": 1033, 
+            "height": 94
+        }, 
+        "CLIOH": {
+            "width": 30, 
+            "top": 489, 
+            "left": 1271, 
+            "height": 40
+        }, 
+        "MURRA": {
+            "width": 51, 
+            "top": 490, 
+            "left": 1403, 
+            "height": 48
+        }, 
+        "SCCAH": {
+            "width": 24, 
+            "top": 290, 
+            "left": 1414, 
+            "height": 32
+        }, 
+        "FORBC": {
+            "width": 120, 
+            "top": 1031, 
+            "left": 791, 
+            "height": 214
+        }, 
+        "48UNI": {
+            "width": 30, 
+            "top": 574, 
+            "left": 1021, 
+            "height": 18
+        }, 
+        "201NA": {
+            "width": 29, 
+            "top": 241, 
+            "left": 1909, 
+            "height": 49
+        }, 
+        "WILCH": {
+            "width": 110, 
+            "top": 913, 
+            "left": 1388, 
+            "height": 76
+        }, 
+        "FISHE": {
+            "width": 60, 
+            "top": 896, 
+            "left": 1205, 
+            "height": 24
+        }, 
+        "C1915": {
+            "width": 40, 
+            "top": 907, 
+            "left": 1340, 
+            "height": 75
+        }, 
+        "WOOLC": {
+            "width": 65, 
+            "top": 645, 
+            "left": 1548, 
+            "height": 64
+        }, 
+        "136AL": {
+            "width": 33, 
+            "top": 1163, 
+            "left": 935, 
+            "height": 39
+        }, 
+        "YOSEL": {
+            "width": 62, 
+            "top": 1007, 
+            "left": 1396, 
+            "height": 57
+        }, 
+        "11UNI": {
+            "width": 36, 
+            "top": 329, 
+            "left": 922, 
+            "height": 24
+        }, 
+        "ORFES": {
+            "width": 62, 
+            "top": 483, 
+            "left": 1962, 
+            "height": 37
+        }, 
+        "LITTL": {
+            "width": 122, 
+            "top": 540, 
+            "left": 1087, 
+            "height": 147
+        }, 
+        "WIL41": {
+            "width": 132, 
+            "top": 405, 
+            "left": 1663, 
+            "height": 98
+        }, 
+        "VONNH": {
+            "width": 58, 
+            "top": 463, 
+            "left": 2236, 
+            "height": 72
+        }, 
+        "PRO58": {
+            "width": 57, 
+            "top": 641, 
+            "left": 1472, 
+            "height": 56
+        }, 
+        "HOLDE": {
+            "width": 72, 
+            "top": 262, 
+            "left": 1070, 
+            "height": 100
+        }, 
+        "FINEH": {
+            "width": 109, 
+            "top": 954, 
+            "left": 1788, 
+            "height": 38
+        }, 
+        "BROWN": {
+            "width": 52, 
+            "top": 690, 
+            "left": 1328, 
+            "height": 42
+        }, 
+        "POEFI": {
+            "width": 177, 
+            "top": 1144, 
+            "left": 1476, 
+            "height": 73
+        }, 
+        "114NA": {
+            "width": 51, 
+            "top": 166, 
+            "left": 1389, 
+            "height": 63
+        }, 
+        "BENDC": {
+            "width": 49, 
+            "top": 556, 
+            "left": 1852, 
+            "height": 26
+        }, 
+        "35UNI": {
+            "width": 25, 
+            "top": 502, 
+            "left": 959, 
+            "height": 27
+        }, 
+        "BENDH": {
+            "width": 50, 
+            "top": 497, 
+            "left": 1787, 
+            "height": 67
+        }, 
+        "CUYLE": {
+            "width": 58, 
+            "top": 745, 
+            "left": 1318, 
+            "height": 162
+        }, 
+        "MCCOH": {
+            "width": 64, 
+            "top": 812, 
+            "left": 1530, 
+            "height": 53
+        }, 
+        "WESTG": {
+            "width": 50, 
+            "top": 1186, 
+            "left": 1081, 
+            "height": 178
+        }, 
+        "FRICK": {
+            "width": 77, 
+            "top": 1169, 
+            "left": 1885, 
+            "height": 155
+        }, 
+        "WHIG": {
+            "width": 36, 
+            "top": 489, 
+            "left": 1322, 
+            "height": 40
+        }, 
+        "MACMI": {
+            "width": 166, 
+            "top": 1216, 
+            "left": 1161, 
+            "height": 54
+        }, 
+        "FINNE": {
+            "width": 147, 
+            "top": 1123, 
+            "left": 2234, 
+            "height": 138
+        }, 
+        "HAMIL": {
+            "width": 111, 
+            "top": 262, 
+            "left": 959, 
+            "height": 100
+        }, 
+        "CHANC": {
+            "width": 62, 
+            "top": 342, 
+            "left": 1371, 
+            "height": 37
+        }, 
+        "ROCKL": {
+            "width": 17, 
+            "top": 940, 
+            "left": 1548, 
+            "height": 7
+        }, 
+        "COGEN": {
+            "width": 168, 
+            "top": 1286, 
+            "left": 1131, 
+            "height": 121
+        }, 
+        "C1879": {
+            "width": 34, 
+            "top": 593, 
+            "left": 1638, 
+            "height": 92
+        }, 
+        "LOCKH": {
+            "width": 51, 
+            "top": 516, 
+            "left": 1016, 
+            "height": 58
+        }, 
+        "FISHH": {
+            "width": 26, 
+            "top": 563, 
+            "left": 1800, 
+            "height": 43
+        }, 
+        "ALEXH": {
+            "width": 60, 
+            "top": 354, 
+            "left": 1147, 
+            "height": 43
+        }, 
+        "IVY05": {
+            "width": 47, 
+            "top": 819, 
+            "left": 1810, 
+            "height": 20
+        }, 
+        "SCULL": {
+            "width": 146, 
+            "top": 999, 
+            "left": 1464, 
+            "height": 114
+        }, 
+        "COMPU": {
+            "width": 46, 
+            "top": 383, 
+            "left": 2048, 
+            "height": 83
+        }, 
+        "STRUB": {
+            "width": 170, 
+            "top": 957, 
+            "left": 2376, 
+            "height": 131
+        }, 
+        "LEWLI": {
+            "width": 110, 
+            "top": 882, 
+            "left": 1779, 
+            "height": 60
+        }, 
+        "180AL": {
+            "width": 55, 
+            "top": 1324, 
+            "left": 973, 
+            "height": 55
+        }, 
+        "EQUAA": {
+            "width": 84, 
+            "top": 450, 
+            "left": 2172, 
+            "height": 26
+        }, 
+        "EQUAC": {
+            "width": 37, 
+            "top": 390, 
+            "left": 2135, 
+            "height": 73
+        }, 
+        "EQUAB": {
+            "width": 68, 
+            "top": 376, 
+            "left": 2167, 
+            "height": 24
+        }, 
+        "EQUAE": {
+            "width": 28, 
+            "top": 463, 
+            "left": 2144, 
+            "height": 69
+        }, 
+        "EQUAD": {
+            "width": 22, 
+            "top": 376, 
+            "left": 2234, 
+            "height": 79
+        }, 
+        "EQUAG": {
+            "width": 57, 
+            "top": 440, 
+            "left": 2279, 
+            "height": 40
+        }, 
+        "EQUAF": {
+            "width": 29, 
+            "top": 357, 
+            "left": 2139, 
+            "height": 33
+        }, 
+        "EQUAJ": {
+            "width": 38, 
+            "top": 376, 
+            "left": 2258, 
+            "height": 74
+        }, 
+        "144AL": {
+            "width": 25, 
+            "top": 1203, 
+            "left": 943, 
+            "height": 42
+        }, 
+        "MCCOS": {
+            "width": 149, 
+            "top": 498, 
+            "left": 1495, 
+            "height": 41
+        }, 
+        "PYNEH": {
+            "width": 89, 
+            "top": 741, 
+            "left": 1087, 
+            "height": 63
+        }, 
+        "GREEN": {
+            "width": 103, 
+            "top": 310, 
+            "left": 1633, 
+            "height": 79
+        }, 
+        "ELPLE": {
+            "width": 167, 
+            "top": 1355, 
+            "left": 2358, 
+            "height": 70
+        }, 
+        "GUYOT": {
+            "width": 123, 
+            "top": 865, 
+            "left": 1594, 
+            "height": 113
+        }, 
+        "PEYTH": {
+            "width": 67, 
+            "top": 882, 
+            "left": 1917, 
+            "height": 43
+        }, 
+        "NASSH": {
+            "width": 80, 
+            "top": 360, 
+            "left": 1275, 
+            "height": 49
+        }, 
+        "GARDE": {
+            "width": 38, 
+            "top": 164, 
+            "left": 1554, 
+            "height": 61
+        }, 
+        "120PR": {
+            "width": 80, 
+            "top": 561, 
+            "left": 2393, 
+            "height": 59
+        }, 
+        "NTHGB": {
+            "width": 16, 
+            "top": 329, 
+            "left": 1213, 
+            "height": 15
+        }, 
+        "AL099": {
+            "width": 22, 
+            "top": 999, 
+            "left": 850, 
+            "height": 25
+        }, 
+        "CALDW": {
+            "width": 85, 
+            "top": 1265, 
+            "left": 2126, 
+            "height": 52
+        }, 
+        "BLAIR": {
+            "width": 105, 
+            "top": 430, 
+            "left": 994, 
+            "height": 42
+        }, 
+        "BLOOM": {
+            "width": 111, 
+            "top": 1100, 
+            "left": 1364, 
+            "height": 99
+        }, 
+        "DICKH": {
+            "width": 39, 
+            "top": 426, 
+            "left": 1603, 
+            "height": 72
+        }, 
+        "DINKY": {
+            "width": 21, 
+            "top": 1012, 
+            "left": 1044, 
+            "height": 37
+        }, 
+        "BERTL": {
+            "width": 52, 
+            "top": 920, 
+            "left": 960, 
+            "height": 48
+        }, 
+        "221NA": {
+            "width": 22, 
+            "top": 230, 
+            "left": 2035, 
+            "height": 44
+        }, 
+        "CENJL": {
+            "width": 68, 
+            "top": 793, 
+            "left": 1733, 
+            "height": 49
+        }, 
+        "JOLIN": {
+            "width": 89, 
+            "top": 370, 
+            "left": 982, 
+            "height": 59
+        }, 
+        "130AL": {
+            "width": 40, 
+            "top": 1092, 
+            "left": 985, 
+            "height": 67
+        }, 
+        "SHEAR": {
+            "width": 144, 
+            "top": 1759, 
+            "left": 1625, 
+            "height": 106
+        }, 
+        "WALLB": {
+            "width": 103, 
+            "top": 486, 
+            "left": 1837, 
+            "height": 54
+        }, 
+        "CLARK": {
+            "width": 152, 
+            "top": 941, 
+            "left": 2219, 
+            "height": 152
+        }, 
+        "GRADC": {
+            "width": 260, 
+            "top": 1031, 
+            "left": 192, 
+            "height": 224
+        }, 
+        "1952S": {
+            "width": 115, 
+            "top": 1462, 
+            "left": 1691, 
+            "height": 154
+        }, 
+        "81ALE": {
+            "width": 34, 
+            "top": 968, 
+            "left": 816, 
+            "height": 34
+        }, 
+        "ARTMU": {
+            "width": 113, 
+            "top": 550, 
+            "left": 1323, 
+            "height": 131
+        }, 
+        "EDWAR": {
+            "width": 21, 
+            "top": 540, 
+            "left": 1237, 
+            "height": 57
+        }
+    }
 }
