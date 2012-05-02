@@ -1,0 +1,50 @@
+{% extends 'index/base.html' %}
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="/static/index/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/static/index/css/suggestions.css" />
+{% endblock %}
+
+
+{% block content %}
+<h1 style="font-size: 13pt" id="heading">USGIT lets you suggest what we work on next!</h1>
+
+<div id="hideme">
+    <div id="features">        
+        <div class="feature-clearfix">
+            <div class="votebox">
+                <div class="votecount ">
+                <span id="numvotes">
+                 1   
+                </span>
+                votes
+                </div>
+                <a class="hotbutton" href="#" id="vote8989" onclick="Votebox.vote(this, event);" style="cursor: default; z-index: 0; "><span class="hotbutton-content"><span class="icon-hotbutton-content">Vote</span></span></a>
+    </div>
+    <div class="featureinfo">
+
+        <h2>
+            <a href="/votebox/8989/play-music-from-linked-folder">
+                Play Music from Linked Folder
+            </a>
+        </h2>
+        <p>
+                Videos play in-browser from linked folders, so why not music?
+        </p>
+        <p class="feature-details">
+            <span class="feature-suggested">Suggested by David E. 5/1/2012</span>
+            <a href="/votebox/8989/play-music-from-linked-folder">
+               0 comments
+            </a>
+
+        </p>
+
+    </div>
+</div>
+
+        <p style="position: absolute;top:-46px;right:0;">
+        <p class="center">
+        </p>
+
+    </div>
+</div>
+{% endblock content %}

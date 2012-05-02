@@ -1,0 +1,174 @@
+#heading {
+    color: #222;
+    display: block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    height: 27px;
+    line-height: 27px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    width: 698px;
+    margin: auto;
+}
+
+#features {
+    color: #444;
+    display: block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    height: 1480px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    margin-right: 0px;
+    margin-top: 50px;
+    position: relative;
+    width: 720px;
+}
+
+.votebox {
+    position:absolute;
+    left:0;
+    top:0;
+    width:76px;
+}
+
+.feature-clearfix {
+    clear: both;
+    color: #444;
+    display: block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    height: 112px;
+    margin-bottom: 32px;
+    width: 1000px;
+}
+
+.votecount {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: white;
+    background-image: none;
+    background-origin: padding-box;
+    border-bottom-color: #FFCC00;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: #FFCC00;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: #FFCC00;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: #FFCC00;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: #444;
+    display: block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    height: 71px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    text-align: center;
+    width: 62px;
+}
+
+#numvotes {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: none;
+    background-origin: padding-box;
+    border-bottom-color: #FFCC00;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-left-color: #FFCC00;
+    border-left-style: none;
+    border-left-width: 0px;
+    border-right-color: #FFCC00;
+    border-right-style: none;
+    border-right-width: 0px;
+    border-top-color: #FFCC00;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-style: none;
+    border-top-width: 0px;
+    color: #FF9900;
+    display: block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 21px;
+    font-weight: bold;
+    height: 28px;
+    margin-top: 15px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    text-align: center;
+    width: 62px;
+}
+
+.hotbutton {
+    border-bottom-color: #FFCC00;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: #FFCC00;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: #FFCC00;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: #FFCC00;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: #FF9900;
+    cursor: default;
+    display: inline-block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    height: 23px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: -1px;
+    margin-top: 4px;
+    outline-color: orange;
+    outline-style: none;
+    outline-width: 0px;
+    text-decoration: none;
+    width: 74px;
+    z-index: 0;
+    text-align: center;
+}
+
+.featureinfo {
+    color: #444;
+    display: block;
+    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    height: 93px;
+    padding-top: 5px;
+    width: 634px;
+    position:absolute;
+    right:0;
+    top:0;
+}
+

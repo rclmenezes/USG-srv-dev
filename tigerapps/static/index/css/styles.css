@@ -8,6 +8,7 @@ body {
 #app-panels {
     width: 625px;
     margin: 0 auto;
+    height: 300px;
 }
 .app-list-img {
     height: 32px;
