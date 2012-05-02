@@ -13,6 +13,18 @@ def index(request, offset):
 
 
 
+def getBldgsWithHours():
+    pass
+
+def getBldgsWithMenus():
+    return ('WILCH', 'WUHAL', 'MADIH', 'FORBC', 'HARGH', 'CENJL', 'GRCOL')
+
+def getBldgsWithLaundry():
+    return ('WALKE', 'C1915', 'DICKH', 'BLAIR', 'BLOOM', 'BROWN', 'SCULL', 
+                     'YOSEL', 'BUYER', 'ENOHA', 'DODHA', 'EDWAR', 'FEINB', 'FORBC', 
+                     'HAMIL', 'HENRY', 'HOLDE', 'JOLIN', 'LITTL', 'LOCKH', 'CUYLE',
+                     'PYNEH', 'SCULL', 'SPELM', 'HARGH')
+
 def bldgs_for_filter(request):
     '''
     Return a JSON-list of building codes that should be highlighted given
@@ -25,12 +37,23 @@ def bldgs_for_filter(request):
     if filter_type == '0': 
         events = Building.cal_events.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                    request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+        bldgsList = list(set((event.event_location for event in events)))
+    #1 = hours
+    elif filter_type == '1':
+        bldgsList = getBldgsWithHours()
+    #2 = menus
+    elif filter_type == '2':
+        bldgsList = getBldgsWithMenus()
+    #3 = washing machines
+    elif filter_type == '3':
+        bldgsList = getBldgsWithLaundry()
         #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
     else:#elif filter_type == '1':
         events = Building.cal_events.all()
+        bldgsList = list(set((event.event_location for event in events)))
         
     response_json = simplejson.dumps({'error': None,
-                                      'bldgs': list(set((event.event_location for event in events)))})
+                                      'bldgs': bldgsList})
     return HttpResponse(response_json, content_type="application/javascript")
 
 
