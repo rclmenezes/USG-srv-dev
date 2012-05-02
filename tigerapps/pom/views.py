@@ -3,27 +3,15 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.template import RequestContext
-from pom.models import *
-import datetime
-import simplejson
+#from pom.models import *
+from pom.bldg_codes import *
+from pom import cal_event_query
+import datetime, simplejson
 
 def index(request, offset):
     # not used due to direct_to_template in urls.py
     return render_to_response('pom/index.html', {}, RequestContext(context))
 
-
-
-def getBldgsWithHours():
-    pass
-
-def getBldgsWithMenus():
-    return ('WILCH', 'WUHAL', 'MADIH', 'FORBC', 'HARGH', 'CENJL', 'GRCOL')
-
-def getBldgsWithLaundry():
-    return ('WALKE', 'C1915', 'DICKH', 'BLAIR', 'BLOOM', 'BROWN', 'SCULL', 
-                     'YOSEL', 'BUYER', 'ENOHA', 'DODHA', 'EDWAR', 'FEINB', 'FORBC', 
-                     'HAMIL', 'HENRY', 'HOLDE', 'JOLIN', 'LITTL', 'LOCKH', 'CUYLE',
-                     'PYNEH', 'SCULL', 'SPELM', 'HARGH')
 
 def bldgs_for_filter(request):
     '''
@@ -35,26 +23,31 @@ def bldgs_for_filter(request):
     
     filter_type = request.GET['type']
     if filter_type == '0': 
-        events = Building.cal_events.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                   request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+        events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
+                                                  request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
         bldgsList = list(set((event.event_location for event in events)))
-    #1 = hours
+    
     elif filter_type == '1':
+        #1 = hours
         bldgsList = getBldgsWithHours()
-    #2 = menus
+    
     elif filter_type == '2':
+        #2 = menus
         bldgsList = getBldgsWithMenus()
-    #3 = washing machines
+    
     elif filter_type == '3':
+        #3 = washing machines
         bldgsList = getBldgsWithLaundry()
         #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
-    else:#elif filter_type == '1':
-        events = Building.cal_events.all()
-        bldgsList = list(set((event.event_location for event in events)))
+        
+    else:
+        #Let an error happen, since this shouldn't occur
+        pass
         
     response_json = simplejson.dumps({'error': None,
                                       'bldgs': bldgsList})
     return HttpResponse(response_json, content_type="application/javascript")
+
 
 
 def events_for_bldg(request, bldg_code):
@@ -63,11 +56,10 @@ def events_for_bldg(request, bldg_code):
     building in the GET parameter of the request
     '''
     try:
-        bldg = Building.objects.get(bldg_code=bldg_code)
-        events = Building.cal_events.bldg_filtered(bldg)
+        events = cal_event_query.bldg_filtered(bldg_code)
         html = render_to_string('pom/event_info.html',
-                         {'bldg_name': bldg.name,
-                          'events': events})
+                                {'bldg_name': BLDG_INFO[bldg_code][0],
+                                 'events': events})
         response_json = simplejson.dumps({'error': None,
                                           'html': html,
                                           'bldgId': bldg_code})
@@ -75,4 +67,5 @@ def events_for_bldg(request, bldg_code):
         response_json = simplejson.dumps({'error': str(e)})
         
     return HttpResponse(response_json, content_type="application/javascript")
+
 
