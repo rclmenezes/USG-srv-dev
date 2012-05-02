@@ -14,10 +14,12 @@ function mapInit() {
 	jmap.tilesDir = '/static/pom/img/tiles/';
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
-	jmap.bldgsPlainSrc = '.png';
-	jmap.bldgsHoverSrc = '-h.png';
-	jmap.bldgsEventPlainSrc = '-e.png';
-	jmap.bldgsEventHoverSrc = '-eh.png';
+	jmap.bldgsPlainSrc = '-e.png';
+	jmap.bldgsHoverSrc = '-eh.png';
+	//jmap.bldgsPlainSrc = '.png';
+	//jmap.bldgsHoverSrc = '-h.png';
+	//jmap.bldgsEventPlainSrc = '-e.png';
+	//jmap.bldgsEventHoverSrc = '-eh.png';
 	
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
@@ -171,6 +173,7 @@ function loadTileBldgs(id) {
 			domEle.setAttribute('id', id);
 			domEle.setAttribute('style', 'position:absolute;z-index:1;');
 			var bldg = jmap.bldgsInfo[id];
+			console.log(id);
 			domEle.style.height = bldg.height;
 			domEle.style.width = bldg.width;
 			domEle.style.left = bldg.left;
