@@ -1,0 +1,15 @@
+body {
+}
+#wrapper {
+    margin: 20px auto 40px;
+    width: 80%;
+}
+
+#app-panels {
+    width: 625px;
+    margin: 0 auto;
+}
+.app-list-img {
+    height: 32px;
+    width: 32px;
+}

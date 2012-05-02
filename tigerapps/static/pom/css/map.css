@@ -60,7 +60,8 @@ ul {
 	position:absolute;
 	bottom: 20px;
 	left: 20px;
-	width: 360px;
+	min-width: 360px;
+	max-width: 500px;
     padding: 20px 20px;
 }
 

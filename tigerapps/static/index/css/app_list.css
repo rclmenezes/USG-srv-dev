@@ -1,0 +1,123 @@
+/* Copyright 2012 Google, Inc. All Rights Reserved */
+@import url(//www.google.com/about/css/default.css);
+@import url(//fonts.googleapis.com/css?family=Open+Sans:300,600,700);
+
+@media screen, projection {
+
+#app-list h2 {
+  clear: left;
+  margin-bottom: 0;
+  font-size: 1.077em;
+  padding-bottom: 0;
+  border-bottom: 1px solid #ebebeb;
+}
+#app-list ul {
+  margin: 0 0 13px 0;
+  padding: 0;
+  list-style: none;
+  display: inline-block;
+  width: 100%;
+}
+#app-list li {
+  width: 50%;
+  display: inline;
+  float: left;
+  margin: 11px 0 .2em 0;
+  line-height: 1.4;
+  position: relative;
+}
+#app-list li.break {
+  clear: left;
+}
+#app-list li a {
+  font-weight: bold;
+  line-height: 22px;
+}
+/* IE7 hack */
+*+html #app-list li {
+  width:49.9%;
+}
+#app-list img {
+  float: left;
+  padding: 0 1em 0 0;
+  margin: 5px 0 0 0;
+}
+#app-list li p {
+  margin: 0 2em 0 3.6em;
+  color:#444;
+}
+div.products-intro, div.products-hero {
+  width: 22.6993868%;
+  margin-right: 3.0674847%;
+  float:left;
+}
+div.products-hero {
+	width: 28.2208592%;
+	padding-top:6px;
+}
+div.products-hero-img {
+	float: left;
+  width: 42.9447858%;
+	height: 179px;
+	margin-right: -5px;
+	margin-top: 17px;
+	border: 1px solid #efefef;
+	-webkit-box-shadow: inset 0px 0px 20px 0px rgba(220, 220, 220, 0.2);
+	-moz-box-shadow: inset 0px 0px 20px 0px rgba(220, 220, 220, 0.2);
+	box-shadow: inset 0px 0px 20px 0px rgba(220, 220, 220, 0.2);
+}
+.products-more {
+	float: left;
+	width: 74.2331285%;
+	margin-left: 25.7668715%;
+	margin-top: 30px;
+}
+.products-no-hero {
+  margin: 6px 0 0 0;
+}
+.products-more h3 {
+	font-weight:600;
+}
+.products-more li {
+    float:left;
+    width: 30.303031%;
+    margin-right: 4.5%;
+}
+.products-more li.clear {
+    clear:left;
+}
+.products-more li.last {
+    margin-right: 0;
+}
+.products-more li.products-last {
+	margin-right: -5px;
+}
+.products-hero h3, .products-hero p, .products-icon h3, .products-icon p {
+	margin-left: 54px;
+}
+.products-hero span, .products-icon span {
+	background:url(//www.google.com/options/i13.png) no-repeat -35px 0;
+	height:32px; 
+	width:32px;
+	float:left;
+	margin-top:16px;
+}
+
+/* IE7 hack */
+*+html div.products li {
+  width:49.9%;
+}
+
+/* IE6 fixes */
+* html div.products li {
+  width: 49%;
+}
+}
+
+@media screen and (max-width: 480px) {
+  div#app-list li {
+    float: none;
+    width: 100%;
+    display: block;
+  }
+}
