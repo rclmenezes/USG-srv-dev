@@ -6,7 +6,13 @@
 	    <h2 id="postTitle" style="text-align: center;">Leaderboard</h2>
 		<p>You have logged {{user_hours}} hour{% ifnotequal user_hours 1 %}s{% endifnotequal %}.</p>
 
-		<p>Hours for the month of {{ month }}:</p>
+        <form action=".">
+		<p>Hours for the month of&nbsp;
+            <select name="month" onchange="this.form.submit();">{% for val,month,sel in month_choices %}
+                <option value="{{val}}" {% if sel %}selected="selected"{% endif %}>{{month}}</option>
+            {% endfor %}</select>:
+        </p>
+        </form>
 
 		<table><tr>
 		{% for group_type, hours in hours_dict.iteritems %}

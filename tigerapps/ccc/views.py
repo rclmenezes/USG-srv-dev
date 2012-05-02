@@ -85,10 +85,15 @@ def log_hours(request):
 @login_required
 def leaderboard(request):
     user_hours = LogCluster.objects.get_user_hours(user=request.user)
-    today = datetime.date.today()
-    month = datetime.date(year=today.year, month=today.month, day=1)
-    month_english = month.strftime("%B, %Y")
-    
+
+    if 'month' in request.GET:
+        in_month, in_year = request.GET['month'].split('-')
+        month = datetime.date(int(in_year), int(in_month), 1)
+    else:
+        today = datetime.date.today()
+        month = datetime.date(today.year, today.month, 1)
+
+    #for rendering the table
     groups_dict = {'Classes': YEAR_CHOICES,
                    'Residential Colleges': RES_COLLEGE_CHOICES,
                    'Eating Clubs': EATING_CLUB_CHOICES}
@@ -104,8 +109,12 @@ def leaderboard(request):
                 entry.save()
             hours_dict[group_type].append((entry.group, entry.hours))
         hours_dict[group_type] = sorted(hours_dict[group_type], key=operator.itemgetter(1), reverse=True)
-    
-    return render_to_response('ccc/leaderboard.html', {'hours_dict': hours_dict, 'user_hours': user_hours, 'month': month_english})
+
+    #for rendering the choices of month
+    months = sorted(list(set(g.month for g in GroupHours.objects.all())))
+    month_choices = tuple((m.strftime("%m-%Y"), m.strftime("%B %Y"), m==month) for m in months)
+
+    return render_to_response('ccc/leaderboard.html', {'hours_dict': hours_dict, 'user_hours': user_hours, 'month_choices': month_choices})
 
 
 #---------------------------------------------------------------------------------------
