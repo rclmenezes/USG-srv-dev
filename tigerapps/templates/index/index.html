@@ -14,11 +14,12 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/index/js/app_slider.js"></script>
-
+	   
     <link rel="icon" type="image/ico" href="favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="/static/index/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="/static/index/css/app_panels.css" />
     <link rel="stylesheet" type="text/css" href="/static/index/css/app_list.css" />
+    <link rel="stylesheet" href="screen.css" type="text/css" media="screen" />
 
     {% include "main/head.html" %}    
 </head>
@@ -34,27 +35,32 @@
     <h1>TigerApps</h1>
 </div>
 
-<div id="app-panels">
-    <div id="content-slider">
-        <ul id="content-slider-inside">
-            <li id="one">1</li>
-            <li id="two">2</li>
-            <li id="three">3</li>
-            <li id="four">4</li>
-            <li id="five">5</li>
-            <li id="six">6</li>
-        </ul>
 
-        <ul id="navigation">
-            <li><a href="#one" class="selected">1</a></li>
-                <li><a href="#two">2</a></li>
-                <li><a href="#three">3</a></li>
-                <li><a href="#four">4</a></li>
-                <li><a href="#five">5</a></li>
-                <li><a href="#six">6</a></li>
-          </ul>
-    </div>
-</div>
+<body style="width: 98%;">
+    
+	<div style ="width: 625px; margin: 0 auto 0 auto;">
+	    <div id="app-panels">
+	        <div id="content-slider">
+	            <ul id="content-slider-inside">
+	                <li id="one">1</li>
+	                <li id="two">2</li>
+	                <li id="three">3</li>
+	                <li id="four">4</li>
+	                <li id="five">5</li>
+	                <li id="six">6</li>
+	            </ul>
+	        </div>
+	            <ul id="navigation">
+	                <li><a href="#one" class="selected">1</a></li>
+	                    <li><a href="#two">2</a></li>
+	                    <li><a href="#three">3</a></li>
+	                    <li><a href="#four">4</a></li>
+	                    <li><a href="#five">5</a></li>
+	                    <li><a href="#six">6</a></li>
+	              </ul>
+	    </div>
+	</div>
+</body>
 
 
 <div id="app-list">

@@ -3,7 +3,10 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300,600,700);
 
 @media screen, projection {
-
+#app-list {
+position: relative;
+top: 300px;
+}
 #app-list h2 {
   clear: left;
   margin-bottom: 0;

@@ -1,15 +1,19 @@
-#content-slider {
+#app-panels {
+position: absolute;
+top: 100px;
+left: 100px;
 width: 560px;
-left: 200px;  
+height: 200px;    
+}
+
+#content-slider {
+width: 450px;
 overflow: hidden;
 height: 200px;    
 }
 
 #content-slider-inside {
-position: relative;    
 width: 450px;
-left: 0px;
-top: 0px;
  background: #CCC;
 height: 200px;
  color: #666;
@@ -29,9 +33,9 @@ height: 200px;
     list-style: none;
     margin: 0px 0px;
     overflow: hidden;
-     position: absolute;
+     position: relative;
     left: 450px;
-    top: 0px;
+    top: -200px;
     width: 110px;
     height: 200px;
 }
