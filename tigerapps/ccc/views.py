@@ -94,6 +94,7 @@ def leaderboard(request):
         month = datetime.date(today.year, today.month, 1)
 
     #for rendering the table
+    total_hours = 0
     groups_dict = {'Classes': YEAR_CHOICES,
                    'Residential Colleges': RES_COLLEGE_CHOICES,
                    'Eating Clubs': EATING_CLUB_CHOICES}
@@ -107,6 +108,7 @@ def leaderboard(request):
             except GroupHours.DoesNotExist, e:
                 entry = GroupHours(group=group_name, month=month, hours=0)
                 entry.save()
+            total_hours += entry.hours
             hours_dict[group_type].append((entry.group, entry.hours))
         hours_dict[group_type] = sorted(hours_dict[group_type], key=operator.itemgetter(1), reverse=True)
 
@@ -114,7 +116,8 @@ def leaderboard(request):
     months = sorted(list(set(g.month for g in GroupHours.objects.all())))
     month_choices = tuple((m.strftime("%m-%Y"), m.strftime("%B %Y"), m==month) for m in months)
 
-    return render_to_response('ccc/leaderboard.html', {'hours_dict': hours_dict, 'user_hours': user_hours, 'month_choices': month_choices})
+    return render_to_response('ccc/leaderboard.html', {'hours_dict': hours_dict, 'user_hours': user_hours, 'total_hours': total_hours,
+                                                       'month_choices': month_choices})
 
 
 #---------------------------------------------------------------------------------------
