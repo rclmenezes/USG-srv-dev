@@ -1,35 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-<head>
-    <!-- TigerApps is a service of the Princeton Undergraduate Student Government (USG)-->
-    <!-- The USG's web address is: http://usg.princeton.edu-->
-    <!-- Website Copyright 2012 USG -->
-    <!-- All rights reserved.-->
-    <title>Princeton TigerApps</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="author" content="Princeton USG">
-    <meta name="keywords" content="Princeton,TigerApps,Tiger,Apps">a
+{% extends 'index/base.html' %}
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/static/index/js/app_slider.js"></script>
-
-    <link rel="icon" type="image/ico" href="favicon.ico"/>
+{% block header %}
     <link rel="stylesheet" type="text/css" href="/static/index/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="/static/index/css/app_panels.css" />
     <link rel="stylesheet" type="text/css" href="/static/index/css/app_list.css" />
-
-    {% include "main/head.html" %}    
-</head>
+{% endblock %}
 
 
-</head>
-<body>
-{% include "main/links.html" %}
-
-<div id="wrapper">
-
+{% block content %}
 <div id="header">
     <h1>TigerApps</h1>
 </div>
@@ -376,114 +354,6 @@
     </ul>
     
 </div>
-</div>
 
+{% endblock %}
 
-
-
-
-<!-- we probably don't need this lol -->
-
-    <div id="maia-signature"></div>
-
-    <div id="maia-footer" class="maia-footer">
-      <div id="maia-footer-local">
-        <div class="maia-aux">
-          <ul class="corp-footer-local maia-aux">
-            
-            <li>
-            
-            <a href="../../about/company/">Company</a>
-            <span>
-            <ul>
-<li><a href="/about/company/facts/">Who we are</a></li>
-<li><a href="/about/company/philosophy/">What we believe</a></li>
-<li><a href="/about/company/products/">What we do</a></li>
-</ul>
-            
-            </span>
-            
-            </li>
-            
-            
-            
-            <li>
-            
-            <a href="../../press/">News</a>
-            <span>
-            <ul>
-<li><a href="/press/images.html">Images and B-roll</a></li>
-<li><a href="/press/blog-directory.html">Blog directory</a></li>
-<li><a href="/press/google-directory.html">Google+ directory</a></li>
-<li><a href="/press/twitter-directory.html">Twitter directory</a></li>
-<li><a href="/press/facebook-directory.html">Facebook directory</a></li>
-<li><a href="/press/youtube-directory.html">YouTube directory</a></li>
-</ul>
-            
-            </span>
-            
-            </li>
-            
-
-            
-            <li>
-            
-            <a href="../../jobs/">Jobs</a>
-            <span>
-            <ul>
-<li><a href="/jobs/joininggoogle/">Joining Google</a></li>
-<li><a href="/jobs/lifeatgoogle/">Life at Google</a></li>
-<li><a href="/jobs/locations/">Office locations</a></li>
-</ul>
-            
-            </span>
-            
-            </li>
-            
-           
-            
-            <li>
-            
-            <a href="//investor.google.com/">Investor relations</a>
-            <span>
-            <ul>
-<li><a href="//investor.google.com/releases.html">News and events</a></li>
-<li><a href="//investor.google.com/earnings.html">Financial information</a></li>
-<li><a href="//investor.google.com/corporate/message.html">Corporate governance</a></li>
-</ul>
-            
-            </span>
-            
-            </li>
-            
-            
-            
-            <li>
-            
-            <a href="../../contact/">Contact us</a>
-            <span>
-            
-            
-            </span>
-            
-            </li>
-            
-          </ul>
-        </div>
-      </div>
-
-      <div id="maia-footer-global">
-        <div class="maia-aux">
-        <ul>
-          <li><a href="/">Google</a></li>
-          <li> <a href="/intl/en/policies/">Privacy &amp; Terms</a></li>
-        </ul>
-        </div>
-      </div>
-
-    </div>
-    
-</div>
-    
-</body>
-</html>
