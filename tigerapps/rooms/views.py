@@ -211,8 +211,13 @@ def review(request, roomid):
     else:
         return render_to_response('rooms/reviewtest.html', {'submitted': False})
 
-def settings(q):
-    return render_to_response('rooms/usersettings.html')
+@login_required
+def settings(request):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+
+    return render_to_response('rooms/usersettings.html', {'user': request.user})
 
 def handle_settings_form(request, user):
     

@@ -73,7 +73,7 @@ class User(models.Model):
     phone = models.CharField(max_length=12, blank=True)
     do_text = models.BooleanField(default=False)
     carrier = models.ForeignKey('Carrier', null=True)
-    confirmed = models.BooleanField(default=False) #whether or not has confirmed phone number
+    confirmed = models.BooleanField('Confirmed', default=False) #whether or not has confirmed phone number
 
     def __unicode__(self):
         return self.netid
