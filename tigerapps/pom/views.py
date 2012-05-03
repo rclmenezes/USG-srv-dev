@@ -36,16 +36,20 @@ def bldgs_for_filter(request):
         bldgsList = getBldgsWithMenus()
     
     elif filter_type == '3':
-        #3 = washing machines
+        #3 = laundry
         bldgsList = getBldgsWithLaundry()
         #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
+    
+    elif filter_type == '4':
+        #4 = printers
+        bldgsList = getBldgsWithPrinters()
         
     else:
         #Let an error happen, since this shouldn't occur
         pass
         
     response_json = simplejson.dumps({'error': None,
-                                      'bldgs': bldgsList})
+                                      'bldgs': tuple(bldgsList)})
     return HttpResponse(response_json, content_type="application/javascript")
 
 

@@ -60,29 +60,29 @@ ul {
 	position:absolute;
 	bottom: 20px;
 	left: 20px;
-	width: 360px;
-    padding: 20px 20px;
+	width: 380px;
+    padding:10px;
 }
 
-#info-title {
-	padding-bottom: 15px;
-}
 #info-top {
-	height: 200px;
+	height: 240px;
 }
-#info-top-left {
-	float: left;
-	width: 270px;
-	padding: 0 10px 0 0;
+#info-title {
+	height:35px;
+	width:325px;
+	float:right;
+	padding:6px 4px 15px 0;
+}
+#info-top-types {
+	padding:10px 20px;
+}
+#info-top-filters {
+	padding:5px 20px;
 }
 .top-tab {
 	display: none;
 }
-#info-top-right {
-	float: right;
-	width: 50px;
-	padding: 0 20px 0 10px;
-}
+
 #info-bot {
 	height: 0px;
 	overflow: hidden;

@@ -1,15 +1,19 @@
 <html>
 <head>
-    <title>HelloWorld</title>
+    <title>HelloStephen</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	
 	<script type="text/javascript" src="/static/pom/js/util.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
-	<script type="text/javascript" src="/static/pom/js/slider.js"></script>
+	<!--<script type="text/javascript" src="/static/pom/js/slider.js"></script>-->
 	
-			<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/overcast/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/overcast/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
+	
+	<script type="text/javascript">
+		$(document).ready(function() { utilInit(); mapInit(); });
+	</script>
 	
 	<!--
 		<link rel="stylesheet" type="text/css" href="/static/css/jqueryui-absolution/absolution.blue.css"/>
@@ -18,7 +22,7 @@
 	{% include 'main/head.html' %}
 </head>
   
-<body onload="mapInit();sliderInit();">
+<body>
 {% include 'main/links.html' %}
 
 
@@ -28,9 +32,26 @@
 	
 	<div id="jmap-info" class="map-box">
 		<div id="info-top">
-	        <H2 id="info-title">Pursuit of Mappyness</H2>
+	        <img src="/static/pom/img/pom_logo.png" id="info-title"/>
 	        
-<div id="info-top-left">
+<div id="info-top-types">
+	<input type="radio" id="filter-events" name="filter-type" value="0" checked="checked"/><label for="filter-events">Events</label></input>
+	<input type="radio" id="filter-hours" name="filter-type" value="1"/><label for="filter-hours">Hours</label></input>
+	<input type="radio" id="filter-menus" name="filter-type" value="2"/><label for="filter-menus">Menus</label></input>
+	<input type="radio" id="filter-laundry" name="filter-type" value="3"/><label for="filter-laundry">Laundry</label></input>
+	<input type="radio" id="filter-printers" name="filter-type" value="4"/><label for="filter-printers">Printers</label></input>
+	
+	<!--
+	<ul>
+		<li><a class="filter-button" id="filter-events" href="#" title="0">Events</a></li>
+		<li><a class="filter-button" id="filter-hours" href="#" title="1">Facilities hours</a></li>
+		<li><a class="filter-button" id="filter-menus" href="#" title="2">Dining menus</a></li>
+		<li><a class="filter-button" id="filter-laundry" href="#" title="3">Laundry machines</a></li>
+	</ul>
+	-->
+</div>
+
+<div id="info-top-filters">
 	<div id="top-tab-0" class="top-tab">
 		<input id="events-search" type="text" style="width:160px;" name="events"/>&nbsp;
 		<button id="events-search-submit">Search events</button><br/>
@@ -46,28 +67,21 @@
 	</div>				
 </div>
 
-<div id="info-top-right">
-	<ul>
-		<li>(buttons)</li>
-		<li><a class="filter-button" id="filter-events" href="#" title="0">Events</a></li>
-		<li><a class="filter-button" id="filter-hours" href="#" title="1">Facilities hours</a></li>
-		<li><a class="filter-button" id="filter-menus" href="#" title="2">Dining menus</a></li>
-		<li><a class="filter-button" id="filter-laundry" href="#" title="3">Laundry machines</a></li>
-	</ul>
-</div>
 
 		</div>
 		<div id="info-bot"></div>
 	</div>
 	
 	<div id="jmap-options">
-		<div id="jmap-slider"></div>
-		<p>
-			<label for="slider-left-value">Left Value:</label>
-			<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" />
-			<label for="slider-right-value">Right Value:</label>
-			<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
-		</p>
+		<div id="bot-options-0" class="bot-options">
+			<div id="events-slider"></div>
+			<p>
+				<label for="slider-left-value">Left Value:</label>
+				<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" />
+				<label for="slider-right-value">Right Value:</label>
+				<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
+			</p>
+		</div>
 	</div>
 </div>
 	

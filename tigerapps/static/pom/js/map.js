@@ -14,12 +14,10 @@ function mapInit() {
 	jmap.tilesDir = '/static/pom/img/tiles/';
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
-	jmap.bldgsPlainSrc = '-e.png';
-	jmap.bldgsHoverSrc = '-eh.png';
-	//jmap.bldgsPlainSrc = '.png';
-	//jmap.bldgsHoverSrc = '-h.png';
-	//jmap.bldgsEventPlainSrc = '-e.png';
-	//jmap.bldgsEventHoverSrc = '-eh.png';
+	jmap.bldgsClearSrc = 'clear.png';
+	jmap.bldgsHoverSrc = '-h.png';
+	jmap.bldgsEventSrc = '-e.png';
+	jmap.bldgsEventHoverSrc = '-eh.png';
 	
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
@@ -47,6 +45,7 @@ function mapInit() {
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
 	jmap.loadedBldgs = {};
+	jevent.bldgCodeHasEvent = {};
 
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
@@ -64,9 +63,9 @@ function mapInit() {
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
 	jevent.bldgDisplayed = null;
-	jevent.filterType = 0; //slider=0, hours=1, menus=2, machines=3
-	jevent.eventLeftDate = null;
-	jevent.eventRightDate = null;
+	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
+    jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
+    jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
 	
 	setupFilterDisplay();
 }
@@ -110,115 +109,15 @@ function tileIdToPos(id) {
 	};
 }
 
+function bldgIdToCode(id) {
+	return id.split("-")[1];
+}
+function bldgCodeToId(bldgCode) {
+	return jmap.zoom+"-"+bldgCode;
+}
+
 //building position is 1:1 in zoom level 4
 //function objIndexToPos(index) {}
-
-
-/***************************************/
-/* For tile loading function of map */
-/***************************************/
-
-// load and set up drag for tiles that are on the current view screen
-function loadTiles() {
-	var tileBounds = tilesOnMap();
-	//alert(tileBounds.minX+','+tileBounds.maxX+';'+tileBounds.minY+','+tileBounds.maxY);
-	for (x=tileBounds.minX; x<=tileBounds.maxX; x++) {
-		for (y=tileBounds.minY; y<=tileBounds.maxY; y++) {
-			var id = tileIndexToId(x,y);
-			if (jmap.loadedTiles[id] == undefined) {
-				var domEle = document.createElement('img');
-				jmap.loadedTiles[id] = domEle;
-				domEle.setAttribute('src', jmap.tilesDir+id+'.png');
-				domEle.setAttribute('class', 'jmap-tile');
-				domEle.setAttribute('id', id);
-				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
-				var pos = tileIdToPos(id);
-				domEle.style.left = pos.left;
-				domEle.style.top = pos.top;
-				jmap.map.appendChild(domEle);
-				setupTileDrag(domEle);
-				loadTileBldgs(id);
-			}
-		}
-	}
-	//jmap.tiles = $('.jmap-tile');
-}
-
-//return bounds on which tiles should be loaded right now, with edge checking
-function tilesOnMap() {
-	return {
-		minX: Math.floor(jmap.dispX/jmap.tileSZ),
-		minY: Math.floor(jmap.dispY/jmap.tileSZ),
-		maxX: Math.ceil(Math.min(jmap.mapSZ[jmap.zoom].x, jmap.dispX+jmap.mapContainer.offsetWidth) / jmap.tileSZ)-1,
-		maxY: Math.ceil(Math.min(jmap.mapSZ[jmap.zoom].y, jmap.dispY+jmap.mapContainer.offsetHeight) / jmap.tileSZ)-1
-	};
-}
-
-
-/***************************************/
-/* For bldg loading function of map */
-/***************************************/
-
-// load and set up hover/click for buildings that are on the loaded tile identified by 'id'
-function loadTileBldgs(id) {
-	var bldgsOnTile = jmap.bldgsTile[id];
-	if (bldgsOnTile == undefined) return;
-	for (index in bldgsOnTile) {
-		var id = bldgsOnTile[index];
-		if (jmap.loadedBldgs[id] == undefined) {
-			var domEle = document.createElement('img');
-			jmap.loadedBldgs[id] = domEle;
-			domEle.setAttribute('src', jmap.bldgsDir+id+jmap.bldgsPlainSrc);
-			domEle.setAttribute('class', 'jmap-bldg');
-			domEle.setAttribute('id', id);
-			domEle.setAttribute('style', 'position:absolute;z-index:1;');
-			var bldg = jmap.bldgsInfo[id];
-			console.log(id);
-			domEle.style.height = bldg.height;
-			domEle.style.width = bldg.width;
-			domEle.style.left = bldg.left;
-			domEle.style.top = bldg.top;
-			jmap.map.appendChild(domEle);
-			setupBldgClick(domEle);
-		}
-	}
-}
-
-// load the bldgs.json file that holds all HTML-element data for the buildings
-function loadBldgsJSON() {
-	$.ajax(jmap.bldgsFile, {
-		async: false,
-		dataType: 'json',
-		success: function(data) {
-			jmap.bldgsTile = data.bldgsTile;
-			jmap.bldgsInfo = data.bldgsInfo;
-		},
-		error: handleAjaxError
-	});
-}
-
-function setupBldgClick(domEle) {
-	/* for map drag */
-	domEle.onmousedown = function(ev){recordMouseDown(ev, jmap.map);};
-	domEle.ondragstart = function(ev){ev.preventDefault();};
-	/* for hover */
-	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
-	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsPlainSrc;};
-	/* for click */
-	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
-}
-
-function handleBldgClick(ev,domEle) {
-	var bldgId = domEle.id.split('-')[1];
-	if (jevent.bldgDisplayed == bldgId) {
-		jevent.bldgDisplayed = null;
-		$('#info-bot').animate({
-			height:'0px',
-		}, 400);
-	} else
-		eventsForBldg(bldgId);
-}
-
 
 
 /***************************************/
@@ -286,6 +185,128 @@ function mouseCoords(ev){
 
 
 
+/***************************************/
+/* For tile loading function of map */
+/***************************************/
+
+// load and set up drag for tiles that are on the current view screen
+function loadTiles() {
+	var tileBounds = tilesOnMap();
+	//alert(tileBounds.minX+','+tileBounds.maxX+';'+tileBounds.minY+','+tileBounds.maxY);
+	for (x=tileBounds.minX; x<=tileBounds.maxX; x++) {
+		for (y=tileBounds.minY; y<=tileBounds.maxY; y++) {
+			var id = tileIndexToId(x,y);
+			if (jmap.loadedTiles[id] == undefined) {
+				var domEle = document.createElement('img');
+				jmap.loadedTiles[id] = domEle;
+				domEle.setAttribute('src', jmap.tilesDir+id+'.png');
+				domEle.setAttribute('class', 'jmap-tile');
+				domEle.setAttribute('id', id);
+				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
+				var pos = tileIdToPos(id);
+				domEle.style.left = pos.left;
+				domEle.style.top = pos.top;
+				jmap.map.appendChild(domEle);
+				setupTileDrag(domEle);
+				loadTileBldgs(id);
+			}
+		}
+	}
+	//jmap.tiles = $('.jmap-tile');
+}
+
+//return bounds on which tiles should be loaded right now, with edge checking
+function tilesOnMap() {
+	return {
+		minX: Math.floor(jmap.dispX/jmap.tileSZ),
+		minY: Math.floor(jmap.dispY/jmap.tileSZ),
+		maxX: Math.ceil(Math.min(jmap.mapSZ[jmap.zoom].x, jmap.dispX+jmap.mapContainer.offsetWidth) / jmap.tileSZ)-1,
+		maxY: Math.ceil(Math.min(jmap.mapSZ[jmap.zoom].y, jmap.dispY+jmap.mapContainer.offsetHeight) / jmap.tileSZ)-1
+	};
+}
+
+
+/***************************************/
+/* For bldg loading function of map */
+/***************************************/
+
+//load the bldgs.json file that holds all HTML-element data for the buildings
+function loadBldgsJSON() {
+	$.ajax(jmap.bldgsFile, {
+		async: false,
+		dataType: 'json',
+		success: function(data) {
+			jmap.bldgsTile = data.bldgsTile;
+			jmap.bldgsInfo = data.bldgsInfo;
+		},
+		error: handleAjaxError
+	});
+}
+
+// load and set up hover/click for buildings that are on the loaded tile identified by 'id'
+function loadTileBldgs(id) {
+	var bldgsOnTile = jmap.bldgsTile[id];
+	if (bldgsOnTile == undefined) return;
+	for (index in bldgsOnTile) {
+		var id = bldgsOnTile[index];
+		if (jmap.loadedBldgs[id] == undefined) {
+			var domEle = document.createElement('img');
+			jmap.loadedBldgs[id] = {'domEle':domEle};
+			domEle.setAttribute('class', 'jmap-bldg');
+			domEle.setAttribute('id', id);
+			domEle.setAttribute('style', 'position:absolute;z-index:1;');
+			setupBldg(domEle);
+			var bldg = jmap.bldgsInfo[id];
+			domEle.style.height = bldg.height;
+			domEle.style.width = bldg.width;
+			domEle.style.left = bldg.left;
+			domEle.style.top = bldg.top;
+			domEle.onmousedown = function(ev){recordMouseDown(ev, jmap.map);};
+			domEle.ondragstart = function(ev){ev.preventDefault();};
+			jmap.map.appendChild(domEle);
+		}
+	}
+}
+
+function setupBldg(domEle) {
+	if (jevent.bldgCodeHasEvent[bldgIdToCode(domEle.id)]) {
+		if (!jmap.loadedBldgs[domEle.id].event)
+			setupEventBldg(domEle);
+	} else {
+		if (jmap.loadedBldgs[domEle.id].event || jmap.loadedBldgs[domEle.id].event == undefined)
+			setupPlainBldg(domEle);
+	}
+}
+function setupPlainBldg(domEle) {
+	domEle.setAttribute('src', jmap.bldgsDir+jmap.bldgsClearSrc);
+	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
+	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+jmap.bldgsClearSrc;};
+	domEle.onclick = function(ev){};
+	jmap.loadedBldgs[domEle.id].event = false;
+}
+function setupEventBldg(domEle) {
+	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc);
+	console.log(jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc);
+	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc;};
+	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc;};
+	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
+	jmap.loadedBldgs[domEle.id].event = true;
+}
+function handleBldgClick(ev,domEle) {
+	var bldgId = domEle.id.split('-')[1];
+	if (jevent.bldgDisplayed == bldgId) {
+		jevent.bldgDisplayed = null;
+		$('#info-bot').animate({
+			height:'0px',
+		}, 400);
+	} else
+		AJAXeventsForBldg(bldgId);
+}
+
+
+
+
+
 
 /***************************************************************************/
 /***************************************************************************/
@@ -296,12 +317,12 @@ function mouseCoords(ev){
 /***************************************/
 
 function setupFilterDisplay() {
-	$('.filter-button').click(function(ev) {
-		ev.preventDefault();
-		displayFilter(ev.target.title);
+	$("#info-top-types input").click(function(ev) {
+	//$('.filter-button').click(function(ev) {
+		//ev.preventDefault();
+		displayFilter(ev.target.value);
 	});
-	$(".top-tab").css('display', 'none');
-	$("#top-tab-0").css('display', 'block');
+	displayFilter(0);
 }
 
 function displayFilter(newFilterType) {
@@ -309,24 +330,26 @@ function displayFilter(newFilterType) {
 		jevent.filterType = newFilterType;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+newFilterType).css('display', 'block');
+		$(".bot-options").hide();
+		$("#bot-options-"+newFilterType).show();
 		loadFilterBldgs();
 	}
 }
+
+/***************************************/
+/* For lighting up the correct buildings */
+/***************************************/
+
 function loadFilterBldgs() {
 	var get_params = {type: jevent.filterType};
 	if (jevent.filterType == 0) {
 		//get dates from slider
 		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
 	}
-	bldgsForFilter(get_params);
+	AJAXbldgsForFilter(get_params);
 }
 
-
-/***************************************/
-/* For lighting up the correct buildings */
-/***************************************/
-
-function bldgsForFilter(get_params) {
+function AJAXbldgsForFilter(get_params) {
 	showMapLoading();
 	$.ajax(jevent.urlBldgsForFilter, {
 		data: get_params,
@@ -339,6 +362,17 @@ function bldgsForFilter(get_params) {
 	});
 }
 
+function displayFilteredBldgs(data) {
+	hideMapLoading();
+	for (bldgCode in jevent.bldgCodeHasEvent)
+		jevent.bldgCodeHasEvent[bldgCode] = false;
+	for (i in data.bldgs)
+		jevent.bldgCodeHasEvent[data.bldgs[i]] = true;
+	for (id in jmap.loadedBldgs)
+		setupBldg(jmap.loadedBldgs[id].domEle);
+}
+
+
 function showMapLoading() {
 	var domEle = document.createElement('div');
 	domEle.setAttribute('id','map-loading');
@@ -348,14 +382,6 @@ function showMapLoading() {
 }
 function hideMapLoading() {
 	jmap.mapContainer.removeChild(document.getElementById('map-loading'));
-}
-
-function displayFilteredBldgs(data) {
-	hideMapLoading();
-	alert(data.bldgs);
-	/*
-	for (
-	*/
 }
 
 function datesToFilter(startDate, endDate) {
@@ -376,7 +402,7 @@ function datesToFilter(startDate, endDate) {
 /* For rendering data in the info box */ 
 /***************************************/
 
-function eventsForBldg(bldgId, get_params) {
+function AJAXeventsForBldg(bldgId, get_params) {
 	displayInfoLoading();
 	$.ajax(jevent.urlEventsForBldg+bldgId, {
 		dataType: 'json',
