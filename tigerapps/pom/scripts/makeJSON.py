@@ -33,9 +33,10 @@ for line in csv:
     height = int(fields[4])
     x1 = x0 + width
     y1 = y0 + height
-    code = fields[5].rstrip()
+    code = fields[5]
+    zIndex = int(fields[6])
     
-    bldgsInfo[code] = {'height':height, 'width':width, 'left':x0, 'top':y0}
+    bldgsInfo[code] = {'height':height, 'width':width, 'left':x0, 'top':y0, 'zIndex': zIndex}
     addPtToTile(x0, y0, code)
     addPtToTile(x0, y1, code)
     addPtToTile(x1, y0, code)
