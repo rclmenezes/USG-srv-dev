@@ -6,7 +6,7 @@
 body
 {
 margin: 100px;
-font-family: Calibri;
+/* font-family: Calibri; */
 }
 </style>
 
@@ -15,8 +15,12 @@ font-family: Calibri;
 
 function onformsubmit()
 {
-alert("Submitting form");
 return false;
+}
+
+function onLoad()
+{
+
 }
 
 </script>
@@ -25,14 +29,19 @@ return false;
 </head>
 
 <body>
-<h1>hello user please put your settings here</h1>
+<h1>Hi! Edit your settings here.</h1>
 
 
 <form action="/" onsubmit="onformsubmit()" method="post">{% csrf_token %}
-Phone #: <input type="text" name="phone" id="phone"></input>
+<p>Phone #: <input type="text" name="phone" id="phone"></input> (confirm)</p>
+<p>Text Me With Notifications! <input type="checkbox" name="dotext" id="dotext"></input> </p>
+<p>Email Me With Notifications! <input type="checkbox" name="doemail" id="doemail"></input></p>
 <input type="submit"></input>
 </form>
 
+<script type="text/javascript">
+onLoad();
+</script>
 
 </body>
 </html>
