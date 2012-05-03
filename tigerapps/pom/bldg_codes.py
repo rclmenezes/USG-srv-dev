@@ -191,16 +191,17 @@ BLDG_CODE = tuple((code, info[0]) for code,info in BLDG_INFO.iteritems())
 
 
 def getBldgsWithHours():
-    return set()
+    return tuple()
 
 def getBldgsWithMenus():
-    return set('WILCH', 'WUHAL', 'MADIH', 'FORBC', 'HARGH', 'CENJL', 'GRCOL')
+    return ('WILCH', 'WUHAL', 'MADIH', 'FORBC', 'HARGH', 'CENJL', 'GRCOL')
 
 def getBldgsWithLaundry():
-    return set('WALKE', 'C1915', 'DICKH', 'BLAIR', 'BLOOM', 'BROWN', 'SCULL', 
+    return ('WALKE', 'C1915', 'DICKH', 'BLAIR', 'BLOOM', 'BROWN', 'SCULL', 
             'YOSEL', 'BUYER', 'ENOHA', 'DODHA', 'EDWAR', 'FEINB', 'FORBC', 
             'HAMIL', 'HENRY', 'HOLDE', 'JOLIN', 'LITTL', 'LOCKH', 'CUYLE',
             'PYNEH', 'SCULL', 'SPELM', 'HARGH')
 
 def getBldgsWithPrinters():
-    return set()
+    return tuple()
+
