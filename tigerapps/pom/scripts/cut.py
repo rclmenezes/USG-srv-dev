@@ -22,6 +22,7 @@ csv = open(csv_file, 'r')
 
 for line in csv:
     fields = [f for f in line.split(',') if f != '']
+    print(fields[0])
     x0 = int(fields[1])
     y0 = int(fields[2])
     x1 = x0 + int(fields[3])

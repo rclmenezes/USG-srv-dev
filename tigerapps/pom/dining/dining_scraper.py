@@ -8,6 +8,7 @@ dining_halls = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
 
 url_stub = 'http://facilities.princeton.edu/dining/_Foodpro/menu.asp?locationNum=0'
 
+extra_fields = ['vegetarian', 'vegan
 
 class Menu:
     def __init__(self):
