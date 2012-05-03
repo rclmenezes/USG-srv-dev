@@ -1,0 +1,12 @@
+<h3 id="info-bldg-name">{{bldg_name}}</h3>
+
+{% for meal_name,meal in menu.meals.iteritems %}
+	<div class="info-event-entry">
+		<span style="font-weight:bold">{{meal_name}}</span>
+		{% for entree in meal.entrees %}
+		<div class="info-event-subtext">
+			{{entree.name}}
+		</div>
+		{% endfor %}
+	</div>
+{% endfor %}

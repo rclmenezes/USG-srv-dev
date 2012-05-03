@@ -1,5 +1,34 @@
+body {
+	font-family: helvetica,sans-serif;
+	font-size: 0.95em;
+}
+h1, h2, h3 {
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+}
+div, span {
+	margin:0;
+	padding:0;
+}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+
 #jmap-container {
-	position: fixed;
+	position: absolute;
+	top: 28px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color:LightGray;
+	overflow: hidden;
+}
+
+#jmap-movable {
+	position:absolute;
 	top: 0px;
 	left: 0px;
 	width: 100%;
@@ -7,25 +36,137 @@
 	background-color:LightGray;
 }
 
-#jmap-movable {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	background-color:LightGray;
+
+
+.map-box {
+	background-color:#FAFCF8;
+    opacity:0.92;
+    box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
+    z-index:100;
+    border-radius: 1px;
+}
+#map-loading {
+	position:absolute;
+	padding:10px;
+	top:50%;
+	left:50%;
+	height:24px;
+	width:125px;
+	margin-top:-22px;
+	margin-left:-62px;
 }
 
 #jmap-info {
 	position:absolute;
-	bottom:0px;
-	left:24px;
-	width:300px;
-	height:580px;
-    padding:0 20px 0;
-    z-index:100;
+	bottom: 20px;
+	left: 20px;
+	width: 380px;
+    padding:10px;
+}
 
-	background-color:#FFEBCC;
-    opacity:0.95;
-    box-shadow:3px -2px 1.5em hsla(0, 0%, 0%, 1.0);
+#info-top {
+	height: 235px;
+	margin:0 20px 15px;
+}
+#info-title {
+	height:35px;
+	width:325px;
+	float:right;
+	margin:-5px -16px 15px 0;
+}
+#info-top-types {
+	margin:10px 0;
+}
+#info-top-filters {
+	margin:5px 0;
+}
+.top-tab {
+	display: none;
+}
+
+#info-divider {
+	height: 0px;
+	width: 95%;
+	margin: auto;
+}
+#info-bot {
+	height: 0px;
+	overflow: hidden;
+	margin:15px 10px 15px 20px;
+}
+
+
+/*************/
+/* For bldg data */
+/*************/
+#info-bldg-name {
+	margin-bottom:10px;
+}
+.info-event-entry {
+	padding:0 0 8px;
+}
+.info-event-subtext {
+	margin-left: 5px;
+}
+
+
+/*************/
+/* Options bar */
+/*************/
+#jmap-options {
+	position:absolute;
+	left: 420px;
+	right: 0px;
+	bottom: 20px;
+	padding: 0 30px 0;
+    z-index:100;
+}
+
+#jmap-slider {
+    z-index: 101
+}
+
+
+/*************/
+/* Scrollbar */
+/*************/
+::-webkit-scrollbar {
+    width: 12px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 2px;
+    -moz-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background: rgba(200,200,200,0.8); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    -moz-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(200,200,200,0.4); 
+}
+
+
+
+
+
+.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
+	border-radius: 2px;
+}
+.ui-button-text-only .ui-button-text {
+	padding: .5em .8em;
+}
+.ui-button .ui-button-text {
+	display: block;
+	line-height: 1;
+	font: bold 11px Arial,sans-serif !important;
+	color: #444 !important;
 }

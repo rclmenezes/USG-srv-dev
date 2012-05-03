@@ -1,20 +1,9 @@
 from django.db import models
 from cal.models import Event
+import datetime, time
 
 
-class BuildingCalEventManager(models.Manager):
-    '''
-    Allows us to integrate with cal.models.Event
-    '''
-    
-    def all(self, building):
-        '''
-        Get all events for the building
-        '''
-        return Event.objects.filter(event_location=building.bldg_code)
-    
-
-
+"""
 class Building(models.Model):
     '''
     There's not much to put here?
@@ -22,15 +11,14 @@ class Building(models.Model):
     bldg_code = models.CharField(max_length=32)
     name = models.CharField(max_length=64)
     
+    has_hours = models.BooleanField(default=False)
+    has_laundry = models.BooleanField(default=False)
+    has_menu = models.BooleanField(default=False)
+    
     objects = models.Manager()
     cal_events = BuildingCalEventManager()
+    
 
-
-
-
-
-#may not need this
-"""
 class BuildingCoordinates(models.Model):
     '''
     Represents zoom-specific information for each building.

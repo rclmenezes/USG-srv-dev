@@ -1,0 +1,8 @@
+<div>Building name: {{bldg_name}}</div>
+<div>
+	<p>Events:</p>
+	<ul>{% for event in events %}
+		<li>{{event.event_cluster.cluster_title}}<br/>
+			{{event.event_date_time_start|date:"M/d/Y H:m"}}</li>
+	{% endfor %}</ul>
+</div>
