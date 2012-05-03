@@ -476,7 +476,7 @@ function displayInfoEvent(data) {
 
 function displayInfoLoading() {
 	$('#info-bot').css('overflow-y', 'hidden');
-	$('#info-divider').css('border', '1px dotted black');
+	$('#info-divider').css('border', '1px dotted #C0C0C0');
 	$('#info-bot').html(jevent.htmlLoading);
 	if (jevent.infoSize == 0) {
 		/* Expand the info box to loading size if it's not expanded at all */
