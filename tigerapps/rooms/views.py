@@ -262,7 +262,7 @@ def settings(request):
     if not user:
         return HttpResponseForbidden()
 
-    return render_to_response('rooms/usersettings.html', {'user': request.user})
+    return render_to_response('rooms/usersettings.html', {'user': user})
 
 def handle_settings_form(request, user):
     
@@ -275,3 +275,11 @@ def handle_settings_form(request, user):
         print carrier.address
         send_mail("", content, 'rooms@tigerapps.org',
               ["%s@%s" % (phone, carrier.address)], fail_silently=False)
+
+@login_required
+def confirm_phone(request):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+
+    return render_to_response('rooms/confirmphone.html', {'user': user})

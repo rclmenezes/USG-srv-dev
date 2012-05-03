@@ -325,3 +325,12 @@ input
     left: 30px;
     top: 130px;
 }
+
+/* Settings page styles */
+#settings_container
+{
+    background-color: #D6D6D6;
+    margin: 75px 150px 75px 150px;
+    padding: 75px;
+    line-height: 230%;
+}
