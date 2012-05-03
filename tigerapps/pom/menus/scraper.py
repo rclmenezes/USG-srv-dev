@@ -42,7 +42,11 @@ def scrape_single_menu(bldg_code):
     as a menu object"""
     hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
-    data = urllib.urlopen(url_stub + str(hall_num)).read()
+    try:
+        f = urllib.urlopen(url_stub + str(hall_num))
+    except:
+        raise Exception("couldn't urlopen the LaundryView url")
+    data = f.read()
     bs = BeautifulSoup(data)
     menu = Menu()
     menu.title = bs.title.contents[0]
