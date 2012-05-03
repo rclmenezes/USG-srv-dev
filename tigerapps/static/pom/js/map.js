@@ -37,7 +37,7 @@ function mapInit() {
 
 	//variables for loading tiles and buildings
 	jmap.zoom = 4; 			//0=out,4=in
-	var start = mapCenterToDisp(900,900);
+	var start = mapCenterToDisp(1300,560);
 	jmap.dispX = start.x;	//displacement from the top-left
 	jmap.dispY = start.y;
 	jmap.map.style.left = -jmap.dispX;
@@ -47,6 +47,8 @@ function mapInit() {
 	jmap.loadedBldgs = {};
 	jevent.bldgCodeHasEvent = {};
 
+	/*REMOVE*/
+	tmp1 = true;
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
 	window.onresize = loadTiles;
@@ -63,6 +65,7 @@ function mapInit() {
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
 	jevent.bldgDisplayed = null;
+	jevent.infoSize = 0; //0=not extended, 1=loading, 2=full extension
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
     jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
     jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
@@ -131,6 +134,23 @@ function bldgCodeToId(bldgCode) {
 function setupGlobalDrag() {
 	document.onmousemove = mouseMove;
 	document.onmouseup = recordMouseUp
+	/*REMOVE*/
+	$(window).keydown(function(event) {
+		if (event.ctrlKey && event.keyCode == 49) {
+			event.preventDefault();
+			$('#box3').val($('#box1').val());
+			$('#box4').val($('#box2').val());
+			$('#box7').val($('#box5').val()-$('#box3').val());
+			$('#box8').val($('#box6').val()-$('#box4').val());
+		}
+		if (event.ctrlKey && event.keyCode == 50) {
+			event.preventDefault();
+			$('#box5').val($('#box1').val());
+			$('#box6').val($('#box2').val());
+			$('#box7').val($('#box5').val()-$('#box3').val());
+			$('#box8').val($('#box6').val()-$('#box4').val());
+		}
+	})
 }
 function setupTileDrag(domEle) {
 	domEle.onmousedown = function(ev){recordMouseDown(ev, jmap.map);};
@@ -170,6 +190,12 @@ function mouseMove(ev){
 
 		//it's actually noticeably slower if we load for every drag
 		//loadTiles();
+	}
+	/*REMOVE*/
+	if (tmp1) {
+		var c = mouseCoords(ev);
+		$('#box1').val(jmap.dispX+c.x);
+		$('#box2').val(jmap.dispY+c.y-30);
 	}
 }
 
@@ -286,21 +312,23 @@ function setupPlainBldg(domEle) {
 }
 function setupEventBldg(domEle) {
 	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc);
-	console.log(jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc);
 	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc;};
 	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc;};
 	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
 	jmap.loadedBldgs[domEle.id].event = true;
 }
 function handleBldgClick(ev,domEle) {
-	var bldgId = domEle.id.split('-')[1];
-	if (jevent.bldgDisplayed == bldgId) {
+	var bldgCode = bldgIdToCode(domEle.id);
+	if (jevent.bldgDisplayed == bldgCode) {
+		/* hide the building info if building clicked is the one that's shown */
 		jevent.bldgDisplayed = null;
+		jevent.infoSize = 0;
 		$('#info-bot').animate({
 			height:'0px',
 		}, 400);
 	} else
-		AJAXeventsForBldg(bldgId);
+		/* otherwise, load the clicked building */
+		AJAXeventsForBldg(bldgCode);
 }
 
 
@@ -313,26 +341,53 @@ function handleBldgClick(ev,domEle) {
 /***************************************************************************/
 
 /***************************************/
-/* For loading the filter options */
+/* For parsing the filter options into GET request parameters */
 /***************************************/
 
+/* These setup the filters so that AJAX calls are sent when the filters are changed */
 function setupFilterDisplay() {
 	$("#info-top-types input").click(function(ev) {
-	//$('.filter-button').click(function(ev) {
-		//ev.preventDefault();
-		displayFilter(ev.target.value);
+		handleFilterTypeClick(ev.target.value);
 	});
-	displayFilter(0);
+	handleFilterTypeClick(0);
 }
-
-function displayFilter(newFilterType) {
+/* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
+ * displayed + loads bldgs for filter + reloads events for filter if events already open */
+function handleFilterTypeClick(newFilterType) {
 	if (jevent.filterType != newFilterType) {
 		jevent.filterType = newFilterType;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		loadFilterBldgs();
+		handleFilterChange();
+	}
+}
+function handleFilterChange() {
+	AJAXbldgsForFilter();
+	if (jevent.bldgDisplayed != null)
+		AJAXeventsForBldg(jevent.bldgDisplayed);
+}
+
+/* These return the GET params that should be sent in every AJAX call */
+function getFilterParams() {
+	var get_params = {type: jevent.filterType};
+	if (jevent.filterType == 0) {
+		//get dates from slider if searching events
+		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
+	}
+	return get_params;
+}
+function datesToFilter(startDate, endDate) {
+	return {
+		m0: startDate.getMonth()+1,
+		d0: startDate.getDate(),
+		y0: startDate.getFullYear(),
+		h0: startDate.getHours(),
+		m1: endDate.getMonth()+1,
+		d1: endDate.getDate(),
+		y1: endDate.getFullYear(),
+		h1: endDate.getHours()
 	}
 }
 
@@ -340,19 +395,10 @@ function displayFilter(newFilterType) {
 /* For lighting up the correct buildings */
 /***************************************/
 
-function loadFilterBldgs() {
-	var get_params = {type: jevent.filterType};
-	if (jevent.filterType == 0) {
-		//get dates from slider
-		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
-	}
-	AJAXbldgsForFilter(get_params);
-}
-
-function AJAXbldgsForFilter(get_params) {
+function AJAXbldgsForFilter() {
 	showMapLoading();
 	$.ajax(jevent.urlBldgsForFilter, {
-		data: get_params,
+		data: getFilterParams(),
 		dataType: 'json',
 		success: displayFilteredBldgs,
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -362,6 +408,7 @@ function AJAXbldgsForFilter(get_params) {
 	});
 }
 
+/* Success callback for AJAXbldgsForFilter */
 function displayFilteredBldgs(data) {
 	hideMapLoading();
 	for (bldgCode in jevent.bldgCodeHasEvent)
@@ -384,27 +431,17 @@ function hideMapLoading() {
 	jmap.mapContainer.removeChild(document.getElementById('map-loading'));
 }
 
-function datesToFilter(startDate, endDate) {
-	return {
-		m0: startDate.getMonth()+1,
-		d0: startDate.getDate(),
-		y0: startDate.getFullYear(),
-		h0: startDate.getHours(),
-		m1: endDate.getMonth()+1,
-		d1: endDate.getDate(),
-		y1: endDate.getFullYear(),
-		h1: endDate.getHours()
-	}
-}
+
 
 
 /***************************************/
 /* For rendering data in the info box */ 
 /***************************************/
 
-function AJAXeventsForBldg(bldgId, get_params) {
+function AJAXeventsForBldg(bldgCode) {
 	displayInfoLoading();
-	$.ajax(jevent.urlEventsForBldg+bldgId, {
+	$.ajax(jevent.urlEventsForBldg+bldgCode, {
+		data: getFilterParams(),
 		dataType: 'json',
 		success: displayInfoEvent,
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -416,32 +453,35 @@ function AJAXeventsForBldg(bldgId, get_params) {
 	});
 }
 
-
-function infoBotMaxHeight() {
-	return jmap.map.offsetHeight - jmap.infoTop.offsetHeight - 80;
+/* Success callback for AJAXeventsForBldg */
+function displayInfoEvent(data) {
+	if (data.error != null)
+		alert(data.error);
+	else {
+		$('#info-bot').html(data.html);
+		jevent.bldgDisplayed = data.bldgCode;
+		if (jevent.infoSize != 2) {
+			/* Expand the info box if it's not already expanded */
+			jevent.infoSize = 2;
+			$('#info-bot').css('overflow-y', 'scroll');
+			$('#info-bot').animate({
+				height: jmap.map.offsetHeight-jmap.infoTop.offsetHeight-90 + 'px',
+			}, 400);
+		}
+	}
 }
 
 function displayInfoLoading() {
 	$('#info-bot').css('overflow-y', 'hidden');
 	$('#info-bot').html(jevent.htmlLoading);
-	if (jevent.bldgDisplayed == null) {
+	if (jevent.infoSize == 0) {
+		/* Expand the info box to loading size if it's not expanded at all */
+		jevent.infoSize = 1;
 		$('#info-bot').animate({
 			height:'23px',
 		}, 100);
 	}
 }
 
-function displayInfoEvent(data) {
-	if (data.error != null)
-		alert(data.error);
-	else {
-		$('#info-bot').html(data.html);
-		if (jevent.bldgDisplayed == null) {
-			jevent.bldgDisplayed = data.bldgId;
-			$('#info-bot').css('overflow-y', 'scroll');
-			$('#info-bot').animate({
-				height: infoBotMaxHeight()+'px',
-			}, 400);
-		}
-	}
-}
+
+

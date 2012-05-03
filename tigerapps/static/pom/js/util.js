@@ -29,7 +29,7 @@ function sliderInit() {
         
         stop: function (event, ui) {
         	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
-        		loadFilterBldgs();
+        		handleFilterChange();
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
             }
