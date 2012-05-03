@@ -14,7 +14,7 @@ function mapInit() {
 	jmap.tilesDir = '/static/pom/img/tiles/';
 	jmap.bldgsDir = '/static/pom/img/bldgs/';
 	jmap.bldgsFile = '/static/pom/js/bldgs.json';
-	jmap.bldgsClearSrc = 'clear.png';
+	jmap.bldgsDefaultSrc = '.png';
 	jmap.bldgsHoverSrc = '-h.png';
 	jmap.bldgsEventSrc = '-e.png';
 	jmap.bldgsEventHoverSrc = '-eh.png';
@@ -304,9 +304,9 @@ function setupBldg(domEle) {
 	}
 }
 function setupPlainBldg(domEle) {
-	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc/*jmap.bldgsDir+jmap.bldgsClearSrc*/);
+	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsDefaultSrc);
 	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
-	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc;/*domEle.src=jmap.bldgsDir+jmap.bldgsClearSrc;*/};
+	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsDefaultSrc;};
 	domEle.onclick = function(ev){};
 	jmap.loadedBldgs[domEle.id].event = false;
 }
