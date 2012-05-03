@@ -163,10 +163,9 @@ def invite_queue(request):
         draw = Draw.objects.get(pk=draw_id)
     except:
         return HttpResponse('Bad netid/draw id')
-    try:
-        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
-                             timestamp=int(time.time()))
-        invite.save()
+    invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
+                         timestamp=int(time.time()))
+    invite.save()
     return HttpResponse('Ok')
 
 # Respond to a queue invite
