@@ -140,7 +140,7 @@ def get_queue(request, drawid):
         return HttpResponse('no queue')
     queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
     if not queueToRooms:
-        return HttpResponse('no rooms')
+        return HttpResponse('')
     room_list = []
     for qtr in queueToRooms:
         room_list.append(qtr.room)
