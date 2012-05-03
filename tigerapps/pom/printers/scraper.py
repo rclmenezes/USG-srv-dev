@@ -42,7 +42,7 @@ name_to_code = {'1901': '1901H',
                 'Spelman': 'SPELM',
                 'Whitman_Lib': 'HARGH',
                 'Wilcox': 'WILCH',
-                'Witherspoon': 'WITH',
+                'Witherspoon': 'WITHR',
                 'Wright': 'PATTN',
                 'Wu': 'WILCH'}
 
