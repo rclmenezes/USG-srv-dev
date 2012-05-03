@@ -1,8 +1,7 @@
-<div>Building name: {{bldg_name}}</div>
+<h3 style="margin-bottom:10px;">{{bldg_name}}</h3>
 <div>
-	<p>Events:</p>
 	{% for event in events %}
-		<div class = "event-info-entry">
+		<div class="event-info-entry" style="padding:0 0 8px;">
 			<span style="font-weight:bold"> {{event.event_cluster.cluster_title}} </span>
 			<div class = "event-info-subtext" style = "margin-left: 5px;">
 			{{event.event_date_time_start|date:"M d, Y h:m a"}}<br/>
