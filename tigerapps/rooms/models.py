@@ -103,17 +103,20 @@ class QueueInvite(models.Model):
 
     # Accept the invitation, merging queues
     def accept(self):
-        q1 = sender.queues.get(draw=self.draw)
-        q2 = receiver.queues.get(draw=self.draw)
-        rooms2 = queue.queuetoroom_set.all()
-        ranking = q1.queuetoroom_set.count()
+        q1 = self.sender.queues.get(draw=self.draw)
+        q2 = self.receiver.queues.get(draw=self.draw)
+        rooms1 = q1.queuetoroom_set.all()
+        rooms2 = q2.queuetoroom_set.all()
+        ranking = len(rooms1)
         for qtr in rooms2:
+            if qtr in rooms1:
+                continue
             qtr.ranking = ranking
             qtr.queue = q1
             qtr.save()
             ranking += 1
-        receiver.queues.remove(q2)
-        receiver.queues.add(q1)
+        self.receiver.queues.remove(q2)
+        self.receiver.queues.add(q1)
         q2.delete()
         self.delete()
 
