@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from django import forms
 import json
 import sys
+import time
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -146,13 +147,58 @@ def get_queue(request, drawid):
         room_list.append(qtr.room)
     return render_to_response('rooms/queue.html', {'room_list':room_list})
 
+# Send a queue invite
+@login_required
+def invite_queue(request):
+    try:
+        draw_id = int(request.POST['draw_id'])
+        netid = request.POST['netid']
+    except:
+        return HttpResponse('')
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        receiver = User.objects.get(netid=netid)
+        draw = Draw.objects.get(pk=draw_id)
+    except:
+        return HttpResponse('Bad netid/draw id')
+    try:
+        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
+                             timestamp=int(time.time()))
+        invite.save()
+    return HttpResponse('Ok')
+
+# Respond to a queue invite
+@login_required
+def respond_queue(request):
+    try:
+        invite_id = int(request.POST['invite_id'])
+        accepted = int(request.POST['accepted'])
+    except:
+        return HttpResponseForbidden()
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        invite = user.q_recieved_set.get(pk=invite_id)
+    except:
+        return HttpResponse('no invite')
+    try:
+        if accepted:
+            invite.accept()
+        else:
+            invite.deny()
+    except Exception as e:
+        return HttpResponse(e)
+    return HttpResponse('good')
+
 @login_required
 #for testing
 def review(request, roomid):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
-        
     try:
         room = Room.objects.get(id=roomid)
     except Room.DoesNotExist:
