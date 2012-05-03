@@ -1,50 +1,52 @@
 import urllib
 from bs4 import BeautifulSoup
 
-name_to_code = {'1901': '1901H',
-                '1937': '1937H',
-                '1981': 'HARGH',
-                'Blair': 'BLAIR',
-                'Bloomberg': 'BLOOM',
-                'Brown': 'BROWN'
-                'Brush_Gallery': 'JADWH',
-                # Building D
-                # Butler Apts
-                # Campus Club
-                'CJL': 'CENJL',
-                'Dod': 'DODHA',
-                'Edwards': 'EDWAR',
-                'Fields_Cntr': 'CFCTR',
-                'Firestone': 'FIRES',
-                'Fisher_213': 'FISHH',
-                'Forbes': 'FORBC',
-                'Forbes_Lib': 'FORBC',
-                'Foulke': 'FOULK',
-                'Friend_016': 'FRIEN',
-                'Friend_017': 'FRIEN',
-                'Frist_200': 'FRIST',
-                'Frist_300': 'FRIST',
-                'Grad_College': 'GRADC',
-                # Hibben
-                'Holder_B11': 'HOLDE',
-                'Holder_B31': 'HOLDE',
-                'Lauritzen_409': 'HARGH',
-                # Lawrence_1
-                # Lawrence_14
-                'Little_North': 'LITTL',
-                'Little_South': 'LITTL',
-                'Madison': 'MADIS',
-                'McCosh_B59': 'MCCOS',
-                'New_GC': 'GRADC',
-                'Pyne': 'PYNEH',
-                'Scully_269': 'SCULL',
-                'Scully_309': 'SCULL',
-                'Spelman': 'SPELM',
-                'Whitman_Lib': 'HARGH',
-                'Wilcox': 'WILCH',
-                'Witherspoon': 'WITHR',
-                'Wright': 'PATTN',
-                'Wu': 'WILCH'}
+name_to_code = {
+    '1901': '1901H',
+    '1937': '1937H',
+    '1981': 'HARGH',
+    'Blair': 'BLAIR',
+    'Bloomberg': 'BLOOM',
+    'Brown': 'BROWN',
+    'Brush_Gallery': 'JADWH',
+    # Building D
+    # Butler Apts
+    # Campus Club
+    'CJL': 'CENJL',
+    'Dod': 'DODHA',
+    'Edwards': 'EDWAR',
+    'Fields_Cntr': 'CFCTR',
+    'Firestone': 'FIRES',
+    'Fisher_213': 'FISHH',
+    'Forbes': 'FORBC',
+    'Forbes_Lib': 'FORBC',
+    'Foulke': 'FOULK',
+    'Friend_016': 'FRIEN',
+    'Friend_017': 'FRIEN',
+    'Frist_200': 'FRIST',
+    'Frist_300': 'FRIST',
+    'Grad_College': 'GRADC',
+    # Hibben
+    'Holder_B11': 'HOLDE',
+    'Holder_B31': 'HOLDE',
+    'Lauritzen_409': 'HARGH',
+    # Lawrence_1
+    # Lawrence_14
+    'Little_North': 'LITTL',
+    'Little_South': 'LITTL',
+    'Madison': 'MADIS',
+    'McCosh_B59': 'MCCOS',
+    'New_GC': 'GRADC',
+    'Pyne': 'PYNEH',
+    'Scully_269': 'SCULL',
+    'Scully_309': 'SCULL',
+    'Spelman': 'SPELM',
+    'Whitman_Lib': 'HARGH',
+    'Wilcox': 'WILCH',
+    'Witherspoon': 'WITHR',
+    'Wright': 'PATTN',
+    'Wu': 'WILCH'
+}
 
 url = 'http://campuscgi.princeton.edu/~clusters/clusterinfo.pl'
 

@@ -43,27 +43,33 @@ def scrape_single_menu(bldg_code):
     hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
     try:
-        f = urllib.urlopen(url_stub + str(hall_num))
+        f = urllib.urlopen(url)
     except:
-        raise Exception("couldn't urlopen the LaundryView url")
-    data = f.read()
-    bs = BeautifulSoup(data)
-    menu = Menu()
-    menu.title = bs.title.contents[0]
-
-    for meal_xml in bs.find_all('meal'):
-        meal = Meal()
-        meal.name = meal_xml.attrs['name']
-        for entree_xml in meal_xml.find_all ('entree'):
-            entree = Entree()
-            entree.name = entree_xml.next.contents[0]
-            entree.vegan = True if entree_xml.vegan.contents[0] == 'y' else False
-            entree.vegetarian = True if entree_xml.vegetarian.contents[0] == 'y' else False
-            entree.pork = True if entree_xml.pork.contents[0] == 'y' else False
-            entree.nuts = True if entree_xml.nuts.contents[0] == 'y' else False
-            entree.earth_friendly = True if entree_xml.earth_friendly.contents[0] == 'y' else False
-            meal.entrees.append(entree)
-        menu.meals[meal.name] = meal
+        raise Exception("couldn't urlopen the menu feed url")
+    
+    try:
+        data = f.read()
+        bs = BeautifulSoup(data)
+        menu = Menu()
+        menu.title = bs.title.contents[0]
+    
+        for meal_xml in bs.find_all('meal'):
+            meal = Meal()
+            meal.name = meal_xml.attrs['name']
+            for entree_xml in meal_xml.find_all ('entree'):
+                entree = Entree()
+                entree.name = entree_xml.next.contents[0]
+                entree.vegan = True if entree_xml.vegan.contents[0] == 'y' else False
+                entree.vegetarian = True if entree_xml.vegetarian.contents[0] == 'y' else False
+                entree.pork = True if entree_xml.pork.contents[0] == 'y' else False
+                entree.nuts = True if entree_xml.nuts.contents[0] == 'y' else False
+                entree.earth_friendly = True if entree_xml.earth_friendly.contents[0] == 'y' else False
+                meal.entrees.append(entree)
+            menu.meals[meal.name] = meal
+    except:
+        raise Exception("couldn't parse the menu feed XML")
+    finally:
+        f.close()
     return menu
 
 def scrape_all():
