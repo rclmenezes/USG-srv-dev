@@ -22,7 +22,9 @@ def bldgs_for_filter(request):
         return HttpResponseServerError("No type in GET")
     
     filter_type = request.GET['type']
-    if filter_type == '0': 
+
+    if filter_type == '0':
+        #0 = standard event
         events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                   request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
         bldgsList = list(set((event.event_location for event in events)))
@@ -59,16 +61,123 @@ def events_for_bldg(request, bldg_code):
     Return the HTML that should be rendered in the info box given the
     building in the GET parameter of the request
     '''
-    try:
-        events = cal_event_query.bldg_filtered(bldg_code)
-        html = render_to_string('pom/event_info.html',
-                                {'bldg_name': BLDG_INFO[bldg_code][0],
-                                 'events': events})
-        response_json = simplejson.dumps({'error': None,
-                                          'html': html,
-                                          'bldgId': bldg_code})
-    except Exception, e:
-        response_json = simplejson.dumps({'error': str(e)})
+    #REMOVE COMMENT IN
+    #if 'type' not in request.GET:
+        #return HttpResponseServerError("No type in GET")
+    
+    #filter_type = request.GET['type']
+    filter_type = '0'
+    if filter_type == '0':
+        #0 = standard event
+        try:
+            events = cal_event_query.bldg_filtered(bldg_code)
+            html = render_to_string('pom/event_info.html',
+                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                     'events': events})
+            response_json = simplejson.dumps({'error': None,
+                                              'html': html,
+                                              'bldgCode': bldg_code})
+        except Exception, e:
+            response_json = simplejson.dumps({'error': str(e)})
+    
+    elif filter_type == '1':
+        #1 = hours
+       
+        #assert building is one for which we scrape hours
+        if bldg_code not in getBldgsWithHours():
+           err = 'requested hours for invalid building ' + BLDG_INFO[bldg_code][0]
+           response_json = simplejson.dumps({'error': err})
+       
+        try:
+            hours = get_bldg_hours(bldg_code)
+            html = render_to_string('pom/hours_info.html',
+                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                     'hours': hours})
+            response_json = simplejson.dumps({'error': None,
+                                              'html': html,
+                                              'bldgCode': bldg_code})
+        except Exception, e:
+            response_json = simplejson.dumps({'error': str(e)})   
+        
+        
+    
+    elif filter_type == '2':
+        #2 = menus
+        
+        #assert building is a dining hall
+        if bldg_code not in getBldgsWithMenus():
+           err = 'requested menu from invalid building ' + BLDG_INFO[bldg_code][0]
+           response_json = simplejson.dumps({'error': err})
+       
+        try:
+            breakfast = get_bldg_breakfast(bldg_code)
+            lunch = get_bldg_lunch(bldg_code)
+            dinner = get_bldg_dinner(bldg_code)
+            html = render_to_string('pom/menu_info.html',
+                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                     'breakfast' : breakfast,
+                                     'lunch' : lunch,
+                                     'dinner' : dinner})
+            response_json = simplejson.dumps({'error': None,
+                                              'html': html,
+                                              'bldgCode': bldg_code})
+        except Exception, e:
+            response_json = simplejson.dumps({'error': str(e)})  
+        
+        
+        
+    
+    elif filter_type == '3':
+        #3 = laundry
+        #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
+    
+        #assert building contains laundry room
+        if bldg_code not in getBldgsWithLaundry():
+           err = 'requested laundry from invalid building ' + BLDG_INFO[bldg_code][0]
+           response_json = simplejson.dumps({'error': err})
+       
+        try:
+            washer_info = get_bldg_washer_info(bldg_code)
+            dryer_info = get_bldg_dryer_info(bldg_code)
+            html = render_to_string('pom/laundry_info.html',
+                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                     'washer_info' : washer_info,
+                                     'dryer_info' : dryer_info})
+            response_json = simplejson.dumps({'error': None,
+                                              'html': html,
+                                              'bldgCode': bldg_code})
+        except Exception, e:
+            response_json = simplejson.dumps({'error': str(e)}) 
+    
+    
+    
+    elif filter_type == '4':
+        #4 = printers
+
+        #assert building contains printer
+        if bldg_code not in getBldgsWithPrinters():
+           err = 'requested printer info from invalid building ' + BLDG_INFO[bldg_code][0]
+           response_json = simplejson.dumps({'error': err})
+       
+        try:
+            printer_info = get_bldg_washer_info(bldg_code)
+            html = render_to_string('pom/printer_info.html',
+                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                     'printer_info' : printer_info})
+            response_json = simplejson.dumps({'error': None,
+                                              'html': html,
+                                              'bldgCode': bldg_code})
+        except Exception, e:
+            response_json = simplejson.dumps({'error': str(e)}) 
+        
+        
+        
+        
+    else:
+        #Let an error happen, since this shouldn't occur
+        pass
+            
+    
         
     return HttpResponse(response_json, content_type="application/javascript")
 
