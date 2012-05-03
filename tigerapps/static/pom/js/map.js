@@ -304,9 +304,9 @@ function setupBldg(domEle) {
 	}
 }
 function setupPlainBldg(domEle) {
-	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc/*jmap.bldgsDir+jmap.bldgsClearSrc*/);
+	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc/*jmap.bldgsDir+jmap.bldgsClearSrc*/);
 	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
-	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;/*domEle.src=jmap.bldgsDir+jmap.bldgsClearSrc;*/};
+	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc;/*domEle.src=jmap.bldgsDir+jmap.bldgsClearSrc;*/};
 	domEle.onclick = function(ev){};
 	jmap.loadedBldgs[domEle.id].event = false;
 }
