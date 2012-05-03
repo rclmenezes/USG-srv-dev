@@ -90,6 +90,37 @@ class QueueToRoom(models.Model):
     room = models.ForeignKey('Room')
     ranking = models.IntegerField()
 
+
+# An invitation to a the queue owned by a user
+class QueueInvite(models.Model):
+    sender = models.ForeignKey('User', related_name='q_sent_set')
+    receiver = models.ForeignKey('User', related_name='q_received_set')
+    draw = models.ForeignKey('Draw')
+    # UNIX timestamp
+    timestamp = models.IntegerField()
+
+    def __unicode__(self):
+        return "%s->%s %s" % (self.sender.netid, self.receiver.netid, self.draw.name)
+
+    # Accept the invitation, merging queues
+    def accept(self):
+        q1 = sender.queues.get(draw=self.draw)
+        q2 = receiver.queues.get(draw=self.draw)
+        rooms2 = queue.queuetoroom_set.all()
+        ranking = q1.queuetoroom_set.count()
+        for qtr in rooms2:
+            qtr.ranking = ranking
+            qtr.queue = q1
+            qtr.save()
+            ranking += 1
+        receiver.queues.remove(q2)
+        receiver.queues.add(q1)
+        q2.delete()
+        self.delete()
+
+    def deny(self):
+        self.delete()
+        
 # room review
 class Review(models.Model):
 
@@ -152,10 +183,6 @@ class Carrier(models.Model):
     address = models.CharField(max_length=30)
     def __unicode__(self):
         return self.name
-
-
-
-
 
 
 
