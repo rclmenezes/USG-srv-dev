@@ -60,11 +60,12 @@ function displayFloorPlan(name, floor)
 
     function handleMouseDrag(ev)
     {
+
 	if(! mousedown_pos)
 	    return;
 
-	if((ev.x == mousedown_pos.x)
-	   && (ev.y == mousedown_pos.y))
+	if((ev.clientX == mousedown_pos.x)
+	   && (ev.clientY == mousedown_pos.y))
 	{
 	    mousedown_pos = undefined;
 	    return;
@@ -74,8 +75,8 @@ function displayFloorPlan(name, floor)
 	var width = floorplancoordsWidth * zoom_factor;
 	var height = width * this.height / this.width;
 	  
-	current_view_pos.x += mousedown_pos.x - ev.x;
-	current_view_pos.y += mousedown_pos.y - ev.y;
+	current_view_pos.x += mousedown_pos.x - ev.clientX;
+	current_view_pos.y += mousedown_pos.y - ev.clientY;
 	if(current_view_pos.x < 0)
 	    current_view_pos.x = 0;
 	if(current_view_pos.y < 0)
