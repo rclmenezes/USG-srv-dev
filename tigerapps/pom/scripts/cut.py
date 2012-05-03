@@ -21,7 +21,7 @@ image = Image.open(image_file)
 csv = open(csv_file, 'r')
 
 for line in csv:
-    fields = [f for f in line.split(',') if f != '']
+    fields = [f for f in line.split(',').strip() if f != '']
     print(fields[0])
     x0 = int(fields[1])
     y0 = int(fields[2])
