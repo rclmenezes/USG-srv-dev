@@ -3,6 +3,7 @@
 - Functions that return a list of buildings with certain properties
 '''
 from pom.menus.scraper import DINING_HALLS
+from pom.printers.scraper import PRINTER_BLDGS
 
 BLDG_INFO = {
     'AL099': ('99 Alexander (Forbes College)',),
@@ -204,5 +205,5 @@ def getBldgsWithLaundry():
             'PYNEH', 'SCULL', 'SPELM', 'HARGH')
 
 def getBldgsWithPrinters():
-    return tuple()
+    return tuple(bldg_code for bldg_code in PRINTER_BLDGS.values())
 

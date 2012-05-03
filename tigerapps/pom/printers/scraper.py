@@ -1,7 +1,7 @@
 import urllib
 from bs4 import BeautifulSoup
 
-name_to_code = {
+PRINTER_BLDGS = {
     '1901': '1901H',
     '1937': '1937H',
     '1981': 'HARGH',
@@ -51,14 +51,21 @@ name_to_code = {
 url = 'http://campuscgi.princeton.edu/~clusters/clusterinfo.pl'
 
 class Printer:
-    def __init__(self, color, status):
+    def __init__(self, loc, color, status):
+        self.loc = loc
         self.color = color
         self.status = status
     def __str__(self):
         return self.status
     __repr__ = __str__
 
-def scrape_printers():
+
+def scrape_single_printer(bldg_code):
+    '''returns list of printers in building'''
+    return scrape_all()[bldg_code]
+
+def scrape_all():
+    '''returns dict of list of printers, bldg_code:[printers]'''
     data = urllib.urlopen(url).read()
     bs = BeautifulSoup(data)
     table = bs.find('table')
@@ -75,9 +82,9 @@ def scrape_printers():
             except:
                 continue
             color = font_tag.attrs['color']
-            printers.append(Printer(color, status))
-        if loc in name_to_code:
-            code = name_to_code[loc]
+            printers.append(Printer(loc.replace('_',' '), color, status))
+        if loc in PRINTER_BLDGS:
+            code = PRINTER_BLDGS[loc]
         else: continue
 
         if code in clusters:
