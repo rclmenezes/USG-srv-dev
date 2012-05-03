@@ -321,17 +321,11 @@ function handleBldgClick(ev,domEle) {
 	var bldgCode = bldgIdToCode(domEle.id);
 	if (jevent.bldgDisplayed == bldgCode) {
 		/* hide the building info if building clicked is the one that's shown */
-		jevent.bldgDisplayed = null;
-		jevent.infoSize = 0;
-		$('#info-divider').css('border-style','none');
-		$('#info-bot').animate({
-			height:'0px',
-		}, 400);
+		hideInfoEvent();
 	} else
 		/* otherwise, load the clicked building */
 		AJAXeventsForBldg(bldgCode);
 }
-
 
 
 
@@ -348,20 +342,22 @@ function handleBldgClick(ev,domEle) {
 /* These setup the filters so that AJAX calls are sent when the filters are changed */
 function setupFilterDisplay() {
 	$("#info-top-types input").click(function(ev) {
-		handleFilterTypeClick(ev.target.value);
+		handleFilterTypeChange(ev.target.value);
 	});
-	handleFilterTypeClick(0);
+	handleFilterTypeChange(0);
 }
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
  * displayed + loads bldgs for filter + reloads events for filter if events already open */
-function handleFilterTypeClick(newFilterType) {
+function handleFilterTypeChange(newFilterType) {
 	if (jevent.filterType != newFilterType) {
 		jevent.filterType = newFilterType;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		handleFilterChange();
+		AJAXbldgsForFilter();
+		if (jevent.bldgDisplayed != null)
+			hideInfoEvent();
 	}
 }
 function handleFilterChange() {
@@ -446,10 +442,7 @@ function AJAXeventsForBldg(bldgCode) {
 		dataType: 'json',
 		success: displayInfoEvent,
 		error: function(jqXHR, textStatus, errorThrown) {
-			$('#info-divider').css('border-style','none');
-			$('#info-bot').animate({
-				height:'0px',
-			}, 400);
+			hideInfoEvent();
 			handleAjaxError(jqXHR, textStatus, errorThrown);
 		}
 	});
@@ -457,16 +450,17 @@ function AJAXeventsForBldg(bldgCode) {
 
 /* Success callback for AJAXeventsForBldg */
 function displayInfoEvent(data) {
-	if (data.error != null)
+	if (data.error != null) {
+		hideInfoEvent();
 		alert(data.error);
-	else {
+	} else {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
 		if (jevent.infoSize != 2) {
 			/* Expand the info box if it's not already expanded */
 			jevent.infoSize = 2;
 			$('#info-bot').css('overflow-y', 'scroll');
-			$('#info-divider').css('border', '1px dotted black');
+			$('#info-divider').css('border-top', '1px solid #C0C0C0');
 			$('#info-bot').animate({
 				height: jmap.map.offsetHeight-jmap.infoTop.offsetHeight-115 + 'px',
 			}, 400);
@@ -476,7 +470,7 @@ function displayInfoEvent(data) {
 
 function displayInfoLoading() {
 	$('#info-bot').css('overflow-y', 'hidden');
-	$('#info-divider').css('border', '1px dotted #C0C0C0');
+	$('#info-divider').css('border-top', '1px solid #C0C0C0');
 	$('#info-bot').html(jevent.htmlLoading);
 	if (jevent.infoSize == 0) {
 		/* Expand the info box to loading size if it's not expanded at all */
@@ -487,5 +481,13 @@ function displayInfoLoading() {
 	}
 }
 
+function hideInfoEvent() {
+	jevent.infoSize = 0;
+	jevent.bldgDisplayed = null;
+	$('#info-divider').css('border-style','none');
+	$('#info-bot').animate({
+		height:'0px',
+	}, 400);
+}
 
 

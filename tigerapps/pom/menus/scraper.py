@@ -1,19 +1,16 @@
-
-
 import urllib
 from bs4 import BeautifulSoup
 
-#TODO###
-dining_halls = {'Wu':2, 'Wilcox':2, 'Rocky':1, 'Mathey':2, 'Forbes':3,
-                    'Whitman':8, 'CJL':5, 'Grad College':4}
-####
+
+DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
+                'HARGH':8, 'CENJL':5, 'GRCOL':4}
 
 url_stub = 'http://facilities.princeton.edu/dining/_Foodpro/menu.asp?locationNum=0'
 
 
 class Menu:
     def __init__(self):
-        self.meals = []
+        self.meals = {}
     def __str__(self):
         return str(self.meals)
     __repr__ = __str__
@@ -40,10 +37,10 @@ class Entree:
     __repr__ = __str__
         
 
-def scrape_single_menu(hall_name):
+def scrape_single_menu(bldg_code):
     """Scrape the menu page for the given dining hall and return the data
     as a menu object"""
-    hall_num = dining_halls[hall_name]
+    hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
     data = urllib.urlopen(url_stub + str(hall_num)).read()
     bs = BeautifulSoup(data)
@@ -62,14 +59,14 @@ def scrape_single_menu(hall_name):
             entree.nuts = True if entree_xml.nuts.contents[0] == 'y' else False
             entree.earth_friendly = True if entree_xml.earth_friendly.contents[0] == 'y' else False
             meal.entrees.append(entree)
-        menu.meals.append(meal)
+        menu.meals[meal.name] = meal
     return menu
 
 def scrape_all():
     """Return a list of menus, one for each dining hall"""
-    menus = []
-    for hall in dining_halls:
-        menus.append(scrape_single_menu(hall))
+    menus = {}
+    for hall in DINING_HALLS:
+        menus[hall] = scrape_single_menu(hall)
     return menus
 
 

@@ -18,7 +18,7 @@ function sliderInit() {
         range: true,
         min: 0,
         max: 500,
-        values: [0, 500],
+        values: [0, 100],
         slide: function( event, ui ) {
             jevent.eventLeftDate = convertToDate(ui.values[0]);
             $( "#slider-left-value" ).val(printDateTime(jevent.eventLeftDate));

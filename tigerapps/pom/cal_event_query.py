@@ -5,7 +5,7 @@ Should be a Manager, but we really, really don't care since we want to put
 this in pom/ and not cal/.
 '''
 from cal.models import Event
-from pom.bldg_codes import *
+from pom.bldg_info import *
 import datetime, time
 
     

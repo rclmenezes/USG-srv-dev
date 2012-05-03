@@ -2,6 +2,7 @@
 - Mapping of buildings to their info
 - Functions that return a list of buildings with certain properties
 '''
+from pom.menus.scraper import DINING_HALLS
 
 BLDG_INFO = {
     'AL099': ('99 Alexander (Forbes College)',),
@@ -194,7 +195,7 @@ def getBldgsWithHours():
     return tuple()
 
 def getBldgsWithMenus():
-    return ('WILCH', 'WUHAL', 'MADIH', 'FORBC', 'HARGH', 'CENJL', 'GRCOL')
+    return tuple(bldg_code for bldg_code in DINING_HALLS.keys())
 
 def getBldgsWithLaundry():
     return ('WALKE', 'C1915', 'DICKH', 'BLAIR', 'BLOOM', 'BROWN', 'SCULL', 
