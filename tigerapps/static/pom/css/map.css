@@ -2,7 +2,7 @@ body {
 	font-family: helvetica,sans-serif;
 	font-size: 0.95em;
 }
-h2 {
+h1, h2, h3 {
 	-webkit-margin-before: 0;
 	-webkit-margin-after: 0;
 }
@@ -39,7 +39,7 @@ ul {
 
 
 .map-box {
-	background-color:#FCFAF8;
+	background-color:#FAFCF8;
     opacity:0.92;
     box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
     z-index:100;
@@ -65,8 +65,8 @@ ul {
 }
 
 #info-top {
-	height: 240px;
-	margin:0 20px;
+	height: 235px;
+	margin:0 20px 15px;
 }
 #info-title {
 	height:35px;
@@ -84,10 +84,15 @@ ul {
 	display: none;
 }
 
+#info-divider {
+	height: 0px;
+	width: 95%;
+	margin: auto;
+}
 #info-bot {
 	height: 0px;
 	overflow: hidden;
-	margin:0 10px 20px 20px;
+	margin:15px 10px 15px 20px;
 }
 
 

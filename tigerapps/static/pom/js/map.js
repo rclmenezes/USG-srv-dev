@@ -195,7 +195,7 @@ function mouseMove(ev){
 	if (tmp1) {
 		var c = mouseCoords(ev);
 		$('#box1').val(jmap.dispX+c.x);
-		$('#box2').val(jmap.dispY+c.y-30);
+		$('#box2').val(jmap.dispY+c.y-28);
 	}
 }
 
@@ -323,6 +323,7 @@ function handleBldgClick(ev,domEle) {
 		/* hide the building info if building clicked is the one that's shown */
 		jevent.bldgDisplayed = null;
 		jevent.infoSize = 0;
+		$('#info-divider').css('border-style','none');
 		$('#info-bot').animate({
 			height:'0px',
 		}, 400);
@@ -445,6 +446,7 @@ function AJAXeventsForBldg(bldgCode) {
 		dataType: 'json',
 		success: displayInfoEvent,
 		error: function(jqXHR, textStatus, errorThrown) {
+			$('#info-divider').css('border-style','none');
 			$('#info-bot').animate({
 				height:'0px',
 			}, 400);
@@ -464,8 +466,9 @@ function displayInfoEvent(data) {
 			/* Expand the info box if it's not already expanded */
 			jevent.infoSize = 2;
 			$('#info-bot').css('overflow-y', 'scroll');
+			$('#info-divider').css('border', '1px dotted black');
 			$('#info-bot').animate({
-				height: jmap.map.offsetHeight-jmap.infoTop.offsetHeight-90 + 'px',
+				height: jmap.map.offsetHeight-jmap.infoTop.offsetHeight-115 + 'px',
 			}, 400);
 		}
 	}
@@ -473,6 +476,7 @@ function displayInfoEvent(data) {
 
 function displayInfoLoading() {
 	$('#info-bot').css('overflow-y', 'hidden');
+	$('#info-divider').css('border', '1px dotted black');
 	$('#info-bot').html(jevent.htmlLoading);
 	if (jevent.infoSize == 0) {
 		/* Expand the info box to loading size if it's not expanded at all */
