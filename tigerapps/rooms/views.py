@@ -182,9 +182,9 @@ def respond_queue(request):
     if not user:
         return HttpResponseForbidden()
     try:
-        invite = user.q_recieved_set.get(pk=invite_id)
-    except:
-        return HttpResponse('no invite')
+        invite = user.q_received_set.get(pk=invite_id)
+    except Exception as e:
+        return HttpResponse(e)
     try:
         if accepted:
             invite.accept()
@@ -192,6 +192,30 @@ def respond_queue(request):
             invite.deny()
     except Exception as e:
         return HttpResponse(e)
+    return HttpResponse('good')
+
+# Respond to a queue invite
+@login_required
+def leave_queue(request):
+    try:
+        draw = Draw.objects.get(pk=int(request.POST['draw_id']))
+    except:
+        return HttpResponse('')
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    q1 = user.queues.get(draw=draw)
+    if 1 == q1.user_set.count():
+        return HttpResponse('')
+    q2 = Queue(draw=draw)
+    q2.save()
+    qtrs = q1.queuetoroom_set.all()
+    for qtr in qtrs:
+        qtr.pk = None
+        qtr.queue = q2
+        qtr.save()
+    user.queues.remove(q1)
+    user.queues.add(q2)
     return HttpResponse('good')
 
 @login_required
