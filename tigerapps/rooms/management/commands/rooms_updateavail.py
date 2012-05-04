@@ -50,7 +50,7 @@ class Command(BaseCommand):
         for user in users:
             if user.do_email:
                 self.email(user, room)
-            if user.do_text:
+            if user.do_text and user.confirmed:
                 self.text(user, room)
 
     def email(self, user, room):

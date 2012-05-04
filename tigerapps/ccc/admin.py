@@ -52,8 +52,18 @@ class ProjectRequestAdmin(admin.ModelAdmin):
         
     approve_project.short_description = "Approve project or organization"
  
+
+class GroupHoursAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields': ['month', 'group', 'hours']})
+    ]
+    list_display = ('month', 'group', 'hours',)
+    search_fields = ['month', 'group']
+
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(LogCluster, LogClusterAdmin)
 admin.site.register(ProjectRequest, ProjectRequestAdmin)
 admin.site.register(ProjectOrOrganization)
+admin.site.register(GroupHours, GroupHoursAdmin)
 

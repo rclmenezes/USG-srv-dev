@@ -23,9 +23,9 @@ html, head, body
     min-width: 950px;
     z-index: 990;
      line-height: 1;
-    box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+    /*box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
     -moz-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
-    -webkit-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: -4px 2px 4px rgba(255, 255, 255, 0.8);*/
 }
 
 a img {

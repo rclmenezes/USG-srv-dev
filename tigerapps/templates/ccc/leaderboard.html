@@ -6,7 +6,13 @@
 	    <h2 id="postTitle" style="text-align: center;">Leaderboard</h2>
 		<p>You have logged {{user_hours}} hour{% ifnotequal user_hours 1 %}s{% endifnotequal %}.</p>
 
-		<p>Hours for the month of {{ month }}:</p>
+        <form action=".">
+		<p>Hours for the month of&nbsp;
+            <select name="month" onchange="this.form.submit();">{% for val,month,sel in month_choices %}
+                <option value="{{val}}" {% if sel %}selected="selected"{% endif %}>{{month}}</option>
+            {% endfor %}</select>:
+        </p>
+        </form>
 
 		<table><tr>
 		{% for group_type, hours in hours_dict.iteritems %}
@@ -23,6 +29,10 @@
 		</td>
 		{% endfor %}
 		</tr></table>
+
+        <!--this is wrong, since it doesn't take into account the fact that hours can be logged for multiple groups
+        <div style="text-align:center;margin-top:20px;"><span style="font-weight:bold;font-size:1.1em;">Total hours logged this month:</span> {{total_hours}}</div>
+        -->
 
 	</div>
 {% endblock %}

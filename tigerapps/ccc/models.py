@@ -29,6 +29,10 @@ class GroupHours(models.Model):
     def __unicode__(self):
         return self.group
 
+    class Meta:
+        ordering = ['month']
+        verbose_name_plural = 'Group hours'
+
 class LogClusterManager(models.Manager):
     def get_user_hours(self, user):
         hours = LogCluster.objects.filter(user=user).aggregate(models.Sum('hours'))['hours__sum']
