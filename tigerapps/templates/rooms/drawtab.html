@@ -10,6 +10,7 @@
     <th>Num Rooms</th>
     <th>Gender</th>    
     <th>Available?</th>
+    <th>Rank</th>
     <th></th>
     </tr>
   </thead>
@@ -31,6 +32,7 @@
       {% else %}
       <td>No</td>
       {% endif %}
+      <td>{{ room_ranks.room.id }}</td>
       <td><a href="review/{{ room.id }}">Review</a>
     </tr>
     {% endfor %}
