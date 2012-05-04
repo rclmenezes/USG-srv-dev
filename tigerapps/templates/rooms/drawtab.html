@@ -19,7 +19,7 @@
         <div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
         <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
       </td>
-      <td onclick="$('#dataPanel').load('/get_room/{{ room.id }}')">{{ room.number }}</td>
+      <td onclick="$('#roomlist').load('/get_room/{{ room.id }}')">{{ room.number }}</td>
       <td>{{ room.building }}</td>
       <td>{{ room.sqft }}</td>
       <td>{{ room.occ }}</td>

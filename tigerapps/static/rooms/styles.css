@@ -462,3 +462,25 @@ input
     color: #CC0000;
     font-weight: bold;
 }
+
+#room_view
+{
+    
+    padding: 20px;
+}
+
+#room_view_wrapper
+{
+    width: 100%;
+}
+
+.right
+{
+    position: absolute;
+    right: 0px;
+}
+
+a:hover
+{
+    cursor: pointer;
+}
