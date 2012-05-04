@@ -332,5 +332,15 @@ input
     background-color: #D6D6D6;
     margin: 75px 150px 75px 150px;
     padding: 75px;
-    line-height: 230%;
+}
+
+#settings_container h1, h2, h3, h4, p
+{
+    padding: 15px;
+}
+
+.error_message
+{
+    color: #CC0000;
+    font-weight: bold;
 }

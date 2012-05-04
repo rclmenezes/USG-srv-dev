@@ -44,9 +44,11 @@ def index(request):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        handle_settings_form(request, user)
-
+        if request.POST['form_type'] == 'settings':
+            handle_settings_form(request, user)
+    
     return render_to_response('rooms/base_dataPanel.html', locals())
+
 
 @login_required
 def draw(request, drawid):
@@ -273,18 +275,34 @@ def handle_settings_form(request, user):
         carriers = Carrier.objects.order_by('name')
     
         for carrier in carriers:
-            code = (phone / 10000) * 3 + user.id + carrier.id
+            code = (phone / 10000) * 3 + user.id + carrier.id * 7
             content = "Your confirmation code is: %s" % code
             send_mail("", content, 'rooms@tigerapps.org',
                       ["%s@%s" % (phone, carrier.address)], fail_silently=False)
+        user.confirmed = False
 
-    print "Before:" + str(user.do_email)
     user.phone = phone
     user.do_text = bool(('do_text' in request.POST) and request.POST['do_text'])
     user.do_email = bool(('do_email' in request.POST) and request.POST['do_email'])
     user.save()
-    print "After:" + str(user.do_email)
 
+
+def handle_confirmphone_form(confirmation, user):
+    carrier_id = int(confirmation) - (int(user.phone) / 10000 * 3) - user.id;
+
+    if carrier_id < 0 or carrier_id % 7 != 0:
+        return False
+
+    carrier_id /= 7
+
+    try:
+        carrier = Carrier.objects.get(id=carrier_id)
+        user.carrier = carrier
+        user.confirmed = True
+        user.save()
+        return True
+    except:
+        return False
 
  
 @login_required
@@ -294,6 +312,30 @@ def confirm_phone(request):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        handle_settings_form(request, user)
+        if request.POST['form_type'] == 'settings':
+            handle_settings_form(request, user)
+            first_try = True
+        elif request.POST['form_type'] == 'confirmphone':
+            handle_confirmphone_form(request.POST['confirmation'], user)
+            first_try = False
+        else:
+            first_try = True
+    else:
+        first_try = True
 
-    return render_to_response('rooms/confirmphone.html', {'user': user})
+#    num_carriers = Carrier.objects.count()
+#    check_confirmation_js = """var confirmation = document.confirmphone_form.confirmation;
+
+#   var carrier_id = confirmation - 3 * {{user.phone}} - {{user.id}};
+#   if(carrier_id < 0 || carrier_id %% 7 != 0 || carrier_id >= %d)
+#   {
+#        alert("Sorry, this is an invalid confirmation code. Please try again.");
+#        return false;
+#   }
+#   carrier_id /= 7;
+
+#   document.confirmphone_form.carrier_id = carrier_id;
+#   return true;""" % (num_carriers * 7)
+
+        print first_try
+    return render_to_response('rooms/confirmphone.html', {'user': user, 'first_try':first_try})

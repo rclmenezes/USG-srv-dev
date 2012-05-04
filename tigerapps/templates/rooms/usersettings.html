@@ -70,7 +70,7 @@ function onLoad()
 
 <h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your settings here.</h1>
 
-<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform">{% csrf_token %}
+<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform">
 <p>Phone #: <input type="text" name="phone" id="phone" value="{{user.phone}}"></input>
 
 
@@ -81,8 +81,11 @@ function onLoad()
 </p>
 <p>Text Me With Notifications! <input type="checkbox" name="do_text" id="do_text" {% if user.do_text %} checked {% endif %}></input> </p>
 <p>Email Me With Notifications! <input type="checkbox" name="do_email" id="do_email" {% if user.do_email %} checked {% endif %}></input></p>
-<input type="submit" id="submit" value="Save Settings"></input>
+<input type="hidden" name="form_type" id="form_type" value="settings" />
+<p><input type="submit" id="submit" value="Save Settings"></input></p>
 </form>
+
+<p><a href="/">Return to Main Page</a></p>
 
 <script type="text/javascript">
 onLoad();
