@@ -267,19 +267,33 @@ def settings(request):
 def handle_settings_form(request, user):
     
     phone = int(request.POST['phone'])
-    code = phone * 3 + user.id
-    content = "Your confirmation code is: %s" % code
-    carriers = Carrier.objects.order_by('name')
     
-    for carrier in carriers:
-        print carrier.address
-        send_mail("", content, 'rooms@tigerapps.org',
-              ["%s@%s" % (phone, carrier.address)], fail_silently=False)
+    if phone != int(user.phone):
+        # Send confirmation code
+        carriers = Carrier.objects.order_by('name')
+    
+        for carrier in carriers:
+            code = (phone / 10000) * 3 + user.id + carrier.id
+            content = "Your confirmation code is: %s" % code
+            send_mail("", content, 'rooms@tigerapps.org',
+                      ["%s@%s" % (phone, carrier.address)], fail_silently=False)
 
+    print "Before:" + str(user.do_email)
+    user.phone = phone
+    user.do_text = bool(('do_text' in request.POST) and request.POST['do_text'])
+    user.do_email = bool(('do_email' in request.POST) and request.POST['do_email'])
+    user.save()
+    print "After:" + str(user.do_email)
+
+
+ 
 @login_required
 def confirm_phone(request):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        handle_settings_form(request, user)
 
     return render_to_response('rooms/confirmphone.html', {'user': user})

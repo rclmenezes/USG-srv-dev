@@ -29,7 +29,29 @@
 
 function onformsubmit()
 {
-return false;
+    var sf = document.settingsform;
+
+    // Remove all extra symbols
+    sf.phone.value = sf.phone.value.replace(/\(/g, "");
+    sf.phone.value = sf.phone.value.replace(/\)/g, "");
+    sf.phone.value = sf.phone.value.replace(/-/g, "");
+    sf.phone.value = sf.phone.value.replace(/ /g, "");
+
+    // Check if numeric value
+    if(isNaN(parseInt(sf.phone.value)))
+    {
+        alert("Sorry, your phone number is invalid. Try again!");
+        return false;
+    }
+
+    sf.phone.value = parseInt(sf.phone.value);
+
+
+    if("{{ user.phone }}" == sf.phone.value)
+         sf.action = "/"
+    else
+         sf.action = "/confirmphone.html"
+    return true;
 }
 
 function onLoad()
@@ -46,11 +68,9 @@ function onLoad()
 
 <div id="settings_container">
 
-<div>
-  <h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your settings here.</h1>
-</div>
+<h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your settings here.</h1>
 
-<form action="/" onsubmit="onformsubmit()" method="post">{% csrf_token %}
+<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform">{% csrf_token %}
 <p>Phone #: <input type="text" name="phone" id="phone" value="{{user.phone}}"></input>
 
 
@@ -59,18 +79,14 @@ function onLoad()
 {% endif %}
 
 </p>
-<p>Text Me With Notifications! <input type="checkbox" name="dotext" id="dotext" checked="{{user.doemail}}"></input> </p>
-<p>Email Me With Notifications! <input type="checkbox" name="doemail" id="doemail" checked="{{user.doemail}}"></input></p>
+<p>Text Me With Notifications! <input type="checkbox" name="do_text" id="do_text" {% if user.do_text %} checked {% endif %}></input> </p>
+<p>Email Me With Notifications! <input type="checkbox" name="do_email" id="do_email" {% if user.do_email %} checked {% endif %}></input></p>
 <input type="submit" id="submit" value="Save Settings"></input>
 </form>
 
 <script type="text/javascript">
 onLoad();
 </script>
-
- {% if error %}
-        Error: {{ error }}
-    {% endif %}
 
 </div>
 
