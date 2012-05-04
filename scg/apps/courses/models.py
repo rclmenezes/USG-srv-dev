@@ -2,19 +2,26 @@ import re
 import urllib2
 from lxml import etree
 from lxml.cssselect import CSSSelector
+import datetime
 
 from django.db import models
 from django.template.loader import render_to_string
 from apps.professors.models import Professor
 from data.parse import parse_time
 
-THIS_SEMESTER = 'S'
-THIS_YEAR = '2010'
-NEXT_SEMESTER = 'F'
-NEXT_YEAR = '2010'
+
+def get_this_term():
+    today = datetime.date.today()
+    if today.month <= 1 or today.month >= 7:
+        return ('F', str(today.year), 'S', str(today.year+1))
+    else:
+        return ('S', str(today.year), 'F', str(today.year))
+
+THIS_SEMESTER, THIS_YEAR, NEXT_SEMESTER, NEXT_YEAR = get_this_term()
 TERM = '1' + parse_time(THIS_SEMESTER, THIS_YEAR)
 CSS_TIMETABLE = CSSSelector('#timetable')
 CSS_TIMETABLE_SUPERFLUOUS = CSSSelector('div[align="right"]')
+
 
 class Course(models.Model):
     cid = models.CharField(max_length=20, blank=True, primary_key=True)

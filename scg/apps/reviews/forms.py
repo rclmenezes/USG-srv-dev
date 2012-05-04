@@ -1,19 +1,19 @@
-import itertools
+import itertools, datetime
 from django import forms
 
-from apps.courses.models import Course, THIS_YEAR
+from apps.courses.models import Course, THIS_YEAR, NEXT_YEAR
 from apps.courses.views import departments
 from apps.professors.models import Professor
 from apps.reviews.models import GRADE_CHOICES, TERM_CHOICES
 
-# I am deeply sorry.
-YEARS = [(y,y) for y in [''] + range(2004, int(THIS_YEAR) + 1)]
 
 class DecimalField(forms.RegexField):
    def __init__(self, max_length=None, min_length=None, error_message=None, required=True, widget=None, label=None, initial=None):
         forms.RegexField.__init__(self, '^[0-9]+(\.[0-9]+)?$', max_length, min_length, error_message, required, widget, label, initial)
 
 class RequiredForm(forms.Form):
+    YEARS = [(y,y) for y in [''] + range(int(THIS_YEAR)-4, int(THIS_YEAR)+1)]
+
     cid = forms.ChoiceField(choices=[('','')] + [(c.cid, unicode(c))
                                                  for c in Course.objects.all()],
                             widget=forms.Select(attrs={'style':'width: 200px'}))

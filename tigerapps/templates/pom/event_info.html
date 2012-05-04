@@ -1,8 +1,11 @@
-<div>Building name: {{bldg_name}}</div>
-<div>
-	<p>Events:</p>
-	<ul>{% for event in events %}
-		<li>{{event.event_cluster.cluster_title}}<br/>
-			{{event.event_date_time_start|date:"M/d/Y H:m"}}</li>
-	{% endfor %}</ul>
-</div>
+<h3 id="info-bldg-name">{{bldg_name}}</h3>
+
+{% for event in events %}
+	<div class="info-event-entry">
+		<span style="font-weight:bold"> {{event.event_cluster.cluster_title}} </span>
+		<div class="info-event-subtext">
+			{{event.event_date_time_start|date:"M d, Y h:m a"}}<br/>
+			{{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}
+		</div>
+	</div>
+{% endfor %}

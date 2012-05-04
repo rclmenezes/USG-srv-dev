@@ -26,6 +26,10 @@ class SubdomainsMiddleware:
             url_prefix = "http://dev."
             request.subdomain = parts[1]
             request.domain = '.'.join(parts[2:])
+        elif len(parts) == 2:
+            # tigerapps.org
+            url_prefix = "http://"
+            request.subdomain = 'www'
         else:
             raise Exception('Bad domain')
         settings.SITE_DOMAIN = url_prefix+request.subdomain+'.'+request.domain
