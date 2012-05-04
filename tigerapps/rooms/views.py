@@ -87,7 +87,7 @@ def get_room(request, roomid):
     if not user:
         return HttpResponseForbidden()
     room = get_object_or_404(Room, pk=roomid)
-    return HttpResponse('Win!')
+    return render_to_response('rooms/room_view.html', {'room':room})
     
 @login_required
 def create_queue(request, drawid):

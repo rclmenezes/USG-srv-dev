@@ -5,12 +5,11 @@ html
               
 body 
 { 
-    height: 100%; 
+    height: 100%;
     margin: 0; 
     padding: 0; 
-    background: #F5F5F5;
     font-family: Helvetica, sans-serif;
-    font-size: 11xpapx;
+    font-size: 14px;
 
 }
 
@@ -30,16 +29,17 @@ li:hover
 #wrapper2 /* everything but tigerapps bar */
 {
     position: absolute;
-    top: 40px;
+    top: 30px;
     right: 0;
-    bottom: 10px;
+    bottom: 0;
     left: 0;
     overflow: hidden;
 }
 
 #mainColumn
 {
-    width: 960px;
+    width: 100%;
+    min-width: 1040px;
     height: 100%;
     margin: 0 auto;
 }
@@ -57,7 +57,7 @@ li:hover
 #map_canvas
 {
     height: 100%;
-    width: 69.5%;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -65,12 +65,13 @@ li:hover
 
 #top_right
 {
-    height: 100%;
-    width: 29.5%;
     background-color: white; /*#E6E6E6;*/
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 11px;
+    left: 948px;
+    bottom: 10px;
+    right: 11px;
+    overflow: scroll;
 }
 
 #greeting
@@ -81,15 +82,16 @@ li:hover
 
 #settings
 {
-    width: 100%;
-    height: 10%;
+    position: absolute;
+    top: 0px;
+    right: 5px;
 }
 
 #queues
 {
-    height: 80%;
     width: 100%;
-    position: static;
+    position: static; /* ? */
+    overflow:scroll;
 }
 
 .queue_button
@@ -119,11 +121,14 @@ li
 }
 .queue_drag
 {
+    /* begin add */
     /*max-height: 130px;*/
     width: 90%;
     height: 80%;
     overflow:scroll;
     padding: 5%;
+    /* end add */
+    margin: 10px;
 }
 
 thead {
@@ -132,6 +137,7 @@ thead {
     color: #666666;
     font-weight: bold;
     cursor: pointer;
+    padding: 5px;
 }
 
 td
@@ -140,8 +146,43 @@ td
     padding-right: 10px;
     margin-left: auto;
     margin-right: auto;
+/*
     outline: 1px solid black;
     text-align: center;
+*/
+    padding: 7px !important;
+}
+
+#scrollarea tr:hover td
+{
+    cursor: pointer;
+    background: whiteSmoke !important;
+}
+
+.addRoom
+{
+    background: url('images/sprites/plusminus.png') 0 0;
+    width: 16px;
+    height: 20px;
+    display: inline-block;
+}
+
+.addRoom:hover
+{
+    background-position: -34px 0;
+}
+
+.removeRoom
+{
+    background: url('images/sprites/plusminus.png') -17px 0;
+    width: 18px;
+    height: 20px;
+    display: inline-block;
+}
+
+.removeRoom:hover
+{
+    background-position: -51px 0;
 }
 
 .queue_contents:hover
@@ -160,16 +201,12 @@ input
     margin-right: auto;
     width: 20px;
 }
-
-#middle_buffer
-{
-    height: 1.5%;
-}
      
+
 #dataPanel
 {
     height: 49.25%;
-    background-color: #E6E6E6; position: relative; font-family: Helvetica;
+    background-color: #E6E6E6; position: relative;
     transition: height .2s;
     -moz-transition: height .2s; /* Firefox 4 */
     -webkit-transition: height .2s; /* Safari and Chrome */
@@ -183,12 +220,64 @@ input
     border: 3px black;
 }
 
+#addremoveTab
+{
+    width: 43px;
+}
+
+#roomTab
+{
+    width: 70px;
+}
+
+#buildingTab
+{
+    width: 130px;
+}
+
+#sqrtTab
+{
+    width: 55px;
+}
+
+#occTab
+{
+    width: 100px;
+}
+
+#floorTab
+{
+    width: 60px;
+}
+
+#numRoomsTab
+{
+    width: 107px;
+}
+
+#genderTab
+{
+    width: 73px;
+}
+
+#availTab
+{
+    width: 94px;
+}
+
 #expandMap, #contractMap, #restoreMap
 {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     width: 26px;
     height: 16px;
     position: absolute;
-    top: 5px;
+    top: 9px;
     padding-top: 5px;
     padding-bottom: 5px;
     border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px;
@@ -229,6 +318,13 @@ input
     cursor: pointer;
     font-weight: bold;
 }
+
+#roomListWrapperBigger
+{
+    position: relative;
+    height: 100%;
+}
+
 #roomListWrapper
 {
     display: block;
@@ -237,7 +333,6 @@ input
     bottom:10px;
     top:10px;
     left:10px;
-    right:10px;
     overflow: scroll;
 }
 

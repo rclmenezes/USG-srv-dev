@@ -1,0 +1,25 @@
+{% block roomview %}
+
+<div id="room_view">
+
+    <h1>{{room.number}} {{ room.building }}</h1>
+    <a onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">add</a>
+    <a onclick="$.publish('queue/remove', {{ room.id }})">remove</a>
+    <br>
+    Floor:{{ room.floor }}<br>
+    Square Feet:{{ room.sqft }}<br>
+    Occupants:{{ room.occ }}<br>
+    Subfree: {{ room.subfree }}<br>
+    Floor:{{ room.floor }}<br>
+    Room Count:{{ room.numrooms }}<br>
+    Gender:{{ room.gender }}<br>
+    Avail:{{ room.avail }}<br>
+    Ada:{{ room.ada }}<br>
+    Bi:{{ room.bi }}<br>
+    Con:{{ room.con }}<br>
+    Bathroom:{{ room.bathroom }}<br>
+    
+    <td><a href="review/{{ room.id }}">Review</a>
+</div>
+
+{% endblock roomview %}
