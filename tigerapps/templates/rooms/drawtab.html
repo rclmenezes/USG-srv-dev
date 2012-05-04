@@ -2,23 +2,22 @@
   <thead>
     <tr>
     <th></th>
-    <th>Room</th>
-    <th>Building</th>	
-    <th>Sqft</th>
-    <th>Rated Occupancy</th>
-    <th>Floor</th>
-    <th>Num Rooms</th>
-    <th>Gender</th>    
-    <th>Available?</th>
-    <th></th>
+    <th id="roomTab">Room</th>
+    <th id="buildingTab">Building</th>	
+    <th id="sqrtTab">Sqft</th>
+    <th id="occTab">Occupancy</th>
+    <th id="floorTab">Floor</th>
+    <th id="numRoomsTab">Num Rooms</th>
+    <th id="genderTab">Gender</th>    
+    <th id="availTab">Available?</th>
     </tr>
   </thead>
     <tbody id="scrollarea">
     {% for room in room_list %}
     <tr>
-    <td>
-        <a id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">add</a>
-        <a id="addremove" onclick="$.publish('queue/remove', {{ room.id }})">rem</a>
+    <td id="addremoveTab">
+        <div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
+        <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
       </td>
       <td onclick="$('#dataPanel').load('/get_room/{{ room.id }}')">{{ room.number }}</td>
       <td>{{ room.building }}</td>
@@ -26,13 +25,25 @@
       <td>{{ room.occ }}</td>
       <td>{{ room.floor }}</td>
       <td>{{ room.numrooms }}</td>
-      <td>{{ room.gender }}</td>
+        {% ifequal room.gender "E" %}
+        <td>Neutral</td>
+        {% else %}
+            {% ifequal room.gender "F" %}
+            <td>Female</td>
+            {% else %}
+                {% ifequal room.gender "M" %}
+                <td>Male</td>
+                {% else %}
+                <td>{{ room.gender }}</td>
+                {% endifequal %}
+            {% endifequal %}
+        {% endifequal %}
       {% if room.avail %}
       <td>Yes</td>
       {% else %}
       <td>No</td>
       {% endif %}
-      <td><a href="review/{{ room.id }}">Review</a>
+<!--      <td><a href="review/{{ room.id }}">Review</a> -->
     </tr>
     {% endfor %}
     </tbody>

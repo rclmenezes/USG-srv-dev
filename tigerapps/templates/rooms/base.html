@@ -8,7 +8,7 @@
   <!-- Styles -->
   <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
   <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
-  <link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
+<!--  <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'> -->
   <link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
   <link rel="stylesheet" href="/static/rooms/themes/blue/style.css" type="text/css" media="print, projection, screen" />
   <script type="text/javascript"
@@ -48,35 +48,39 @@
   {% include "main/jquery.html" %}
   <div id="wrapper1">
     <div id="wrapper2">
-      <div id="mainColumn">  
+      <div id="mainColumn">
 	<div id="top_half">  
 	  <div id="map_canvas"></div>
       <div id="floorplan_canvas"></div>
-	  <div id="top_right">
-	    <div id="greeting">
-	      <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1>
-            </div>
-	    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
-            <div id="queues">
-            <!--ul id="list_queues"-->
-                <h1 id="queuehead"> Queue</h1>
-                <div id="room_queue" class="queue_drag"></div>
-            <!--/ul-->
-            <div class="clearfloat"></div>
-	    </div>
-	  </div>
 	</div>
-	<div id="middle_buffer"></div>
 	<div id="dataPanel"> 
+    <div id="roomListWrapperBigger">
 	  <div id="roomListWrapper">
 	    {% block dataPanel %}
             Room / Building Information & Queue
             {% endblock dataPanel %}
 	  </div>
+    </div>
           <div id="room_view">
             {% block room_view %}
             {% endblock room_view %}
           </div>
+
+        <div id="top_right">
+<!--
+	    <div id="greeting">
+	       <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1>
+        </div> -->
+	    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
+        <div id="queues">
+            <!--ul id="list_queues"-->
+                <h1 id="queuehead"> Queue</h1>
+                <div id="room_queue" class="queue_drag"></div>
+            <!--/ul-->
+            <div class="clearfloat"></div>
+        </div>
+
+    </div> <!-- dataPanel -->
 	</div>
       </div>
     </div>
