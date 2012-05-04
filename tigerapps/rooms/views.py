@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from models import *
 from views import *
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django import forms
 import json
 import sys
@@ -34,10 +35,16 @@ def check_undergraduate(username):
 def index(request):
     draw_list = Draw.objects.order_by('id')
     mapscript = mapdata()
+    drawscript = drawdata()
 #    return HttpResponse(request.user.username);
     user = check_undergraduate(request.user.username)
+
     if not user:
         return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        handle_settings_form(request, user)
+
     return render_to_response('rooms/base_dataPanel.html', locals())
 
 @login_required
@@ -60,6 +67,15 @@ def mapdata():
     mapstring = json.dumps(maplist)
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript
+
+def drawdata():
+    draws = Draw.objects.order_by('id')
+    drawlist = []
+    for draw in draws:
+        drawlist.append({'name':draw.name, 'id':draw.id})
+    drawstring = json.dumps(drawlist)
+    drawscript = '<script type="text/javascript">drawdata = %s</script>' % drawstring
+    return drawscript
 
 # Single room view function
 @login_required
@@ -194,3 +210,18 @@ def review(request, roomid):
             return HttpResponseRedirect(reverse(index))
     else:
         return render_to_response('rooms/reviewtest.html', {'submitted': False})
+
+def settings(q):
+    return render_to_response('rooms/usersettings.html')
+
+def handle_settings_form(request, user):
+    
+    phone = int(request.POST['phone'])
+    code = phone * 3 + user.id
+    content = "Your confirmation code is: %s" % code
+    carriers = Carrier.objects.order_by('name')
+    
+    for carrier in carriers:
+        print carrier.address
+        send_mail("", content, 'rooms@tigerapps.org',
+              ["%s@%s" % (phone, carrier.address)], fail_silently=False)

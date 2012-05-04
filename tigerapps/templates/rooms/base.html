@@ -10,13 +10,13 @@
   <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
   <link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
   <link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
-	
+  <link rel="stylesheet" href="/static/rooms/themes/blue/style.css" type="text/css" media="print, projection, screen" />
   <script type="text/javascript"
 	  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBNzMx7eAtkKIRg1kHl4J6_NZiuen5eGQA&sensor=false">
   </script>
   {{ mapscript|safe }}
   <script type="text/javascript" src="/static/rooms/js/map.js"></script>
-  
+  {{ drawscript|safe }}
   <script src="http://www.google.com/jsapi"></script>
   <script>google.load("jquery", "1");</script>
   <script>google.load("jqueryui", "1");</script>
@@ -29,7 +29,19 @@
   <script type="text/javascript" src="/static/rooms/js/pdfnames.js"></script>
   <script type="text/javascript" src="/static/rooms/js/floorplan.js"></script>
   <script type="text/javascript" src="/static/rooms/js/floorplancoords.js"></script>
-   
+  <script type="text/javascript" src="/static/rooms/js/roomnames.js"></script>
+  <script type="text/javascript" src="/static/rooms/js/jquery.tablesorter.js"></script>
+  <script type="text/javascript" src="/static/rooms/js/picnet.table.filter.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+  $("#drawtable").tablesorter({headers: { 0: { sorter: false}}});
+  });
+  </script>
+  <script type="text/javascript">
+    $(function () {
+    $("#drawtable").tableFilter();
+    });
+  </script>
 </head>
 
 <body onload="initialize()">
@@ -39,36 +51,17 @@
       <div id="mainColumn">  
 	<div id="top_half">  
 	  <div id="map_canvas"></div>
+      <div id="floorplan_canvas"></div>
 	  <div id="top_right">
 	    <div id="greeting">
-	      <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1> 
-	    </div>
-	    <div id="queues">
-            <h1>Queues</h1>
-            <div id="create_queue" class="queue_button" onclick="$('#create_success').load('/create_queue/'+current_draw)">Create</div>
-            <div id="remove_queue" class="queue_button">Remove</div>
-            <div id="create_success"></div><br><br>
-            <ul id="list_queues">
-                <h1><a href="#">First Queue</a></h1>
-                <ul id="room_queue" class="queue_drag">
-                    <!-- <li class="ui-state-default">Room #1</li> -->
-                    <!-- <li class="ui-state-default">Room #2</li> -->
-                    <!-- <li class="ui-state-default">Room #3</li> -->
-                    <!-- <li class="ui-state-default">Room #4</li> -->
-                    <!-- <li class="ui-state-default">Room #1</li> -->
-                    <!-- <li class="ui-state-default">Room #2</li> -->
-                    <!-- <li class="ui-state-default">Room #3</li> -->
-                    <!-- <li class="ui-state-default">Room #4</li> -->
-                </ul>
-            <!--     <h1><a href="#">Second Queue</a></h1> -->
-            <!--     <ul class="queue_drag"> -->
-            <!--         <li class="ui-state-default">Room #5</li> -->
-            <!--         <li class="ui-state-default">Room #6</li> -->
-            <!--         <li class="ui-state-default">Room #7</li> -->
-            <!--         <li class="ui-state-default">Room #8</li> -->
-            <!--     </ul> -->
-
-            </ul>
+	      <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1>
+            </div>
+	    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
+            <div id="queues">
+            <!--ul id="list_queues"-->
+                <h1 id="queuehead"> Queue</h1>
+                <div id="room_queue" class="queue_drag"></div>
+            <!--/ul-->
             <div class="clearfloat"></div>
 	    </div>
 	  </div>
@@ -80,6 +73,10 @@
             Room / Building Information & Queue
             {% endblock dataPanel %}
 	  </div>
+          <div id="room_view">
+            {% block room_view %}
+            {% endblock room_view %}
+          </div>
 	</div>
       </div>
     </div>
