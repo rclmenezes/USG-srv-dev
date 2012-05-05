@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template.loader import render_to_string
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.mail import send_mail
@@ -113,7 +114,7 @@ def leaderboard(request):
         hours_dict[group_type] = sorted(hours_dict[group_type], key=operator.itemgetter(1), reverse=True)
 
     #for rendering the choices of month
-    months = sorted(list(set(g.month for g in GroupHours.objects.all())))
+    months = GroupHours.objects.get_months()
     month_choices = tuple((m.strftime("%m-%Y"), m.strftime("%B %Y"), m==month) for m in months)
 
     return render_to_response('ccc/leaderboard.html', {'hours_dict': hours_dict, 'user_hours': user_hours, 'total_hours': total_hours,
@@ -126,22 +127,55 @@ def leaderboard(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def hours_admin(request):
-    return render_to_response('ccc/hours_admin.html')
+    today = datetime.date.today()
+    month = datetime.date(today.year, today.month, 1)
+    top_users = LogCluster.objects.get_month_hours(month)
+
+    #for rendering the choices of month
+    months = GroupHours.objects.get_months()
+    month_choices = tuple((m.strftime("%m-%Y"), m.strftime("%B %Y")) for m in months)
+
+    return render_to_response('ccc/hours_admin.html', {'month_choices':month_choices})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def get_user_hours(request):
     '''
-    Returns json of the user's hours. Called when admin user searches
+    Returns html of the user's hours. Called when admin user searches
     for a NETID at /hours_admin/
     '''
-    netid = request.GET['netid']
     try:
-        user = User.objects.get(username=netid)
-    except User.DoesNotExist, e:
-        return HttpResponse("User %s could not be found" % netid)
-    hours = LogCluster.objects.get_user_hours(user=user)
-    return HttpResponse("%s: %d hours" % (netid, hours))
+        netid = request.GET['netid']
+        try:
+            user = User.objects.get(username=netid)
+        except User.DoesNotExist, e:
+            return HttpResponse("User %s could not be found" % netid)
+        hours = LogCluster.objects.get_user_hours(user=user)
+        return HttpResponse("%s: %d hours" % (netid, hours))
+    except Exception, e:
+        return HttpResponse("Invalid input: %s" % e)
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def get_month_group_hours(request):
+    '''
+    Returns HTML for hours each user logged in a month for a particular group, in
+    sorted order of # of hours logged.
+    '''
+    try:
+        in_month, in_year = request.GET['month'].split('-')
+        month = datetime.date(int(in_year), int(in_month), 1)
+        if 'group' in request.GET and 'groupType' in request.GET:
+            group = request.GET['group']
+            top_hours = LogCluster.objects.get_month_hours(month, request.GET['group'], request.GET['groupType'])
+        else:
+            group = None
+            top_hours = LogCluster.objects.get_month_hours(month)
+        return HttpResponse(render_to_string('ccc/hours_admin_mg_hours.html', {'top_hours':top_hours,
+            'month':month.strftime('%B %Y'),
+            'group':group}))
+    except Exception, e:
+        return HttpResponse("Invalid input: %s" % e)
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
