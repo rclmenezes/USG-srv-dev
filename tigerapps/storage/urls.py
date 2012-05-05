@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
+    (r'^emails/?$', 'storage.views.emails'),
     
     (r'^paypal/ipntesturl123/?$', 'storage.views.my_ipn'),
 

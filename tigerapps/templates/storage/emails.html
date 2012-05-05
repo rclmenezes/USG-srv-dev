@@ -1,0 +1,26 @@
+{% extends "storage/base.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<div style="width:50%;float:left;">
+	<h2>Emails of paid orders</h2>
+	
+	<table>
+	{% for email in orders %}
+		<tr><td>{{email}}</td></tr>
+	{% endfor %}
+	</table>
+	
+	</div><div style="width:50%;float:right;">
+	<h2>Emails of unpaid orders</h2>
+	
+	<table>
+	{% for email in u_orders %}
+		<tr><td>{{email}}</td></tr>
+	{% endfor %}
+	</table>
+	
+	</div>	
+{% endblock %}
