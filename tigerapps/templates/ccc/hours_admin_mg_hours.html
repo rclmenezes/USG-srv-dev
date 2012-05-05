@@ -1,0 +1,11 @@
+{% if top_hours %}
+<p style="text-align:center;">Top hours for {% if group %}{{group}} in{% endif %} {{month}}</p>
+<table>
+	<tr><th>NetID</th><th>Hours</th></tr>
+	{% for netid,hours in top_hours %}
+		<tr><td>{{netid}}</td><td>{{hours}}</td></tr>
+	{% endfor %}
+</table>
+{% else %}
+<p style="text-align:center;">Nothing found</p>
+{% endif %}
