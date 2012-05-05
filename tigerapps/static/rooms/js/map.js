@@ -61,8 +61,8 @@ function initialize() {
     var buffer = document.getElementById("middle_buffer");
 	document.getElementById("expandMap").addEventListener("click", function()
 		{
-		    tophalf.style.height = "86.75%"; 
-		    datap.style.height="11.75%";
+		    tophalf.style.height = "90.5%"; 
+		    datap.style.height="9.5%";
             buffer.style.display="block";
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
@@ -75,8 +75,8 @@ function initialize() {
 	    })
 	document.getElementById("restoreMap").addEventListener("click", function()
 		{
-		    tophalf.style.height = "49.25%"; 
-		    datap.style.height="49.25%";
+		    tophalf.style.height = "50%"; 
+		    datap.style.height="50%";
             buffer.style.display="block";
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })

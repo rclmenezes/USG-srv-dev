@@ -64,8 +64,7 @@ var QueueModule = (function($) {
     }
     var switchdraw = function(e, drawid) {
         $('#room_queue').load('/get_queue/'+drawid, switchhelper);
-	$('#queuehead').html(drawdata[drawid-1]['name']); // needs to be more secure?
-	$('#queuehead').append(' Queue');
+	$('#queuehead').html('Current Queue: ' + drawdata[drawid-1]['name']); // needs to be more secure?
     }
 
         
