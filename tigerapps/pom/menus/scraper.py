@@ -1,5 +1,6 @@
 import urllib
 from bs4 import BeautifulSoup
+import httplib2
 
 
 DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
@@ -42,14 +43,18 @@ def scrape_single_menu(bldg_code):
     as a menu object"""
     hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
+    '''
     try:
         f = urllib.urlopen(url)
     except:
         raise Exception("couldn't urlopen the menu feed url")
-    
-    try:
-        data = f.read()
-        bs = BeautifulSoup(data)
+    '''
+    #try:
+    if 1:
+        h = httplib2.Http(timeout=100)
+        resp, content = h.request(url)
+        #data = f.read()
+        bs = BeautifulSoup(content)
         menu = Menu()
         menu.title = bs.title.contents[0]
     
@@ -66,10 +71,10 @@ def scrape_single_menu(bldg_code):
                 entree.earth_friendly = True if entree_xml.earth_friendly.contents[0] == 'y' else False
                 meal.entrees.append(entree)
             menu.meals[meal.name] = meal
-    except:
-        raise Exception("couldn't parse the menu feed XML")
-    finally:
-        f.close()
+    #except:
+        #raise Exception("couldn't parse the menu feed XML")
+    #finally:
+        #f.close()
     return menu
 
 def scrape_all():

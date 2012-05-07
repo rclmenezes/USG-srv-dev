@@ -42,9 +42,9 @@ a img
     visibility: hidden;
 }
 
-.content h3
+.content h3, p
 {
-    margin-left: 20px
+    margin: 15px 20px;
 }
 
 a {
