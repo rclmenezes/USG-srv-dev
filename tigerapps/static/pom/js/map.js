@@ -22,12 +22,13 @@ function mapInit() {
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
 	jmap.map = document.getElementById('jmap-movable');
-	//jmap.$mapContainer = $('#jmap-container');
+	jmap.mapInfo = document.getElementById('jmap-info');
 	jmap.infoTop = document.getElementById('info-top');
-	
+
 	//static constants
 	jmap.tileSZ = 256; //square
-	jmap.mapSZ = [{},{},{},{x:1024,y:1024,scale:2},{x:2816, y:2048,scale:1}];
+	//jmap.mapBounds = {x1:68,y1:55,x2:2816,y2:2048};
+	jmap.mapBounds = {x1:77,y1:55,x2:2715,y2:2046};
 	
 	//for dragging
 	jmap.isDragging = false;
@@ -47,8 +48,6 @@ function mapInit() {
 	jmap.loadedBldgs = {};
 	jevent.bldgCodeHasEvent = {};
 
-	/*REMOVE*/
-	tmp1 = true;
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
 	window.onresize = loadTiles;
@@ -80,10 +79,10 @@ function mapInit() {
 
 //ensures x,y input are within the bounds of the map
 function boundDispX(x) {
-	return -Math.max(Math.min(x, 0), jmap.mapContainer.offsetWidth-jmap.mapSZ[jmap.zoom].x);
+	return -Math.max(Math.min(x, -jmap.mapBounds.x1), jmap.mapContainer.offsetWidth-jmap.mapBounds.x2);
 }
 function boundDispY(y) {
-	return -Math.max(Math.min(y, 0), jmap.mapContainer.offsetHeight-jmap.mapSZ[jmap.zoom].y);
+	return -Math.max(Math.min(y, -jmap.mapBounds.y1), jmap.mapContainer.offsetHeight-jmap.mapBounds.y2);
 }
 
 //given a center coordinate, compute top-left coordinate (dispX/dispY)
@@ -134,7 +133,8 @@ function bldgCodeToId(bldgCode) {
 function setupGlobalDrag() {
 	document.onmousemove = mouseMove;
 	document.onmouseup = recordMouseUp
-	/*REMOVE*/
+	
+	/* For getting building coordinates using mouse on map
 	$(window).keydown(function(event) {
 		if (event.ctrlKey && event.keyCode == 49) {
 			event.preventDefault();
@@ -151,6 +151,7 @@ function setupGlobalDrag() {
 			$('#box8').val($('#box6').val()-$('#box4').val());
 		}
 	})
+	*/
 }
 function setupTileDrag(domEle) {
 	domEle.onmousedown = function(ev){recordMouseDown(ev, jmap.map);};
@@ -162,8 +163,9 @@ function recordMouseDown(ev, domEle) {
 	document.body.style.cursor = jmap.cursorGrabbing;
 	jmap.isDragging = true;
 	jmap.mouseStart = mouseCoords(ev);
-	var objOffset = $(domEle).offset();
-	jmap.mapStart	= {x:objOffset.left, y:objOffset.top};
+	var mapOffset = $(domEle).offset();
+	var mapContainerOffset = $('#jmap-container').offset();
+	jmap.mapStart = {x:mapOffset.left-mapContainerOffset.left, y:mapOffset.top-mapContainerOffset.top};
 }
 // erases that junk
 function recordMouseUp() {
@@ -191,12 +193,12 @@ function mouseMove(ev){
 		//it's actually noticeably slower if we load for every drag
 		//loadTiles();
 	}
-	/*REMOVE*/
-	if (tmp1) {
-		var c = mouseCoords(ev);
-		$('#box1').val(jmap.dispX+c.x);
-		$('#box2').val(jmap.dispY+c.y-28);
-	}
+	/* For getting building coordinates using mouse on map
+	var c = mouseCoords(ev);
+	var mapContainerOffset = $('#jmap-container').offset();
+	$('#box1').val(jmap.dispX+c.x+mapContainerOffset.left);
+	$('#box2').val(jmap.dispY+c.y+mapContainerOffset.top);
+	*/
 }
 
 //Returns the current coordinates of the mouse
@@ -204,8 +206,8 @@ function mouseCoords(ev){
 	if(ev.pageX || ev.pageY)
 		return {x:ev.pageX, y:ev.pageY};
 	return {
-		x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-		y:ev.clientY + document.body.scrollTop  - document.body.clientTop
+		x:ev.clientX+document.body.scrollLeft-document.body.clientLeft,
+		y:ev.clientY+document.body.scrollTop-document.body.clientTop
 	};	
 }
 
@@ -228,7 +230,6 @@ function loadTiles() {
 				domEle.setAttribute('src', jmap.tilesDir+id+'.png');
 				domEle.setAttribute('class', 'jmap-tile');
 				domEle.setAttribute('id', id);
-				domEle.setAttribute('style', 'position:absolute;width:256px;height:256px;');
 				var pos = tileIdToPos(id);
 				domEle.style.left = pos.left;
 				domEle.style.top = pos.top;
@@ -246,8 +247,8 @@ function tilesOnMap() {
 	return {
 		minX: Math.floor(jmap.dispX/jmap.tileSZ),
 		minY: Math.floor(jmap.dispY/jmap.tileSZ),
-		maxX: Math.ceil(Math.min(jmap.mapSZ[jmap.zoom].x, jmap.dispX+jmap.mapContainer.offsetWidth) / jmap.tileSZ)-1,
-		maxY: Math.ceil(Math.min(jmap.mapSZ[jmap.zoom].y, jmap.dispY+jmap.mapContainer.offsetHeight) / jmap.tileSZ)-1
+		maxX: Math.ceil(Math.min(jmap.mapBounds.x2, jmap.dispX+jmap.mapContainer.offsetWidth) / jmap.tileSZ)-1,
+		maxY: Math.ceil(Math.min(jmap.mapBounds.y2, jmap.dispY+jmap.mapContainer.offsetHeight) / jmap.tileSZ)-1
 	};
 }
 
@@ -281,7 +282,7 @@ function loadTileBldgs(id) {
 			jmap.loadedBldgs[id] = {'domEle':domEle};
 			domEle.setAttribute('class', 'jmap-bldg');
 			domEle.setAttribute('id', id);
-			domEle.setAttribute('style', 'position:absolute;z-index:'+bldg.zIndex+';');
+			domEle.setAttribute('style', 'z-index:'+bldg.zIndex+';');
 			setupBldg(domEle);
 			domEle.style.height = bldg.height;
 			domEle.style.width = bldg.width;
@@ -462,7 +463,7 @@ function displayInfoEvent(data) {
 			$('#info-bot').css('overflow-y', 'scroll');
 			$('#info-divider').css('border-top', '1px solid #C0C0C0');
 			$('#info-bot').animate({
-				height: jmap.map.offsetHeight-jmap.infoTop.offsetHeight-115 + 'px',
+				height: jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-80 + 'px',
 			}, 400);
 		}
 	}
@@ -487,7 +488,7 @@ function hideInfoEvent() {
 	$('#info-divider').css('border-style','none');
 	$('#info-bot').animate({
 		height:'0px',
-	}, 400);
+	}, 200);
 }
 
 

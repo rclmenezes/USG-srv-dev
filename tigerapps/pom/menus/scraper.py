@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
-                'HARGH':8, 'CENJL':5, 'GRCOL':4}
+                'HARGH':8, 'CENJL':5, 'GRADC':4}
 
 url_stub = 'http://facilities.princeton.edu/dining/_Foodpro/menu.asp?locationNum=0'
 
