@@ -1,0 +1,11 @@
+.tl {
+	border: 1px solid gray;
+	padding: 0;
+}
+
+.tl-tick {
+	border: 1px dotted gray;
+	margin: 0;
+	padding: 0;
+	
+}

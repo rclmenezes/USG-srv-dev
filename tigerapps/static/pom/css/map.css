@@ -25,7 +25,7 @@ ul {
 	top: 28px;/*none*/
 	left: 0px;/*20px*/
 	bottom: 0px;/*20px*/
-	width: 380px;
+	width: 360px;
     padding:10px;
 }
 
@@ -51,7 +51,6 @@ ul {
 
 #info-divider {
 	height: 0px;
-	width: 362px;
 	margin-left: 15px;
 	margin-right: 3px;
 }
@@ -83,7 +82,7 @@ ul {
 #jmap-container {
 	position: absolute;
 	top: 28px;
-	left: 400px;
+	left: 380px;
 	right: 0px;
 	bottom: 0px;
 	background-color:LightGray;
