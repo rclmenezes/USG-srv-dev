@@ -1,8 +1,11 @@
-<div>Building name: {{bldg_name}}</div>
-<div>
-	<p>Events:</p>
-	<ul>{% for event in events %}
-		<li>{{event.event_cluster.cluster_title}}<br/>
-			{{event.event_date_time_start|date:"M/d/Y H:m"}}</li>
-	{% endfor %}</ul>
-</div>
+<h3 id="info-bldg-name">{{bldg_name}}</h3>
+
+{% for machine in machines %}
+	<div class="info-event-entry">
+		<span style="font-weight:bold">{{machine.0}}</span>
+		<div class="info-event-subtext">
+			<span>Washers: {{machine.1}} free of {{machine.2}}</span> <br>
+			<span>Dryers: {{machine.3}} free of {{machine.4}}</span> 
+		</div>
+	</div>
+{% endfor %}

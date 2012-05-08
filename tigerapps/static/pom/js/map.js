@@ -352,13 +352,14 @@ function setupFilterTabs() {
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
  * displayed + loads bldgs for filter + reloads events for filter if events already open */
 function handleFilterTypeChange(newFilterType) {
-	if (jevent.filterType != newFilterType && newFilterType < 5) {
+	if (jevent.filterType != newFilterType) {
 		jevent.filterType = newFilterType;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		AJAXbldgsForFilter();
+		if (newFilterType < 5)
+			AJAXbldgsForFilter();
 		if (jevent.bldgDisplayed != null)
 			hideInfoEvent();
 	}
