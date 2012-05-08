@@ -7,7 +7,7 @@ PRINTER_BLDGS = {
     '1937': '1937H',
     '1981': 'HARGH',
     'Blair': 'BLAIR',
-    'Bloomberg': 'BLOOM',
+    'Bloomberg_315': 'BLOOM',
     'Brown': 'BROWN',
     'Brush_Gallery': 'JADWH',
     # Building D

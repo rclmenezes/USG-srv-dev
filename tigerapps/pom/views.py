@@ -131,24 +131,28 @@ def events_for_bldg(request, bldg_code):
     
         #assert building contains laundry room
         response_json = simplejson.dumps({'error': 'not implemented'})
-        '''
+
         if bldg_code not in getBldgsWithLaundry():
            err = 'requested laundry info from invalid building ' + BLDG_INFO[bldg_code][0]
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                washer_info = get_bldg_washer_info(bldg_code)
-                dryer_info = get_bldg_dryer_info(bldg_code)
+                mapping = cache.get('laundry')
+                if mapping == None:
+                    mapping = laundry.scrape_all()
+                    try: 
+                        cache.set('laundry', mapping, 1000)
+                    except Exception, e:
+                        send_mail('EXCEPTION IN pom.views events_for_bldg laundry', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                laundry_info = mapping[bldg_code]
                 html = render_to_string('pom/laundry_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'washer_info' : washer_info,
-                                         'dryer_info' : dryer_info})
+                                         'machines' : laundry_info})
                 response_json = simplejson.dumps({'error': None,
                                                   'html': html,
                                                   'bldgCode': bldg_code})
             except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)})
-                ''' 
+                response_json = simplejson.dumps({'error': str(e)}) 
     
     
     elif filter_type == '4':
@@ -166,7 +170,7 @@ def events_for_bldg(request, bldg_code):
                     try:
                         cache.set('printer', mapping, 1000)
                     except Exception, e:
-                        send_mail('EXCEPTION IN pom.views events_for_bldg', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                        send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
                 printer_info = mapping[bldg_code]
                 html = render_to_string('pom/printer_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
