@@ -115,6 +115,9 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
+                log = open('/srv/tigerapps/slog','a')
+                log.write('before call to scrape: %s\n' % bldg_code)
+                log.close()
                 menu_info = menus.scrape_single_menu(bldg_code)
                 html = render_to_string('pom/menu_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],

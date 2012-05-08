@@ -1,6 +1,6 @@
-import urllib
+import urllib2
 from bs4 import BeautifulSoup
-import httplib2
+import httplib
 
 
 DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
@@ -49,11 +49,22 @@ def scrape_single_menu(bldg_code):
     except:
         raise Exception("couldn't urlopen the menu feed url")
     '''
+    import socket
+    socket.setdefaulttimeout(3)
+    log = open('/srv/tigerapps/slog','a')
     #try:
     if 1:
-        h = httplib2.Http(timeout=100)
-        resp, content = h.request(url)
-        #data = f.read()
+        log.write('before urlopen: %s\n' % bldg_code)
+        #c = httplib.HTTPConnection("facilities.princeton.edu")
+        #c.request("GET", "/dining/_Foodpro/menu.asp", headers={'locationNum':'02'})
+        #r = c.getresponse()
+        #content = r.read()
+        #r.close()
+        #c.sock.shutdown()
+        #c.close()
+        f = urllib2.urlopen(url)
+        content = f.read()
+        log.write('after urlopen: %s\n' % bldg_code)
         bs = BeautifulSoup(content)
         menu = Menu()
         menu.title = bs.title.contents[0]
@@ -75,6 +86,8 @@ def scrape_single_menu(bldg_code):
         #raise Exception("couldn't parse the menu feed XML")
     #finally:
         #f.close()
+        
+    log.close()
     return menu
 
 def scrape_all():

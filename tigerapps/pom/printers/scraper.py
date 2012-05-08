@@ -1,4 +1,4 @@
-import urllib
+import urllib2
 from bs4 import BeautifulSoup
 
 
@@ -67,7 +67,7 @@ def scrape_single_printer(bldg_code):
 
 def scrape_all():
     '''returns dict of list of printers, bldg_code:[printers]'''
-    data = urllib.urlopen(url).read()
+    data = urllib2.urlopen(url).read()
     bs = BeautifulSoup(data)
     table = bs.find('table')
     rows = table.find_all('tr')[1:]

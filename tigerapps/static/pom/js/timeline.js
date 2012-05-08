@@ -7,6 +7,7 @@ function timelineInit(idTl, idInput) {
 	//static constants
 	jtl.dayBorderHt = 2; //in addition to 1 border
 	jtl.minTickHt = 7; //not including border
+	jtl.minTimeLabelHt = 20;
 	jtl.wkdays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
 	
 	dispTimeTicks();
@@ -33,7 +34,7 @@ function dispTimeTicks() {
 		jtl.tickHt = tickHt;
 	}
 	jtl.dayHt = (jtl.tickHt+1)*(jtl.nTicks/jtl.tickFactor+1);
-		
+	jtl.nTicksPerLabel = jtl.minTimeLabelHt/(jtl.tickHt+1);
 	
 	var tmpDate = new Date();
 	tmpDate.setTime(jtl.startDate.getTime());
@@ -57,6 +58,14 @@ function dispTimeTicks() {
 		divDay.appendChild(domEle);
 
 		for (i=0; i<jtl.nTicks; i+=jtl.tickFactor) {
+			if ((i/jtl.tickFactor % jtl.nTicksPerLabel) == 1) {
+				var domEle = document.createElement('div');
+				domEle.setAttribute('class', 'jtl-box jtl-time');
+				domEle.setAttribute('style', 'height:15px;top:'+(/2-7+jtl.dayBorderHt/2)+'px;right:'+(-jtl.dayHt/2+7)+'px');
+				$(domEle).html(dateAbbrStr(tmpDate));
+				tmpDate.setDate(tmpDate.getDate()+1);
+				divDay.appendChild(domEle);
+			}				
 			var domEle = document.createElement('hr');
 			domEle.setAttribute('class', 'jtl-box jtl-tick');
 			domEle.setAttribute('style', 'height:'+jtl.tickHt+'px');
