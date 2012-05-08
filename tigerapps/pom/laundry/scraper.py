@@ -63,8 +63,10 @@ def scrape_all():
     #a list of [number washers free, total number of washers] and room_struct.dryers() returns a list of
     #[number of dryers free, total number of dryers].
     laundry_info = {}
-    for name,roomid in LAUNDRY_ROOMS.iteritems():
-        laundry_info[name] = room.Room(url_str + roomid)
+    
+    '''Cannot access this from dev server-- substituted with "fake" values for demo'''
+    #for name,roomid in LAUNDRY_ROOMS.iteritems():
+    #    laundry_info[name] = room.Room(url_str + roomid)
     return laundry_info
 
 def print_laundry_info(laundry_info):

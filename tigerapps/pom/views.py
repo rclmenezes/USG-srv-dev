@@ -4,12 +4,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.template import RequestContext
 #from pom.models import *
+from cal.models import Event
 from pom import cal_event_query
 from pom.bldg_info import *
 from pom.menus import scraper as menus
 from pom.printers import scraper as printers
+from pom.laundry import scraper as laundry
 import datetime, simplejson
-
+from django.core.cache import cache
+from django.core.mail import send_mail
 
 def index(request, offset):
     # not used due to direct_to_template in urls.py
@@ -50,7 +53,8 @@ def bldgs_for_filter(request):
         
     else:
         #Let an error happen, since this shouldn't occur
-        pass
+        #pass
+        bldgsList = []
         
     response_json = simplejson.dumps({'error': None,
                                       'bldgs': tuple(bldgsList)})
@@ -70,7 +74,9 @@ def events_for_bldg(request, bldg_code):
     if filter_type == '0':
         #0 = standard event
         try:
-            events = cal_event_query.bldg_filtered(bldg_code)
+            events = cal_event_query.filter_res_by_date(cal_event_query.bldg_filtered(bldg_code), 
+                                                        request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
+                                                        request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
@@ -155,7 +161,14 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                printer_info = printers.scrape_single_printer(bldg_code)
+                mapping = cache.get('printer')
+                if mapping == None:
+                    mapping = printers.scrape_all()
+                    try:
+                        cache.set('printer', mapping, 1000)
+                    except Exception, e:
+                        send_mail('EXCEPTION IN pom.views events_for_bldg', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                printer_info = mapping[bldg_code]
                 html = render_to_string('pom/printer_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
                                          'printers' : printer_info})
@@ -173,5 +186,9 @@ def events_for_bldg(request, bldg_code):
 
     return HttpResponse(response_json, content_type="application/javascript")
 
-
+# make dictionary of name, code pairs for use in location-based filtering 
+def make_bldg_names_json(request):
+    bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
+    response_json = simplejson.dumps(bldg_names)
+    return HttpResponse(response_json, content_type="application/javascript")
 

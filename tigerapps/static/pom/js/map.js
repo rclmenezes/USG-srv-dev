@@ -58,6 +58,7 @@ function mapInit() {
 	//links
 	jevent.urlBldgsForFilter = '/bldgs/filter/';
 	jevent.urlEventsForBldg = '/events/bldg/';
+	jevent.urlBldgNames = '/bldgs/name/';
 	
 	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
 		'<td style="padding:1px 4px 0;">Loading...</td>' +
@@ -69,7 +70,8 @@ function mapInit() {
     jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
     jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
 	
-	setupFilterDisplay();
+	setupFilterTabs();
+	setupActualFilters();
 }
 
 
@@ -341,7 +343,7 @@ function handleBldgClick(ev,domEle) {
 /***************************************/
 
 /* These setup the filters so that AJAX calls are sent when the filters are changed */
-function setupFilterDisplay() {
+function setupFilterTabs() {
 	$("#info-top-types input").click(function(ev) {
 		handleFilterTypeChange(ev.target.value);
 	});
@@ -492,3 +494,36 @@ function hideInfoEvent() {
 }
 
 
+
+
+
+/***************************************/
+/* Predefined filters                  */ 
+/***************************************/
+function setupActualFilters() {
+	locationFilter();
+}
+
+//load the bldgs.json file that holds all HTML-element data for the buildings
+function locationFilter() {
+	$.ajax(jevent.urlBldgNames, {
+		dataType: 'json',
+		success: function(data) {
+			alert(data);
+			jevent.bldgNames = data;
+			
+			// create list of building names
+			var nameList = new Array();
+			i = 0;
+			for (name in data)
+				nameList[i++] = name;
+			
+			$( "#locations-search" ).autocomplete({
+				source: nameList, 
+				delay: 0 
+			});
+			
+		},
+		error: handleAjaxError
+	});
+}
