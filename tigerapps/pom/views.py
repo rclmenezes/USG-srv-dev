@@ -53,7 +53,8 @@ def bldgs_for_filter(request):
         
     else:
         #Let an error happen, since this shouldn't occur
-        pass
+        #pass
+        bldgsList = []
         
     response_json = simplejson.dumps({'error': None,
                                       'bldgs': tuple(bldgsList)})
@@ -185,5 +186,9 @@ def events_for_bldg(request, bldg_code):
 
     return HttpResponse(response_json, content_type="application/javascript")
 
-
+# make dictionary of name, code pairs for use in location-based filtering 
+def make_bldg_names_json(request):
+    bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
+    response_json = simplejson.dumps(bldg_names)
+    return HttpResponse(response_json, content_type="application/javascript")
 
