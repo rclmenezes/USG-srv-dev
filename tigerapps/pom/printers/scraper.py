@@ -1,6 +1,7 @@
 import urllib
 from bs4 import BeautifulSoup
 
+
 PRINTER_BLDGS = {
     '1901': '1901H',
     '1937': '1937H',
@@ -54,7 +55,7 @@ class Printer:
     def __init__(self, loc, color, status):
         self.loc = loc
         self.color = color
-        self.status = status
+        self.status = str(status)
     def __str__(self):
         return self.status
     __repr__ = __str__
