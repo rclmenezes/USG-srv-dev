@@ -9,6 +9,7 @@ from pom import cal_event_query
 from pom.bldg_info import *
 from pom.menus import scraper as menus
 from pom.printers import scraper as printers
+from pom.laundry import scraper as laundry
 import datetime, simplejson
 from django.core.cache import cache
 from django.core.mail import send_mail
