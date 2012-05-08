@@ -1,11 +1,45 @@
-.tl {
+#jtl {
 	border: 1px solid gray;
 	padding: 0;
+	width:155px;
+	position: absolute;
+	left: 500px;
 }
 
-.tl-tick {
-	border: 1px dotted gray;
+
+.jtl-box {
+	border: 0 none;
 	margin: 0;
 	padding: 0;
+	display: block;
+}
+
+.jtl-day {
+	width: 100%;
+	position:absolute;
+}
+.jtl-tick-box-border {
+	border-bottom: 3px solid #888888;
+}
+
+.jtl-date {
+	-webkit-transform: rotate(90deg); 
+	-moz-transform: rotate(90deg);	
+	height: 15px;
+	position: absolute;
 	
+	text-align:center;
+	padding-top: 1px;
+	font-size: 12px;
+	color: #555555;
+}
+
+
+.jtl-tick-box {
+	width:100px;
+	position: relative;
+	left: 40px;
+}
+.jtl-tick {
+	border-bottom: 1px dotted #aaaaaa;
 }

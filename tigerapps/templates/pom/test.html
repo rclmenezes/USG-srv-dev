@@ -5,21 +5,26 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 	
 <!-- 	<script type="text/javascript" src="/static/pom/js/util.js"></script> -->
-<!-- 	<script type="text/javascript" src="/static/pom/js/map.js"></script> -->
 	<script type="text/javascript" src="/static/pom/js/timeline.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/overcast/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/timeline.css"/>
 	
 	<script type="text/javascript">
-		$(document).ready(function() { timelineInit('timeline'); });
+		$(document).ready(function() { timelineInit('jtl', 'jtl-input'); });
 	</script>	
 </head>
 <body>
 
-<div id="timeline" style="height:100%;width:100px;margin:auto;border:1px solid black;">
+<div id="jtl-input" style="float:left;">
+	<input type="text" id="jtl-startDay" value="05/07/2012"/><br/>
+	<input type="text" id="jtl-nDays" value="7"/><br/>
+	<input type="text" id="jtl-startTime" value="10:00"/><br/>
+	<input type="text" id="jtl-endTime" value="20:00"/><br/>
+</div>
 
-
+<div id="jtl" style="height:100%;margin:auto;">
 
 </div>
 
