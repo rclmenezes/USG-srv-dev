@@ -352,7 +352,7 @@ function setupFilterTabs() {
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
  * displayed + loads bldgs for filter + reloads events for filter if events already open */
 function handleFilterTypeChange(newFilterType) {
-	if (jevent.filterType != newFilterType) {
+	if (jevent.filterType != newFilterType && newFilterType < 5) {
 		jevent.filterType = newFilterType;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+newFilterType).css('display', 'block');
@@ -509,16 +509,16 @@ function locationFilter() {
 	$.ajax(jevent.urlBldgNames, {
 		dataType: 'json',
 		success: function(data) {
-			alert(data);
 			jevent.bldgNames = data;
 			
 			// create list of building names
 			var nameList = new Array();
-			i = 0;
+			var i = 0;
 			for (name in data)
 				nameList[i++] = name;
+			nameList.sort();
 			
-			$( "#locations-search" ).autocomplete({
+			$("#locations-search").autocomplete({
 				source: nameList, 
 				delay: 0 
 			});

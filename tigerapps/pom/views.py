@@ -53,8 +53,7 @@ def bldgs_for_filter(request):
         
     else:
         #Let an error happen, since this shouldn't occur
-        #pass
-        bldgsList = []
+        pass
         
     response_json = simplejson.dumps({'error': None,
                                       'bldgs': tuple(bldgsList)})
