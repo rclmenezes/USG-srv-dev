@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.template import RequestContext
 #from pom.models import *
+from cal.models import Event
 from pom import cal_event_query
 from pom.bldg_info import *
 from pom.menus import scraper as menus
@@ -70,7 +71,9 @@ def events_for_bldg(request, bldg_code):
     if filter_type == '0':
         #0 = standard event
         try:
-            events = cal_event_query.bldg_filtered(bldg_code)
+            #events = cal_event_query.bldg_filtered(bldg_code)
+            events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
+                                                  request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1']).filter(event_location=bldg_code)
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
