@@ -1,6 +1,6 @@
 body {
 	font-family: helvetica,sans-serif;
-	font-size: 0.95em;
+	font-size: 13px;
 }
 h1, h2, h3 {
 	-webkit-margin-before: 0;
@@ -17,14 +17,83 @@ ul {
 }
 
 
+/*************/
+/* Left panel */
+/*************/
+#jmap-info {
+	position:absolute;
+	top: 28px;/*none*/
+	left: 0px;/*20px*/
+	bottom: 0px;/*20px*/
+	width: 380px;
+    padding:10px;
+}
+
+#info-top {
+	height: 235px;
+	margin:0 20px 15px;
+}
+#info-title {
+	height:35px;
+	width:325px;
+	float: left;
+	margin:-4px 0 15px -14px;
+}
+#info-top-types {
+	margin:10px 0;
+}
+#info-top-filters {
+	margin:5px 0;
+}
+.top-tab {
+	display: none;
+}
+
+#info-divider {
+	height: 0px;
+	width: 362px;
+	margin-left: 15px;
+	margin-right: 3px;
+}
+#info-bot {
+	height: 0px;
+	overflow: hidden;
+	margin:15px 5px 15px 20px;
+}
+
+
+/*************/
+/* For event data */
+/*************/
+#info-bldg-name {
+	margin-bottom:10px;
+}
+.info-event-entry {
+	padding:0 0 8px;
+}
+.info-event-subtext {
+	margin-left: 5px;
+}
+
+
+
+/*************/
+/* Map */
+/*************/
 #jmap-container {
 	position: absolute;
 	top: 28px;
-	left: 0px;
+	left: 400px;
 	right: 0px;
 	bottom: 0px;
 	background-color:LightGray;
 	overflow: hidden;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 #jmap-movable {
@@ -35,8 +104,14 @@ ul {
 	height: 100%;
 	background-color:LightGray;
 }
-
-
+.jmap-tile {
+	position:absolute;
+	width:256px;
+	height:256px;
+}
+.jmap-bldg {
+	position:absolute;
+}
 
 .map-box {
 	background-color:#FAFCF8;
@@ -56,74 +131,17 @@ ul {
 	margin-left:-62px;
 }
 
-#jmap-info {
-	position:absolute;
-	bottom: 20px;
-	left: 20px;
-	width: 380px;
-    padding:10px;
-}
-
-#info-top {
-	height: 235px;
-	margin:0 20px 15px;
-}
-#info-title {
-	height:35px;
-	width:325px;
-	float:right;
-	margin:-5px -16px 15px 0;
-}
-#info-top-types {
-	margin:10px 0;
-}
-#info-top-filters {
-	margin:5px 0;
-}
-.top-tab {
-	display: none;
-}
-
-#info-divider {
-	height: 0px;
-	width: 95%;
-	margin: auto;
-}
-#info-bot {
-	height: 0px;
-	overflow: hidden;
-	margin:15px 10px 15px 20px;
-}
-
-
-/*************/
-/* For bldg data */
-/*************/
-#info-bldg-name {
-	margin-bottom:10px;
-}
-.info-event-entry {
-	padding:0 0 8px;
-}
-.info-event-subtext {
-	margin-left: 5px;
-}
-
 
 /*************/
 /* Options bar */
 /*************/
 #jmap-options {
 	position:absolute;
-	left: 420px;
+	left: 0px;
 	right: 0px;
 	bottom: 20px;
 	padding: 0 30px 0;
     z-index:100;
-}
-
-#jmap-slider {
-    z-index: 101
 }
 
 

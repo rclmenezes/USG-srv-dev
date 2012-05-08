@@ -29,7 +29,9 @@ for line in csv:
     y1 = y0 + int(fields[4])
     code = fields[5].rstrip()
     cut = image.crop((x0, y0, x1, y1))
-    filename = out_folder + zoomLevel + '-' + code + '-' + suffix + ext
+    filename = out_folder + zoomLevel + '-' + code
+    if suffix != '': filename += '-' + suffix
+    filename += ext
     print(filename)
     cut.save(filename)
 

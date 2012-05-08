@@ -151,8 +151,19 @@ def order(request):
                                'proxy_info': proxy_info,
                                'proxy_form': form},
                               RequestContext(request))
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def emails(request):
+    orders = Order.objects.all()
+    order_emails = set(order.user.username + '@princeton.edu' for order in orders)
+    unpaid_orders = UnpaidOrder.objects.all()
+    unpaid_order_emails = set(u_order.user.username + '@princeton.edu' for u_order in unpaid_orders if u_order.user.username+'@princeton.edu' not in order_emails)
+    return render_to_response('storage/emails.html', {'u_orders': unpaid_order_emails, 'orders': order_emails}, RequestContext(request))
 
-from django.core.mail import send_mail
+
+#------------------
+#paypal stuff
+#------------------
 
 def my_ipn(request):
     try:

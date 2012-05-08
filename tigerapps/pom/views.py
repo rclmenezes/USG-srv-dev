@@ -7,6 +7,7 @@ from django.template import RequestContext
 from pom import cal_event_query
 from pom.bldg_info import *
 from pom.menus import scraper as menus
+from pom.printers import scraper as printers
 import datetime, simplejson
 
 
@@ -109,10 +110,10 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                menu = menus.scrape_single_menu(bldg_code)
+                menu_info = menus.scrape_single_menu(bldg_code)
                 html = render_to_string('pom/menu_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'menu': menu})
+                                         'menu': menu_info})
                 response_json = simplejson.dumps({'error': None,
                                                   'html': html,
                                                   'bldgCode': bldg_code})
@@ -149,23 +150,20 @@ def events_for_bldg(request, bldg_code):
         #4 = printers
 
         #assert building contains printer
-        response_json = simplejson.dumps({'error': 'not implemented'})
-        '''
         if bldg_code not in getBldgsWithPrinters():
            err = 'requested printer info from invalid building ' + BLDG_INFO[bldg_code][0]
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                printer_info = get_bldg_washer_info(bldg_code)
+                printer_info = printers.scrape_single_printer(bldg_code)
                 html = render_to_string('pom/printer_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'printer_info' : printer_info})
+                                         'printers' : printer_info})
                 response_json = simplejson.dumps({'error': None,
                                                   'html': html,
                                                   'bldgCode': bldg_code})
             except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)}) 
-                '''
+                response_json = simplejson.dumps({'error': str(e)})
         
         
     else:

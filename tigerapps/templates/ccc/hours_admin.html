@@ -21,6 +21,19 @@ $(document).ready(function() {
 	        }
 	    };
     $('#get_hours_form').ajaxForm(hours_options);
+    
+    var month_group_options = {
+    		url: '/hours_admin/get_month_group_hours/',
+    		type: 'get',
+    		target: '#get_month_group_display',
+	        error: function(xhr, ajaxOptions, thrownError){
+	        	alert(thrownError);
+	            alert('Server error: please refresh');
+	        }
+    }
+    $('#get_month_group_form').ajaxForm(month_group_options);
+	
+    /*
 	var awards_options = {
 	        url: '/hours_admin/get_user_awards/',
 	        type: 'get',
@@ -39,6 +52,7 @@ $(document).ready(function() {
 	        }
 	    };
     $('#post_awards_form').ajaxForm(post_awards_options);
+    */
 });
 </script>
 {% endblock %}
@@ -48,12 +62,36 @@ $(document).ready(function() {
 
 <h3>Get hours for any student:</h3>
 <form id="get_hours_form">
-NetID: <input type="text" name="netid" id="get_hours_netid" />
-<input type="submit" value="Search" id="get_hours_submit" />
+	NetID: <input type="text" name="netid" id="get_hours_netid" />
+	<input type="submit" value="Search" />
 </form>
 <div id="get_hours_display"></div>
 
 
+<hr>
+
+
+<h3>Get top hours for any month/group:</h3>
+<form id="get_month_group_form">
+	Month (required):
+		<select name="month">{% for val,month in month_choices %}
+	    	<option value="{{val}}">{{month}}</option>
+		{% endfor %}</select><br/>
+	Group Type (optional):
+		<select name="groupType">
+			<option value=""></option>
+			<option value="eating_club">Eating Club</option>
+			<option value="year">Class year</option>
+			<option value="res_college">Res College</option>
+	</select><br/>
+	Group Name (optional, required if group type entered, must be exact with correct caps):
+		<input type="text" name="group"/><br/>
+	<input type="submit" value="Search" />
+</form>
+<div id="get_month_group_display"></div>
+
+
+<!--
 <p>Note; the rest of these functions are in extreme beta</p>
 
 <h3>Get students deserving of awards:</h3>
@@ -63,7 +101,7 @@ NetID: <input type="text" name="netid" id="get_hours_netid" />
 Date threshold: <input type="text" name="date" id="get_awards_date" />
 <br/>
 Hours threshold: <input type="text" name="hours" id="get_awards_hours" />
-<input type="submit" value="Search" id="get_awards_submit" />
+<input type="submit" value="Search" />
 </form>
 <div id="get_awards_display"></div>
 
@@ -75,9 +113,10 @@ Hours threshold: <input type="text" name="hours" id="get_awards_hours" />
 NetID: <input type="text" name="netid" id="post_awards_netid" />
 <br/>
 Hours threshold: <input type="text" name="hours" id="post_awards_hours" />
-<input type="submit" value="Search" id="post_awards_submit" />
+<input type="submit" value="Search" />
 </form>
 <div id="post_awards_display"></div>
+-->
 
 
 {% endblock %}

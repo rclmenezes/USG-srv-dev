@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
+from operator import itemgetter
+from dateutil.relativedelta import relativedelta
 
 YEAR_CHOICES = (("2012", "2012"), ("2013", "2013"), ("2014", "2014"), ("2015", "2015"))
 RES_COLLEGE_CHOICES = (("Forbes","Forbes"), ("Whitman", "Whitman" ), ("Rockefeller", "Rockefeller"),
@@ -20,11 +22,20 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
+
+class GroupHoursManager(models.Manager):
+    def get_months(self):
+        '''ready for sending to <select> html box'''
+        months = sorted(list(set(g.month for g in GroupHours.objects.all())))
+        return months
+
 #I made this so the leaderboard would be more efficient 
 class GroupHours(models.Model):
     group = models.CharField(max_length=30)
     hours = models.IntegerField()
     month = models.DateField()
+
+    objects = GroupHoursManager()
     
     def __unicode__(self):
         return self.group
@@ -33,12 +44,24 @@ class GroupHours(models.Model):
         ordering = ['month']
         verbose_name_plural = 'Group hours'
 
+
+
 class LogClusterManager(models.Manager):
     def get_user_hours(self, user):
         hours = LogCluster.objects.filter(user=user).aggregate(models.Sum('hours'))['hours__sum']
         if not hours:
             return 0
         return hours
+
+    def get_month_hours(self, month, group=None, group_type=None):
+        next_month = month + relativedelta(months=+1)
+        qset = LogCluster.objects.filter(date__gte=month, date__lt=next_month)
+        if group:
+            qset = qset.filter(**{group_type:group})
+        results = qset.values('user__username').annotate(tot_hours=models.Sum('hours'))
+        top_hours = sorted([(res['user__username'], res['tot_hours']) for res in results], key=itemgetter(1), reverse=True)
+        return top_hours
+
 
 class LogCluster(models.Model):
     date = models.DateField(help_text="Date of service")

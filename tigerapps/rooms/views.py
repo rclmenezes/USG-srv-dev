@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from django import forms
 import json
 import sys
+import time
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -43,9 +44,11 @@ def index(request):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
-        handle_settings_form(request, user)
-
+        if request.POST['form_type'] == 'settings':
+            handle_settings_form(request, user)
+    
     return render_to_response('rooms/base_dataPanel.html', locals())
+
 
 @login_required
 def draw(request, drawid):
@@ -84,7 +87,7 @@ def get_room(request, roomid):
     if not user:
         return HttpResponseForbidden()
     room = get_object_or_404(Room, pk=roomid)
-    return HttpResponse('Win!')
+    return render_to_response('rooms/room_view.html', {'room':room})
     
 @login_required
 def create_queue(request, drawid):
@@ -140,11 +143,80 @@ def get_queue(request, drawid):
         return HttpResponse('no queue')
     queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
     if not queueToRooms:
-        return HttpResponse('no rooms')
+        return HttpResponse('')
     room_list = []
     for qtr in queueToRooms:
         room_list.append(qtr.room)
     return render_to_response('rooms/queue.html', {'room_list':room_list})
+
+# Send a queue invite
+@login_required
+def invite_queue(request):
+    try:
+        draw_id = int(request.POST['draw_id'])
+        netid = request.POST['netid']
+    except:
+        return HttpResponse('')
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        receiver = User.objects.get(netid=netid)
+        draw = Draw.objects.get(pk=draw_id)
+    except:
+        return HttpResponse('Bad netid/draw id')
+    invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
+                         timestamp=int(time.time()))
+    invite.save()
+    return HttpResponse('Ok')
+
+# Respond to a queue invite
+@login_required
+def respond_queue(request):
+    try:
+        invite_id = int(request.POST['invite_id'])
+        accepted = int(request.POST['accepted'])
+    except:
+        return HttpResponseForbidden()
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        invite = user.q_received_set.get(pk=invite_id)
+    except Exception as e:
+        return HttpResponse(e)
+    try:
+        if accepted:
+            invite.accept()
+        else:
+            invite.deny()
+    except Exception as e:
+        return HttpResponse(e)
+    return HttpResponse('good')
+
+# Respond to a queue invite
+@login_required
+def leave_queue(request):
+    try:
+        draw = Draw.objects.get(pk=int(request.POST['draw_id']))
+    except:
+        return HttpResponse('')
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    q1 = user.queues.get(draw=draw)
+    if 1 == q1.user_set.count():
+        return HttpResponse('')
+    q2 = Queue(draw=draw)
+    q2.save()
+    qtrs = q1.queuetoroom_set.all()
+    for qtr in qtrs:
+        qtr.pk = None
+        qtr.queue = q2
+        qtr.save()
+    user.queues.remove(q1)
+    user.queues.add(q2)
+    return HttpResponse('good')
 
 @login_required
 #for testing
@@ -152,7 +224,6 @@ def review(request, roomid):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
-        
     try:
         room = Room.objects.get(id=roomid)
     except Room.DoesNotExist:
@@ -211,17 +282,84 @@ def review(request, roomid):
     else:
         return render_to_response('rooms/reviewtest.html', {'submitted': False})
 
-def settings(q):
-    return render_to_response('rooms/usersettings.html')
+@login_required
+def settings(request):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+
+    return render_to_response('rooms/usersettings.html', {'user': user})
 
 def handle_settings_form(request, user):
     
     phone = int(request.POST['phone'])
-    code = phone * 3 + user.id
-    content = "Your confirmation code is: %s" % code
-    carriers = Carrier.objects.order_by('name')
     
-    for carrier in carriers:
-        print carrier.address
-        send_mail("", content, 'rooms@tigerapps.org',
-              ["%s@%s" % (phone, carrier.address)], fail_silently=False)
+    if phone != int(user.phone):
+        # Send confirmation code
+        carriers = Carrier.objects.order_by('name')
+    
+        for carrier in carriers:
+            code = (phone / 10000) * 3 + user.id + carrier.id * 7
+            content = "Your confirmation code is: %s" % code
+            send_mail("", content, 'rooms@tigerapps.org',
+                      ["%s@%s" % (phone, carrier.address)], fail_silently=False)
+        user.confirmed = False
+
+    user.phone = phone
+    user.do_text = bool(('do_text' in request.POST) and request.POST['do_text'])
+    user.do_email = bool(('do_email' in request.POST) and request.POST['do_email'])
+    user.save()
+
+
+def handle_confirmphone_form(confirmation, user):
+    carrier_id = int(confirmation) - (int(user.phone) / 10000 * 3) - user.id;
+
+    if carrier_id < 0 or carrier_id % 7 != 0:
+        return False
+
+    carrier_id /= 7
+
+    try:
+        carrier = Carrier.objects.get(id=carrier_id)
+        user.carrier = carrier
+        user.confirmed = True
+        user.save()
+        return True
+    except:
+        return False
+
+ 
+@login_required
+def confirm_phone(request):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        if request.POST['form_type'] == 'settings':
+            handle_settings_form(request, user)
+            first_try = True
+        elif request.POST['form_type'] == 'confirmphone':
+            handle_confirmphone_form(request.POST['confirmation'], user)
+            first_try = False
+        else:
+            first_try = True
+    else:
+        first_try = True
+
+#    num_carriers = Carrier.objects.count()
+#    check_confirmation_js = """var confirmation = document.confirmphone_form.confirmation;
+
+#   var carrier_id = confirmation - 3 * {{user.phone}} - {{user.id}};
+#   if(carrier_id < 0 || carrier_id %% 7 != 0 || carrier_id >= %d)
+#   {
+#        alert("Sorry, this is an invalid confirmation code. Please try again.");
+#        return false;
+#   }
+#   carrier_id /= 7;
+
+#   document.confirmphone_form.carrier_id = carrier_id;
+#   return true;""" % (num_carriers * 7)
+
+        print first_try
+    return render_to_response('rooms/confirmphone.html', {'user': user, 'first_try':first_try})

@@ -1,5 +1,6 @@
 from django.core.mail import send_mail, BadHeaderError
 from ttrade.models import *
+import settings
 import datetime
 
 def listerConfirmation(listing, offer):

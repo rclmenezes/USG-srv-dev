@@ -65,7 +65,6 @@ def scrape_all():
     laundry_info = {}
     for name,roomid in LAUNDRY_ROOMS.iteritems():
         laundry_info[name] = room.Room(url_str + roomid)
-    
     return laundry_info
 
 def print_laundry_info(laundry_info):
