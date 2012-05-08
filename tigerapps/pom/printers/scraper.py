@@ -1,6 +1,5 @@
-import urllib2
 from bs4 import BeautifulSoup
-
+from utils.scrape import scrapePage
 
 PRINTER_BLDGS = {
     '1901': '1901H',
@@ -67,7 +66,10 @@ def scrape_single_printer(bldg_code):
 
 def scrape_all():
     '''returns dict of list of printers, bldg_code:[printers]'''
-    data = urllib2.urlopen(url).read()
+    data = scrapePage(url)
+    f = open('/srv/tigerapps/slog', 'a')
+    f.write('returned from scrapePage() into printer scraper\n')
+    f.close()
     bs = BeautifulSoup(data)
     table = bs.find('table')
     rows = table.find_all('tr')[1:]
