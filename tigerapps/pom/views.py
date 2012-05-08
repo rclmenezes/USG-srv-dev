@@ -9,7 +9,8 @@ from pom.bldg_info import *
 from pom.menus import scraper as menus
 from pom.printers import scraper as printers
 import datetime, simplejson
-
+from django.core.cache import cache
+from django.core.mail import send_mail
 
 def index(request, offset):
     # not used due to direct_to_template in urls.py
@@ -155,7 +156,14 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                printer_info = printers.scrape_single_printer(bldg_code)
+                mapping = cache.get('printer')
+                if mapping == None:
+                    mapping = printers.scrape_all()
+                    try:
+                        cache.set('printer', mapping, 1000)
+                    except Exception, e:
+                        send_mail('EXCEPTION IN pom.views events_for_bldg', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                printer_info = mapping[bldg_code]
                 html = render_to_string('pom/printer_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
                                          'printers' : printer_info})
