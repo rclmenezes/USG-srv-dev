@@ -331,7 +331,7 @@ function handleBldgClick(ev,domEle) {
 }
 
 
-function centerOnBuilding(bldgCode) {
+function centerOnBldg(bldgCode) {
 	// calculate new center coords
 	centroidX = bldgCode.left + bldgCode.width/2;
 	centroidY = bldgCode.top + bldgCode.height/2;
@@ -371,8 +371,7 @@ function handleFilterTypeChange(newFilterType) {
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		if (newFilterType < 5)
-			AJAXbldgsForFilter();
+		AJAXbldgsForFilter();
 		if (jevent.bldgDisplayed != null)
 			hideInfoEvent();
 	}
@@ -536,6 +535,11 @@ function locationFilter() {
 				source: nameList, 
 				delay: 0,
 				minLength: 3,
+				select: function(event, ui) {
+					// get this building's code, center map on it, and display it's events
+					bldgCode = data.(ui.item);
+					centerOnBldg(bldgCode);
+				}
 			});
 			
 		},
