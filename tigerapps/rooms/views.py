@@ -212,7 +212,7 @@ def respond_queue(request):
         return HttpResponse(e)
     return render_to_response('rooms/manage_queues.html')
 
-# Respond to a queue invite
+# Leave a queue that was previously shared
 @login_required
 def leave_queue(request):
     try:
@@ -234,7 +234,7 @@ def leave_queue(request):
         qtr.save()
     user.queues.remove(q1)
     user.queues.add(q2)
-    return HttpResponse('good')
+    return render_to_response('rooms/manage_queues.html')
 
 @login_required
 #for testing
@@ -375,5 +375,13 @@ def manage_queues(request):
     if not user:
         return HttpResponseForbidden()
 
+
+    received_invites = QueueInvite.objects.filter(receiver=user)
+    user_queues = user.queues.all()
+    shared_queues = []
+    for q in user_queues:
+        if q.user_set.count() > 1:
+            shared_queues.append(q)
     return render_to_response('rooms/manage_queues.html', {'user' : user, 'draws' : Draw.objects.all(),
-                                                           'received_invites' : QueueInvite.objects.filter(receiver=user)})
+                                                           'received_invites' : received_invites,
+                                                           'shared_queues' : shared_queues})

@@ -32,6 +32,11 @@
 {
    width: 100px;
 }
+
+#leave
+{
+    width: 120px;
+}
 </style>
 
 
@@ -126,6 +131,37 @@ function onLoad()
 {% else %}
 
     <p>You haven't received any invitations yet! Why don't you send one with the form above?</p>
+
+{% endif %}
+
+
+<a name="shared" />
+
+<h1>Shared Queues</h1>
+
+{% if shared_queues %}
+
+  {% for queue in shared_queues %}
+     <div class="shared_queue">
+     <p><b>Shared Queue: {{ queue }}</b></p>
+     <p>
+     Members:
+     <ul>
+     {% for friend in queue.user_set.all %}
+         <li> {{ friend.firstname }} {{ friend.lastname }} ({{ friend.netid }}@princeton.edu)</li>
+     {% endfor %}
+     </ul>
+     </p>
+     <form action="/leave_queue/" method="post" name="leavequeue">
+     <input type="hidden" id="draw_id" name="draw_id" value="{{ queue.draw.id }}" />
+     <input type="submit" id="leave" value="Unshare Queue" />
+     </form>
+     </div>
+  {% endfor %}
+
+{% else %}
+  
+  <p>You don't have any shared queues yet! Why don't you send an invitation with the form above?</p>
 
 {% endif %}
 

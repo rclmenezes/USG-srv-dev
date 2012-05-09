@@ -2,13 +2,13 @@
 <head>
     <title>HelloStephen</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/pom/js/jquery-ui-1.8.20.custom.min.js"></script>
 	
 	<script type="text/javascript" src="/static/pom/js/util.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<!--<script type="text/javascript" src="/static/pom/js/slider.js"></script>-->
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/overcast/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/pom/css/jquery-ui-1.8.20.custom.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
 	
 	<script type="text/javascript">
@@ -32,8 +32,8 @@
 	        
 		<div id="info-top-types">
 			<input type="radio" id="filter-events" name="filter-type" value="0" checked="checked"/><label for="filter-events">Events</label></input>
-			<input type="radio" id="other-info" name="filter-type" value="1"/><label for="other-info">Other Info</label></input>
-			<input type="radio" id="filter-lcoations" name="filter-type" value="5"/><label for="filter-lcoations">Locations</label></input>
+			<input type="radio" id="campus-info" name="filter-type" value="a"/><label for="campus-info">Campus Info</label></input>
+			<input type="radio" id="filter-locations" name="filter-type" value="5"/><label for="filter-locations">Locations</label></input>
 		</div>
 		
 		<div id="info-top-filters">
@@ -62,8 +62,8 @@
 				-->
 				
 			</div>
-			<div id="top-tab-1" class="top-tab">
-				<div id="other-info-types">
+			<div id="top-tab-a" class="top-tab">
+				<div id="campus-info-types">
 					<input type="radio" id="filter-menus" name="filter-type" value="2"/><label for="filter-menus">Menus</label></input>
 					<input type="radio" id="filter-laundry" name="filter-type" value="3"/><label for="filter-laundry">Laundry</label></input>
 					<input type="radio" id="filter-printers" name="filter-type" value="4"/><label for="filter-printers">Printers</label></input>
@@ -86,11 +86,6 @@
 
 <div id="jmap-container">
 	<div id="jmap-movable">
-	</div>
-	
-	<div id="jmap-options">
-		<div id="bot-options-0" class="bot-options">
-		</div>
 	</div>
 </div>
 	

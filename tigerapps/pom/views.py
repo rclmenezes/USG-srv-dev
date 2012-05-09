@@ -191,7 +191,9 @@ def events_for_bldg(request, bldg_code):
             
 
     return HttpResponse(response_json, content_type="application/javascript")
-def all_for_bldg(request):
+
+
+def events_for_all_bldgs(request):
     '''
     Return the HTML that should be rendered in the info box given the
     building in the GET parameter of the request
@@ -206,11 +208,10 @@ def all_for_bldg(request):
             events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                         request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
             html = render_to_string('pom/event_info_all.html',
-                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                    {'bldg_name': 'All Events',
                                      'events': events})
             response_json = simplejson.dumps({'error': None,
-                                              'html': html,
-                                              'bldgCode': bldg_code})
+                                              'html': html})
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
     
@@ -239,8 +240,6 @@ def all_for_bldg(request):
         #3 = laundry
     
         #assert building contains laundry room
-        response_json = simplejson.dumps({'error': 'not implemented'})
-
         
         try:
             machine_list = cache.get('laundry_list')
@@ -271,17 +270,22 @@ def all_for_bldg(request):
         #assert building contains printer
         
         try:
-            mapping = cache.get('printer')
-            if mapping == None:
+            printer_list = cache.get('printer_list')
+            if printer_list == None:
                 mapping = printers.scrape_all()
+                printer_list = []
+                for key, value in mapping.items():
+                    for x in value:
+                        printer_list.append((x.loc, x.color, x.status))
+                printer_list = sorted(printer_list, key=lambda x: x[0])
                 try:
-                    cache.set('printer', mapping, 1000)
+                    cache.set('printer_list', printer_list, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-            printer_info = mapping['FRIST']
-            html = render_to_string('pom/printer_info.html',
+
+            html = render_to_string('pom/printer_info_all.html',
                                     {'bldg_name': BLDG_INFO['FRIST'][0],
-                                     'printers' : printer_info})
+                                     'printers' : printer_list})
             response_json = simplejson.dumps({'error': None,
                                               'html': html})
         except Exception, e:
@@ -291,9 +295,10 @@ def all_for_bldg(request):
     else:
         #Let an error happen, since this shouldn't occur
         pass
-            
-
+        
     return HttpResponse(response_json, content_type="application/javascript")
+
+
 # make dictionary of name, code pairs for use in location-based filtering 
 def make_bldg_names_json(request):
     bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
