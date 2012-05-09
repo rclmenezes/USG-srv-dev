@@ -331,21 +331,6 @@ function handleBldgClick(ev,domEle) {
 }
 
 
-function centerOnBldg(bldgCode) {
-	// calculate new center coords
-	centroidX = bldgCode.left + bldgCode.width/2;
-	centroidY = bldgCode.top + bldgCode.height/2;
-	//use these for calculating displacement from the top-left
-	centroid = mapCenterToDisp(centroidX, centroidY);
-	
-	// jump to this location, refresh tiles
-	jmap.dispX = start.x;	
-	jmap.dispY = start.y;	
-	loadTiles();
-}
-
-
-
 
 /***************************************************************************/
 /***************************************************************************/
@@ -520,11 +505,6 @@ function setupActualFilters() {
 
 //load the bldgs.json file that holds all HTML-element data for the buildings
 function locationFilter() {
-	$('#location-search-form').submit(function() {
-		jumpToBldg();
-		return false;
-	});
-	
 	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
 		success: function(data) {
@@ -536,23 +516,43 @@ function locationFilter() {
 			for (name in data)
 				nameList[i++] = name;
 			
-			$( "#locations-search" ).autocomplete({
+			$( "#location-search" ).autocomplete({
 				source: nameList, 
 				delay: 0,
 				minLength: 3,
 			});
-			
 		},
 		error: handleAjaxError
 	});
+	
+	$('#location-search-form').submit(function(event) {
+		// get submitted building's code, center map on it, and display it's events
+		bldgName = $('#location-search').val();
+		bldgCode = jevent.bldgNames[bldgName];
+		centerOnBldg(bldgCode);
+		return false;
+	});
 }
 
-function jumpToBldg() {
-	// get submitted building's code, center map on it, and display it's events
-	bldgName = $('#location-search-form').val;
-	bldgCode = jevent.bldgNames[ui.item];
-	centerOnBldg(bldgCode);
+
+function centerOnBldg(bldgCode) {
+	// calculate new center coords
+	var bldgID = bldgCodeToId(bldgCode);
+	var bldgObject = jmap.bldgsInfo[bldgID];
+	var centroidX = bldgObject.left + bldgObject.width/2;
+	var centroidY = bldgObject.top + bldgObject.height/2;
+	centroid = mapCenterToDisp(centroidX, centroidY);
 	
+	// jump to this location, refresh tiles
+	jmap.dispX = centroid.x;	
+	jmap.dispY = centroid.y;
+	$(jmap.map).animate({
+		left: -jmap.dispX,
+		top: -jmap.dispY,
+	}, {
+		duration: 100,
+		complete: loadTiles
+	});
 }
 
 
