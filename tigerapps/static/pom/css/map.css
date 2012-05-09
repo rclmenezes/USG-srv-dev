@@ -30,9 +30,12 @@ a:hover{
 /*************/
 #jmap-info {
 	position:absolute;
-	top: 28px;/*none*/
-	left: 0px;/*20px*/
-	bottom: 0px;/*20px*/
+	top: 28px;
+	left: 0px;
+	bottom: 0px;
+	width: 380px;
+}
+#info-content {
 	width: 360px;
     padding:10px;
 }
@@ -71,7 +74,6 @@ a:hover{
 	margin:15px 0px 15px 11px;
 }
 
-
 /*************/
 /* For event data */
 /*************/
@@ -88,6 +90,27 @@ a:hover{
 .info-event-description {
 	/*margin-left: 5px;*/
 	color:#464646; /*gray*/
+}
+
+
+
+/*************/
+/* Timeline */
+/*************/
+#info-jtl {
+	position:absolute;
+	top: 0;
+	left: 380px;
+	width: 155px;
+	bottom: 0;
+	z-index: 80;
+}
+#jtl-toggle {
+	position:absolute;
+	height:50px;
+	width:30px;
+	top:0px;
+	right:-30px;
 }
 
 
@@ -145,18 +168,6 @@ a:hover{
 	margin-left:-62px;
 }
 
-
-/*************/
-/* Options bar */
-/*************/
-#jmap-options {
-	position:absolute;
-	left: 0px;
-	right: 0px;
-	bottom: 20px;
-	padding: 0 30px 0;
-    z-index:100;
-}
 
 
 /*************/
