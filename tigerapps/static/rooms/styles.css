@@ -484,6 +484,16 @@ input
     padding: 5px;
 }
 
+.shared_queue
+{
+     background-color: #333333;
+     color: #FFFFFF;
+     font-weight: bold;
+     padding: 5px;
+     margin: 5px 40px 5px 30px;
+     width: 50%;
+}
+
 
 #room_view
 {
