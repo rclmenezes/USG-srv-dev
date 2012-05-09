@@ -1,4 +1,5 @@
 from utils.scrape import scrapePage
+import urllib3, urllib2
 from bs4 import BeautifulSoup
 
 

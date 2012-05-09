@@ -21,7 +21,7 @@ var QueueModule = (function($) {
         if (idlist.indexOf(roominfo['id']) != -1)
             return;
         idlist.push(roominfo['id']);
-        var tag ='<li id="'+prefix+roominfo['id']+'" class="ui-state-default">';
+        var tag ='<li id="'+prefix+roominfo['id']+'" class="queued_room">';
         tag += roominfo['number'] + ' ' + roominfo['building'] + '</li>';
         $('#room_queue').append(tag);
         $('#room_queue').sortable('refresh');
@@ -64,7 +64,7 @@ var QueueModule = (function($) {
     }
     var switchdraw = function(e, drawid) {
         $('#room_queue').load('/get_queue/'+drawid, switchhelper);
-	$('#queuehead').html('Current Queue: ' + drawdata[drawid-1]['name']); // needs to be more secure?
+	$('#queuehead').html(drawdata[drawid-1]['name'] + ' Queue'); // needs to be more secure?
     }
 
         

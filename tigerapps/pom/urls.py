@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^bldgs/filter/?$', 'pom.views.bldgs_for_filter'),
     url(r'^events/bldg/(?P<bldg_code>\S+)/?$', 'pom.views.events_for_bldg'),
     url(r'^bldgs/name/?$', 'pom.views.make_bldg_names_json'),
-
+    url(r'^events/all/?$', 'pom.views.events_for_all_bldgs'),
 
     url(r'^pmap/?$', direct_to_template,
         {'template': 'pom/pmap.html'}),

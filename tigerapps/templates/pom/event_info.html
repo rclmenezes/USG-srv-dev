@@ -2,11 +2,25 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
 {% for event in events %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold"> <a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/{{event.event_id}}" target="_blank">{{event.event_cluster.cluster_title}}</a> </span>
-		<div class="info-event-subtext">
-			{{event.event_date_time_start|date:"M d, Y h:m a"}}<br/>
-			{{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}
+	<div class="info-event-entry" id="info-event-{{event.event_id}}" onmouseover="this.style.background='#ECECEC';" onmouseout="this.style.background='white';">
+		<span style="font-weight:bold"> 
+			<a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/{{event.event_id}}" target="_blank">
+				{{event}}
+			</a> 
+		</span>
+		
+		<div class="info-event-subtitle">
+			{{event.event_date_time_start|date:"M d, Y h:i a"}}<br/>
+			{{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
+			
+			<div class="info-event-description">
+				{{event.event_cluster.cluster_description}}
+			</div>
+			
+			<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|urlencode:""}}&sprop=name:pcal" target="_blank">
+				<img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Add to Google Calendar">
+			</a>
+			<a href="/ical/{{event.event_id}}"><img src="/static/cal/css/img/ical.png" alt="Add to iCal" /></a>
 		</div>
 	</div>
 {% endfor %}
