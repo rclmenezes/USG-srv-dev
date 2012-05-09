@@ -408,6 +408,11 @@ input
     padding: 75px;
 }
 
+#settings_container p
+{
+    padding: 5px 40px 5px 30px;
+}
+
 #settings_container h1, h2, h3, h4, p
 {
     padding: 15px;
@@ -417,4 +422,53 @@ input
 {
     color: #CC0000;
     font-weight: bold;
+}
+
+/* Queue invitation styles */
+.queue_invite
+{
+    background-color: #333333;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px 40px 5px 30px;
+    width: 50%;
+}
+
+.queue_invite p
+{
+    padding: 5px;
+}
+
+.shared_queue
+{
+     background-color: #333333;
+     color: #FFFFFF;
+     font-weight: bold;
+     padding: 5px;
+     margin: 5px 40px 5px 30px;
+     width: 50%;
+}
+
+
+#room_view
+{
+    
+    padding: 20px;
+}
+
+#room_view_wrapper
+{
+    width: 100%;
+}
+
+.right
+{
+    position: absolute;
+    right: 0px;
+}
+
+a:hover
+{
+    cursor: pointer;
 }
