@@ -5,7 +5,7 @@
 		<span style="font-weight:bold">Breakfast</span>
 		{% for entree in menu.meals['Breakfast'] %}
 		<div class="info-event-subtext">
-			{{entree.name}}
+			{{entree.attributes['name']}}
 		</div>
 		{% endfor %}
 	</div>
@@ -16,7 +16,7 @@
 		<span style="font-weight:bold">Lunch</span>
 		{% for entree in menu.lunch.entrees %}
 		<div class="info-event-subtext">
-			{{entree.name}}
+			{{entree.attributes['name']}}
 		</div>
 		{% endfor %}
 	</div>
@@ -27,7 +27,7 @@
 		<span style="font-weight:bold">Dinner</span>
 		{% for entree in menu.dinner.entrees %}
 		<div class="info-event-subtext">
-			{{entree.name}}
+			{{entree.attributes['name']}}
 		</div>
 		{% endfor %}
 	</div>

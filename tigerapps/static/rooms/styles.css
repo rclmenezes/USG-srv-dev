@@ -387,6 +387,14 @@ input
 
 }
 
+#fp_title
+{
+    padding: 3px;
+    position: absolute;
+    left: 150px;
+    top: 30px;
+}
+
 .fp_button
 {
     padding: 3px;

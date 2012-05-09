@@ -1,9 +1,10 @@
 var FLOOR_PLAN_ZOOM_LEVELS = [.4, .55, .7, .85, 1, 1.2, 1.5, 2];
 var FLOOR_PLAN_DEFAULT_ZOOM = 1;
+var FLOOR_PLAN_HINT_DIRECTIONS = {UP : 0,
+				  DOWN : 1}
 
-function displayFloorPlan(name, floor)
+function displayFloorPlan(name, floor, hint_direction)
 {
-    console.log("Floor plan for: " + name);
     var map_canvas = document.getElementById("map_canvas");
     var fp_canvas = document.getElementById("floorplan_canvas");
     var bldgId;
@@ -11,7 +12,7 @@ function displayFloorPlan(name, floor)
     var current_view_pos = {x: 0, y: 0};
     var mousedown_pos = undefined; 
 
-    if(! floor)
+    if((! floor) && (floor !== 0))
 	floor = 1;
     
     map_canvas.style.display = "none";
@@ -21,22 +22,47 @@ function displayFloorPlan(name, floor)
     fp_canvas.style.width = "100%";
 
 
+    var fp_img = getFloorPlanImg();
+    if(! fp_img)
+    {
+	if(hint_direction===FLOOR_PLAN_HINT_DIRECTIONS.UP)
+	    return displayFloorPlan(name, floor+1);
+	else if (hint_direction===FLOOR_PLAN_HINT_DIRECTIONS.DOWN)
+	    return displayFloorPlan(name, floor-1);
+	else
+	{
+	    alert("Sorry, this floor does not exist or cannot be viewed.");
+	    return false;
+	}
+    }
+
     fp_canvas.innerHTML = "";
-    fp_canvas.appendChild(getFloorPlanImg(name));
+    console.log("name, floor: " + name + " " + floor);
+    fp_canvas.appendChild(fp_img);
+    fp_canvas.appendChild(getFloorPlanTitle(name, floor));
     fp_canvas.appendChild(getBackButton());
     fp_canvas.appendChild(getZoomInButton());
     fp_canvas.appendChild(getZoomOutButton());
     fp_canvas.appendChild(getFloorUpButton());
     fp_canvas.appendChild(getFloorDownButton());
 
-    function getFloorPlanImg(name)
+    return true;
+
+    function getFloorPlanImg()
     {
 	
 	bldgId = pdfByBldg[name][floor];
+	if(! bldgId)
+	    return null;
 
 	var default_zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[FLOOR_PLAN_DEFAULT_ZOOM];
 
 	var img = document.createElement("img");
+        //img.onError = function()
+        //{
+        //    console.log("Error loading: " + this.src);
+        //    this.src = "static/rooms/images/floorplan_error.jpg";
+        //}
 	img.src = "static/rooms/images/floorplans/" + bldgId + "-001.jpg";
 	img.style.width = floorplancoordsWidth * default_zoom_factor + "px";
 	img.id = "floorplan_img";
@@ -158,6 +184,14 @@ function displayFloorPlan(name, floor)
 	getFloorPlanImgMap(new_zoom_index);
     }
 
+    function getFloorPlanTitle(name, floor)
+    {
+	var title = document.createElement("span");
+	title.innerHTML = "<h1>" + name + " [" + floor + "]</h1>"; // TODO make this prettier
+	title.id = "fp_title";
+	return title;
+    }
+
     function getBackButton()
     {
 	var button = document.createElement("span");
@@ -218,7 +252,7 @@ function displayFloorPlan(name, floor)
 
 	button.onclick = function()
 	{
-	    displayFloorPlan(name, floor+1);
+	    displayFloorPlan(name, floor+1, FLOOR_PLAN_HINT_DIRECTIONS.UP);
 	}
 
 	return button;
@@ -233,7 +267,7 @@ function displayFloorPlan(name, floor)
 
 	button.onclick = function()
 	{
-	    displayFloorPlan(name, floor-1);
+	    displayFloorPlan(name, floor-1, FLOOR_PLAN_HINT_DIRECTIONS.DOWN);
 	}
 
 	return button;
