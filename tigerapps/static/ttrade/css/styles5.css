@@ -135,41 +135,13 @@ span#right
 .right
 {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 5px;
+    right: 15px;
 }
 
-    #make_a_listing
-    {
-        width: 109px;
-        position: absolute;
-        right: 15px;
-        top: 5px;
-        font-weight: bold;
-    }
-    
-    #your_listings
-    {
-        width: 95px;
-        position: absolute;
-        right: 10px;
-        top: 25px;
-        font-weight: bold;
-    }
-
-    #login
-    {
-        position: absolute;
-        right: 15px;
-        top: 5px;
-        font-weight: bold;
-    }
-    
-    #logout
-    {
-        position: absolute;
-        right: 15px;
-        top: 45px;
+    .right div {
+        padding: 2px 0 0;
+        text-align: right;
         font-weight: bold;
     }
 
