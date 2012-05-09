@@ -12,7 +12,7 @@
     <li>Subfree: {{ room.subfree }}</li>
     <li>Floor: {{ room.floor }}</li>
     <li>Room Count: {{ room.numrooms }}</li>
-    <li>Gender: {{ room.gender }}</li>
+    <li>Gender: {{ room.get_gender_display }}</li>
     <li>Available?
     {% if room.avail %}Yes{% else %}No{% endif %}
     </li>
@@ -23,13 +23,11 @@
       {% if room.bi %}Yes{% else %}No{% endif %}
     </li>
     <li>Connected Room? 
-    {% if room.bi %}Yes{% else %}No{% endif %}
+    {% if room.con %}Yes{% else %}No{% endif %}
     </li>
     <li>Bathroom: 
-      {{ room.bathroom }}
-      <!--{% if room.bathroom == "PR" %}private{% endif %}-->
+      {{ room.get_bathroom_display }}
     </li>
-    
     <li><a href="../review/{{ room.id }}">Review</a></li>
     </ul>
 </div>
