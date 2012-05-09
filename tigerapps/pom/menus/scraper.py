@@ -29,7 +29,7 @@ class Entree:
         self.attributes = {}
 
     def __str__(self):
-        return str(self.__dict__)
+        return str(self.attributes)
     __repr__ = __str__
         
 
@@ -44,7 +44,7 @@ def scrape_single_menu(bldg_code):
     content = scrapePage(url)
     bs = BeautifulSoup(content)
     menu = Menu()
-    menu.title = bs.title.contents[0]
+    #menu.title = bs.title.contents[0]
     #log('dildo')
     for meal_xml in bs.find_all('meal'):
         #log('cock')
