@@ -197,7 +197,9 @@ BLDG_INFO = {
     '1903H': ('1903 Hall',(),True),
     '1937H': ('1937 Hall',(),True),
     'CLAPP': ('Dodge-Osborn/1927-Clapp Hall',(),True),
-    'LAUGH': ('Laughlin/1901 Hall',(),True)
+    'LAUGH': ('Laughlin/1901 Hall',(),True),
+    '2DICK': ('2 Dickinson Street',('Dickinson Co-op'),True),
+    '71UNI': ('71 University Place',('Office of Conference and Event Services', 'Princeton Summer Sports Camps'),True)
     
 }
 
