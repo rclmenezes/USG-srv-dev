@@ -373,9 +373,19 @@ function displayFilteredBldgs(data) {
 /* We don't need django for location, but we need to gray out the buildings + make them all clickable */
 function displayLocationBldgs() {
 	for (id in jmap.loadedBldgs) {
-		jevent.bldgCodeHasEvent[bldgIdToCode(id)] = false;
-		setupPlainBldg(jmap.loadedBldgs[id].domEle, true);
+		var bldgCode = bldgIdToCode(id);
+		if (jevent.bldgCodeHasEvent[bldgCode]) {
+			jevent.bldgCodeHasEvent[bldgCode] = false;
+			setupPlainBldg(jmap.loadedBldgs[id].domEle, true);
+		}
 	}
+}
+/* We also need a way to color just 1 building (the one the user searched for) */
+function displayLocationBldg(bldgId) {
+	displayLocationBldgs();
+	setupEventBldg(jmap.loadedBldgs[bldgId]);
+	alert(bldgId);
+	alert(jmap.loadedBldgs[bldgId]);
 }
 
 function showMapLoading() {
@@ -557,18 +567,18 @@ function undisplayTimeline() {
 	jevent.timelineShown = tmp;
 }
 function showTimeline() {
-	$(jmap.jtl).show(100)
+	$(jmap.jtl).show(80)
 	$(jmap.info).animate({
 		width:'535px'
-	}, 100);
+	}, 80);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
 	jevent.timelineShown = true;
 }
 function hideTimeline() {
-	$(jmap.jtl).hide(100)
+	$(jmap.jtl).hide(80)
 	$(jmap.info).animate({
 		width:'380px'
-	}, 100);
+	}, 80);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
 	jevent.timelineShown = false;
 }
@@ -612,14 +622,11 @@ function setupLocationFilter() {
 }
 
 function centerOnBldg(bldgCode) {
-	// calculate new center coords
-	var bldgID = bldgCodeToId(bldgCode);
-	var bldgObject = jmap.bldgsInfo[bldgID];
-	var centroidX = bldgObject.left + bldgObject.width/2;
-	var centroidY = bldgObject.top + bldgObject.height/2;
-	centroid = mapCenterToDisp(centroidX, centroidY);
+	var bldgId = bldgCodeToId(bldgCode);
+	var bldgObject = jmap.bldgsInfo[bldgId];
 	
-	// jump to this location, refresh tiles
+	// jump to new center coords, refresh tiles
+	centroid = mapCenterToDisp(bldgObject.left + bldgObject.width/2, bldgObject.top + bldgObject.height/2);
 	jmap.dispX = centroid.x;	
 	jmap.dispY = centroid.y;
 	$(jmap.map).animate({
@@ -627,9 +634,11 @@ function centerOnBldg(bldgCode) {
 		top: -jmap.dispY,
 	}, {
 		duration: 200,
-		complete: loadTiles
+		complete: function() {
+			loadTiles();
+			displayLocationBldg(bldgId);
+		}
 	});
 }
-
 
 

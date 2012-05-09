@@ -19,22 +19,36 @@ function jTimeline(idTl, idInput) {
 	//data from django
 	jtl.eventSummary = {};
 	
-	setupJTLInput();
-	loadJTLEvents();
+	setupJTLInputs();
+}
+
+
+/***************************************/
+/* Input builders */
+/***************************************/
+
+/* called once at init, to setup input filters for timeline */
+function setupJTLInputs() {
+	$(jtl.input).html('<input type="text" id="jtl-startDay" value="05/07/2012"/>'+
+					  '<input type="text" id="jtl-nDays" value="2"/><br/>'+
+					  '<input type="text" id="jtl-startTime" value="0:30"/>'+
+					  '<input type="text" id="jtl-endTime" value="24:00"/>');
+	
+	//TODO: make the elements above datepickers, etc
+	
 	loadJTLTimeline();
-	addJTLEvents();
 }
 
-function setupJTLInput() {
-	//TODO, jtl.input
+/* NADER: Min/max range the slider of hours can go over. Basically call this on slide, and return false if this is violated */
+function minRangeOfTimes() {
+	return Math.ceil(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
+}
+function maxRangeOfTimes() {
+	return Math.floor(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
 }
 
-/***************************************/
-/* Timeline builders */
-/***************************************/
-
-/* Update base globals with params in filter input boxes */
-function getTimelineParams() {
+/* Update globals with params in filter input boxes */
+function loadJTLInputs() {
 	var startDate = $('#jtl-startDay').val().split('/');
 	jtl.startDate = new Date();
 	clearDateTime(jtl.startDate);
@@ -50,17 +64,15 @@ function getTimelineParams() {
 }
 
 
-function minRangeOfTimes() {
-	return Math.ceil(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
-}
-function maxRangeOfTimes() {
-	return Math.floor(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
-}
+/***************************************/
+/* Timeline builders */
+/***************************************/
 
 /* Load the timeline from scratch, used at init */
 function loadJTLTimeline() {
+	loadJTLInputs();
+	loadJTLEvents();
 	clearJTLTimeline();
-	getTimelineParams();
 	
 	//compute the sizes of each day, each tick, given the parameters + timeline size
 	jtl.nIntervals = jtl.endIndex - jtl.startIndex;
@@ -127,6 +139,7 @@ function loadJTLTimeline() {
 			}
 		}
 	}
+	addJTLEvents();
 }
 
 function clearJTLTimeline() {
