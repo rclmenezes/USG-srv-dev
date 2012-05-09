@@ -4,7 +4,9 @@
 
 function utilInit() {
 	$("button").button();
+	$("input[type=submit]").button();
 	$("#info-top-types").buttonset();
+	//$("#other-info-types").buttonset();
 	sliderInit();
 }
 
