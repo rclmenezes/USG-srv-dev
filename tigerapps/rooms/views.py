@@ -208,11 +208,22 @@ def respond_queue(request):
         return HttpResponse(e)
     try:
         if accepted:
-            invite.accept()
+            queue = invite.accept()
+            friends = queue.user_set.all()
+            for friend in friends:
+                if user != friend:
+                    receiver_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
+                    subject = "Rooms: %s Joined Your Queue" % user.firstname
+                    url = "http://rooms.tigerapps.org/"
+                    message = """Your friend %s has joined your room draw queue! Visit %s to browse rooms
+to add. """ % (receiver_name, url)
+                    notify(friend, subject, message)
         else:
             invite.deny()
     except Exception as e:
         return HttpResponse(e)
+
+
     return manage_queues(request);
 
 # Leave a queue that was previously shared
