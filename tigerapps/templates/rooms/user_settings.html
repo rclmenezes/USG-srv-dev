@@ -31,6 +31,17 @@ function onformsubmit()
 {
     var sf = document.settingsform;
 
+    // If do_text is selected, there must be a phone number
+    if(sf.do_text.checked && ! sf.phone.value)
+    {
+        alert("Sorry, you must enter a phone number to receive text messages.");
+        return false;
+    }
+
+    // Otherwise, don't require a phone number
+    if(! sf.phone.value)
+        return true;
+
     // Remove all extra symbols
     sf.phone.value = sf.phone.value.replace(/\(/g, "");
     sf.phone.value = sf.phone.value.replace(/\)/g, "");
@@ -50,7 +61,7 @@ function onformsubmit()
     if("{{ user.phone }}" == sf.phone.value)
          sf.action = "/"
     else
-         sf.action = "/confirmphone.html"
+         sf.action = "/confirm_phone.html"
     return true;
 }
 
@@ -75,7 +86,7 @@ function onLoad()
 
 
 {% if not user.confirmed %}
- (<a href="/confirmphone.html">confirm</a>)
+ (<a href="/confirm_phone.html">confirm</a>)
 {% endif %}
 
 </p>

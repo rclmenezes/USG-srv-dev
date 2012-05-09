@@ -16,7 +16,15 @@ ul {
 	padding: 0;
 }
 
-
+a:link{
+	color:#FF6600;
+	}
+a:visited{
+	color:#FF6600;
+	}
+a:hover{
+	color:#000000;
+	}
 /*************/
 /* Left panel */
 /*************/
@@ -71,13 +79,17 @@ ul {
 	margin-bottom:10px;
 }
 .info-event-entry {
-	padding:0 0 8px;
+	padding:0px 0px 8px;
+	margin-right: 5px;
 	/*color: red;*/
 }
-.info-event-subtext {
-	margin-left: 5px;
+.info-event-subtitle {
+	/*margin-left: 5px;*/
 }
-
+.info-event-description {
+	/*margin-left: 5px;*/
+	color:grey;
+}
 
 
 /*************/

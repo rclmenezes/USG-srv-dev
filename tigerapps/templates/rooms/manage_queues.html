@@ -1,0 +1,141 @@
+<html>
+<head>
+
+<title>Room Guide - Share/Unshare Queues</title>
+
+
+<link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+<link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
+<link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+<link rel="stylesheet" href="/static/rooms/themes/blue/style.css" type="text/css" media="print, projection, screen" />
+
+
+<style type="text/css" src="styles.css" rel="Stylesheet">
+
+#netid
+{
+  width: 100px;
+}
+
+#submit
+{
+  width: 100px;
+}
+
+#accept
+{
+   width: 100px;
+}
+
+#decline
+{
+   width: 100px;
+}
+</style>
+
+
+<script type="text/javascript">
+
+function onformsubmit()
+{
+    var iqf = document.invitequeueform;
+
+    // Check Net ID
+    if(! iqf.netid.value)
+    {
+        alert("You must type in a NetID!");
+        return false;
+    }
+
+    {% for draw in draws %}
+    var draw_menu = document.getElementById("draw_menu");
+    var opt = document.getElementById("option{{ draw.id }}");
+    var hid = document.getElementById("draw{{ draw.id }}");
+    if(opt.selected)
+    {
+       hid.value = "1";
+    }
+    else
+    {
+       hid.value = "0";
+    }
+    {% endfor %}
+    return true;
+}
+
+function onLoad()
+{
+
+}
+</script>
+
+
+</head>
+
+
+<body>
+
+<div id="settings_container">
+
+<h1>Here's where you share or unshare your queues with friends. To invite a friend to share a queue, type in their NetID below:</h1>
+
+<form action="/invite_queue/" onsubmit="return onformsubmit()" method="post" name="invitequeueform">
+<p>Friend's NetID: <input type="text" name="netid" id="netid" /></p>
+<p>Draw(s) to Share: </p>
+
+<p>
+<select multiple name="draw_ids" id="draw_menu">
+{% for draw in draws %}
+<option id="option{{ draw.id }}" value="{{ draw.id }}">{{ draw }}</option>
+{% endfor %}
+</select>
+</p>
+
+{% for draw in draws %}
+<input type="hidden" name="draw{{ draw.id }}" id="draw{{ draw.id }}" value="0" />
+{% endfor %}
+
+<input type="hidden" id="form_type" name="form_type" value="invite_queue" />
+<p><input type="submit" id="submit" value="Send Invitation" /></p>
+</form>
+
+<a name="received" />
+
+<h1>Received Invitations</h1>
+
+{% if received_invites %}
+
+  {% for invite in received_invites %}
+    <div class="queue_invite">
+    <p>From: {{ invite.sender.firstname }} {{ invite.sender.lastname }} ({{ invite.sender.netid }}@princeton.edu)</p>
+    <p>Draw: {{ invite.draw }}</p>
+    <form action="/respond_queue/" method="post" name="acceptqueueinvite">
+    <input type="hidden" id="invite_id" name="invite_id" value="{{ invite.id }}" />
+    <input type="hidden" id="accepted" name="accepted" value="1" />
+    <input type="submit" id="accept" value="Accept" />
+    </form>
+    <form action="/respond_queue/" method="post" name="declinequeueinvite">
+    <input type="hidden" id="invite_id" name="invite_id" value="{{ invite.id }}" />
+    <input type="hidden" id="accepted" name="accepted" value="0" />
+    <input type="submit" id="decline" value="Decline" />
+    </form>
+    </div>
+  {% endfor %}
+
+{% else %}
+
+    <p>You haven't received any invitations yet! Why don't you send one with the form above?</p>
+
+{% endif %}
+
+<p><a href="/">Return to Main Page</a></p>
+
+<script type="text/javascript">
+onLoad();
+</script>
+
+</div>
+
+</body>
+</html>
