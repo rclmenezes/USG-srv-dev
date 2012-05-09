@@ -191,7 +191,9 @@ def events_for_bldg(request, bldg_code):
             
 
     return HttpResponse(response_json, content_type="application/javascript")
-def all_for_bldg(request):
+
+
+def events_for_all_bldgs(request):
     '''
     Return the HTML that should be rendered in the info box given the
     building in the GET parameter of the request
@@ -238,8 +240,6 @@ def all_for_bldg(request):
         #3 = laundry
     
         #assert building contains laundry room
-        response_json = simplejson.dumps({'error': 'not implemented'})
-
         
         try:
             machine_list = cache.get('laundry_list')
@@ -295,9 +295,10 @@ def all_for_bldg(request):
     else:
         #Let an error happen, since this shouldn't occur
         pass
-            
-
+        
     return HttpResponse(response_json, content_type="application/javascript")
+
+
 # make dictionary of name, code pairs for use in location-based filtering 
 def make_bldg_names_json(request):
     bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
