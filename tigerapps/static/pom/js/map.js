@@ -412,8 +412,8 @@ function setupFilterTabs() {
 function changeFilterTabDisplayed(filterType) {
 	$(".top-tab").css('display', 'none');
 	$("#top-tab-"+filterType).css('display', 'block');
-	if (filterType==0)	loadTimeline();
-	else				unloadTimeline();
+	if (filterType==0)	displayTimeline();
+	else				undisplayTimeline();
 }
 
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
@@ -528,6 +528,7 @@ function setupActualFilters() {
 /***************************************/
 
 function setupTimelineFilter() {
+	jTimeline('info-jtl', 'jtl-input');
 	$('#jtl-toggle').click(function() {
 		if (jevent.timelineShown)
 			hideTimeline();
@@ -536,26 +537,30 @@ function setupTimelineFilter() {
 	})
 	showTimeline();
 }
-function loadTimeline() {
+function displayTimeline() {
 	if (jevent.timelineShown) showTimeline();
 	$('#jtl-toggle').show();
 }
-function unloadTimeline() {
+function undisplayTimeline() {
+	var tmp = jevent.timelineShown;
 	$('#jtl-toggle').hide();
-	$(jmap.info).animate({
-		width: '380px'
-	}, 100);
+	hideTimeline();
+	jevent.timelineShown = tmp;
 }
 function showTimeline() {
+	$(jmap.jtl).show(100)
 	$(jmap.info).animate({
-		width: '535px'
+		width:'535px'
 	}, 100);
+	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
 	jevent.timelineShown = true;
 }
 function hideTimeline() {
+	$(jmap.jtl).hide(100)
 	$(jmap.info).animate({
-		width: '380px'
+		width:'380px'
 	}, 100);
+	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
 	jevent.timelineShown = false;
 }
 
