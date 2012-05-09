@@ -271,17 +271,22 @@ def all_for_bldg(request):
         #assert building contains printer
         
         try:
-            mapping = cache.get('printer')
-            if mapping == None:
+            printer_list = cache.get('printer_list')
+            if printer_list == None:
                 mapping = printers.scrape_all()
+                printer_list = []
+                for key, value in mapping.items():
+                    for x in value:
+                        printer_list.append((x.loc, x.color, x.status))
+                printer_list = sorted(printer_list, key=lambda x: x[0])
                 try:
                     cache.set('printer', mapping, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-            printer_info = mapping['FRIST']
-            html = render_to_string('pom/printer_info.html',
+
+            html = render_to_string('pom/printer_info_all.html',
                                     {'bldg_name': BLDG_INFO['FRIST'][0],
-                                     'printers' : printer_info})
+                                     'printers' : printer_list})
             response_json = simplejson.dumps({'error': None,
                                               'html': html})
         except Exception, e:
