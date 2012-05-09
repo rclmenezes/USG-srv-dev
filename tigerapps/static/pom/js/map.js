@@ -399,8 +399,7 @@ function hideMapLoading() {
 function setupFilterTabs() {
 	$("#info-top-types input").click(function(ev) {
 		changeFilterTabDisplayed(ev.target.value);
-		if (ev.target.value >= 0) //is numeric
-			handleFilterTypeChange(ev.target.value);
+		handleFilterTypeChange(ev.target.value);
 	});
 	$("#campus-info-types input").click(function(ev) {
 		handleFilterTypeChange(ev.target.value);
@@ -421,12 +420,11 @@ function handleFilterTypeChange(newFilterType) {
 	if (jevent.filterType != newFilterType) {
 		hideInfoEvent();
 		jevent.filterType = newFilterType;
-		if (newFilterType < 5) { //only <5 is implemented in Django
+		if (newFilterType < 5) { //only <5 is implemented in Django, also guarantees numeric
 			AJAXeventsForAllBldgs();
 			AJAXbldgsForFilter();
-		} else if (newFilterType == 5) { //locations is js-only
+		} else if (newFilterType == 5) //locations is js-only
 			displayLocationBldgs();
-		}
 	}
 }
 /* Called when the specific filters for any particular events/hours/menus/etc tab
