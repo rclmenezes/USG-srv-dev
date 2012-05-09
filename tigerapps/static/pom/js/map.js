@@ -529,7 +529,10 @@ function locationFilter() {
 		// get submitted building's code, center map on it, and display it's events
 		bldgName = $('#location-search').val();
 		bldgCode = jevent.bldgNames[bldgName];
-		centerOnBldg(bldgCode);
+		if (bldgCode != undefined) {
+			centerOnBldg(bldgCode);
+		}
+		// prevent refresh
 		return false;
 	});
 }
@@ -555,7 +558,7 @@ function centerOnBldg(bldgCode) {
 	});
 }
 
-
+/* fix button, change highlighting */
 
 
 
