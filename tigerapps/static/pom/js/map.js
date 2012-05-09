@@ -66,8 +66,11 @@ function mapInit() {
 		'<td style="padding:1px 4px 0;">Loading...</td>' +
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
-	jevent.bldgDisplayed = null;
+	//cache display-related tabs
+	jevent.topTabActive = null;
 	jevent.timelineShown = true;
+	jevent.bldgDisplayed = null;
+	
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
     jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
     jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
@@ -400,20 +403,26 @@ function hideMapLoading() {
 /* These setup the filters so that AJAX calls are sent when the filters are changed */
 function setupFilterTabs() {
 	$("#info-top-types input").click(function(ev) {
-		changeFilterTabDisplayed(ev.target.value);
-		handleFilterTypeChange(ev.target.value);
+		displayTopTab(ev.target.value);
+		if (ev.target.value >= 0) //is numeric
+			handleFilterTypeChange(ev.target.value);
+		else //clicked campus info
+			handleFilterTypeChange($('#campus-info-types input:checked').val());
 	});
 	$("#campus-info-types input").click(function(ev) {
 		handleFilterTypeChange(ev.target.value);
 	});
-	changeFilterTabDisplayed(0);
+	displayTopTab(0);
 	handleFilterTypeChange(0);
 }
-function changeFilterTabDisplayed(filterType) {
-	$(".top-tab").css('display', 'none');
-	$("#top-tab-"+filterType).css('display', 'block');
-	if (filterType==0)	displayTimeline();
-	else				undisplayTimeline();
+function displayTopTab(topTab) {
+	if (jevent.topTabActive != topTab) {
+		jevent.topTabActive = topTab;
+		$(".top-tab").css('display', 'none');
+		$("#top-tab-"+topTab).css('display', 'block');
+		if (topTab==0)	displayTimeline();
+		else			undisplayTimeline();
+	}
 }
 
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
@@ -422,7 +431,7 @@ function handleFilterTypeChange(newFilterType) {
 	if (jevent.filterType != newFilterType) {
 		hideInfoEvent();
 		jevent.filterType = newFilterType;
-		if (newFilterType < 5) { //only <5 is implemented in Django, also guarantees numeric
+		if (newFilterType < 5) { //only <5 is implemented in Django
 			AJAXeventsForAllBldgs();
 			AJAXbldgsForFilter();
 		} else if (newFilterType == 5) //locations is js-only
