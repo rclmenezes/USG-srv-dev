@@ -331,21 +331,6 @@ function handleBldgClick(ev,domEle) {
 }
 
 
-function centerOnBuilding(bldgCode) {
-	// calculate new center coords
-	centroidX = bldgCode.left + bldgCode.width/2;
-	centroidY = bldgCode.top + bldgCode.height/2;
-	//use these for calculating displacement from the top-left
-	centroid = mapCenterToDisp(centroidX, centroidY);
-	
-	// jump to this location, refresh tiles
-	jmap.dispX = start.x;	
-	jmap.dispY = start.y;	
-	loadTiles();
-}
-
-
-
 
 /***************************************************************************/
 /***************************************************************************/
@@ -371,7 +356,7 @@ function handleFilterTypeChange(newFilterType) {
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		if (newFilterType < 5)
+		if (newFilterType < 5) //only <5 is implemented in Django
 			AJAXbldgsForFilter();
 		if (jevent.bldgDisplayed != null)
 			hideInfoEvent();
@@ -520,27 +505,57 @@ function setupActualFilters() {
 
 //load the bldgs.json file that holds all HTML-element data for the buildings
 function locationFilter() {
-	$.ajax(jevent.urlBldgNames, {
+	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
 		success: function(data) {
-			alert(data);
 			jevent.bldgNames = data;
 			
 			// create list of building names
 			var nameList = new Array();
-			i = 0;
+			var i = 0;
 			for (name in data)
 				nameList[i++] = name;
 			
-			$( "#locations-search" ).autocomplete({
+			$( "#location-search" ).autocomplete({
 				source: nameList, 
 				delay: 0,
 				minLength: 3,
 			});
-			
 		},
 		error: handleAjaxError
 	});
+	
+	$('#location-search-form').submit(function(event) {
+		// get submitted building's code, center map on it, and display it's events
+		bldgName = $('#location-search').val();
+		bldgCode = jevent.bldgNames[bldgName];
+		centerOnBldg(bldgCode);
+		return false;
+	});
 }
+
+
+function centerOnBldg(bldgCode) {
+	// calculate new center coords
+	var bldgID = bldgCodeToId(bldgCode);
+	var bldgObject = jmap.bldgsInfo[bldgID];
+	var centroidX = bldgObject.left + bldgObject.width/2;
+	var centroidY = bldgObject.top + bldgObject.height/2;
+	centroid = mapCenterToDisp(centroidX, centroidY);
+	
+	// jump to this location, refresh tiles
+	jmap.dispX = centroid.x;	
+	jmap.dispY = centroid.y;
+	$(jmap.map).animate({
+		left: -jmap.dispX,
+		top: -jmap.dispY,
+	}, {
+		duration: 100,
+		complete: loadTiles
+	});
+}
+
+
+
 
 
