@@ -371,7 +371,8 @@ function handleFilterTypeChange(newFilterType) {
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		AJAXbldgsForFilter();
+		if (newFilterType < 5) //only <5 is implemented in Django
+			AJAXbldgsForFilter();
 		if (jevent.bldgDisplayed != null)
 			hideInfoEvent();
 	}
@@ -519,15 +520,19 @@ function setupActualFilters() {
 
 //load the bldgs.json file that holds all HTML-element data for the buildings
 function locationFilter() {
-	$.ajax(jevent.urlBldgNames, {
+	$('#location-search-form').submit(function() {
+		jumpToBldg();
+		return false;
+	});
+	
+	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
 		success: function(data) {
-			alert(data);
 			jevent.bldgNames = data;
 			
 			// create list of building names
 			var nameList = new Array();
-			i = 0;
+			var i = 0;
 			for (name in data)
 				nameList[i++] = name;
 			
@@ -535,16 +540,22 @@ function locationFilter() {
 				source: nameList, 
 				delay: 0,
 				minLength: 3,
-				select: function(event, ui) {
-					// get this building's code, center map on it, and display it's events
-					bldgCode = data.(ui.item);
-					centerOnBldg(bldgCode);
-				}
 			});
 			
 		},
 		error: handleAjaxError
 	});
 }
+
+function jumpToBldg() {
+	// get submitted building's code, center map on it, and display it's events
+	bldgName = $('#location-search-form').val;
+	bldgCode = jevent.bldgNames[ui.item];
+	centerOnBldg(bldgCode);
+	
+}
+
+
+
 
 
