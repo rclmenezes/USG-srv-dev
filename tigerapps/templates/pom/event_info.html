@@ -9,21 +9,27 @@
 			</a> 
 		</span>
 		
-		<div class="info-event-subtitle">
+		<div>
+		<div class="info-event-subtitle" style="height:32px;width:210px;float:left;">
 			{{event.event_date_time_start|date:"M d, Y h:i a"}}<br/>
 			{{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
 			
-			<div class="info-event-description">
+		</div>
+		
+		<div style="height:32px;float:right;">
+		<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|urlencode:""}}&sprop=name:pcal" target="_blank">
+				<img src="http://www.google.com/calendar/images/ext/gc_button1.gif" alt="Add to Google Calendar">
+		</a>
+		
+		</div>
+		</div>
+		
+		<div class="info-event-description">
 				{{event.event_cluster.cluster_description}}
-			</div>
-			
-			<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|urlencode:""}}&sprop=name:pcal" target="_blank">
-				<img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Add to Google Calendar">
-			</a>
+		</div>
 			
 			<!-- APPLE SUCKS.  We do not provide support for iCal
 			<a href="/ical/{{event.event_id}}"><img src="/static/cal/css/img/ical.png" alt="Add to iCal" /></a>
 			-->
-		</div>
 	</div>
 {% endfor %}
