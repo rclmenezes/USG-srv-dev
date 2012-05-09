@@ -354,6 +354,9 @@ function setupFilterTabs() {
 			jevent.filterType = newFilterType;
 			if (newFilterType < 5) //only <5 is implemented in Django
 				handleFilterChange();
+			else if (newFilterType == 5) {
+				handleLocationFilter();
+			}
 		}
 	});
 	handleFilterTypeChange(0);
