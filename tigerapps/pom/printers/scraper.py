@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
-from utils.scrape import scrapePage
+from utils.scrape import *
 
 PRINTER_BLDGS = {
     '1901': '1901H',
     '1937': '1937H',
     '1981': 'HARGH',
     'Blair': 'BLAIR',
-    'Bloomberg_315': 'BLOOM',
+    'Bloomberg': 'BLOOM',
     'Brown': 'BROWN',
     'Brush_Gallery': 'JADWH',
     # Building D
@@ -67,14 +67,16 @@ def scrape_single_printer(bldg_code):
 def scrape_all():
     '''returns dict of list of printers, bldg_code:[printers]'''
     data = scrapePage(url)
-    f = open('/srv/tigerapps/slog', 'a')
-    f.write('returned from scrapePage() into printer scraper\n')
-    f.close()
+    log('1')
     bs = BeautifulSoup(data)
+    log('2')
     table = bs.find('table')
+    log('3')
     rows = table.find_all('tr')[1:]
+    log('4')
     clusters = {}
     for row in rows:
+        log('new row')
         ps = row.find_all('p')
         loc = ps[0].contents[0][:-1].rstrip('*')
         statusTag = ps[3]
@@ -94,6 +96,8 @@ def scrape_all():
             clusters[code] += printers
         else:
             clusters[code] = printers
-            
+
+    log('exiting from scrape printers')
+     
     return clusters
 

@@ -1,6 +1,6 @@
+from utils.scrape import scrapePage
 import urllib3, urllib2
 from bs4 import BeautifulSoup
-import httplib
 
 
 DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
@@ -25,14 +25,9 @@ class Meal:
         
         
 class Entree:
-    def __init__(self, name='', vegetarian=False, vegan=False, pork=False,
-                 nuts=False, earth_friendly=False):
-        self.name = name
-        self.vegetarian = vegetarian 
-        self.vegan = vegan
-        self.pork = pork
-        self.nuts = nuts
-        self.earth_friendly = earth_friendly
+    def __init__():
+        self.attributes = {}
+
     def __str__(self):
         return str(self.__dict__)
     __repr__ = __str__
@@ -43,56 +38,24 @@ def scrape_single_menu(bldg_code):
     as a menu object"""
     hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
-    '''
-    try:
-        f = urllib.urlopen(url)
-    except:
-        raise Exception("couldn't urlopen the menu feed url")
-    '''
-    import socket
-    socket.setdefaulttimeout(3)
-    log = open('/srv/tigerapps/slog','a')
-    #try:
-    if 1:
-        log.write('before urlopen: %s\n' % bldg_code)
-        #c = httplib.HTTPConnection("facilities.princeton.edu")
-        #c.request("GET", "/dining/_Foodpro/menu.asp", headers={'locationNum':'02'})
-        #r = c.getresponse()
-        #content = r.read()
-        #r.close()
-        #c.sock.shutdown()
-        #c.close()
-        
-        f = urllib2.urlopen(url)
-        content = f.read()
-        
-        #http = urllib3.PoolManager()
-        #r = http.request('GET', url)
-        #content = r.data
-        log.write('after urlopen: %s\n' % bldg_code)
-        bs = BeautifulSoup(content)
-        menu = Menu()
-        menu.title = bs.title.contents[0]
     
-        for meal_xml in bs.find_all('meal'):
-            meal = Meal()
-            meal.name = meal_xml.attrs['name']
-            for entree_xml in meal_xml.find_all ('entree'):
-                entree = Entree()
-                entree.name = entree_xml.next.contents[0]
-                entree.vegan = True if entree_xml.vegan.contents[0] == 'y' else False
-                entree.vegetarian = True if entree_xml.vegetarian.contents[0] == 'y' else False
-                entree.pork = True if entree_xml.pork.contents[0] == 'y' else False
-                entree.nuts = True if entree_xml.nuts.contents[0] == 'y' else False
-                entree.earth_friendly = True if entree_xml.earth_friendly.contents[0] == 'y' else False
-                meal.entrees.append(entree)
-            menu.meals[meal.name] = meal
-    #except:
-        #raise Exception("couldn't parse the menu feed XML")
-    #finally:
-        #f.close()
-        
-    log.close()
+    content = scrapePage(url)
+    bs = BeautifulSoup(content)
+    menu = Menu()
+    menu.title = bs.title.contents[0]
+
+    for meal_xml in bs.find_all('meal'):
+        meal = Meal()
+        meal.name = meal_xml.attrs['name']
+        for entree_xml in meal_xml.find_all('entree'):
+            entree = Entree()
+            entree['name'] = entree_xml.next.contents[0]
+            for c in entree_xml.contents[1:]:
+                entree[c.name] = c.contents[0]
+            meal.entrees.append(entree)
+        menu.meals[meal.name] = meal
+
+    log('exiting from scrape_single_menu')
     return menu
 
 def scrape_all():
