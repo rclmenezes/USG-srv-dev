@@ -1,8 +1,10 @@
 jtl = {};
-function timelineInit(idTl, idInput) {
+function jTimeline(idTl, idInput) {
 	//static references
 	jtl.tl = document.getElementById(idTl);
 	jtl.$tl = $('#'+idTl);
+	jtl.input = document.getElementById(idInput);
+	jtl.tl.class = 'jtl-tl';
 	
 	//static constants
 	jtl.wkdays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
@@ -17,11 +19,15 @@ function timelineInit(idTl, idInput) {
 	//data from django
 	jtl.eventSummary = {};
 	
-	loadEvents();
-	loadTimeline();
-	addEvents();
+	setupJTLInput();
+	loadJTLEvents();
+	loadJTLTimeline();
+	addJTLEvents();
 }
 
+function setupJTLInput() {
+	//TODO, jtl.input
+}
 
 /***************************************/
 /* Timeline builders */
@@ -52,8 +58,8 @@ function maxRangeOfTimes() {
 }
 
 /* Load the timeline from scratch, used at init */
-function loadTimeline() {
-	clearTimeline();
+function loadJTLTimeline() {
+	clearJTLTimeline();
 	getTimelineParams();
 	
 	//compute the sizes of each day, each tick, given the parameters + timeline size
@@ -123,7 +129,7 @@ function loadTimeline() {
 	}
 }
 
-function clearTimeline() {
+function clearJTLTimeline() {
 	var c = jtl.tl;
 	if (c.hasChildNodes())
 		while (c.childNodes.length >= 1)
@@ -135,11 +141,11 @@ function clearTimeline() {
 /* Event adders */
 /***************************************/
 
-function loadEvents() {
+function loadJTLEvents() {
 	
 }
 
-function addEvents() {
+function addJTLEvents() {
 	for (id in jtl.events) {
 		//need clearDateTime() on startTime
 		var startTime = jtl.events[id].startTime;

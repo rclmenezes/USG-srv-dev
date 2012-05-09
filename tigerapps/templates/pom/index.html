@@ -5,10 +5,12 @@
 	<script type="text/javascript" src="/static/pom/js/jquery-ui-1.8.20.custom.min.js"></script>
 	
 	<script type="text/javascript" src="/static/pom/js/util.js"></script>
+	<script type="text/javascript" src="/static/pom/js/timeline.js"></script>
 	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<!--<script type="text/javascript" src="/static/pom/js/slider.js"></script>-->
 	
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/jquery-ui-1.8.20.custom.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/pom/css/timeline.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
 	
 	<script type="text/javascript">
@@ -26,7 +28,8 @@
 {% include 'main/links.html' %}
 
 
-<div id="jmap-info" class="map-box">
+<div id="jmap-info">
+<div id="info-content">
 	<div id="info-top">
         <img src="/static/pom/img/pom_logo.png" id="info-title"/>
 	        
@@ -43,13 +46,20 @@
 
 				<br/>
 				<div id="events-slider"></div>
-				<p>
+				<p style="display:none;">
 					<label for="slider-left-value">Left Value:</label>
 					<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" /><br/>
 					<label for="slider-right-value">Right Value:</label>
 					<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
 				</p>
 
+				<br/>
+				<div id="jtl-input" style="float:left;">
+					<input type="text" id="jtl-startDay" value="05/07/2012"/>
+					<input type="text" id="jtl-nDays" value="2"/><br/>
+					<input type="text" id="jtl-startTime" value="14:30"/>
+					<input type="text" id="jtl-endTime" value="24:00"/><br/>
+				</div>
 				<!-- 
 				X: <input id="box1" type="text" style="width:40px;"/>
 				Y: <input id="box2" type="text" style="width:40px;"/><br/>
@@ -81,6 +91,10 @@
 	</div>
 	<div id="info-divider"></div>
 	<div id="info-bot"></div>
+	
+	<div id="info-jtl"></div>
+	<div id="jtl-toggle"><span></span></div>
+</div>
 </div>
 
 
