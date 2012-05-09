@@ -1,4 +1,4 @@
-import urllib2
+import urllib3, urllib2
 from bs4 import BeautifulSoup
 import httplib
 
@@ -62,8 +62,13 @@ def scrape_single_menu(bldg_code):
         #r.close()
         #c.sock.shutdown()
         #c.close()
+        
         f = urllib2.urlopen(url)
         content = f.read()
+        
+        #http = urllib3.PoolManager()
+        #r = http.request('GET', url)
+        #content = r.data
         log.write('after urlopen: %s\n' % bldg_code)
         bs = BeautifulSoup(content)
         menu = Menu()
