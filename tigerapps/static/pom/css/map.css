@@ -16,15 +16,14 @@ ul {
 	padding: 0;
 }
 
-a:link{
+a:link, a:visited{
 	color:#FF6600;
-	}
-a:visited{
-	color:#FF6600;
-	}
+}
 a:hover{
 	color:#000000;
-	}
+}
+
+
 /*************/
 /* Left panel */
 /*************/
@@ -50,6 +49,9 @@ a:hover{
 #info-top-types {
 	margin:10px 0;
 }
+#other-info-types {
+	margin:10px 0;
+}
 #info-top-filters {
 	margin:5px 0;
 }
@@ -61,10 +63,11 @@ a:hover{
 	height: 0px;
 	margin-left: 15px;
 	margin-right: 3px;
+	border-top: 1px solid #C0C0C0;
 }
 #info-bot {
 	height: 0px;
-	overflow: hidden;
+	overflow-y: auto;
 	margin:15px 5px 15px 20px;
 }
 
@@ -76,13 +79,16 @@ a:hover{
 	margin-bottom:10px;
 }
 .info-event-entry {
-	padding:0 0 8px;
-	/*color: red;*/
+	padding:0px 12px 8px 0;
+	/*margin-right: 5px;*/
 }
-.info-event-subtext {
-	margin-left: 5px;
+.info-event-subtitle {
+	/*margin-left: 5px;*/
 }
-
+.info-event-description {
+	/*margin-left: 5px;*/
+	color:#464646; /*gray*/
+}
 
 
 /*************/
@@ -184,7 +190,7 @@ a:hover{
 
 
 
-.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
+/*.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
 	border-radius: 2px;
 }
 .ui-button-text-only .ui-button-text {
@@ -195,4 +201,4 @@ a:hover{
 	line-height: 1;
 	font: bold 11px Arial,sans-serif !important;
 	color: #444 !important;
-}
+}*/

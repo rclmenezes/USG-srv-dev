@@ -58,6 +58,7 @@ function mapInit() {
 	//links
 	jevent.urlBldgsForFilter = '/bldgs/filter/';
 	jevent.urlEventsForBldg = '/events/bldg/';
+	jevent.urlEventsForAll = '/events/all/';
 	jevent.urlBldgNames = '/bldgs/name/';
 	
 	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
@@ -345,6 +346,14 @@ function setupFilterTabs() {
 	$("#info-top-types input").click(function(ev) {
 		handleFilterTypeChange(ev.target.value);
 	});
+	$("#other-info-types input").click(function(ev) {
+		var newFilterType = ev.target.value;
+		if (jevent.filterType != newFilterType) {
+			jevent.filterType = newFilterType;
+			if (newFilterType < 5) //only <5 is implemented in Django
+				handleFilterChange();
+		}
+	});
 	handleFilterTypeChange(0);
 }
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
@@ -366,6 +375,7 @@ function handleFilterChange() {
 	AJAXbldgsForFilter();
 	if (jevent.bldgDisplayed != null)
 		AJAXeventsForBldg(jevent.bldgDisplayed);
+		AJAXeventsForAll();
 }
 
 /* These return the GET params that should be sent in every AJAX call */
@@ -437,6 +447,19 @@ function hideMapLoading() {
 /* For rendering data in the info box */ 
 /***************************************/
 
+function AJAXeventsForAll() {
+	displayInfoLoading();
+	$.ajax(jevent.urlEventsForAll, {
+		data: getFilterParams(),
+		dataType: 'json',
+		success: displayInfoEvent,
+		error: function(jqXHR, textStatus, errorThrown) {
+			hideInfoEvent();
+			handleAjaxError(jqXHR, textStatus, errorThrown);
+		}
+	});
+}
+
 function AJAXeventsForBldg(bldgCode) {
 	displayInfoLoading();
 	$.ajax(jevent.urlEventsForBldg+bldgCode, {
@@ -461,22 +484,20 @@ function displayInfoEvent(data) {
 		if (jevent.infoSize != 2) {
 			/* Expand the info box if it's not already expanded */
 			jevent.infoSize = 2;
-			$('#info-bot').css('overflow-y', 'scroll');
-			$('#info-divider').css('border-top', '1px solid #C0C0C0');
+			//$('#info-divider').css('border-top', '1px solid #C0C0C0');
 			$('#info-bot').animate({
 				height: jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-80 + 'px',
-			}, 400);
+			}, 200);
 		}
 	}
 }
 
 function displayInfoLoading() {
-	$('#info-bot').css('overflow-y', 'hidden');
-	$('#info-divider').css('border-top', '1px solid #C0C0C0');
 	$('#info-bot').html(jevent.htmlLoading);
 	if (jevent.infoSize == 0) {
 		/* Expand the info box to loading size if it's not expanded at all */
 		jevent.infoSize = 1;
+		//$('#info-divider').css('border-top', '1px solid #C0C0C0');
 		$('#info-bot').animate({
 			height:'23px',
 		}, 100);
@@ -486,7 +507,7 @@ function displayInfoLoading() {
 function hideInfoEvent() {
 	jevent.infoSize = 0;
 	jevent.bldgDisplayed = null;
-	$('#info-divider').css('border-style','none');
+	//$('#info-divider').css('border-style','none');
 	$('#info-bot').animate({
 		height:'0px',
 	}, 200);
@@ -529,11 +550,13 @@ function locationFilter() {
 		// get submitted building's code, center map on it, and display it's events
 		bldgName = $('#location-search').val();
 		bldgCode = jevent.bldgNames[bldgName];
-		centerOnBldg(bldgCode);
+		if (bldgCode != undefined) {
+			centerOnBldg(bldgCode);
+		}
+		// prevent refresh
 		return false;
 	});
 }
-
 
 function centerOnBldg(bldgCode) {
 	// calculate new center coords
@@ -555,7 +578,7 @@ function centerOnBldg(bldgCode) {
 	});
 }
 
-
+/* fix button, change highlighting */
 
 
 
