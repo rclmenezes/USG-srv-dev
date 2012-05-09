@@ -12,6 +12,7 @@ from django import forms
 import json
 import sys
 import time
+from queue import *
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -391,6 +392,14 @@ def manage_queues(request, error=""):
                                                            'sent_invites' : sent_invites,
                                                            'shared_queues' : shared_queues,
                                                            'error' : error })
+
+
+def test(request):
+    return HttpResponse(testtime())
+
+def trigger(request):
+    triggertime()
+    return HttpResponse('triggered')
 
 #helper function
 def notify(user, subject, message):

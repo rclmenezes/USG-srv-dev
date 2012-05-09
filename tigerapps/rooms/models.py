@@ -90,6 +90,17 @@ class QueueToRoom(models.Model):
     room = models.ForeignKey('Room')
     ranking = models.IntegerField()
 
+UPDATE_KINDS = (
+    (0, 'edit'),
+    (1, 'merge'),
+)
+
+# An update to a queue
+class QueueUpdate(models.Model):
+    queue = models.ForeignKey('Queue')
+    timestamp = models.IntegerField()
+    kind = models.IntegerField(choices=UPDATE_KINDS) #either edit or merge
+    kind_id = models.IntegerField() # If merge, new queue id, otherwise edit user id
 
 # An invitation to a the queue owned by a user
 class QueueInvite(models.Model):
