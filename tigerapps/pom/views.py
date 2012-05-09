@@ -171,7 +171,7 @@ def events_for_all_bldgs(request):
         try:
             events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                         request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
-            html = render_to_string('pom/event_info_all.html',
+            html = render_to_string('pom/event_info.html',
                                     {'bldg_name': 'All Events',
                                      'events': events})
             response_json = simplejson.dumps({'error': None,
