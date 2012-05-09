@@ -46,45 +46,41 @@
 
 <body onload="initialize()">
   {% include "main/jquery.html" %}
-  <div id="wrapper1">
-    <div id="wrapper2">
-      <div id="mainColumn">
-	<div id="top_half">  
-	  <div id="map_canvas"></div>
-      <div id="floorplan_canvas"></div>
-	</div>
-	<div id="dataPanel"> 
-    <div id="roomListWrapperBigger">
-	  <div id="roomListWrapper">
-	    {% block dataPanel %}
-            Room / Building Information & Queue
-            {% endblock dataPanel %}
-	  </div>
-    </div>
-          <div id="room_view">
-            {% block room_view %}
-            {% endblock room_view %}
-          </div>
+    <div id="wrapper1">
+        <div id="wrapper2">
+            <div id="map_canvas"></div>
+            <div id="floorplan_canvas"></div>
 
-        <div id="top_right">
-<!--
-	    <div id="greeting">
-	       <h1>Hello, {{ user.netid }} {{ user.puclassyear }}.</h1>
-        </div> -->
-	    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
-        <div id="queues">
-            <!--ul id="list_queues"-->
-                <h1 id="queuehead"> Queue</h1>
-                <div id="room_queue" class="queue_drag"></div>
-            <!--/ul-->
-            <div class="clearfloat"></div>
-        </div>
+<<<<<<< HEAD
+            <div id="queues_wrapper">
+                <div id="queues">
+                    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
+                    <div id="managequeues"><h1><a href="/manage_queues.html">Share/Unshare Queues</a></h1></div>
+                    <div id="queue">
+                        <h1 id="queuehead"> Queue</h1>
+                        <!--ul id="list_queues"-->
+                        <div id="room_queue"></div>
+                        <!--/ul-->
+                        <div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
 
-    </div> <!-- dataPanel -->
-	</div>
-      </div>
-    </div>
-  </div>
+            <div id="roomListTopTrim"></div>
+            <div id="roomListWrapperBigger">
+                <div id="roomListWrapper">
+                    {% block dataPanel %}
+                    {% endblock dataPanel %}
+                </div>
+            </div>
 
+            <!- is this even being used? ->
+            <div id="room_view">
+                {% block room_view %}
+                {% endblock room_view %}
+            </div>
+        
+        </div> <!-- wrapper2 -->
+    </div> <!-- wrapper1 -->
 </body>
 </html>

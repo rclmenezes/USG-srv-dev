@@ -1,25 +1,19 @@
 #jtl {
 	border: 1px solid gray;
 	padding: 0;
-	width:155px;
 	position: absolute;
 	left: 500px;
 }
 
 
-.jtl-box {
-	border: 0 none;
-	margin: 0;
-	padding: 0;
-	display: block;
+.jtl-tl {
+	width:150px;
+	overflow: hidden;
 }
 
 .jtl-day {
 	width: 100%;
 	position:absolute;
-}
-.jtl-tick-box-border {
-	border-bottom: 3px solid #888888;
 }
 
 .jtl-date {
@@ -31,15 +25,42 @@
 	text-align:center;
 	padding-top: 1px;
 	font-size: 12px;
-	color: #555555;
+	color: #666666;
 }
-
 
 .jtl-tick-box {
 	width:100px;
-	position: relative;
-	left: 40px;
+	position: absolute;
+	left: 35px;
+	border-top: 3px solid #888888;
 }
+
 .jtl-tick {
-	border-bottom: 1px dotted #aaaaaa;
+	position:relative;
 }
+.jtl-tick-border {
+	border-top: 1px dotted #aaaaaa;
+}
+
+.jtl-time {
+	height:12px;
+	width: 33px;
+	position: absolute;
+	right: 102px;
+	
+	text-align:right;
+	font-size: 10px;
+	color: #666666;
+}
+.jtl-tick-first .jtl-time { top: -9px; }
+.jtl-tick-border .jtl-time { top: -8px; }
+
+.jtl-event {
+	color: orange;
+	border: 1px solid #F88017;
+	height: 2px;
+	width: 2px;
+	margin: -1px auto 0;
+}
+
+

@@ -1,0 +1,99 @@
+<html>
+
+<title>Room Guide - Confirmation Code</title>
+
+<head>
+
+
+<link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+<link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
+<link type="text/css" href="/static/rooms/css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+<link rel="stylesheet" href="/static/rooms/themes/blue/style.css" type="text/css" media="print, projection, screen" />
+
+
+<style type="text/css" src="styles.css" rel="Stylesheet">
+
+#confirmation
+{
+  width: 200px;
+}
+
+#submit
+{
+  width: 175px;
+}
+</style>
+
+
+<script type="text/javascript">
+
+function onformsubmit()
+{
+   confirmation = document.confirmphone_form.confirmation.value;
+   if(! confirmation)
+   {
+       alert("Please enter a confirmation code.");
+       return false;
+   }
+   if(isNaN(parseInt(confirmation)))
+   {
+       alert("Your confirmation code should contain only digits.");
+       return false;
+   }
+   document.confirmphone_form.confirmation.value = parseInt(confirmation);
+   return true;
+}
+
+function onLoad()
+{
+
+}
+</script>
+
+
+</head>
+
+
+<body>
+
+<div id="settings_container">
+
+<div>
+  <h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your confirmation code here.
+  <br/>Your phone number is: {{user.phone}}</h1>
+</div>
+
+<form onsubmit="return onformsubmit()" method="post" name="confirmphone_form">
+
+
+{% if user.confirmed %}
+    <p>You have confirmed your phone number and will start receiving text message
+    notifications when rooms on your queue are no longer available!</p>
+{% else %}
+    {% if not first_try %}
+        <p class="error_message">Sorry, the confirmation code you entered was invalid. Please try again.</p>
+    {% endif %}
+    <p>You should have received a confirmation code in a text message. Please enter it below:</p>
+    <p><input type="text" name="confirmation" id="confirmation" /></p>
+   
+    <input type="hidden" name="carrier_id" id="carrier_id" value="" />
+
+    <input type="hidden" name="form_type" id="form_type" value="confirmphone" />
+    <p><input type="submit" id="submit" value="Submit Confirmation Code"/></p>
+
+{% endif %}
+</form>
+
+<p><a href="/">Return to Main Page</a></p>
+
+
+<script type="text/javascript">
+onLoad();
+</script>
+
+
+</div>
+
+</body>
+</html>

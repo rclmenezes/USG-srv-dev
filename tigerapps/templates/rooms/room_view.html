@@ -1,5 +1,4 @@
 {% block roomview %}
-
 <div id="room_view_wrapper">
 <div id="room_view">
   <!--a onclick="$('#roomlist').load('/ #roomlist')">Back</a-->
@@ -66,8 +65,14 @@
       <!--{% if room.bathroom == "PR" %}private{% endif %}-->
     </li>
     
+    <div id="room_review"></div>
+    
+    <script>
+      $("#room_review").load("/review/{{ room.id }}");
+    </script>
     <li><a href="review/{{ room.id }}">Review</a></li>
     </ul>
 </div>
 </div>
+
 {% endblock roomview %}
