@@ -206,11 +206,10 @@ def all_for_bldg(request):
             events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                         request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
             html = render_to_string('pom/event_info_all.html',
-                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                    {'bldg_name': 'All Events',
                                      'events': events})
             response_json = simplejson.dumps({'error': None,
-                                              'html': html,
-                                              'bldgCode': bldg_code})
+                                              'html': html})
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
     
@@ -280,7 +279,7 @@ def all_for_bldg(request):
                         printer_list.append((x.loc, x.color, x.status))
                 printer_list = sorted(printer_list, key=lambda x: x[0])
                 try:
-                    cache.set('printer', mapping, 1000)
+                    cache.set('printer_list', printer_list, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
 

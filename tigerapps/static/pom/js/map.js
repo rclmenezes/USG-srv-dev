@@ -345,6 +345,8 @@ function handleBldgClick(ev,domEle) {
 function setupFilterTabs() {
 	$("#info-top-types input").click(function(ev) {
 		handleFilterTypeChange(ev.target.value);
+		if(ev.target.value == 0)
+			AJAXeventsForAll();
 	});
 	$("#other-info-types input").click(function(ev) {
 		var newFilterType = ev.target.value;
