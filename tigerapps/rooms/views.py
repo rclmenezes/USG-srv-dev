@@ -277,16 +277,16 @@ def review(request, roomid):
         if review:
             if pastReview:
                 form = ReviewForm(instance=pastReview)
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False, 'edit': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False, 'edit': True})
             else:   
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False})
                 
         #user asked to display current reviews
         elif display:
             revs = Review.objects.filter(room=room)
             print 'num reviews found: %d' % (len(revs))
-            return render_to_response('rooms/reviewtest.html', {'reviews': revs, 'display': display})
+            return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'reviews': revs, 'display': display})
         # user submitted the review
         elif submit:
             if pastReview:
@@ -300,19 +300,19 @@ def review(request, roomid):
                 rev.user = user
                 rev.room = room
                 rev.save()
-                return render_to_response('rooms/reviewtest.html', {'submitted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': True})
             else:
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': True, 'error': 'Invalid submit data'})
         elif delete:
             if pastReview:
                 pastReview.delete()
-                return render_to_response('rooms/reviewtest.html', {'deleted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'deleted': True})
         else:
             #someone's messing with the post params
             return HttpResponseRedirect(reverse(index))
     else:
-        return render_to_response('rooms/reviewtest.html', {'submitted': False})
+        return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': False})
 
 @login_required
 def settings(request):
