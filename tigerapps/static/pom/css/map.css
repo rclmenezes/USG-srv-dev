@@ -1,12 +1,14 @@
 body {
 	font-family: helvetica,sans-serif;
 	font-size: 13px;
+	overflow: hidden;
 }
 h1, h2, h3 {
 	-webkit-margin-before: 0;
 	-webkit-margin-after: 0;
 }
 div, span {
+	border: 0 none;
 	margin:0;
 	padding:0;
 }
@@ -16,22 +18,36 @@ ul {
 	padding: 0;
 }
 
+a:link, a:visited{
+	color:#FF6600;
+}
+a:hover{
+	color:#000000;
+}
+
 
 /*************/
 /* Left panel */
 /*************/
 #jmap-info {
 	position:absolute;
-	top: 28px;/*none*/
-	left: 0px;/*20px*/
-	bottom: 0px;/*20px*/
+	top: 28px;
+	left: 0px;
+	bottom: 0px;
+	width:380px;
+	
+	background-color:#FAFCF8;
+    box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
+    z-index:100;
+}
+#info-content {
 	width: 360px;
     padding:10px;
 }
 
 #info-top {
-	height: 235px;
-	margin:0 20px 15px;
+	height: 210px;
+	margin:0 18px 15px;
 }
 #info-title {
 	height:35px;
@@ -40,6 +56,9 @@ ul {
 	margin:-4px 0 15px -14px;
 }
 #info-top-types {
+	margin:10px 0;
+}
+#other-info-types {
 	margin:10px 0;
 }
 #info-top-filters {
@@ -51,15 +70,14 @@ ul {
 
 #info-divider {
 	height: 0px;
-	margin-left: 15px;
+	margin-left: 5px;
 	margin-right: 3px;
+	border-top: 1px solid #C0C0C0;
 }
 #info-bot {
-	height: 0px;
-	overflow: hidden;
-	margin:15px 5px 15px 20px;
+	overflow-y: auto;
+	margin:15px 0px 15px 11px;
 }
-
 
 /*************/
 /* For event data */
@@ -68,13 +86,43 @@ ul {
 	margin-bottom:10px;
 }
 .info-event-entry {
-	padding:0 0 8px;
-	/*color: red;*/
+	padding:0px 12px 8px 0;
+	/*margin-right: 5px;*/
 }
-.info-event-subtext {
-	margin-left: 5px;
+.info-event-subtitle {
+	/*margin-left: 5px;*/
+}
+.info-event-description {
+	/*margin-left: 5px;*/
+	color:#464646; /*gray*/
 }
 
+
+
+/*************/
+/* Timeline */
+/*************/
+#info-jtl {
+	position:absolute;
+	top: 0;
+	left: 380px;
+	width: 150px;
+	bottom: 0;
+}
+#jtl-toggle {
+	position:absolute;
+	height:16px;
+	width:16px;
+	top:0px;
+	right:-30px;
+	padding: 7px;
+	
+	background-color:#FAFCF8;
+    box-shadow:5px 5px 0.8em -5px hsla(0, 0%, 0%, 1.0);
+    z-index:99;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
 
 
 /*************/
@@ -132,18 +180,6 @@ ul {
 }
 
 
-/*************/
-/* Options bar */
-/*************/
-#jmap-options {
-	position:absolute;
-	left: 0px;
-	right: 0px;
-	bottom: 20px;
-	padding: 0 30px 0;
-    z-index:100;
-}
-
 
 /*************/
 /* Scrollbar */
@@ -176,7 +212,7 @@ ul {
 
 
 
-.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
+/*.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
 	border-radius: 2px;
 }
 .ui-button-text-only .ui-button-text {
@@ -187,4 +223,4 @@ ul {
 	line-height: 1;
 	font: bold 11px Arial,sans-serif !important;
 	color: #444 !important;
-}
+}*/

@@ -18,7 +18,7 @@ function displayFloorPlan(name, floor)
     fp_canvas.style.display = "inline";
 
     fp_canvas.style.height = "100%";
-    fp_canvas.style.width = "69.5%";
+    fp_canvas.style.width = "100%";
 
 
     fp_canvas.innerHTML = "";
@@ -128,8 +128,9 @@ function displayFloorPlan(name, floor)
 	area.shape = "rect";
 	area.coords = rectCoords.join();
 	area.onclick = function(){
+        $('#roomlist').load('/get_room/'+roomIdByName[name][String(roomName)]);/*
 	    alert("Here you would see information about room id: "
-		  + roomIdByName[name][String(roomName)] + "(" + name + " " + roomName + ")");
+		  + roomIdByName[name][String(roomName)] + "(" + name + " " + roomName + ")");*/
 	}
 	return area;
     }
@@ -166,7 +167,7 @@ function displayFloorPlan(name, floor)
 	button.onclick = function()
 	{
 	    fp_canvas.style.display = "none";
-	    map_canvas.style.display = "inline";
+	    map_canvas.style.display = "block";
 	}
 	return button;
     }

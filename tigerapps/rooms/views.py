@@ -154,22 +154,42 @@ def get_queue(request, drawid):
 @login_required
 def invite_queue(request):
     try:
-        draw_id = int(request.POST['draw_id'])
+        draws = Draw.objects.all()
         netid = request.POST['netid']
+        invited_draws = []
+        for draw in draws:
+            if int(request.POST['draw%d' % draw.id]):
+                invited_draws.append(draw)
     except:
-        return HttpResponse('')
+        return HttpResponse('Oops! Your form data is invalid. Try again!')
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
+
     try:
-        receiver = User.objects.get(netid=netid)
-        draw = Draw.objects.get(pk=draw_id)
+        #receiver = User.objects.get(netid=netid)
+        receiver = check_undergraduate(netid)
     except:
-        return HttpResponse('Bad netid/draw id')
-    invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
+        return manage_queues(request, 'Sorry, the netid "%s" is invalid. Try again!' % netid)
+
+    if len(invited_draws) == 0:
+        return manage_queues(request, 'You didn\'t select any draws. Try again!')
+
+    for draw in invited_draws:
+        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
                          timestamp=int(time.time()))
-    invite.save()
-    return HttpResponse('Ok')
+        invite.save();
+
+    sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
+    url = "http://dev.rooms.tigerapps.org:8099/manage_queues.html#received" #TODO - change this URL
+    subject = "Rooms: Queue Invitation"
+    message = """Your friend %s invited you to share a room draw queue on the
+Princeton Room Draw Guide! Accept the request at the following URL: 
+
+%s""" % (sender_name, url)
+    notify(receiver, subject, message)
+
+    return render_to_response('rooms/invite_queue.html')
 
 # Respond to a queue invite
 @login_required
@@ -193,9 +213,9 @@ def respond_queue(request):
             invite.deny()
     except Exception as e:
         return HttpResponse(e)
-    return HttpResponse('good')
+    return manage_queues(request);
 
-# Respond to a queue invite
+# Leave a queue that was previously shared
 @login_required
 def leave_queue(request):
     try:
@@ -217,7 +237,7 @@ def leave_queue(request):
         qtr.save()
     user.queues.remove(q1)
     user.queues.add(q2)
-    return HttpResponse('good')
+    return manage_queues(request);
 
 @login_required
 #for testing
@@ -289,24 +309,25 @@ def settings(request):
     if not user:
         return HttpResponseForbidden()
 
-    return render_to_response('rooms/usersettings.html', {'user': user})
+    return render_to_response('rooms/user_settings.html', {'user': user})
 
 def handle_settings_form(request, user):
     
-    phone = int(request.POST['phone'])
+    if(request.POST['phone']):
+        phone = int(request.POST['phone'])
     
-    if phone != int(user.phone):
-        # Send confirmation code
-        carriers = Carrier.objects.order_by('name')
+        if phone != int(user.phone):
+            # Send confirmation code
+            carriers = Carrier.objects.order_by('name')
     
-        for carrier in carriers:
-            code = (phone / 10000) * 3 + user.id + carrier.id * 7
-            content = "Your confirmation code is: %s" % code
-            send_mail("", content, 'rooms@tigerapps.org',
+            for carrier in carriers:
+                code = (phone / 10000) * 3 + user.id + carrier.id * 7
+                content = "Your confirmation code is: %s" % code
+                send_mail("", content, 'rooms@tigerapps.org',
                       ["%s@%s" % (phone, carrier.address)], fail_silently=False)
-        user.confirmed = False
+                user.confirmed = False
 
-    user.phone = phone
+    user.phone = request.POST['phone']
     user.do_text = bool(('do_text' in request.POST) and request.POST['do_text'])
     user.do_email = bool(('do_email' in request.POST) and request.POST['do_email'])
     user.save()
@@ -348,22 +369,29 @@ def confirm_phone(request):
     else:
         first_try = True
 
-#    num_carriers = Carrier.objects.count()
-#    check_confirmation_js = """var confirmation = document.confirmphone_form.confirmation;
+    return render_to_response('rooms/confirm_phone.html', {'user': user, 'first_try':first_try})
 
-#   var carrier_id = confirmation - 3 * {{user.phone}} - {{user.id}};
-#   if(carrier_id < 0 || carrier_id %% 7 != 0 || carrier_id >= %d)
-#   {
-#        alert("Sorry, this is an invalid confirmation code. Please try again.");
-#        return false;
-#   }
-#   carrier_id /= 7;
 
-#   document.confirmphone_form.carrier_id = carrier_id;
-#   return true;""" % (num_carriers * 7)
+@login_required
+def manage_queues(request, error=""):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
 
-        print first_try
-    return render_to_response('rooms/confirmphone.html', {'user': user, 'first_try':first_try})
+
+    received_invites = QueueInvite.objects.filter(receiver=user)
+    sent_invites = QueueInvite.objects.filter(sender=user)
+    user_queues = user.queues.all()
+    shared_queues = []
+    for q in user_queues:
+        if q.user_set.count() > 1:
+            shared_queues.append(q)
+    return render_to_response('rooms/manage_queues.html', {'user' : user,
+                                                           'draws' : Draw.objects.all(),
+                                                           'received_invites' : received_invites,
+                                                           'sent_invites' : sent_invites,
+                                                           'shared_queues' : shared_queues,
+                                                           'error' : error })
 
 
 def test(request):
@@ -372,3 +400,12 @@ def test(request):
 def trigger(request):
     triggertime()
     return HttpResponse('triggered')
+
+#helper function
+def notify(user, subject, message):
+    if user.do_email:
+        send_mail(subject, message, 'rooms@tigerapps.org',
+                      ["%s@princeton.edu" % user.netid], fail_silently=False)
+    if user.do_text:
+        send_mail(subject, message, 'rooms@tigerapps.org',
+                      ["%s@%s" % (user.phone, user.carrier.address)], fail_silently=False)

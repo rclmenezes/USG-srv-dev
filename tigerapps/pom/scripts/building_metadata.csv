@@ -112,8 +112,8 @@ Architecture Lab,1952,1302,72,35,ARCHL,,,1
 Grad College,192,1031,260,224,,GRADC,,1
 Fisher,1205,896,60,24,,FISHE,,1
 North~ Murley-Pivirotto~ North~ Community Hall~ Hargadon~ Lauritzen~ Baker~ 1981,1167,920,146,163,HARGH,,,1
-Dillon West,1206,822,41,44,,,DILLW,3
-Dillon East,1250,823,32,40,,,DILLE,4
+Dillon West,1206,822,41,44,,,DILCW,3
+Dillon East,1250,823,32,40,,,DILCE,4
 Dillon Gym~ Stephens Fitness Center,1185,696,108,162,DILLG,,,2
 Brown,1328,690,52,42,,BROWN,,1
 McCormick~ Art Museum,1323,550,113,131,ARTMU,,,1
@@ -168,3 +168,5 @@ Ivy Lane 5,1810,819,47,20,IVY05,,,1
 91 Prospect,2298,676,37,26,STH91,,,1
 Bobst,2248,676,39,26,BOBSH,,,1
 Broadmead,2631,986,67,61,BR171,,,1
+2 Dickinson Street,994,660,24,28,,,2DICK,1
+71 University Place,1001,711,24,20,,,71UNI,1

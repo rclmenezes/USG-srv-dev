@@ -1,0 +1,10 @@
+<h3 id="info-bldg-name">All Printers</h3>
+
+{% for x in printers %}
+	<div class="info-event-entry">
+		<span style="font-weight:bold">{{x.0}}</span>
+		<div class="info-event-subtext">
+			<span style="color:{{x.1}}">{{x.2}}</span> 
+		</div>
+	</div>
+{% endfor %}

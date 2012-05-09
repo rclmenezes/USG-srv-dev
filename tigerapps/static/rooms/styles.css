@@ -9,14 +9,10 @@ body
     margin: 0; 
     padding: 0; 
     font-family: Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
 
 }
 
-li:hover
-{
-    cursor: pointer;
-}
 #wrapper1 /* entire page */
 {
     position: relative;
@@ -60,38 +56,59 @@ li:hover
     width: 100%;
     position: absolute;
     top: 0;
-    left: 0;
 }
 
-#top_right
+#queues_wrapper
 {
-    background-color: white; /*#E6E6E6;*/
+    max-height: 35%;
     position: absolute;
-    top: 11px;
-    left: 948px;
-    bottom: 10px;
-    right: 11px;
+    top: 4%;
+    right: 37px;
+    padding: 10px;
+    background: url('images/wash-white-30.png');
+    width: 250px;
+    overflow: auto;
+}
+
+#queue
+{
+    background: white;
+    padding: 10px;
+}
+
+#queues
+{
     overflow: scroll;
 }
 
-#greeting
+.queued_room
 {
-    height: 10%;
-    width: 100%;    
+    list-style-type: none;
+    padding: 4px;
+    cursor:move;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.queued_room:hover
+{
+    background: whiteSmoke;
 }
 
 #settings
 {
     position: absolute;
-    top: 0px;
+    top: 10px;
     right: 5px;
 }
 
-#queues
+#room_queue
 {
-    width: 100%;
-    position: static; /* ? */
-    overflow:scroll;
+    padding-top: 10px;
 }
 
 .queue_button
@@ -109,28 +126,6 @@ li:hover
     clear: both;
 }
 
-li
-{
-    font-size: 12px;
-    padding: 5px;
-}
-.queue_rooms
-{
-    font-size: 12px;
-    
-}
-.queue_drag
-{
-    /* begin add */
-    /*max-height: 130px;*/
-    width: 90%;
-    height: 80%;
-    overflow:scroll;
-    padding: 5%;
-    /* end add */
-    margin: 10px;
-}
-
 thead {
 
     background-color: #eee;
@@ -142,14 +137,8 @@ thead {
 
 td
 {
-    padding-left: 10px;
-    padding-right: 10px;
     margin-left: auto;
     margin-right: auto;
-/*
-    outline: 1px solid black;
-    text-align: center;
-*/
     padding: 7px !important;
 }
 
@@ -185,13 +174,8 @@ td
     background-position: -51px 0;
 }
 
-.queue_contents:hover
-{
-    cursor: pointer;
-}
 h1
 {
-    padding: 10px;
     font-size: 20px;
 }
 
@@ -201,17 +185,6 @@ input
     margin-right: auto;
     width: 20px;
 }
-     
-
-#dataPanel
-{
-    height: 49.25%;
-    background-color: #E6E6E6; position: relative;
-    transition: height .2s;
-    -moz-transition: height .2s; /* Firefox 4 */
-    -webkit-transition: height .2s; /* Safari and Chrome */
-    -o-transition: height .2s; /* Opera */
-} 
 
 #tableheadings
 {
@@ -223,46 +196,6 @@ input
 #addremoveTab
 {
     width: 43px;
-}
-
-#roomTab
-{
-    width: 70px;
-}
-
-#buildingTab
-{
-    width: 130px;
-}
-
-#sqrtTab
-{
-    width: 55px;
-}
-
-#occTab
-{
-    width: 100px;
-}
-
-#floorTab
-{
-    width: 60px;
-}
-
-#numRoomsTab
-{
-    width: 107px;
-}
-
-#genderTab
-{
-    width: 73px;
-}
-
-#availTab
-{
-    width: 94px;
 }
 
 #expandMap, #contractMap, #restoreMap
@@ -277,7 +210,7 @@ input
     width: 26px;
     height: 16px;
     position: absolute;
-    top: 9px;
+    top: 6px;
     padding-top: 5px;
     padding-bottom: 5px;
     border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px;
@@ -319,21 +252,45 @@ input
     font-weight: bold;
 }
 
+#roomListTopTrim
+{
+     transition: margin .2s;
+    -moz-transition: margin .2s; /* Firefox 4 */
+    -webkit-transition: margin .2s; /* Safari and Chrome */
+    -o-transition: margin .2s; /* Opera */
+    -moz-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    position: absolute;
+    left: 37px;
+    right: 37px;
+    bottom: 0;
+    margin-bottom: 50%;
+    padding-top: 10px;
+    background: url('images/wash-white-30.png');
+}
+
 #roomListWrapperBigger
 {
-    position: relative;
-    height: 100%;
+    transition: height .2s;
+    -moz-transition: height .2s; /* Firefox 4 */
+    -webkit-transition: height .2s; /* Safari and Chrome */
+    -o-transition: height .2s; /* Opera */
+    position:absolute;
+    height: 50%;
+    padding: 0 10px;
+    left: 37px;
+    right: 37px;
+    bottom: 0;
+    background: url('images/wash-white-30.png');
+    overflow: auto;
 }
 
 #roomListWrapper
 {
-    display: block;
-    position:absolute;
-    height:auto;
-    bottom:10px;
-    top:10px;
-    left:10px;
-    overflow: scroll;
+    overflow: auto;
+    background: url('images/wash-white-30.png');
 }
 
 #roomlist
@@ -367,8 +324,6 @@ input
 
 #drawtab
 {
-    width: 910px;
-    height: 417px;
     height: 94%;
     padding-left: 5px;
     padding-right: 5px;
@@ -398,7 +353,8 @@ input
     position: absolute;
     left: 0px;
     top: 0px;
-    cursor: -moz-grab;
+    cursor:move;
+
 }
 
 .fp_button
@@ -452,6 +408,11 @@ input
     padding: 75px;
 }
 
+#settings_container p
+{
+    padding: 5px 40px 5px 30px;
+}
+
 #settings_container h1, h2, h3, h4, p
 {
     padding: 15px;
@@ -462,6 +423,33 @@ input
     color: #CC0000;
     font-weight: bold;
 }
+
+/* Queue invitation styles */
+.queue_invite
+{
+    background-color: #333333;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 5px;
+    margin: 5px 40px 5px 30px;
+    width: 50%;
+}
+
+.queue_invite p
+{
+    padding: 5px;
+}
+
+.shared_queue
+{
+     background-color: #333333;
+     color: #FFFFFF;
+     font-weight: bold;
+     padding: 5px;
+     margin: 5px 40px 5px 30px;
+     width: 50%;
+}
+
 
 #room_view
 {
