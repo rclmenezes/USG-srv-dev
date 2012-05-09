@@ -3,7 +3,7 @@
 /***************************************/
 
 function utilInit() {
-	$("button").button();
+	$("input:submit").button();
 	$("#info-top-types").buttonset();
 	sliderInit();
 }

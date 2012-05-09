@@ -12,6 +12,7 @@ from django import forms
 import json
 import sys
 import time
+from queue import *
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -160,31 +161,33 @@ def invite_queue(request):
             if int(request.POST['draw%d' % draw.id]):
                 invited_draws.append(draw)
     except:
-        return HttpResponse('Invalid form fields')
+        return HttpResponse('Oops! Your form data is invalid. Try again!')
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
 
     try:
-        receiver = User.objects.get(netid=netid)
-        #draw = Draw.objects.get(pk=draw_id)
+        #receiver = User.objects.get(netid=netid)
+        receiver = check_undergraduate(netid)
     except:
-        return HttpResponse('Bad netid/draw id')
+        return manage_queues(request, 'Sorry, the netid "%s" is invalid. Try again!' % netid)
+
+    if len(invited_draws) == 0:
+        return manage_queues(request, 'You didn\'t select any draws. Try again!')
 
     for draw in invited_draws:
         invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
                          timestamp=int(time.time()))
-        invite.save()
+        invite.save();
 
-        if user.do_email:
-            sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
-            url = "http://dev.rooms.tigerapps.org:8099/manage_queues.html#received" #TODO - change this URL
-            email_content = """Your friend %s invited you to share a room draw queue on the
+    sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
+    url = "http://dev.rooms.tigerapps.org:8099/manage_queues.html#received" #TODO - change this URL
+    subject = "Rooms: Queue Invitation"
+    message = """Your friend %s invited you to share a room draw queue on the
 Princeton Room Draw Guide! Accept the request at the following URL: 
 
 %s""" % (sender_name, url)
-            send_mail("Rooms: Queue Invitation", email_content, 'rooms@tigerapps.org',
-                      ["%s@princeton.edu" % receiver.netid], fail_silently=False)
+    notify(receiver, subject, message)
 
     return render_to_response('rooms/invite_queue.html')
 
@@ -205,12 +208,23 @@ def respond_queue(request):
         return HttpResponse(e)
     try:
         if accepted:
-            invite.accept()
+            queue = invite.accept()
+            friends = queue.user_set.all()
+            for friend in friends:
+                if user != friend:
+                    receiver_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
+                    subject = "Rooms: %s Joined Your Queue" % user.firstname
+                    url = "http://rooms.tigerapps.org/"
+                    message = """Your friend %s has joined your room draw queue! Visit %s to browse rooms
+to add. """ % (receiver_name, url)
+                    notify(friend, subject, message)
         else:
             invite.deny()
     except Exception as e:
         return HttpResponse(e)
-    return render_to_response('rooms/manage_queues.html')
+
+
+    return manage_queues(request);
 
 # Leave a queue that was previously shared
 @login_required
@@ -234,7 +248,7 @@ def leave_queue(request):
         qtr.save()
     user.queues.remove(q1)
     user.queues.add(q2)
-    return render_to_response('rooms/manage_queues.html')
+    return manage_queues(request);
 
 @login_required
 #for testing
@@ -263,16 +277,16 @@ def review(request, roomid):
         if review:
             if pastReview:
                 form = ReviewForm(instance=pastReview)
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False, 'edit': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False, 'edit': True})
             else:   
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False})
                 
         #user asked to display current reviews
         elif display:
             revs = Review.objects.filter(room=room)
             print 'num reviews found: %d' % (len(revs))
-            return render_to_response('rooms/reviewtest.html', {'reviews': revs, 'display': display})
+            return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'reviews': revs, 'display': display})
         # user submitted the review
         elif submit:
             if pastReview:
@@ -286,19 +300,19 @@ def review(request, roomid):
                 rev.user = user
                 rev.room = room
                 rev.save()
-                return render_to_response('rooms/reviewtest.html', {'submitted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': True})
             else:
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': True, 'error': 'Invalid submit data'})
         elif delete:
             if pastReview:
                 pastReview.delete()
-                return render_to_response('rooms/reviewtest.html', {'deleted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'deleted': True})
         else:
             #someone's messing with the post params
             return HttpResponseRedirect(reverse(index))
     else:
-        return render_to_response('rooms/reviewtest.html', {'submitted': False})
+        return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': False})
 
 @login_required
 def settings(request):
@@ -370,18 +384,39 @@ def confirm_phone(request):
 
 
 @login_required
-def manage_queues(request):
+def manage_queues(request, error=""):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
 
 
     received_invites = QueueInvite.objects.filter(receiver=user)
+    sent_invites = QueueInvite.objects.filter(sender=user)
     user_queues = user.queues.all()
     shared_queues = []
     for q in user_queues:
         if q.user_set.count() > 1:
             shared_queues.append(q)
-    return render_to_response('rooms/manage_queues.html', {'user' : user, 'draws' : Draw.objects.all(),
+    return render_to_response('rooms/manage_queues.html', {'user' : user,
+                                                           'draws' : Draw.objects.all(),
                                                            'received_invites' : received_invites,
-                                                           'shared_queues' : shared_queues})
+                                                           'sent_invites' : sent_invites,
+                                                           'shared_queues' : shared_queues,
+                                                           'error' : error })
+
+
+def test(request):
+    return HttpResponse(testtime())
+
+def trigger(request):
+    triggertime()
+    return HttpResponse('triggered')
+
+#helper function
+def notify(user, subject, message):
+    if user.do_email:
+        send_mail(subject, message, 'rooms@tigerapps.org',
+                      ["%s@princeton.edu" % user.netid], fail_silently=False)
+    if user.do_text:
+        send_mail(subject, message, 'rooms@tigerapps.org',
+                      ["%s@%s" % (user.phone, user.carrier.address)], fail_silently=False)

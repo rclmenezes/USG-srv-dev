@@ -31,11 +31,12 @@
 				<div class="logo" id="ttradelogo"><a href="/"><img src="/static/ttrade/images/ttrade.jpg" alt=""/></a></div>
 				<div class="right">
 					{% if logged_in %}
-						<div id="make_a_listing"><a href="/create">Make a listing!</a></div><br/>
-						<div id="your_listings"><a href="/yourListings">Your listings</a></div>
-						<div id="logout"><a href="/logout">Logout</a></div>
+						<div><a href="/create">Make a listing!</a></div>
+						<div><a href="/yourListings">Your listings</a></div>
+						<div><a href="/yourOffers">Your offers</a></div>
+						<div><a href="/logout">Logout</a></div>
 					{% else %}
-						<div id="login"><a href="/login">Login!</a></div>
+						<div><a href="/login">Login!</a></div>
 					{% endif %}
 				</div>
 			</div> <!-- header-->
