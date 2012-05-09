@@ -5,6 +5,7 @@
 function utilInit() {
 	$("button").button();
 	$("#info-top-types").buttonset();
+	//$("#other-info-types").buttonset();
 	sliderInit();
 }
 

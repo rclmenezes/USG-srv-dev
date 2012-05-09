@@ -58,6 +58,7 @@ function mapInit() {
 	//links
 	jevent.urlBldgsForFilter = '/bldgs/filter/';
 	jevent.urlEventsForBldg = '/events/bldg/';
+	jevent.urlEventsForAll = '/events/all/';
 	jevent.urlBldgNames = '/bldgs/name/';
 	
 	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
@@ -345,6 +346,14 @@ function setupFilterTabs() {
 	$("#info-top-types input").click(function(ev) {
 		handleFilterTypeChange(ev.target.value);
 	});
+	$("#other-info-types input").click(function(ev) {
+		var newFilterType = ev.target.value;
+		if (jevent.filterType != newFilterType) {
+			jevent.filterType = newFilterType;
+			if (newFilterType < 5) //only <5 is implemented in Django
+				handleFilterChange();
+		}
+	});
 	handleFilterTypeChange(0);
 }
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
@@ -366,6 +375,7 @@ function handleFilterChange() {
 	AJAXbldgsForFilter();
 	if (jevent.bldgDisplayed != null)
 		AJAXeventsForBldg(jevent.bldgDisplayed);
+		AJAXeventsForAll();
 }
 
 /* These return the GET params that should be sent in every AJAX call */
@@ -436,6 +446,19 @@ function hideMapLoading() {
 /***************************************/
 /* For rendering data in the info box */ 
 /***************************************/
+
+function AJAXeventsForAll() {
+	displayInfoLoading();
+	$.ajax(jevent.urlEventsForAll, {
+		data: getFilterParams(),
+		dataType: 'json',
+		success: displayInfoEvent,
+		error: function(jqXHR, textStatus, errorThrown) {
+			hideInfoEvent();
+			handleAjaxError(jqXHR, textStatus, errorThrown);
+		}
+	});
+}
 
 function AJAXeventsForBldg(bldgCode) {
 	displayInfoLoading();
