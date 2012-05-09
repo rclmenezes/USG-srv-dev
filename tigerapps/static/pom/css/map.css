@@ -90,10 +90,13 @@ a:hover{
 	/*margin-right: 5px;*/
 }
 .info-event-subtitle {
+	font-weight:bold;
+	font-size:9pt;
 	/*margin-left: 5px;*/
 }
 .info-event-description {
 	/*margin-left: 5px;*/
+	font-weight:lighter;
 	color:#464646; /*gray*/
 }
 
@@ -119,7 +122,6 @@ a:hover{
 	
 	background-color:#FAFCF8;
     box-shadow:5px 5px 0.8em -5px hsla(0, 0%, 0%, 1.0);
-    z-index:99;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
 }
