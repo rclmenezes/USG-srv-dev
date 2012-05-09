@@ -120,6 +120,7 @@ class QueueInvite(models.Model):
         self.receiver.queues.add(q1)
         q2.delete()
         self.delete()
+        return q1
 
     def deny(self):
         self.delete()
