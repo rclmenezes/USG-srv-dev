@@ -6,15 +6,16 @@ function timelineInit(idTl, idInput) {
 	
 	//static constants
 	jtl.wkdays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
-	
 	jtl.minEndPadding = 12;
 	jtl.minDayPadding = 6;
 	jtl.minIntervalHt = 3; //including border
 	jtl.maxIntervalHt = 100; //including border
 	jtl.dayBorderHt = 3;  //between days
-
 	jtl.minTickHt = 8;  //including border
 	jtl.minLabelHt = 16; //time labels on left of timeline
+	
+	//data from django
+	jtl.eventSummary = {};
 	
 	loadEvents();
 	loadTimeline();
@@ -52,7 +53,7 @@ function maxRangeOfTimes() {
 
 /* Load the timeline from scratch, used at init */
 function loadTimeline() {
-	removeTimeTicks();
+	clearTimeline();
 	getTimelineParams();
 	
 	//compute the sizes of each day, each tick, given the parameters + timeline size
@@ -122,7 +123,7 @@ function loadTimeline() {
 	}
 }
 
-function removeTimeTicks() {
+function clearTimeline() {
 	var c = jtl.tl;
 	if (c.hasChildNodes())
 		while (c.childNodes.length >= 1)
