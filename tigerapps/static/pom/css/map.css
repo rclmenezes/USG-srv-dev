@@ -119,7 +119,6 @@ a:hover{
 	
 	background-color:#FAFCF8;
     box-shadow:5px 5px 0.8em -5px hsla(0, 0%, 0%, 1.0);
-    z-index:99;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
 }
