@@ -50,8 +50,8 @@ function mapInit() {
 
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
-	window.onresize = loadTiles;
-	loadTiles();
+	window.onresize = loadWindowSizeDependent;
+	loadWindowSizeDependent();
 	
 	/***/
 	
@@ -66,7 +66,6 @@ function mapInit() {
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
 	jevent.bldgDisplayed = null;
-	jevent.infoSize = 0; //0=not extended, 1=loading, 2=full extension
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
     jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
     jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
@@ -75,6 +74,10 @@ function mapInit() {
 	setupActualFilters();
 }
 
+function loadWindowSizeDependent() {
+	loadTiles();
+	$('#info-bot').css('height', (jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-51)+'px');
+}
 
 /***************************************/
 /* General conversion tools */
@@ -481,36 +484,16 @@ function displayInfoEvent(data) {
 	} else {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
-		if (jevent.infoSize != 2) {
-			/* Expand the info box if it's not already expanded */
-			jevent.infoSize = 2;
-			//$('#info-divider').css('border-top', '1px solid #C0C0C0');
-			$('#info-bot').animate({
-				height: jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-80 + 'px',
-			}, 200);
-		}
 	}
 }
 
 function displayInfoLoading() {
 	$('#info-bot').html(jevent.htmlLoading);
-	if (jevent.infoSize == 0) {
-		/* Expand the info box to loading size if it's not expanded at all */
-		jevent.infoSize = 1;
-		//$('#info-divider').css('border-top', '1px solid #C0C0C0');
-		$('#info-bot').animate({
-			height:'23px',
-		}, 100);
-	}
 }
 
 function hideInfoEvent() {
-	jevent.infoSize = 0;
 	jevent.bldgDisplayed = null;
-	//$('#info-divider').css('border-style','none');
-	$('#info-bot').animate({
-		height:'0px',
-	}, 200);
+	$('#info-bot').html('');
 }
 
 
@@ -573,7 +556,7 @@ function centerOnBldg(bldgCode) {
 		left: -jmap.dispX,
 		top: -jmap.dispY,
 	}, {
-		duration: 100,
+		duration: 200,
 		complete: loadTiles
 	});
 }

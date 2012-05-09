@@ -1,6 +1,7 @@
 body {
 	font-family: helvetica,sans-serif;
 	font-size: 13px;
+	overflow: hidden;
 }
 h1, h2, h3 {
 	-webkit-margin-before: 0;
@@ -37,8 +38,8 @@ a:hover{
 }
 
 #info-top {
-	height: 235px;
-	margin:0 20px 15px;
+	height: 210px;
+	margin:0 18px 15px;
 }
 #info-title {
 	height:35px;
@@ -61,14 +62,13 @@ a:hover{
 
 #info-divider {
 	height: 0px;
-	margin-left: 15px;
+	margin-left: 10px;
 	margin-right: 3px;
 	border-top: 1px solid #C0C0C0;
 }
 #info-bot {
-	height: 0px;
 	overflow-y: auto;
-	margin:15px 5px 15px 20px;
+	margin:15px 0px 15px 11px;
 }
 
 
