@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     (r'^edit/(?P<listingID>\d+)/?$', 'ttrade.views.edit'),
     (r'^expiration/(?P<listingID>\d+)/?$', 'ttrade.views.expiration'),
     (r'^yourListings/?$', 'ttrade.views.yourListings'),
+    (r'^yourOffers/?$', 'ttrade.views.yourOffers'),
     (r'^terms/?$', 'ttrade.views.terms'),
     
     # Login stuff
