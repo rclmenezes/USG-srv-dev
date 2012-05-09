@@ -10,8 +10,8 @@ function utilInit() {
 
 function sliderInit() {
 	weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    oldLeft = 0;
-    oldRight = 500;
+    oldLeft = -1;
+    oldRight = -1;
     var sliderEle = $( "#events-slider" );
 	
     sliderEle.slider({
@@ -35,7 +35,8 @@ function sliderInit() {
             }
         }
     });
-
+    
+    
     $( "#slider-left-value" ).val(printDateTime(convertToDate(sliderEle.slider( "values", 0 ))));
     $( "#slider-right-value" ).val(printDateTime(convertToDate(sliderEle.slider( "values", 1 ))));
 }

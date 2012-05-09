@@ -16,7 +16,15 @@ ul {
 	padding: 0;
 }
 
-
+a:link{
+	color:#FF6600;
+	}
+a:visited{
+	color:#FF6600;
+	}
+a:hover{
+	color:#000000;
+	}
 /*************/
 /* Left panel */
 /*************/

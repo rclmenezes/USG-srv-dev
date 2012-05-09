@@ -211,10 +211,9 @@ def getBldgsWithMenus():
     return tuple(bldg_code for bldg_code in DINING_HALLS.keys())
 
 def getBldgsWithLaundry():
-    return ('WALKE', 'C1915', 'DICKH', 'BLAIR', 'BLOOM', 'BROWN', 'SCULL', 
-            'YOSEL', 'BUYER', 'ENOHA', 'DODHA', 'EDWAR', 'FEINB', 'FORBC', 
-            'HAMIL', 'HENRY', 'HOLDE', 'JOLIN', 'LITTL', 'LOCKH', 'CUYLE',
-            'PYNEH', 'SCULL', 'SPELM', 'HARGH')
+    return ('BLOOM','HARGH', 'SCULL', 'PATTN', 'PYNEH', 'HAMIL', 'JOLIN', 'LOCKH', 'LITTL', 
+                'EDWAR', 'FEINB', 'BLAIR', 'CLAPP', 'DODHA', 'BROWN', 'WITHR',  'LAUGH', 
+                'C1915', 'HENHO', 'FORBC', 'SPELM', 'HOLDE', '1903H', '1976H', 'YOSEL')
 
 def getBldgsWithPrinters():
     return tuple(bldg_code for bldg_code in PRINTER_BLDGS.values())

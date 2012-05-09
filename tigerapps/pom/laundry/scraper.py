@@ -6,75 +6,83 @@ Created on Apr 26, 2012
 import pom.laundry.room
 import io
 
-LAUNDRY_ROOMS = {
-    '1903_HALL': '307342',
-    '1915_HALL': '307342',
-    '2_DICKENSON_ST.': '307342',
-    'BLAIR_HALL': '30734',
-    'BLOOMBERG_041': '307342',
-    'BLOOMBERG_269': '307344',
-    'BLOOMBERG_332': '307344',
-    'BLOOMBERG_460': '307344',
-    'BROWN': '307347',
-    'BUTLER_-_BUILDING_A_ROOM_005': '307346',
-    'BUTLER_-_BUILDING_D_ROOM_032': '307346',
-    'BUYERS_HALL': '307344',
-    'CLAPP_-_1927_HALL': '30734',
-    'DOD_HALL': '30734',
-    'EDWARDS_HALL': '30734',
-    'FEINBERG_HALL': '30734',
-    'FORBES_-_MAIN_INN': '30734',
-    'FORBES_ANNEX': '30734',
-    'HAMILTON_HALL': '307344',
-    'HENRY_HALL': '307341',
-    'HOLDER_HALL': '30734',
-    'JOLINE_HALL': '307341',
-    'LAUGHLIN_HALL': '307341',
-    'LITTLE_HALL_A49': '307342',
-    'LITTLE_HALL_B6': '307346',
-    'LITTLE_HALL_BASEMENT_LEVEL_A5': '307341',
-    'LOCKHART_HALL': '307342',
-    'PATTON_HALL_4TH_FLOOR': '307341',
-    'PATTON_HALL_BASEMENT_LEVEL': '307341',
-    'PYNE_HALL': '307341',
-    'SCULLY_HALL_-_NORTH_WING_-_2ND_FLOOR': '307341',
-    'SCULLY_HALL_-_SOUTH_WING_-_1ST_FLOOR': '307341',
-    'SCULLY_HALL_-_SOUTH_WING_-_4TH_FLOOR': '307342',
-    'SPELMAN_HALL': '307342',
-    'WHITMAN_A_119': '307346',
-    'WHITMAN_C_205': '307346',
-    'WHITMAN_C_305': '307346',
-    'WHITMAN_C_407': '307346',
-    'WHITMAN_F312': '307347',
-    'WHITMAN_F403': '307347',
-    'WHITMAN_FB11': '307346',
-    'WHITMAN_S201': '307347',
-    'WHITMAN_S301': '307347',
-    'WHITMAN_S401': '307347',
-    'WITHERSPOON_HALL': '307342',
-}
+bldg_id_to_laundry_info = {'BLOOM' : (('Bloomberg 269', '3073440'), ('Bloomberg 332', '3073441'), ('Bloomberg 460', '3073442'), ('Bloomberg 41', '3073427')), 
+                    'HARGH' : (('Whitman FB11', '3073469'), ('Whitman S201', '3073472'), ('Whitman C205', '3073466'), ('Whitman A119', '3073465'), ('Whitman C305', '3073467'), ('Whitman S301', '3073473'), ('Whitman C407', '3073468'), ('Whitman S401', '3073474'), ('Whitman F403', '3073471'), ('Whitman F312', '3073470')), 
+                    'SCULL' : (('Scully South Wing - Fourth Floor', '3073420'), ('Scully South Wing - First Floor', '3073419'), ('Scully North Wing - Second Floor', '3073418')), 
+                    'PATTN' : (('Patton Hall Basement Level', '3073416'), ('Patton Hall Fourth Floor', '3073416')), 
+                    'PYNEH' : (('Pyne', '3073417'),), 
+                    'HAMIL' : (('Hamilton', '3073443'),), 
+                    'JOLIN' : (('Joline', '3073411'),), 
+                    'LOCKH' : (('Lockhart', '3073428'),), 
+                    'LITTL' : (('Little Hall B6', '3073464'), ('Little Hall A49', '3073426'), ('Little Hall Basement Level A5', '3073413')), 
+                    'EDWAR' : (('Edwards', '307345'),), 
+                    'FEINB' : (('Feinburg', '307346'),), 
+                    'BLAIR' : (('Blair', '307342'), ('Buyers', '3073444')), 
+                    'CLAPP' : (('Clapp - 1927', '307343'),), 
+                    'DODHA' : (('Dod', '307344'),), 
+                    'BROWN' : (('Brown', '3073475'),), 
+                    'WITHR' : (('Witherspoon', '3073422'),), 
+                    'LAUGH' : (('Laughlin Hall', '3073412'),), 
+                    'C1915' : (('1915', '3073424'),), 
+                    'HENHO' : (('Henry', '3073410'),), 
+                    'FORBC' : (('Forbes Annex', '307348'), ('Forbes Main', '307347')), 
+                    'SPELM' : (('Spelman', '3073421'),), 
+                    'HOLDE' : (('Holder', '307349'),), 
+                    '1903H' : (('1903', '3073423'),), 
+                    '1976H' : (('1976', '3073462'),), 
+                    'YOSEL' : (('Yoseloff', '3073463'),)}
 
 #url_str is the base url to get the laundry data for the rooms. url_str+roomid gives
 #the data for a specific room with id = roomid
 url_str = 'http://classic.laundryview.com/laundry_room.php?view=c&lr='
 
 def scrape_all():
-    #dict will contain a mapping of name: room_struct pairs. room_struct.washers() returns
-    #a list of [number washers free, total number of washers] and room_struct.dryers() returns a list of
-    #[number of dryers free, total number of dryers].
-    laundry_info = {}
+    laundry_info = {'BLOOM' : (('Bloomberg 269', 2, 2, 3, 4), ('Bloomberg 332', 2, 2, 2, 4), ('Bloomberg 460', 0, 2, 1, 2), ('Bloomberg 41', 0, 2, 4, 4)), 
+                    'HARGH' : (('Whitman FB11', 5, 5, 9, 10), ('Whitman S201', 2, 2, 3, 4), ('Whitman C205', 2, 2, 4, 4), ('Whitman A119', 2, 2, 4, 4), ('Whitman C305', 2, 2, 4, 4), ('Whitman S301', 0, 2, 1, 4), ('Whitman C407', 1, 1, 1, 2), ('Whitman S401', 1, 1, 1, 2), ('Whitman F403', 1, 1, 2, 2), ('Whitman F312', 2, 2, 4, 4)), 
+                    'SCULL' : (('Scully South Wing - Fourth Floor', 3, 3, 4, 4), ('Scully South Wing - First Floor', 3, 3, 5, 6), ('Scully North Wing - Second Floor', 0, 4, 6, 6)), 
+                    'PATTN' : (('Patton Hall Basement Level', 5, 5, 3, 7), ('Patton Hall Fourth Floor', 1, 1, 0, 1)), 
+                    'PYNEH' : (('Pyne', 1, 5, 5, 8),), 
+                    'HAMIL' : (('Hamilton', 2, 2, 2, 4),), 
+                    'JOLIN' : (('Joline', 2, 3, 2, 4),), 
+                    'LOCKH' : (('Lockhart', 2, 3, 4, 6),), 
+                    'LITTL' : (('Little Hall B6', 3, 4, 7, 8), ('Little Hall A49', 3, 3, 4, 4), ('Little Hall Basement Level A5', 2, 4, 6, 8)), 
+                    'EDWAR' : (('Edwards', 2, 4, 2, 4),), 
+                    'FEINB' : (('Feinburg', 3, 4, 6, 6),), 
+                    'BLAIR' : (('Blair', 5, 6, 9, 10), ('Buyers', 4, 4, 8, 8)), 
+                    'CLAPP' : (('Clapp - 1927', 4, 4, 2, 3),), 
+                    'DODHA' : (('Dod', 4, 5, 3, 5),), 
+                    'BROWN' : (('Brown', 4, 6, 6, 6),), 
+                    'WITHR' : (('Witherspoon', 4, 6, 6, 6),), 
+                    'LAUGH' : (('Laughlin Hall', 5, 5, 6, 6),), 
+                    'C1915' : (('1915', 5, 5, 2, 5),), 
+                    'HENHO' : (('Henry', 6, 6, 4, 8),), 
+                    'FORBC' : (('Forbes Annex', 6, 6, 6, 7), ('Forbes Main', 6, 6, 6, 8)), 
+                    'SPELM' : (('Spelman', 6, 8, 7, 8),), 
+                    'HOLDE' : (('Holder', 8, 8, 5, 8),), 
+                    '1903H' : (('1903', 8, 8, 8, 8),), 
+                    '1976H' : (('1976', 9, 9, 9, 10),), 
+                    'YOSEL' : (('Yoseloff', 9, 9, 7, 10),)}
     
-    '''Cannot access this from dev server-- substituted with "fake" values for demo'''
-    #for name,roomid in LAUNDRY_ROOMS.iteritems():
-    #    laundry_info[name] = room.Room(url_str + roomid)
+    '''
+        Cannot access this from dev server-- substituted with temporary values for demo.
+        You can literally just uncomment the code below on a server with access to the laundry website and everything will work.
+    '''
+    '''
+    laundry_info = {}
+    for id, info in bldg_id_to_laundry_info.iteritems():
+        laundry = []
+        for x in info:
+            room_obj = room.Room(url_str + x[1])
+            laundry.append((x[0], room_obj.washers()[0], room_obj.washers()[1], room_obj.dryers()[0], room_obj.dryers()[1]))
+        laundry_info[id] = tuple(laundry)
+    '''
+        
     return laundry_info
 
 def print_laundry_info(laundry_info):
     '''print the results as an example'''
     for name,info in laundry_info.iteritems():
         print(name + ' \n\twashers: ' + str(info.washers()[0]) + ' free of ' + str(info.washers()[1]) + ' \n\tdryers: ' + str(info.dryers()[0]) + ' free of ' + str(info.dryers()[1]))
-
-
 
 
 
