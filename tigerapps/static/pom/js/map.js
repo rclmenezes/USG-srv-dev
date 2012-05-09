@@ -484,22 +484,20 @@ function displayInfoEvent(data) {
 		if (jevent.infoSize != 2) {
 			/* Expand the info box if it's not already expanded */
 			jevent.infoSize = 2;
-			$('#info-bot').css('overflow-y', 'scroll');
-			$('#info-divider').css('border-top', '1px solid #C0C0C0');
+			//$('#info-divider').css('border-top', '1px solid #C0C0C0');
 			$('#info-bot').animate({
 				height: jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-80 + 'px',
-			}, 400);
+			}, 200);
 		}
 	}
 }
 
 function displayInfoLoading() {
-	$('#info-bot').css('overflow-y', 'hidden');
-	$('#info-divider').css('border-top', '1px solid #C0C0C0');
 	$('#info-bot').html(jevent.htmlLoading);
 	if (jevent.infoSize == 0) {
 		/* Expand the info box to loading size if it's not expanded at all */
 		jevent.infoSize = 1;
+		//$('#info-divider').css('border-top', '1px solid #C0C0C0');
 		$('#info-bot').animate({
 			height:'23px',
 		}, 100);
@@ -509,7 +507,7 @@ function displayInfoLoading() {
 function hideInfoEvent() {
 	jevent.infoSize = 0;
 	jevent.bldgDisplayed = null;
-	$('#info-divider').css('border-style','none');
+	//$('#info-divider').css('border-style','none');
 	$('#info-bot').animate({
 		height:'0px',
 	}, 200);
@@ -552,11 +550,13 @@ function locationFilter() {
 		// get submitted building's code, center map on it, and display it's events
 		bldgName = $('#location-search').val();
 		bldgCode = jevent.bldgNames[bldgName];
-		centerOnBldg(bldgCode);
+		if (bldgCode != undefined) {
+			centerOnBldg(bldgCode);
+		}
+		// prevent refresh
 		return false;
 	});
 }
-
 
 function centerOnBldg(bldgCode) {
 	// calculate new center coords
@@ -578,7 +578,7 @@ function centerOnBldg(bldgCode) {
 	});
 }
 
-
+/* fix button, change highlighting */
 
 
 
