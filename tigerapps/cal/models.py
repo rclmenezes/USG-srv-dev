@@ -273,12 +273,20 @@ class Event(models.Model):
 
         def getGCalSDate2(self):
            adjustedHour = self.event_date_time_start.strftime("%H")
-           hr = int(adjustedHour) + 4
+           #hr = int(adjustedHour) + 4
+           
+           #hack to fix daylight savings time bug
+           curnorm = int(datetime.now().strftime("%H"))
+           curutc = int(datetime.utcnow().strftime("%H"))
+           
+           offset = ((curutc - curnorm) + 24) % 24
+           hr = int(adjustedHour) + offset
+    
            if hr < 10:
            	  return "0" + str(hr)
            else:
            	  return str(hr)
-
+ 
         def getGCalSDate3(self):
            return self.event_date_time_start.strftime("%M%SZ")
 
@@ -287,7 +295,15 @@ class Event(models.Model):
 
         def getGCalEDate2(self):
            adjustedHour = self.event_date_time_end.strftime("%H")
-           hr = int(adjustedHour) + 4
+           #hr = int(adjustedHour) + 4
+           
+           #hack to fix daylight savings time bug
+           curnorm = int(datetime.now().strftime("%H"))
+           curutc = int(datetime.utcnow().strftime("%H"))
+           
+           offset = ((curutc - curnorm) + 24) % 24
+           hr = int(adjustedHour) + offset
+    
            if hr < 10:
            	  return "0" + str(hr)
            else:

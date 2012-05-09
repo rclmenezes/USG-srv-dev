@@ -1,21 +1,15 @@
 #jtl {
 	border: 1px solid gray;
 	padding: 0;
-	width:155px;
 	position: absolute;
 	left: 500px;
+}
+
+
+.jtl-tl {
+	width:150px;
 	overflow: hidden;
 }
-
-
-div {
-	border: 0 none;
-	margin: 0;
-	padding: 0;
-	display: block;
-}
-
-
 
 .jtl-day {
 	width: 100%;
@@ -37,7 +31,7 @@ div {
 .jtl-tick-box {
 	width:100px;
 	position: absolute;
-	left: 40px;
+	left: 35px;
 	border-top: 3px solid #888888;
 }
 
@@ -50,7 +44,7 @@ div {
 
 .jtl-time {
 	height:12px;
-	width: 38px;
+	width: 33px;
 	position: absolute;
 	right: 102px;
 	

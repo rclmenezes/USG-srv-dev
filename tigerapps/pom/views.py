@@ -36,7 +36,8 @@ def bldgs_for_filter(request):
     
     elif filter_type == '1':
         #1 = hours
-        bldgsList = getBldgsWithHours()
+        #bldgsList = getBldgsWithHours()
+        raise Exception('Not implemented')
     
     elif filter_type == '2':
         #2 = menus
@@ -90,43 +91,45 @@ def events_for_bldg(request, bldg_code):
         #1 = hours
        
         #assert building is one for which we scrape hours
-        if bldg_code not in getBldgsWithHours():
-           err = 'requested hours info for invalid building ' + BLDG_INFO[bldg_code][0]
-           response_json = simplejson.dumps({'error': err})
-        else:
-            try:
-                hours = get_bldg_hours(bldg_code)
-                html = render_to_string('pom/hours_info.html',
-                                        {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'hours': hours})
-                response_json = simplejson.dumps({'error': None,
-                                                  'html': html,
-                                                  'bldgCode': bldg_code})
-            except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)})   
+        #if bldg_code not in getBldgsWithHours():
+        #   err = 'requested hours info for invalid building ' + BLDG_INFO[bldg_code][0]
+        #   response_json = simplejson.dumps({'error': err})
+        #else:
+        #    try:
+        #        hours = get_bldg_hours(bldg_code)
+        #        html = render_to_string('pom/hours_info.html',
+        #                                {'bldg_name': BLDG_INFO[bldg_code][0],
+        #                                 'hours': hours})
+        #        response_json = simplejson.dumps({'error': None,
+        #                                          'html': html,
+        #                                          'bldgCode': bldg_code})
+        #    except Exception, e:
+        #        response_json = simplejson.dumps({'error': str(e)})
+        raise Exception('Not implemented')
         
         
     elif filter_type == '2':
         #2 = menus
         
         #assert building is a dining hall
-        if bldg_code not in getBldgsWithMenus():
-           err = 'requested menu info from invalid building ' + BLDG_INFO[bldg_code][0]
-           response_json = simplejson.dumps({'error': err})
-        else:
-            try:
-                log = open('/srv/tigerapps/slog','a')
-                log.write('before call to scrape: %s\n' % bldg_code)
-                log.close()
-                menu_info = menus.scrape_single_menu(bldg_code)
-                html = render_to_string('pom/menu_info.html',
-                                        {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'menu': menu_info})
-                response_json = simplejson.dumps({'error': None,
-                                                  'html': html,
-                                                  'bldgCode': bldg_code})
-            except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)})  
+#        if bldg_code not in getBldgsWithMenus():
+#           err = 'requested menu info from invalid building ' + BLDG_INFO[bldg_code][0]
+#           response_json = simplejson.dumps({'error': err})
+#        else:
+#            try:
+#                log = open('/srv/tigerapps/slog','a')
+#                log.write('before call to scrape: %s\n' % bldg_code)
+#                log.close()
+#                menu_info = menus.scrape_single_menu(bldg_code)
+#                html = render_to_string('pom/menu_info.html',
+#                                        {'bldg_name': BLDG_INFO[bldg_code][0],
+#                                         'menu': menu_info})
+#                response_json = simplejson.dumps({'error': None,
+#                                                  'html': html,
+#                                                  'bldgCode': bldg_code})
+#            except Exception, e:
+#                response_json = simplejson.dumps({'error': str(e)})
+        raise Exception('Not implemented')
     
     
     elif filter_type == '3':
@@ -252,6 +255,7 @@ def events_for_all_bldgs(request):
                 machine_list = sorted(machine_list, key=lambda x: x[0])
                 try: 
                     cache.set('laundry_list', machine_list, 1000)
+                    cache.set('laundry', mapping, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg laundry', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
             
@@ -280,6 +284,7 @@ def events_for_all_bldgs(request):
                 printer_list = sorted(printer_list, key=lambda x: x[0])
                 try:
                     cache.set('printer_list', printer_list, 1000)
+                    cache.set('printer', mapping, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
 

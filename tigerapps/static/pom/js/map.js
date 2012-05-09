@@ -22,8 +22,9 @@ function mapInit() {
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
 	jmap.map = document.getElementById('jmap-movable');
-	jmap.mapInfo = document.getElementById('jmap-info');
+	jmap.info = document.getElementById('jmap-info');
 	jmap.infoTop = document.getElementById('info-top');
+	jmap.jtl = document.getElementById('info-jtl');
 
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -66,6 +67,7 @@ function mapInit() {
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
 	jevent.bldgDisplayed = null;
+	jevent.timelineShown = true;
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
     jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
     jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
@@ -76,7 +78,7 @@ function mapInit() {
 
 function loadWindowSizeDependent() {
 	loadTiles();
-	$('#info-bot').css('height', (jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-51)+'px');
+	$('#info-bot').css('height', (jmap.info.offsetHeight-jmap.infoTop.offsetHeight-51)+'px');
 }
 
 /***************************************/
@@ -410,8 +412,8 @@ function setupFilterTabs() {
 function changeFilterTabDisplayed(filterType) {
 	$(".top-tab").css('display', 'none');
 	$("#top-tab-"+filterType).css('display', 'block');
-	if (filterType == 0)	$("#jmap-info-jtl").show();
-	else				$("#jmap-info-jtl").hide();
+	if (filterType==0)	displayTimeline();
+	else				undisplayTimeline();
 }
 
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
@@ -516,14 +518,59 @@ function hideInfoEvent() {
 /* Predefined filters                  */ 
 /***************************************/
 function setupActualFilters() {
+	setupTimelineFilter();
 	setupLocationFilter();
 }
 
+
+/***************************************/
+/* Timeline filter */ 
+/***************************************/
+
+function setupTimelineFilter() {
+	jTimeline('info-jtl', 'jtl-input');
+	$('#jtl-toggle').click(function() {
+		if (jevent.timelineShown)
+			hideTimeline();
+		else
+			showTimeline();
+	})
+	showTimeline();
+}
+function displayTimeline() {
+	if (jevent.timelineShown) showTimeline();
+	$('#jtl-toggle').show();
+}
+function undisplayTimeline() {
+	var tmp = jevent.timelineShown;
+	$('#jtl-toggle').hide();
+	hideTimeline();
+	jevent.timelineShown = tmp;
+}
+function showTimeline() {
+	$(jmap.jtl).show(100)
+	$(jmap.info).animate({
+		width:'535px'
+	}, 100);
+	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
+	jevent.timelineShown = true;
+}
+function hideTimeline() {
+	$(jmap.jtl).hide(100)
+	$(jmap.info).animate({
+		width:'380px'
+	}, 100);
+	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
+	jevent.timelineShown = false;
+}
+
+
+/***************************************/
+/* Location filter */ 
+/***************************************/
+
 //load the bldgs.json file that holds all HTML-element data for the buildings
 function setupLocationFilter() {
-	/* make all bldgs gray but clickable */
-	
-	
 	/* setup location search autocomplete */
 	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
@@ -544,14 +591,14 @@ function setupLocationFilter() {
 	
 	/* setup location search submit */
 	$('#location-search-form').submit(function(event) {
+		// prevent refresh
+		event.preventDefault();
 		// get submitted building's code, center map on it, and display it's events
 		bldgName = $('#location-search').val();
 		bldgCode = jevent.bldgNames[bldgName];
 		if (bldgCode != undefined) {
 			centerOnBldg(bldgCode);
 		}
-		// prevent refresh
-		return false;
 	});
 }
 
