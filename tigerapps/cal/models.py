@@ -273,7 +273,11 @@ class Event(models.Model):
 
         def getGCalSDate2(self):
            adjustedHour = self.event_date_time_start.strftime("%H")
-           return int(adjustedHour) + 4
+           hr = int(adjustedHour) + 4
+           if hr < 10:
+           	  return "0" + str(hr)
+           else:
+           	  return str(hr)
 
         def getGCalSDate3(self):
            return self.event_date_time_start.strftime("%M%SZ")
@@ -283,7 +287,11 @@ class Event(models.Model):
 
         def getGCalEDate2(self):
            adjustedHour = self.event_date_time_end.strftime("%H")
-           return int(adjustedHour) + 4
+           hr = int(adjustedHour) + 4
+           if hr < 10:
+           	  return "0" + str(hr)
+           else:
+           	  return str(hr)
 
         def getGCalEDate3(self):
            return self.event_date_time_end.strftime("%M%SZ")
