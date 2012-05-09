@@ -1,22 +1,28 @@
 
-before urlopen: MADIH
-after urlopen: MADIH
-before call to scrape: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-after urlopen: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-after urlopen: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-after urlopen: MADIH
-before call to scrape: MADIH
-before urlopen: MADIH
-after urlopen: MADIH
+scraping http://campuscgi.princeton.edu/~clusters/clusterinfo.pl
+done scraping
+1
+before call to scrape: WILCH
+before urlopen: WILCH
+after urlopen: WILCH
+before call to scrape: HARGH
+before urlopen: HARGH
+after urlopen: HARGH
+before call to scrape: WILCH
+before urlopen: WILCH
+after urlopen: WILCH
+scraping http://campuscgi.princeton.edu/~clusters/clusterinfo.pl
+done scraping
+returned from scrapePage() into printer scraper
+scraping http://campuscgi.princeton.edu/~clusters/clusterinfo.pl
+done scraping
+returned from scrapePage() into printer scraper
+before call to scrape: WILCH
+before urlopen: WILCH
+after urlopen: WILCH
+scraping http://campuscgi.princeton.edu/~clusters/clusterinfo.pl
+done scraping
+returned from scrapePage() into printer scraper
+scraping http://campuscgi.princeton.edu/~clusters/clusterinfo.pl
+done scraping
+returned from scrapePage() into printer scraper
