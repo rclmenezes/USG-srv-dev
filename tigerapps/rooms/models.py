@@ -131,6 +131,7 @@ class QueueInvite(models.Model):
         self.receiver.queues.add(q1)
         q2.delete()
         self.delete()
+        return q1
 
     def deny(self):
         self.delete()
@@ -141,7 +142,7 @@ class Review(models.Model):
     RATINGS = ( (i, i) for i in range(6) )
     
     room = models.ForeignKey('Room')
-    summary = models.CharField(max_length=30)
+    summary = models.CharField(max_length=80)
     date = models.DateField(auto_now_add=True)
     content = models.TextField()
     rating = models.IntegerField(choices=RATINGS)

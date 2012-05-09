@@ -104,6 +104,14 @@ body
     position: absolute;
     top: 10px;
     right: 5px;
+    width: 20px;
+    height: 20px;
+    background: url('images/sprites/plusminus.png') -71px 0;
+}
+
+#settings:hover
+{
+    background-position: -93px 0;
 }
 
 #room_queue
@@ -124,6 +132,28 @@ body
 .clearfloat
 {
     clear: both;
+}
+
+li
+{
+    font-size: 12px;
+    padding: 5px;
+}
+.queue_rooms
+{
+    font-size: 12px;
+    
+}
+.queue_drag
+{
+    /* begin add */
+    /*max-height: 130px;*/
+    width: 90%;
+    height: 80%;
+    /* overflow:scroll;*/
+    padding: 5%;
+    /* end add */
+    /* margin: 10px; */
 }
 
 thead {
@@ -183,7 +213,7 @@ input
 {
     margin-left: auto;
     margin-right: auto;
-    width: 20px;
+    /* width: 20px; */
 }
 
 #tableheadings
@@ -357,6 +387,14 @@ input
 
 }
 
+#fp_title
+{
+    padding: 3px;
+    position: absolute;
+    left: 150px;
+    top: 30px;
+}
+
 .fp_button
 {
     padding: 3px;
@@ -404,7 +442,8 @@ input
 #settings_container
 {
     background-color: #D6D6D6;
-    margin: 75px 150px 75px 150px;
+    /* margin: 75px 150px 75px 150px;*/
+    margin: 0px;
     padding: 75px;
 }
 
@@ -471,4 +510,9 @@ input
 a:hover
 {
     cursor: pointer;
+}
+
+.various
+{
+    text-decoration: none;
 }
