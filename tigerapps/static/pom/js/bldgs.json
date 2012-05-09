@@ -519,7 +519,7 @@
             "height": 103
         }, 
         "4-POWER": {
-            "zIndex": 1, 
+            "zIndex": 2, 
             "width": 212, 
             "top": 931, 
             "left": 1973, 
@@ -612,9 +612,9 @@
         "4-FRELI": {
             "zIndex": 1, 
             "width": 220, 
-            "top": 1170, 
+            "top": 1158, 
             "left": 1973, 
-            "height": 108
+            "height": 120
         }, 
         "4-WALLB": {
             "zIndex": 1, 
@@ -680,10 +680,10 @@
             "height": 11
         }, 
         "4-1952S": {
-            "zIndex": 1, 
-            "width": 122, 
+            "zIndex": 2, 
+            "width": 140, 
             "top": 1462, 
-            "left": 1691, 
+            "left": 1673, 
             "height": 154
         }, 
         "4-JOLIN": {
@@ -694,7 +694,7 @@
             "height": 59
         }, 
         "4-STRUB": {
-            "zIndex": 1, 
+            "zIndex": 2, 
             "width": 170, 
             "top": 957, 
             "left": 2376, 
@@ -813,11 +813,11 @@
             "height": 20
         }, 
         "4-SEXTO": {
-            "zIndex": 2, 
+            "zIndex": 1, 
             "width": 186, 
-            "top": 1086, 
+            "top": 1079, 
             "left": 2383, 
-            "height": 111
+            "height": 118
         }, 
         "4-MCCOH": {
             "zIndex": 1, 
@@ -1108,10 +1108,10 @@
         }, 
         "4-FINNE": {
             "zIndex": 1, 
-            "width": 147, 
-            "top": 1123, 
-            "left": 2234, 
-            "height": 138
+            "width": 163, 
+            "top": 1105, 
+            "left": 2219, 
+            "height": 165
         }, 
         "4-MADIH": {
             "zIndex": 1, 
