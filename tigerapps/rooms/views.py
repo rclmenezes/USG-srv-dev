@@ -12,6 +12,7 @@ from django import forms
 import json
 import sys
 import time
+from queue import *
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -363,3 +364,11 @@ def confirm_phone(request):
 
         print first_try
     return render_to_response('rooms/confirmphone.html', {'user': user, 'first_try':first_try})
+
+
+def test(request):
+    return HttpResponse(testtime())
+
+def trigger(request):
+    triggertime()
+    return HttpResponse('triggered')

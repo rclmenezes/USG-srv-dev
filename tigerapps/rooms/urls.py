@@ -21,5 +21,7 @@ urlpatterns = patterns('',
     #for testing purposes
     (r'^review/(?P<roomid>\d+)$', 'rooms.views.review'),
     (r'^usersettings.html$','rooms.views.settings'),
-    (r'^confirmphone.html$','rooms.views.confirm_phone')
+    (r'^confirmphone.html$','rooms.views.confirm_phone'),
+    (r'^test','rooms.views.test'),
+    (r'^trigger','rooms.views.trigger'),
 )
