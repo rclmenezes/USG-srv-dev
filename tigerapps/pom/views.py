@@ -255,6 +255,7 @@ def events_for_all_bldgs(request):
                 machine_list = sorted(machine_list, key=lambda x: x[0])
                 try: 
                     cache.set('laundry_list', machine_list, 1000)
+                    cache.set('laundry', mapping, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg laundry', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
             
@@ -283,6 +284,7 @@ def events_for_all_bldgs(request):
                 printer_list = sorted(printer_list, key=lambda x: x[0])
                 try:
                     cache.set('printer_list', printer_list, 1000)
+                    cache.set('printer', mapping, 1000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
 

@@ -4,9 +4,7 @@
 
 function utilInit() {
 	$("button").button();
-	$("input[type=submit]").button();
 	$("#info-top-types").buttonset();
-	//$("#other-info-types").buttonset();
 	sliderInit();
 }
 
@@ -34,6 +32,7 @@ function sliderInit() {
         		handleFilterChange();
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
+                AJAXeventsForAllBldgs();
             }
         }
     });
