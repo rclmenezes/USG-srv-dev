@@ -331,6 +331,19 @@ function handleBldgClick(ev,domEle) {
 }
 
 
+function centerOnBuilding(bldgCode) {
+	// calculate new center coords
+	centroidX = bldgCode.left + bldgCode.width/2;
+	centroidY = bldgCode.top + bldgCode.height/2;
+	//use these for calculating displacement from the top-left
+	centroid = mapCenterToDisp(centroidX, centroidY);
+	
+	// jump to this location, refresh tiles
+	jmap.dispX = start.x;	
+	jmap.dispY = start.y;	
+	loadTiles();
+}
+
 
 
 
@@ -352,7 +365,7 @@ function setupFilterTabs() {
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
  * displayed + loads bldgs for filter + reloads events for filter if events already open */
 function handleFilterTypeChange(newFilterType) {
-	if (jevent.filterType != newFilterType && newFilterType < 5) {
+	if (jevent.filterType != newFilterType) {
 		jevent.filterType = newFilterType;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+newFilterType).css('display', 'block');
@@ -509,21 +522,24 @@ function locationFilter() {
 	$.ajax(jevent.urlBldgNames, {
 		dataType: 'json',
 		success: function(data) {
+			alert(data);
 			jevent.bldgNames = data;
 			
 			// create list of building names
 			var nameList = new Array();
-			var i = 0;
+			i = 0;
 			for (name in data)
 				nameList[i++] = name;
-			nameList.sort();
 			
-			$("#locations-search").autocomplete({
+			$( "#locations-search" ).autocomplete({
 				source: nameList, 
-				delay: 0 
+				delay: 0,
+				minLength: 3,
 			});
 			
 		},
 		error: handleAjaxError
 	});
 }
+
+
