@@ -62,13 +62,6 @@ body
 {
     max-height: 35%;
     position: absolute;
-/* <<<<<<< HEAD
-    top: 11px;
-    left: 948px;
-    bottom: 10px;
-    right: 11px;
-    overflow: scroll; 
-======= */
     top: 4%;
     right: 37px;
     padding: 10px;
@@ -111,6 +104,14 @@ body
     position: absolute;
     top: 10px;
     right: 5px;
+    width: 20px;
+    height: 20px;
+    background: url('images/sprites/plusminus.png') -71px 0;
+}
+
+#settings:hover
+{
+    background-position: -93px 0;
 }
 
 #room_queue
@@ -384,6 +385,14 @@ input
     top: 0px;
     cursor:move;
 
+}
+
+#fp_title
+{
+    padding: 3px;
+    position: absolute;
+    left: 150px;
+    top: 30px;
 }
 
 .fp_button
