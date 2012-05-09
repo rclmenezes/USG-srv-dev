@@ -28,33 +28,23 @@ def bldgs_for_filter(request):
         return HttpResponseServerError("No type in GET")
     filter_type = request.GET['type']
 
-    if filter_type == '0':
-        #0 = standard event
+    if filter_type == '0': #standard event
         events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                   request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
         bldgsList = list(set((event.event_location for event in events)))
-    
-    elif filter_type == '1':
-        #1 = hours
-        #bldgsList = getBldgsWithHours()
-        raise Exception('Not implemented')
-    
-    elif filter_type == '2':
-        #2 = menus
+        
+    elif filter_type == '2': #menus
         bldgsList = getBldgsWithMenus()
     
-    elif filter_type == '3':
-        #3 = laundry
+    elif filter_type == '3': #laundry
         bldgsList = getBldgsWithLaundry()
         #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
     
-    elif filter_type == '4':
-        #4 = printers
+    elif filter_type == '4': #printers
         bldgsList = getBldgsWithPrinters()
         
     else:
-        #Let an error happen, since this shouldn't occur
-        pass
+        raise Exception("Bad filter type in GET request: %s" % filter_type)
         
     response_json = simplejson.dumps({'error': None,
                                       'bldgs': tuple(bldgsList)})
@@ -71,8 +61,8 @@ def events_for_bldg(request, bldg_code):
         return HttpResponseServerError("No type in GET")
     filter_type = request.GET['type']
     
-    if filter_type == '0':
-        #0 = standard event
+    
+    if filter_type == '0': #standard event
         try:
             events = cal_event_query.filter_res_by_date(cal_event_query.bldg_filtered(bldg_code), 
                                                         request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
@@ -85,56 +75,30 @@ def events_for_bldg(request, bldg_code):
                                               'bldgCode': bldg_code})
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
-    
-    
-    elif filter_type == '1':
-        #1 = hours
-       
-        #assert building is one for which we scrape hours
-        #if bldg_code not in getBldgsWithHours():
-        #   err = 'requested hours info for invalid building ' + BLDG_INFO[bldg_code][0]
-        #   response_json = simplejson.dumps({'error': err})
-        #else:
-        #    try:
-        #        hours = get_bldg_hours(bldg_code)
-        #        html = render_to_string('pom/hours_info.html',
-        #                                {'bldg_name': BLDG_INFO[bldg_code][0],
-        #                                 'hours': hours})
-        #        response_json = simplejson.dumps({'error': None,
-        #                                          'html': html,
-        #                                          'bldgCode': bldg_code})
-        #    except Exception, e:
-        #        response_json = simplejson.dumps({'error': str(e)})
-        raise Exception('Not implemented')
         
         
-    elif filter_type == '2':
-        #2 = menus
-        
+    elif filter_type == '2': #menus        
         #assert building is a dining hall
-#        if bldg_code not in getBldgsWithMenus():
-#           err = 'requested menu info from invalid building ' + BLDG_INFO[bldg_code][0]
-#           response_json = simplejson.dumps({'error': err})
-#        else:
-#            try:
-#                log = open('/srv/tigerapps/slog','a')
-#                log.write('before call to scrape: %s\n' % bldg_code)
-#                log.close()
-#                menu_info = menus.scrape_single_menu(bldg_code)
-#                html = render_to_string('pom/menu_info.html',
-#                                        {'bldg_name': BLDG_INFO[bldg_code][0],
-#                                         'menu': menu_info})
-#                response_json = simplejson.dumps({'error': None,
-#                                                  'html': html,
-#                                                  'bldgCode': bldg_code})
-#            except Exception, e:
-#                response_json = simplejson.dumps({'error': str(e)})
-        raise Exception('Not implemented')
+        if bldg_code not in getBldgsWithMenus():
+           err = 'requested menu info from invalid building ' + BLDG_INFO[bldg_code][0]
+           response_json = simplejson.dumps({'error': err})
+        else:
+            try:
+                log = open('/srv/tigerapps/slog','a')
+                log.write('before call to scrape: %s\n' % bldg_code)
+                log.close()
+                menu_info = menus.scrape_single_menu(bldg_code)
+                html = render_to_string('pom/menu_info.html',
+                                        {'bldg_name': BLDG_INFO[bldg_code][0],
+                                         'menu': menu_info})
+                response_json = simplejson.dumps({'error': None,
+                                                  'html': html,
+                                                  'bldgCode': bldg_code})
+            except Exception, e:
+                response_json = simplejson.dumps({'error': str(e)})
     
     
-    elif filter_type == '3':
-        #3 = laundry
-    
+    elif filter_type == '3': #laundry    
         #assert building contains laundry room
         response_json = simplejson.dumps({'error': 'not implemented'})
 
@@ -161,9 +125,7 @@ def events_for_bldg(request, bldg_code):
                 response_json = simplejson.dumps({'error': str(e)}) 
     
     
-    elif filter_type == '4':
-        #4 = printers
-
+    elif filter_type == '4': #printers
         #assert building contains printer
         if bldg_code not in getBldgsWithPrinters():
            err = 'requested printer info from invalid building ' + BLDG_INFO[bldg_code][0]
@@ -189,8 +151,7 @@ def events_for_bldg(request, bldg_code):
         
         
     else:
-        #Let an error happen, since this shouldn't occur
-        pass
+        raise Exception("Bad filter type in GET request: %s" % filter_type)
             
 
     return HttpResponse(response_json, content_type="application/javascript")
@@ -205,8 +166,8 @@ def events_for_all_bldgs(request):
         return HttpResponseServerError("No type in GET")
     filter_type = request.GET['type']
     
-    if filter_type == '0':
-        #0 = standard event
+    
+    if filter_type == '0': #standard event
         try:
             events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
                                                         request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
@@ -219,31 +180,20 @@ def events_for_all_bldgs(request):
             response_json = simplejson.dumps({'error': str(e)})
     
             
-    elif filter_type == '2':
-        #2 = menus
-        
-        #assert building is a dining hall
-        if bldg_code not in getBldgsWithMenus():
-           err = 'requested menu info from invalid building ' + BLDG_INFO[bldg_code][0]
-           response_json = simplejson.dumps({'error': err})
-        else:
-            try:
-                menu_info = menus.scrape_single_menu(bldg_code)
-                html = render_to_string('pom/menu_info.html',
-                                        {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'menu': menu_info})
-                response_json = simplejson.dumps({'error': None,
-                                                  'html': html,
-                                                  'bldgCode': bldg_code})
-            except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)})  
+    elif filter_type == '2': #menus
+        try:
+            menus_info = menus.scrape_all()
+            html = render_to_string('pom/menu_info.html',
+                                    {'bldg_name': BLDG_INFO[bldg_code][0],
+                                     'menu': menu_info})
+            response_json = simplejson.dumps({'error': None,
+                                              'html': html,
+                                              'bldgCode': bldg_code})
+        except Exception, e:
+            response_json = simplejson.dumps({'error': str(e)})
     
     
-    elif filter_type == '3':
-        #3 = laundry
-    
-        #assert building contains laundry room
-        
+    elif filter_type == '3': #laundry
         try:
             machine_list = cache.get('laundry_list')
             if machine_list == None:
@@ -268,11 +218,7 @@ def events_for_all_bldgs(request):
             response_json = simplejson.dumps({'error': str(e)}) 
     
     
-    elif filter_type == '4':
-        #4 = printers
-
-        #assert building contains printer
-        
+    elif filter_type == '4': #printers
         try:
             printer_list = cache.get('printer_list')
             if printer_list == None:
@@ -298,8 +244,8 @@ def events_for_all_bldgs(request):
         
         
     else:
-        #Let an error happen, since this shouldn't occur
-        pass
+        raise Exception("Bad filter type in GET request: %s" % filter_type)
+    
         
     return HttpResponse(response_json, content_type="application/javascript")
 

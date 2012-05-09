@@ -208,11 +208,22 @@ def respond_queue(request):
         return HttpResponse(e)
     try:
         if accepted:
-            invite.accept()
+            queue = invite.accept()
+            friends = queue.user_set.all()
+            for friend in friends:
+                if user != friend:
+                    receiver_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
+                    subject = "Rooms: %s Joined Your Queue" % user.firstname
+                    url = "http://rooms.tigerapps.org/"
+                    message = """Your friend %s has joined your room draw queue! Visit %s to browse rooms
+to add. """ % (receiver_name, url)
+                    notify(friend, subject, message)
         else:
             invite.deny()
     except Exception as e:
         return HttpResponse(e)
+
+
     return manage_queues(request);
 
 # Leave a queue that was previously shared
@@ -266,16 +277,16 @@ def review(request, roomid):
         if review:
             if pastReview:
                 form = ReviewForm(instance=pastReview)
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False, 'edit': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False, 'edit': True})
             else:   
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False})
                 
         #user asked to display current reviews
         elif display:
             revs = Review.objects.filter(room=room)
             print 'num reviews found: %d' % (len(revs))
-            return render_to_response('rooms/reviewtest.html', {'reviews': revs, 'display': display})
+            return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'reviews': revs, 'display': display})
         # user submitted the review
         elif submit:
             if pastReview:
@@ -289,19 +300,19 @@ def review(request, roomid):
                 rev.user = user
                 rev.room = room
                 rev.save()
-                return render_to_response('rooms/reviewtest.html', {'submitted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': True})
             else:
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': True, 'error': 'Invalid submit data'})
         elif delete:
             if pastReview:
                 pastReview.delete()
-                return render_to_response('rooms/reviewtest.html', {'deleted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'deleted': True})
         else:
             #someone's messing with the post params
             return HttpResponseRedirect(reverse(index))
     else:
-        return render_to_response('rooms/reviewtest.html', {'submitted': False})
+        return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': False})
 
 @login_required
 def settings(request):

@@ -1,45 +1,10 @@
 {% block roomview %}
 <div id="room_view_wrapper">
 <div id="room_view">
-  <!--a onclick="$('#roomlist').load('/ #roomlist')">Back</a-->
-  <a href="/">Back</a>
     <h1>{{room.number}} {{ room.building }}
-    <!--a onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });">add</a>
-    <a onclick="$.publish('queue/remove', {{ room.id }})">remove</a-->
     <div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
     <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
     </h1>
-    <!--table>
-      <thead>
-      <tr>
-        <th>Floor</th>
-      <th>Square Feet</th>
-      <th>Occupants</th>
-      <th>Subfree</th>
-      <th>Floor</th>
-      <th>Room Count</th>
-      <th>Gender</th>
-      <th>Available?</th>
-      <th>ADA Compliant?</th>
-      <th>Bi</th>
-      <th>Con</th>
-      <th>Bathroom?</th>  
-      </tr>
-      </thead>
-      <tbody>
-        <td>{{ room.floor}}</td>
-        <td>{{ room.sqft }}</td>
-        <td>{{ room.occ }}</td>
-        <td>{{ room.subfree }}</td>
-        <td>{{ room.numrooms }}</td>
-        <td>{{ room.gender}}</td>
-        <td>{% if room.avail %}Yes{% else %}No{% endif %}</td>
-        <td>{% if room.ada %}Yes{% else %}No{% endif %}</td>
-        <td>{{ room.bi }}</td>
-        <td>{{ room.con }}</td>
-        <td>{{ room.bathroom }}</td>
-      </tbody>
-    </table-->
     <ul>
     <li>Floor: {{ room.floor }}</li>
     <li>Square Feet: {{ room.sqft }}</li>
@@ -65,12 +30,7 @@
       <!--{% if room.bathroom == "PR" %}private{% endif %}-->
     </li>
     
-    <div id="room_review"></div>
-    
-    <script>
-      $("#room_review").load("/review/{{ room.id }}");
-    </script>
-    <li><a href="review/{{ room.id }}">Review</a></li>
+    <li><a href="../review/{{ room.id }}">Review</a></li>
     </ul>
 </div>
 </div>
