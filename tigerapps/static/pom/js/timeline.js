@@ -61,51 +61,14 @@ function loadTimeline() {
 	var minDayPadding = (jtl.nIntervals==48?0:jtl.minDayPadding);
 	var maxTicksHt = maxDayHt - 2*minDayPadding;
 	jtl.intervalHt = Math.floor(maxTicksHt/(jtl.nIntervals-1)); //based on 1 interval per tick
-
 	jtl.dayPadding = minDayPadding;
 	jtl.dayHt = jtl.intervalHt*(jtl.nIntervals-1) + 2*jtl.dayPadding;
 	jtl.endPadding = Math.floor((jtl.tl.offsetHeight - (jtl.dayHt + jtl.dayBorderHt)*jtl.nDays)/2);
 	
-	/*
-	
-	if (intervalHt >= jtl.minTickHt) {
-		jtl.intervalsPerTick = 1;
-		jtl.tickHt = Math.floor(intervalHt);
-	} else {
-		jtl.intervalsPerTick = Math.ceil(jtl.minTickHt/intervalHt/2)*2;
-		jtl.tickHt = Math.floor(intervalHt*jtl.intervalsPerTick);
-	}
-	
-	jtl.nTicks = Math.floor(jtl.nIntervals/jtl.intervalsPerTick);
-	jtl.dayPadding = minDayPadding;
-	jtl.intervalHt = Math.floor(intervalHt);
-	jtl.dayHt = jtl.tickHt*(jtl.nTicks-1) + 2*jtl.dayPadding;
-	jtl.endPadding = Math.floor((jtl.tl.offsetHeight - (jtl.dayHt + jtl.dayBorderHt)*jtl.nDays)/2);
-	
-	jtl.nTicksPerLabel = Math.ceil(jtl.minTimeHt/(jtl.tickHt+1));
-	*/
-	
-	
-	
-	/*
-		
-	
-	jtl.nTicks = jtl.endIndex - jtl.startIndex;
-	var tickHt = dayHt/jtl.nTicks - 1;
-	if (tickHt < jtl.minTickHt) {
-		jtl.ticksPerMark = Math.ceil((jtl.minTickHt+1)/(tickHt+1));
-		jtl.tickHt = Math.floor((tickHt+1)*jtl.ticksPerMark-1);
-	} else {
-		jtl.ticksPerMark = 1;
-		jtl.tickHt = Math.floor(tickHt);
-	}
-	jtl.dayHt = Math.ceil((jtl.tickHt+1)*(jtl.nTicks/jtl.ticksPerMark+2));
-	jtl.endMargin = (jtl.tl.offsetHeight - jtl.dayHt*jtl.nDays)/2;
-	*/
-	
+	//for the day labels
 	var tmpDate = new Date();
 	tmpDate.setTime(jtl.startDate.getTime());
-		
+	
 	for (var d=-1; d<=jtl.nDays; d++) {
 		var divDay = document.createElement('div');
 		divDay.setAttribute('class', 'jtl-day');
@@ -124,14 +87,13 @@ function loadTimeline() {
 		divTicks.setAttribute('style', 'height:100%;padding-top:'+jtl.dayPadding+'px;');
 		divDay.appendChild(divTicks);
 		
-		//+(jtl.dayPadding!=0&&i+jtl.intervalsPerTick>=jtl.nIntervals?'jtl-tick-last':'')
 		var dHtSinceTick = jtl.minTickHt;
 		var dHtSinceLabel = jtl.minLabelHt;
 		
 		for (var i=jtl.startIndex; i<jtl.endIndex; i++) {
 			//calculate whether or not this interval has a border/label
 			var hasBorder = false;
-			var hasLabel = false;
+			var hasLabel = false;  //time label
 			if (i%2==0 && dHtSinceTick >= jtl.minTickHt) { //if it's on the hour, and dHt is satisfied
 				if (!(jtl.dayPadding==0 && i==jtl.startIndex))
 					hasBorder = true;
@@ -157,23 +119,6 @@ function loadTimeline() {
 				divIntv.appendChild(divLabel);
 			}
 		}
-			
-			
-			/*
-		for (var i=0; i<jtl.nIntervals; i+=jtl.intervalsPerTick) {
-			var divTick = document.createElement('div');
-			divTick.setAttribute('class', 'jtl-tick '+(jtl.dayPadding==0&&i==0?'jtl-tick-first':'jtl-tick-border'));
-			divTick.setAttribute('id', indexToId(d,i+jtl.startIndex));
-			divTick.setAttribute('style', 'height:'+(jtl.tickHt-1)+'px;');
-			divTicks.appendChild(divTick);
-			
-			if ((i/jtl.intervalsPerTick % jtl.nTicksPerLabel) == 0) {
-				var divTime = document.createElement('div');
-				divTime.setAttribute('class', 'jtl-time');
-				$(divTime).html(indexToTime(i+jtl.startIndex));
-				divTick.appendChild(divTime);
-			}
-		}*/
 	}
 }
 
