@@ -371,7 +371,8 @@ function handleFilterTypeChange(newFilterType) {
 		$("#top-tab-"+newFilterType).css('display', 'block');
 		$(".bot-options").hide();
 		$("#bot-options-"+newFilterType).show();
-		AJAXbldgsForFilter();
+		if (newFilterType < 5)
+			AJAXbldgsForFilter();
 		if (jevent.bldgDisplayed != null)
 			hideInfoEvent();
 	}
