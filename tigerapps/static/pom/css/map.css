@@ -80,14 +80,14 @@ a:hover{
 }
 .info-event-entry {
 	padding:0px 12px 8px 0;
-	margin-right: 5px;
+	/*margin-right: 5px;*/
 }
 .info-event-subtitle {
 	/*margin-left: 5px;*/
 }
 .info-event-description {
 	/*margin-left: 5px;*/
-	color:grey;
+	color:#464646; /*gray*/
 }
 
 
@@ -190,7 +190,7 @@ a:hover{
 
 
 
-.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
+/*.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
 	border-radius: 2px;
 }
 .ui-button-text-only .ui-button-text {
@@ -201,4 +201,4 @@ a:hover{
 	line-height: 1;
 	font: bold 11px Arial,sans-serif !important;
 	color: #444 !important;
-}
+}*/
