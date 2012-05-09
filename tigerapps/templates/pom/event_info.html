@@ -2,7 +2,7 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
 {% for event in events %}
-	<div class="info-event-entry" id="info-event-{{event.event_id}}" onmouseover="this.style.background='#F0F0F0';" onmouseout="this.style.background='white';">
+	<div class="info-event-entry" id="info-event-{{event.event_id}}" onmouseover="this.style.background='#ECECEC';" onmouseout="this.style.background='white';">
 		<span style="font-weight:bold"> 
 			<a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/{{event.event_id}}" target="_blank">
 				{{event.event_cluster.cluster_title}}
