@@ -1,16 +1,15 @@
 html 
 { 
     height: 100%; 
+    font-family: Helvetica, sans-serif;
+    font-size: 12px;
 }
-              
+
 body 
 { 
     height: 100%;
     margin: 0; 
     padding: 0; 
-    font-family: Helvetica, sans-serif;
-    font-size: 12px;
-
 }
 
 #wrapper1 /* entire page */
@@ -68,17 +67,26 @@ body
     background: url('images/wash-white-30.png');
     width: 250px;
     overflow: auto;
+
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    box-shadow: 0 0 5px #888;
+
+    border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;
+
 }
 
 #queue
 {
     background: white;
     padding: 10px;
+
+    border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;
 }
 
 #queues
 {
-    overflow: scroll;
+    cursor:move;
 }
 
 .queued_room
@@ -102,8 +110,8 @@ body
 #settings
 {
     position: absolute;
-    top: 10px;
-    right: 5px;
+    top: 22px;
+    right: 20px;
     width: 20px;
     height: 20px;
     background: url('images/sprites/plusminus.png') -71px 0;
@@ -299,6 +307,10 @@ input
     margin-bottom: 50%;
     padding-top: 10px;
     background: url('images/wash-white-30.png');
+    
+    -moz-box-shadow: 0 -2px 3px -1px #888;
+    -webkit-box-shadow: 0 -2px 3px -1px #888;
+    box-shadow: 0 -2px 3px -1px #888;
 }
 
 #roomListWrapperBigger
@@ -315,6 +327,10 @@ input
     bottom: 0;
     background: url('images/wash-white-30.png');
     overflow: auto;
+
+    -moz-box-shadow: 0 2px 5px #888;
+    -webkit-box-shadow: 0 2px 5px #888;
+    box-shadow: 0 2px 5px #888;
 }
 
 #roomListWrapper
@@ -506,5 +522,6 @@ a:hover
 
 .various
 {
+    display: block;
     text-decoration: none;
 }
