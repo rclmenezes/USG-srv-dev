@@ -310,20 +310,21 @@ def settings(request):
 
 def handle_settings_form(request, user):
     
-    phone = int(request.POST['phone'])
+    if(request.POST['phone']):
+        phone = int(request.POST['phone'])
     
-    if phone != int(user.phone):
-        # Send confirmation code
-        carriers = Carrier.objects.order_by('name')
+        if phone != int(user.phone):
+            # Send confirmation code
+            carriers = Carrier.objects.order_by('name')
     
-        for carrier in carriers:
-            code = (phone / 10000) * 3 + user.id + carrier.id * 7
-            content = "Your confirmation code is: %s" % code
-            send_mail("", content, 'rooms@tigerapps.org',
+            for carrier in carriers:
+                code = (phone / 10000) * 3 + user.id + carrier.id * 7
+                content = "Your confirmation code is: %s" % code
+                send_mail("", content, 'rooms@tigerapps.org',
                       ["%s@%s" % (phone, carrier.address)], fail_silently=False)
-        user.confirmed = False
+                user.confirmed = False
 
-    user.phone = phone
+    user.phone = request.POST['phone']
     user.do_text = bool(('do_text' in request.POST) and request.POST['do_text'])
     user.do_email = bool(('do_email' in request.POST) and request.POST['do_email'])
     user.save()
