@@ -1,12 +1,14 @@
 body {
 	font-family: helvetica,sans-serif;
 	font-size: 13px;
+	overflow: hidden;
 }
 h1, h2, h3 {
 	-webkit-margin-before: 0;
 	-webkit-margin-after: 0;
 }
 div, span {
+	border: 0 none;
 	margin:0;
 	padding:0;
 }
@@ -29,16 +31,23 @@ a:hover{
 /*************/
 #jmap-info {
 	position:absolute;
-	top: 28px;/*none*/
-	left: 0px;/*20px*/
-	bottom: 0px;/*20px*/
+	top: 28px;
+	left: 0px;
+	bottom: 0px;
+	width:380px;
+	
+	background-color:#FAFCF8;
+    box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
+    z-index:100;
+}
+#info-content {
 	width: 360px;
     padding:10px;
 }
 
 #info-top {
-	height: 235px;
-	margin:0 20px 15px;
+	height: 210px;
+	margin:0 18px 15px;
 }
 #info-title {
 	height:35px;
@@ -61,16 +70,14 @@ a:hover{
 
 #info-divider {
 	height: 0px;
-	margin-left: 15px;
+	margin-left: 5px;
 	margin-right: 3px;
 	border-top: 1px solid #C0C0C0;
 }
 #info-bot {
-	height: 0px;
 	overflow-y: auto;
-	margin:15px 5px 15px 20px;
+	margin:15px 0px 15px 11px;
 }
-
 
 /*************/
 /* For event data */
@@ -88,6 +95,33 @@ a:hover{
 .info-event-description {
 	/*margin-left: 5px;*/
 	color:#464646; /*gray*/
+}
+
+
+
+/*************/
+/* Timeline */
+/*************/
+#info-jtl {
+	position:absolute;
+	top: 0;
+	left: 380px;
+	width: 150px;
+	bottom: 0;
+}
+#jtl-toggle {
+	position:absolute;
+	height:16px;
+	width:16px;
+	top:0px;
+	right:-30px;
+	padding: 7px;
+	
+	background-color:#FAFCF8;
+    box-shadow:5px 5px 0.8em -5px hsla(0, 0%, 0%, 1.0);
+    z-index:99;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 
 
@@ -145,18 +179,6 @@ a:hover{
 	margin-left:-62px;
 }
 
-
-/*************/
-/* Options bar */
-/*************/
-#jmap-options {
-	position:absolute;
-	left: 0px;
-	right: 0px;
-	bottom: 20px;
-	padding: 0 30px 0;
-    z-index:100;
-}
 
 
 /*************/

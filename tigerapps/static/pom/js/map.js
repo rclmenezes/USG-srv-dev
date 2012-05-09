@@ -22,8 +22,9 @@ function mapInit() {
 	//static references
 	jmap.mapContainer = document.getElementById('jmap-container');
 	jmap.map = document.getElementById('jmap-movable');
-	jmap.mapInfo = document.getElementById('jmap-info');
+	jmap.info = document.getElementById('jmap-info');
 	jmap.infoTop = document.getElementById('info-top');
+	jmap.jtl = document.getElementById('info-jtl');
 
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -50,8 +51,8 @@ function mapInit() {
 
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
-	window.onresize = loadTiles;
-	loadTiles();
+	window.onresize = loadWindowSizeDependent;
+	loadWindowSizeDependent();
 	
 	/***/
 	
@@ -66,7 +67,7 @@ function mapInit() {
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
 	jevent.bldgDisplayed = null;
-	jevent.infoSize = 0; //0=not extended, 1=loading, 2=full extension
+	jevent.timelineShown = true;
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
     jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
     jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
@@ -75,6 +76,10 @@ function mapInit() {
 	setupActualFilters();
 }
 
+function loadWindowSizeDependent() {
+	loadTiles();
+	$('#info-bot').css('height', (jmap.info.offsetHeight-jmap.infoTop.offsetHeight-51)+'px');
+}
 
 /***************************************/
 /* General conversion tools */
@@ -307,11 +312,12 @@ function setupBldg(domEle) {
 			setupPlainBldg(domEle);
 	}
 }
-function setupPlainBldg(domEle) {
+function setupPlainBldg(domEle, makeClickable) {
 	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsDefaultSrc);
 	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
 	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsDefaultSrc;};
-	domEle.onclick = function(ev){};
+	if (makeClickable)	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
+	else 				domEle.onclick = function(ev){};
 	jmap.loadedBldgs[domEle.id].event = false;
 }
 function setupEventBldg(domEle) {
@@ -332,75 +338,6 @@ function handleBldgClick(ev,domEle) {
 }
 
 
-
-/***************************************************************************/
-/***************************************************************************/
-/***************************************************************************/
-
-/***************************************/
-/* For parsing the filter options into GET request parameters */
-/***************************************/
-
-/* These setup the filters so that AJAX calls are sent when the filters are changed */
-function setupFilterTabs() {
-	$("#info-top-types input").click(function(ev) {
-		handleFilterTypeChange(ev.target.value);
-		if(ev.target.value == 0)
-			AJAXeventsForAll();
-	});
-	$("#other-info-types input").click(function(ev) {
-		var newFilterType = ev.target.value;
-		if (jevent.filterType != newFilterType) {
-			jevent.filterType = newFilterType;
-			if (newFilterType < 5) //only <5 is implemented in Django
-				handleFilterChange();
-		}
-	});
-	handleFilterTypeChange(0);
-}
-/* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
- * displayed + loads bldgs for filter + reloads events for filter if events already open */
-function handleFilterTypeChange(newFilterType) {
-	if (jevent.filterType != newFilterType) {
-		jevent.filterType = newFilterType;
-		$(".top-tab").css('display', 'none');
-		$("#top-tab-"+newFilterType).css('display', 'block');
-		$(".bot-options").hide();
-		$("#bot-options-"+newFilterType).show();
-		if (newFilterType < 5) //only <5 is implemented in Django
-			AJAXbldgsForFilter();
-		if (jevent.bldgDisplayed != null)
-			hideInfoEvent();
-	}
-}
-function handleFilterChange() {
-	AJAXbldgsForFilter();
-	if (jevent.bldgDisplayed != null)
-		AJAXeventsForBldg(jevent.bldgDisplayed);
-		AJAXeventsForAll();
-}
-
-/* These return the GET params that should be sent in every AJAX call */
-function getFilterParams() {
-	var get_params = {type: jevent.filterType};
-	if (jevent.filterType == 0) {
-		//get dates from slider if searching events
-		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
-	}
-	return get_params;
-}
-function datesToFilter(startDate, endDate) {
-	return {
-		m0: startDate.getMonth()+1,
-		d0: startDate.getDate(),
-		y0: startDate.getFullYear(),
-		h0: startDate.getHours(),
-		m1: endDate.getMonth()+1,
-		d1: endDate.getDate(),
-		y1: endDate.getFullYear(),
-		h1: endDate.getHours()
-	}
-}
 
 /***************************************/
 /* For lighting up the correct buildings */
@@ -430,6 +367,13 @@ function displayFilteredBldgs(data) {
 		setupBldg(jmap.loadedBldgs[id].domEle);
 }
 
+/* We don't need django for location, but we need to gray out the buildings + make them all clickable */
+function displayLocationBldgs() {
+	for (id in jmap.loadedBldgs) {
+		jevent.bldgCodeHasEvent[bldgIdToCode(id)] = false;
+		setupPlainBldg(jmap.loadedBldgs[id].domEle, true);
+	}
+}
 
 function showMapLoading() {
 	var domEle = document.createElement('div');
@@ -445,11 +389,83 @@ function hideMapLoading() {
 
 
 
+/***************************************************************************/
+/***************************************************************************/
+/***************************************************************************/
+
 /***************************************/
-/* For rendering data in the info box */ 
+/* For displaying filters and parsing filters into GET params  */
 /***************************************/
 
-function AJAXeventsForAll() {
+/* These setup the filters so that AJAX calls are sent when the filters are changed */
+function setupFilterTabs() {
+	$("#info-top-types input").click(function(ev) {
+		changeFilterTabDisplayed(ev.target.value);
+		handleFilterTypeChange(ev.target.value);
+	});
+	$("#campus-info-types input").click(function(ev) {
+		handleFilterTypeChange(ev.target.value);
+	});
+	changeFilterTabDisplayed(0);
+	handleFilterTypeChange(0);
+}
+function changeFilterTabDisplayed(filterType) {
+	$(".top-tab").css('display', 'none');
+	$("#top-tab-"+filterType).css('display', 'block');
+	if (filterType==0)	displayTimeline();
+	else				undisplayTimeline();
+}
+
+/* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
+ * displayed + loads bldgs for filter + reloads events for filter */
+function handleFilterTypeChange(newFilterType) {
+	if (jevent.filterType != newFilterType) {
+		hideInfoEvent();
+		jevent.filterType = newFilterType;
+		if (newFilterType < 5) { //only <5 is implemented in Django, also guarantees numeric
+			AJAXeventsForAllBldgs();
+			AJAXbldgsForFilter();
+		} else if (newFilterType == 5) //locations is js-only
+			displayLocationBldgs();
+	}
+}
+/* Called when the specific filters for any particular events/hours/menus/etc tab
+ * is clicked. Loads bldgs for filter + reloads events for filter */
+function handleFilterChange() {
+	AJAXbldgsForFilter();
+	if (jevent.bldgDisplayed != null)
+		AJAXeventsForBldg(jevent.bldgDisplayed);
+}
+
+/* These return the GET params that should be sent in every AJAX call */
+function getFilterParams() {
+	var get_params = {type: jevent.filterType};
+	if (jevent.filterType == 0) {
+		//get dates from slider if searching events
+		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
+	}
+	return get_params;
+}
+function datesToFilter(startDate, endDate) {
+	return {
+		m0: startDate.getMonth()+1,
+		d0: startDate.getDate(),
+		y0: startDate.getFullYear(),
+		h0: startDate.getHours(),
+		m1: endDate.getMonth()+1,
+		d1: endDate.getDate(),
+		y1: endDate.getFullYear(),
+		h1: endDate.getHours()
+	}
+}
+
+
+
+/***************************************/
+/* For rendering event/etc data in the info box */ 
+/***************************************/
+
+function AJAXeventsForAllBldgs() {
 	displayInfoLoading();
 	$.ajax(jevent.urlEventsForAll, {
 		data: getFilterParams(),
@@ -483,38 +499,17 @@ function displayInfoEvent(data) {
 	} else {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
-		if (jevent.infoSize != 2) {
-			/* Expand the info box if it's not already expanded */
-			jevent.infoSize = 2;
-			//$('#info-divider').css('border-top', '1px solid #C0C0C0');
-			$('#info-bot').animate({
-				height: jmap.mapInfo.offsetHeight-jmap.infoTop.offsetHeight-80 + 'px',
-			}, 200);
-		}
 	}
 }
 
 function displayInfoLoading() {
 	$('#info-bot').html(jevent.htmlLoading);
-	if (jevent.infoSize == 0) {
-		/* Expand the info box to loading size if it's not expanded at all */
-		jevent.infoSize = 1;
-		//$('#info-divider').css('border-top', '1px solid #C0C0C0');
-		$('#info-bot').animate({
-			height:'23px',
-		}, 100);
-	}
 }
 
 function hideInfoEvent() {
-	jevent.infoSize = 0;
 	jevent.bldgDisplayed = null;
-	//$('#info-divider').css('border-style','none');
-	$('#info-bot').animate({
-		height:'0px',
-	}, 200);
+	$('#info-bot').html('');
 }
-
 
 
 
@@ -523,24 +518,70 @@ function hideInfoEvent() {
 /* Predefined filters                  */ 
 /***************************************/
 function setupActualFilters() {
-	locationFilter();
+	setupTimelineFilter();
+	setupLocationFilter();
 }
 
+
+/***************************************/
+/* Timeline filter */ 
+/***************************************/
+
+function setupTimelineFilter() {
+	jTimeline('info-jtl', 'jtl-input');
+	$('#jtl-toggle').click(function() {
+		if (jevent.timelineShown)
+			hideTimeline();
+		else
+			showTimeline();
+	})
+	showTimeline();
+}
+function displayTimeline() {
+	if (jevent.timelineShown) showTimeline();
+	$('#jtl-toggle').show();
+}
+function undisplayTimeline() {
+	var tmp = jevent.timelineShown;
+	$('#jtl-toggle').hide();
+	hideTimeline();
+	jevent.timelineShown = tmp;
+}
+function showTimeline() {
+	$(jmap.jtl).show(100)
+	$(jmap.info).animate({
+		width:'535px'
+	}, 100);
+	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
+	jevent.timelineShown = true;
+}
+function hideTimeline() {
+	$(jmap.jtl).hide(100)
+	$(jmap.info).animate({
+		width:'380px'
+	}, 100);
+	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
+	jevent.timelineShown = false;
+}
+
+
+/***************************************/
+/* Location filter */ 
+/***************************************/
+
 //load the bldgs.json file that holds all HTML-element data for the buildings
-function locationFilter() {
+function setupLocationFilter() {
+	/* setup location search autocomplete */
 	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
 		success: function(data) {
 			jevent.bldgNames = data;
-			
-			// create list of building names
-			var nameList = new Array();
+			var bldgNameList = [];
 			var i = 0;
 			for (name in data)
-				nameList[i++] = name;
-			
-			$( "#location-search" ).autocomplete({
-				source: nameList, 
+				bldgNameList[i++] = name;
+			$("#location-search").autocomplete({
+				source: bldgNameList, 
 				delay: 0,
 				minLength: 3,
 			});
@@ -548,15 +589,16 @@ function locationFilter() {
 		error: handleAjaxError
 	});
 	
+	/* setup location search submit */
 	$('#location-search-form').submit(function(event) {
+		// prevent refresh
+		event.preventDefault();
 		// get submitted building's code, center map on it, and display it's events
 		bldgName = $('#location-search').val();
 		bldgCode = jevent.bldgNames[bldgName];
 		if (bldgCode != undefined) {
 			centerOnBldg(bldgCode);
 		}
-		// prevent refresh
-		return false;
 	});
 }
 
@@ -575,12 +617,10 @@ function centerOnBldg(bldgCode) {
 		left: -jmap.dispX,
 		top: -jmap.dispY,
 	}, {
-		duration: 100,
+		duration: 200,
 		complete: loadTiles
 	});
 }
-
-/* fix button, change highlighting */
 
 
 
