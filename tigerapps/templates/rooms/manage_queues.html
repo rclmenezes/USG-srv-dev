@@ -53,6 +53,12 @@ function onformsubmit()
         return false;
     }
 
+    if(iqf.netid.value == "{{ user.netid }}")
+    {
+        alert("You can't send an invitation to yourself!");
+        return false;
+    } 
+
     {% for draw in draws %}
     var draw_menu = document.getElementById("draw_menu");
     var opt = document.getElementById("option{{ draw.id }}");
@@ -82,6 +88,13 @@ function onLoad()
 <body>
 
 <div id="settings_container">
+
+{% if error %}
+
+<p class="error_message">{{ error }}</p>
+
+{% endif %}
+
 
 <h1>Here's where you share or unshare your queues with friends. To invite a friend to share a queue, type in their NetID below:</h1>
 
@@ -131,6 +144,25 @@ function onLoad()
 {% else %}
 
     <p>You haven't received any invitations yet! Why don't you send one with the form above?</p>
+
+{% endif %}
+
+<a name="send" />
+
+<h1>Sent Invitations</h1>
+
+{% if sent_invites %}
+
+  {% for invite in sent_invites %}
+    <div class="queue_invite">
+    <p>To: {{ invite.receiver.firstname }} {{ invite.receiver.lastname }} ({{ invite.receiver.netid }}@princeton.edu)</p>
+    <p>Draw: {{ invite.draw }}</p>
+    </div>
+  {% endfor %}
+
+{% else %}
+
+    <p>You don't have any sent invitations pending! You can send a new one with the form above.</p>
 
 {% endif %}
 
