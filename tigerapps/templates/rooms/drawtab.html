@@ -20,7 +20,7 @@
         <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
       </td>
       <td onclick="$('#roomlist').load('/get_room/{{ room.id }}')">{{ room.number }}</td>
-      <td>{{ room.building }}</td>
+      <td><a class="various" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.building }}</a></td>
       <td>{{ room.sqft }}</td>
       <td>{{ room.occ }}</td>
       <td>{{ room.floor }}</td>
