@@ -2,7 +2,7 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
 {% for event in events %}
-	<div class="info-event-entry" id="info-event-{{event.event_id}}" onmouseover="this.style.background='#ECECEC';" onmouseout="this.style.background='white';">
+	<div class="info-event-entry jexpand-main" id="info-event-{{event.event_id}}">
 		<div style="font-weight:bold;">
 			<div style="float:right;margin-top:3px;">
 				<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|urlencode:""}}&sprop=name:pcal" target="_blank">
@@ -22,7 +22,12 @@
 			</div>
 		</div>
 
-		<div class="info-event-description">
+		{%if events|length > 3%}
+		<div class="info-event-description jexpand-shortdesc">
+				{{event.event_cluster.cluster_description|truncatewords:12}}
+		</div>
+		{%endif%}
+		<div class="info-event-description jexpand-longdesc" {%if events|length > 3%}style="display:none;"{%endif%}>
 				{{event.event_cluster.cluster_description}}
 		</div>
 			
@@ -31,3 +36,11 @@
 			-->
 	</div>
 {% endfor %}
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.info-event-entry').mouseover(function(){this.style.background='#ECECEC';});
+	$('.info-event-entry').mouseout(function(){this.style.background='white';});
+	{%if events|length > 3%}jExpand();{%endif%}
+});
+</script>

@@ -70,6 +70,17 @@ function printDateTime(dateObj) {
 /* Utility functions */
 /***************************************/
 
+function jExpand() {
+	$('.jexpand-main').mouseover(function() {
+		$(this).find('.jexpand-shortdesc').hide();
+		$(this).find('.jexpand-longdesc').show(100);
+	});
+	$('.jexpand-main').mouseout(function() {
+		$(this).find('.jexpand-longdesc').hide(100);
+		$(this).find('.jexpand-shortdesc').show();
+	});
+}
+
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
     if (confirm(errorThrown + ': Show error?')) {
         win = window.open();
