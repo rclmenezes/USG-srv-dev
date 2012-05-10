@@ -7,8 +7,8 @@ from django.template import RequestContext
 from cal.models import Event
 from pom import cal_event_query
 from pom.bldg_info import *
-import pom.campus_map_codes
-import pom.campus_map_bldgs_info
+from pom.campus_map_codes import campus_codes
+from pom.campus_map_bldgs_info import campus_info
 from pom.menus import scraper as menus
 from pom.printers import scraper as printers
 from pom.laundry import scraper as laundry
@@ -186,10 +186,10 @@ def events_for_bldg(request, bldg_code):
     
     elif filter_type == '5': #location
         try:
-            codes = campus_map_codes.campus_map_codes[bldg_code]
+            codes = campus_codes[bldg_code]
             if codes[0] == 0: info = None
             else:
-                info = [campus_map_bldgs_info.campus_map_info[code] for code in codes]
+                info = [campus_info[code] for code in codes]
 
             html = render_to_string('pom/location_info.html',
                                     {'bldg_name':BLDG_INFO[bldg_code][0], 'info':info})
