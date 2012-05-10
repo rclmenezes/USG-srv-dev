@@ -205,6 +205,10 @@ function displayFloorPlan(name, floor, hint_direction)
 	       fp_canvas.style.display = "none";
            fp_nav.style.display = "none";
 	       map_canvas.style.display = "block";
+            
+           var roomlist = document.getElementById("roomListWrapperBigger");
+           half_expanded = true;
+           roomlist.style.height = '50%';
 	   }
     }
 
