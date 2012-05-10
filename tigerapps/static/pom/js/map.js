@@ -373,15 +373,19 @@ function displayFilteredBldgs(data) {
 function displayLocationBldgs() {
 	for (id in jmap.loadedBldgs) {
 		var bldgCode = bldgIdToCode(id);
+		jevent.bldgCodeHasEvent[bldgCode] = false;
+		setupPlainBldg(jmap.loadedBldgs[id].domEle, true);
+	}
+}
+/* We also need a way to color just 1 building (the one the user searched for) */
+function displayLocationBldg(bldgId, bldgCode) {
+	for (id in jmap.loadedBldgs) {
+		var bldgCode = bldgIdToCode(id);
 		if (jevent.bldgCodeHasEvent[bldgCode]) {
 			jevent.bldgCodeHasEvent[bldgCode] = false;
 			setupPlainBldg(jmap.loadedBldgs[id].domEle, true);
 		}
 	}
-}
-/* We also need a way to color just 1 building (the one the user searched for) */
-function displayLocationBldg(bldgId, bldgCode) {
-	displayLocationBldgs();
 	jevent.bldgCodeHasEvent[bldgCode] = true;
 	setupEventBldg(jmap.loadedBldgs[bldgId].domEle);
 }
