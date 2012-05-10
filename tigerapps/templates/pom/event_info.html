@@ -24,7 +24,7 @@
 
 		{%if events|length > 3%}
 		<div class="info-event-description">
-			{{event.short_desc}}{%if event.long_desc%}<span class="jexpand-dots">...</span><span class="jexpand-long">{{event.long_desc}}</span>{%endif%}
+			{{event.short_desc}}{%if event.long_desc%}<span class="jexpand-dots">...</span><span class="jexpand-long" style="display:none;">{{event.long_desc}}</span>{%endif%}
 		</div>
 		{%else%}
 		<div class="info-event-description">
