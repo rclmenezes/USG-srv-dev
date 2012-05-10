@@ -19,7 +19,7 @@ def all():
 
 def filter_by_bldg(qset, bldg_code):
     '''
-    Get all events for `building`
+    Get all events for `bldg_code`
     '''
     if qset:
         return qset.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
@@ -28,7 +28,10 @@ def filter_by_bldg(qset, bldg_code):
 
 
 def filter_by_date(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
-    '''DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!'''
+    '''
+    OLD: Get all events between a range of dates
+    XXX: DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!
+    '''
     left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
     right = datetime.datetime(year = int(rightYear) -1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
     if qset:
@@ -37,11 +40,20 @@ def filter_by_date(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rig
         return Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
 
 
-def filter_by_hour(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
+def filter_by_hour(qset,
+                   leftMonth, leftDay, leftYear, leftHour, leftMinute,
+                   rightMonth, rightDay, rightYear, rightHour, rightMinute):
+    '''
+    Get all events between a range of dates and hours within those dates
+    XXX: DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!
+    '''
     left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
     right = datetime.datetime(year = int(rightYear) -1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
     
-    temp = qset.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
+    if qset:
+        temp = qset.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
+    else:
+        temp = Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
     
     retlist = []
     for x in temp:
@@ -62,12 +74,15 @@ def filter_by_hour(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rig
     return retlist
 
 
-def bldg_title_descr_filtered(bldg_code, query):
-    return Event.objects.filter(Q(event_location=bldg_code),
-                                Q(event_cluster__cluster_title__icontains=query) |
-                                Q(event_clusert__cluster_description__icontains=query))
-    
-def title_descr_filtered(query):
-    return Event.objects.filter(Q(event_cluster__cluster_title__icontains=query) |
-                                Q(event_clusert__cluster_description__icontains=query))
-    
+def filter_by_title_desc(qset, query):
+    '''
+    Get all events with `query` in their title or description
+    '''
+    if qset:
+        return qset.filter(Q(event_cluster__cluster_title__icontains=query) |
+                           Q(event_clusert__cluster_description__icontains=query))
+    else:
+        return Event.objects.filter(Q(event_cluster__cluster_title__icontains=query) |
+                                    Q(event_clusert__cluster_description__icontains=query))
+        
+        
