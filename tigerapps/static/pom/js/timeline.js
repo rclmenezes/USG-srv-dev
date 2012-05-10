@@ -1,6 +1,6 @@
 jtl = {};
 function jTimeline(idTl, idInput, urlEvents) {
-	jtl.urlEventsJSON = '/events/json/';
+	jtl.urlEventsJSON = 'json/events/';
 	//$.fn.getJTLParams = getJTLParams;
 	
 	//static references

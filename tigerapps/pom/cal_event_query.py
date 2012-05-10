@@ -22,7 +22,7 @@ def filter_by_bldg(qset, bldg_code):
     Get all events for `building`
     '''
     if qset:
-        return qset.objects.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
+        return qset.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
     else:
         return Event.objects.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
 
