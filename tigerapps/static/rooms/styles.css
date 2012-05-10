@@ -1,3 +1,4 @@
+
 html 
 { 
     height: 100%; 
@@ -198,7 +199,7 @@ td
 {
     margin-left: auto;
     margin-right: auto;
-    padding: 7px !important;
+    padding: 7px;
 }
 
 #scrollarea tr:hover td
@@ -209,6 +210,7 @@ td
 
 .addRoom
 {
+    vertical-align: middle;
     background: url('images/sprites/plusminus.png') 0 0;
     width: 16px;
     height: 20px;
@@ -222,6 +224,7 @@ td
 
 .removeRoom
 {
+    vertical-align: middle;
     background: url('images/sprites/plusminus.png') -17px 0;
     width: 18px;
     height: 20px;
@@ -304,6 +307,7 @@ input
 {
     cursor: pointer;
 }
+
 
 #addremove:hover
 {
@@ -540,6 +544,11 @@ a
     text-decoration: none;
 }
 
+a:link
+{
+    color: #dc7d00;
+}
+
 a:hover
 {
     cursor: pointer;
@@ -549,6 +558,11 @@ a:hover
 a:visited
 {
     color: #f90;
+}
+
+a.fancyroom
+{
+    color: #222;
 }
 
 .various
@@ -578,16 +592,26 @@ a:visited
 
 #room_view_avail
 {
-    text-align: center;
-    text-size: 14px;
+    font-size: 20px;
     color: #00ce00; 
+    text-align: center;
+    padding-bottom: 6px;
+    padding-top: 30px;
+}
+
+#room_view_top_line
+{
+    font-size: 14px;
+    margin: 0 auto;
 }
 
 #room_view_unavail
 {
-    text-align: center;
-    text-size: 14px;
     color: #e30000;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 6px;
+    padding-top: 30px;
 }
 #room_view_head2
 {
@@ -599,13 +623,25 @@ a:visited
 {
     /*border-collapse: collapse;
     border: 3px solid black;*/
-    font-size: 14px;
-    text-align: center;
+    font-size: 13px; 
+    text-align: left;
+    padding: 7px 20px;
 }
 
 #room_view_table
 {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#room_view_tablehead
+{
+	font-size: 13px;
+
+}
+
+#room_view_tablebody, #room_view_info ul
+{
+	font-size: 13px;
 }

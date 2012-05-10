@@ -41,7 +41,31 @@
           {% endif %}
           {% endif %}
       </a></td>
-      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.floor }}</a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
+      	{% if room.floor == 0 %}
+      	Ground
+      	{% else %}
+      	{% if room.floor == 1 %}
+      	First
+      	{% else %}
+      	{% if room.floor == 2 %}
+      	Second
+      	{% else %}
+      	{% if room.floor == 3 %}
+      	Third
+      	{% else %}
+      	{% if room.floor == 4 %}
+      	Fourth
+      	{% else %}      
+      	{% if room.floor == 5 %}
+      	Fifth
+      	{% endif %}
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        {% endif %}
+      </a></td>
       <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.numrooms }}</a></td>
       <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
         {{ room.get_gender_display }}

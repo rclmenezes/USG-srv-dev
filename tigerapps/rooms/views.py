@@ -95,6 +95,25 @@ def occlonghelper(room):
     else:
         occlong = 'Suite' + ' (' + str(room.occ) + ')'
     return occlong
+    
+def floorwordhelper(floor):
+	
+	if floor == 0:
+		floorword = 'Ground'
+	elif floor == 1:
+		floorword = 'First'
+	elif floor == 2:
+		floorword = 'Second'
+	elif floor == 3:
+		floorword = 'Third'
+	elif floor == 4:
+		floorword = 'Fourth'
+	elif floor == 5:
+		floorword = 'Fifth'
+	else:
+		floorword = 'Zebra'
+	return floorword;
+		
 
 # Single room view function
 @login_required
@@ -104,7 +123,8 @@ def get_room(request, roomid):
         return HttpResponseForbidden()
     room = get_object_or_404(Room, pk=roomid)
     occlong = occlonghelper(room)
-    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong})
+    floorword = floorwordhelper(room.floor)
+    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword})
     
 @login_required
 def create_queue(request, drawid):
