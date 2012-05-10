@@ -53,7 +53,7 @@
         {
         fitToView: true,
         maxHeight: 293,
-        maxWidth: 400
+        maxWidth: 360
         });
 	});
 
@@ -77,16 +77,18 @@
             <div id="map_canvas"></div>
             <div id="floorplan_canvas"></div>
             <div id="fp_nav">
-                <span class="fp_button" id="fp_back_button">&#8592; </span>
-                <h1 id="fp_title"></h1>
-                <br>
-                <br>
-                Floors:
-                <div class="fp_button" id="fp_floorup_button"></div>
-                <div class="fp_button" id="fp_floordown_button"></div>
-                Zoom:
-                <div class="fp_button" id="fp_zoomin_button"></div>
-                <div class="fp_button" id="fp_zoomout_button"></div>
+                <div id="fp_nav_whitebackground">
+                    <span class="fp_button" id="fp_back_button">&#8592; </span>
+                    <h1 id="fp_title"></h1>
+                    <br>
+                    <br>
+                    Floors:
+                    <div class="fp_button" id="fp_floordown_button"></div>
+                    <div class="fp_button" id="fp_floorup_button"></div>
+                    Zoom:
+                    <div class="fp_button" id="fp_zoomout_button"></div>
+                    <div class="fp_button" id="fp_zoomin_button"></div>
+                </div>
             </div>
 
             <div id="queues_wrapper">
@@ -102,7 +104,6 @@
                 </div>
             </div>
 
-            <div id="roomListTopTrim"></div>
             <div id="roomListWrapperBigger">
                 <div id="roomListWrapper">
                     {% block dataPanel %}

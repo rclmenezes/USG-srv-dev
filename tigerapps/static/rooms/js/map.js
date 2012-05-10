@@ -1,6 +1,6 @@
-function initialize() {
+var half_expanded = true;
 
-    var half_expanded = true;
+function initialize() {
 
     var drawlocs = []
     // Butler
@@ -86,21 +86,18 @@ function initialize() {
 		{
             half_expanded = false;
             roomlist.style.height = '10%';
-            $('#roomListTopTrim').css('margin-bottom','10%');
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
 	document.getElementById("contractMap").addEventListener("click", function()
 		{
             half_expanded = false;
             roomlist.style.height = '96%';
-            $('#roomListTopTrim').css('margin-bottom','96%');
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
 	document.getElementById("restoreMap").addEventListener("click", function()
 		{
             half_expanded = true;
             roomlist.style.height = '50%';
-            $('#roomListTopTrim').css('margin-bottom','50%');
 		    setTimeout(function(){google.maps.event.trigger(map, 'resize');}, 300);
 	    })
     

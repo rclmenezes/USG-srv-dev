@@ -23,19 +23,16 @@
   width: 100px;
 }
 
-#accept
+#accept, #decline
 {
-   width: 100px;
-}
-
-#decline
-{
-   width: 100px;
+    width: 100px;
+    margin-left: 15px;
 }
 
 #leave
 {
     width: 120px;
+    margin-left: 15px;
 }
 </style>
 
@@ -128,6 +125,7 @@ function onLoad()
     <div class="queue_invite">
     <p>From: {{ invite.sender.firstname }} {{ invite.sender.lastname }} ({{ invite.sender.netid }}@princeton.edu)</p>
     <p>Draw: {{ invite.draw }}</p>
+    <br>
     <form action="/respond_queue/" method="post" name="acceptqueueinvite">
     <input type="hidden" id="invite_id" name="invite_id" value="{{ invite.id }}" />
     <input type="hidden" id="accepted" name="accepted" value="1" />
@@ -137,6 +135,8 @@ function onLoad()
     <input type="hidden" id="invite_id" name="invite_id" value="{{ invite.id }}" />
     <input type="hidden" id="accepted" name="accepted" value="0" />
     <input type="submit" id="decline" value="Decline" />
+    <br>
+    <br>
     </form>
     </div>
   {% endfor %}
@@ -177,16 +177,15 @@ function onLoad()
      <div class="shared_queue">
      <p><b>Shared Queue: {{ queue }}</b></p>
      <p>
-     Members:
-     <ul>
+     Members:<p>
      {% for friend in queue.user_set.all %}
-         <li> {{ friend.firstname }} {{ friend.lastname }} ({{ friend.netid }}@princeton.edu)</li>
+         <p> {{ friend.firstname }} {{ friend.lastname }} ({{ friend.netid }}@princeton.edu)</p>
      {% endfor %}
-     </ul>
-     </p>
      <form action="/leave_queue/" method="post" name="leavequeue">
      <input type="hidden" id="draw_id" name="draw_id" value="{{ queue.draw.id }}" />
      <input type="submit" id="leave" value="Unshare Queue" />
+     <br>
+     <br>
      </form>
      </div>
   {% endfor %}
@@ -196,8 +195,6 @@ function onLoad()
   <p>You don't have any shared queues yet! Why don't you send an invitation with the form above?</p>
 
 {% endif %}
-
-<p><a href="/">Return to Main Page</a></p>
 
 <script type="text/javascript">
 onLoad();

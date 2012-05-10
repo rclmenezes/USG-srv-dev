@@ -53,6 +53,20 @@ body
     box-shadow: 0 0 5px #888;
 
     border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+#fp_nav_whitebackground
+{
+    background: white;
+    padding: 10px;
 }
 
 #map_canvas
@@ -117,8 +131,8 @@ body
 #settings
 {
     position: absolute;
-    top: 22px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     width: 20px;
     height: 20px;
     background: url('images/sprites/plusminus.png') -71px 0;
@@ -265,7 +279,7 @@ input
 
 #expandMap:active, #contractMap:active, #restoreMap:active, .queue_button:active
 { 
-    top: 11px;
+    top: 6px;
 }
 
 #expandMap 
@@ -297,30 +311,6 @@ input
     font-weight: bold;
 }
 
-#roomListTopTrim
-{
-    visibility: hidden;
-     transition: margin .2s;
-    -moz-transition: margin .2s; /* Firefox 4 */
-    -webkit-transition: margin .2s; /* Safari and Chrome */
-    -o-transition: margin .2s; /* Opera */
-    -moz-border-top-right-radius: 5px;
-    border-top-right-radius: 5px;
-    -moz-border-top-left-radius: 5px;
-    border-top-left-radius: 5px;
-    position: absolute;
-    left: 37px;
-    right: 37px;
-    bottom: -4px;
-    margin-bottom: 50%;
-    padding-top: 14px;
-    background: url('images/wash-white-30.png');
-    
-    -moz-box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
-    -webkit-box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
-    box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
-}
-
 #roomListWrapperBigger
 {
     transition: height .2s;
@@ -337,6 +327,7 @@ input
     bottom: 0;
     background: url('images/wash-white-30.png');
     overflow: auto;
+    margin-bottom: -10px;
 
     -moz-box-shadow: 0 0 5px #888;
     -webkit-box-shadow: 0 0 5px #888;
@@ -452,7 +443,6 @@ input
 {
     width: 18px;
     background: url('images/sprites/plusminus.png') -17px 0;
-    margin-right: 13px;
 }
 
 #fp_zoomout_button:hover
@@ -464,6 +454,7 @@ input
 {
     width: 16px;
     background: url('images/sprites/plusminus.png') 0 0;
+    margin-right: 16px;
 }
 
 #fp_floorup_button:hover
@@ -493,7 +484,7 @@ input
 
 #settings_container p
 {
-    padding: 5px 40px 5px 30px;
+    padding: 5px 40px 5px 15px;
 }
 
 #settings_container h1, h2, h3, h4, p
@@ -514,7 +505,7 @@ input
     color: #FFFFFF;
     font-weight: bold;
     padding: 5px;
-    margin: 5px 40px 5px 30px;
+    margin: 5px 40px 5px 15px;
     width: 50%;
 }
 
@@ -529,7 +520,7 @@ input
      color: #FFFFFF;
      font-weight: bold;
      padding: 5px;
-     margin: 5px 40px 5px 30px;
+     margin: 5px 40px 5px 15px;
      width: 50%;
 }
 
@@ -544,9 +535,20 @@ input
     right: 0px;
 }
 
+a
+{
+    text-decoration: none;
+}
+
 a:hover
 {
     cursor: pointer;
+    text-decoration: underline;
+}
+
+a:visited
+{
+    color: #f90;
 }
 
 .various
