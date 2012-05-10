@@ -1,35 +1,50 @@
 {% block roomview %}
+
 <div id="room_view_wrapper">
 <div id="room_view">
+
+    <style type="text/css">
+    
+#roominfolist
+{
+    list-style-type: none; 
+    border-bottom: 1px dashed orange; 
+    padding: 0 0 16px;
+}
+
+#roominfolist li
+{
+    display: inline;
+    padding: 5px 20px 5px 0;
+}
+
+</style>
     <h1>{{room.number}} {{ room.building }}
     <div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
     <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
     </h1>
-    <ul>
-    <li>Floor: {{ room.floor }}</li>
-    <li>Square Feet: {{ room.sqft }}</li>
-    <li>Occupants: {{ room.occ }}</li>
-    <li>Subfree: {{ room.subfree }}</li>
-    <li>Floor: {{ room.floor }}</li>
-    <li>Room Count: {{ room.numrooms }}</li>
-    <li>Gender: {{ room.get_gender_display }}</li>
-    <li>Available?
-    {% if room.avail %}Yes{% else %}No{% endif %}
-    </li>
-    <li>ADA Compliant? 
-      {% if room.ada %}Yes{% else %}No{% endif %}
-    </li>
-    <li>Bi-Level Room? 
-      {% if room.bi %}Yes{% else %}No{% endif %}
-    </li>
-    <li>Connected Room? 
-    {% if room.con %}Yes{% else %}No{% endif %}
-    </li>
-    <li>Bathroom: 
-      {{ room.get_bathroom_display }}
-    </li>
-    <li><a href="../review/{{ room.id }}">Review</a></li>
-    </ul>
+    <table style="border-bottom: 1px dashed orange; font-size: 12px; font-family: 'Helvetica', sans-serif">
+        <tr>
+            <td>Available? {% if room.avail %}Yes{% else %}No{% endif %}</td>
+            <td>Floor: {{ room.floor }}</td>
+            <td>Square Feet: {{ room.sqft }}</td>
+            <td>Occupants: {{ room.occ }}</td>
+        </tr>
+        <tr>
+            <td>Occupants: {{ room.occ }}</td>
+            <td>Subfree: {{ room.subfree }}</td>
+            <td>Room Count: {{ room.numrooms }}</td>
+            <td>Gender: {{ room.get_gender_display }}</td>
+        </tr>
+        <tr>
+            <td>Bathroom: {{ room.get_bathroom_display }}</td>
+            <td>ADA Compliant? {% if room.ada %}Yes{% else %}No{% endif %}</td>
+            <td>Bi-Level Room? {% if room.bi %}Yes{% else %}No{% endif %}</td>
+            <td>Connected Room? {% if room.con %}Yes{% else %}No{% endif %}</td>
+        </tr>
+    </table>
+
+    <a href="../review/{{ room.id }}">Review</a>
 </div>
 </div>
 

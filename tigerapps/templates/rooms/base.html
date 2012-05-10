@@ -40,6 +40,7 @@
 	$(document).ready(function() {
 		$(".various").fancybox();
 	});
+
     </script>
   <script type="text/javascript">
   $(function() {
@@ -59,12 +60,24 @@
         <div id="wrapper2">
             <div id="map_canvas"></div>
             <div id="floorplan_canvas"></div>
+            <div id="fp_nav">
+                <span class="fp_button" id="fp_back_button">&#8592; </span>
+                <h1 id="fp_title"></h1>
+                <br>
+                <br>
+                Floors:
+                <div class="fp_button" id="fp_floorup_button"></div>
+                <div class="fp_button" id="fp_floordown_button"></div>
+                Zoom:
+                <div class="fp_button" id="fp_zoomin_button"></div>
+                <div class="fp_button" id="fp_zoomout_button"></div>
+            </div>
 
             <div id="queues_wrapper">
                 <div id="queues">
                     <a id="settings" title="User Settings" class="various" data-fancybox-type="iframe" href="/user_settings.html"></a>
                     <div id="queue">
-                        <h1 id="queuehead"> Queue</h1>
+                        <h1 id="queuehead"></h1>
                         <br>
                         <div id="managequeues"><a class="various" data-fancybox-type="iframe" href="/manage_queues.html">Edit Members</a></div>
                         <div id="room_queue"></div>
@@ -89,5 +102,8 @@
         
         </div> <!-- wrapper2 -->
     </div> <!-- wrapper1 -->
+
+    <!-- used for dynamically calling fancybox through floorplan.js -->
+    <a id="hiddenclicker" data-fancybox-type="iframe" class="various" href="filler" title="Room Overview"></a>
 </body>
 </html>
