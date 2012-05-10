@@ -160,6 +160,15 @@ a:hover{
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
 }
+.jtl-params {
+	color:#f6931f;
+	font-weight:bold;
+}
+.jtl-labels {
+	color:#76868e;
+	font-weight:bold;
+}
+
 
 
 /*************/
