@@ -101,7 +101,7 @@ jtlFn.buildTimeline = function(params) {
 		divDate.setAttribute('class', 'jtl-date');
 		divDate.setAttribute('style', 'width:'+jtl.dayHt+'px;top:'+((jtl.dayHt+jtl.dayBorderHt)/2-7)+'px;right:'+(-jtl.dayHt/2+7)+'px');
 		tmpDate.setDate(jtl.startDate.getDate()+d);
-		$(divDate).html(dateAbbrStr(tmpDate));
+		$(divDate).html(jtlFn.dateAbbrStr(tmpDate));
 		divDay.appendChild(divDate);
 		
 		var divTicks = document.createElement('div');
@@ -130,14 +130,14 @@ jtlFn.buildTimeline = function(params) {
 
 			var divIntv = document.createElement('div');
 			divIntv.setAttribute('class', 'jtl-tick '+(jtl.dayPadding==0&&i==jtl.startIndex?'jtl-tick-first':(hasBorder?'jtl-tick-border':'')));
-			divIntv.setAttribute('id', indexToId(d,i));
+			divIntv.setAttribute('id', jtlFn.indexToId(d,i));
 			divIntv.setAttribute('style', 'height:'+(hasBorder?jtl.intervalHt-1:jtl.intervalHt)+'px;');
 			divTicks.appendChild(divIntv);
 			
 			if (hasLabel) {
 				var divLabel = document.createElement('div');
 				divLabel.setAttribute('class', 'jtl-time');
-				$(divLabel).html(indexToTime(i));
+				$(divLabel).html(jtlFn.indexToTime(i));
 				divIntv.appendChild(divLabel);
 			}
 		}
@@ -159,13 +159,13 @@ jtlFn.clearTimeline = function() {
 jtlFn.addJTLEvents = function() {
 	for (var id in jtl.events) {
 		var startTime = jtl.events[id].startTime;
-		var startDayIndex = dateToDayIndex(date);
+		var startDayIndex = jtlFn.dateToDayIndex(date);
 		if (startDayIndex < 0 || startDayIndex > jtl.nDays)
 			continue;
 		var startIndex = jtlFn.timeToIndex(startTime.getHour(), startTime.getMinute());
 		if (startIndex < jtl.startIndex && startIndex > jtl.endIndex)
 			continue;
-		var id = indexToId(startDayIndex, startIndex);
+		var id = jtlFn.indexToId(startDayIndex, startIndex);
 		var divTick = document.getElementById(id);
 		var eventDot = document.createElement('div');
 		eventDot.setAttribute('class', 'jtl-event');
@@ -183,19 +183,14 @@ jtlFn.addJTLEvents = function() {
 jtlFn.timeToIndex = function(hour, min) {
 	return hour*2 + Math.round(min/30);
 }
-function dateToDayIndex(date) {
+jtlFn.dateToDayIndex = function(date) {
 	return (date.getTime() - jtl.startDate.getTime())/86400000; 
 }
 // converts day + time index to id of div
-function indexToId(day, ind) {
+jtlFn.indexToId = function(day, ind) {
 	return 'jtl-tick-'+day+'-'+ind;
 }
-/*function indexToDisp(ind) {
-	if (ind < jtl.startIndex || ind > jtl.endIndex)
-		return -1;
-	return (ind-jtl.startIndex)/jtl.ticksPerMark*(jtl.tickHt+1)-7;
-}*/
-function indexToTime(ind) {
+jtlFn.indexToTime = function(ind) {
 	var hour = Math.floor(ind/2);
 	var ampm, min;
 	hour = hour % 24;
@@ -211,7 +206,7 @@ function indexToTime(ind) {
 	return hour + ':' + min + ampm;
 }
 
-function dateAbbrStr(d) {
+jtlFn.dateAbbrStr = function(d) {
 	return jtl.wkdays[d.getDay()] + ' ' + d.getMonth()+'/'+d.getDate()+'/'+d.getFullYear().toString().substring(2);
 }
 

@@ -7,6 +7,7 @@ function utilInit() {
 	$("input:submit").button();
 	$("#info-top-types").buttonset();
 	
+	
 	//for the timeline
 	jTimeline('info-jtl', getJTLParams());
 	setupJTLInput();

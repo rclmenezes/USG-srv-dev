@@ -526,16 +526,26 @@ function hideInfoEvent() {
 /* Predefined filters                  */ 
 /***************************************/
 function setupActualFilters() {
-	setupLocationFilter();
+	setupEventSearch();
+	setupLocationSearch();
 }
 
+
+
+function setupEventSearch() {
+	$('#events-search-form').submit(function(event) {
+		event.preventDefault();
+		// get submitted building's code, center map on it, and display it's events
+		var query = $('#events-search').val();
+	});
+}
 
 /***************************************/
 /* Location filter */ 
 /***************************************/
 
 //load the bldgs.json file that holds all HTML-element data for the buildings
-function setupLocationFilter() {
+function setupLocationSearch() {
 	/* setup location search autocomplete */
 	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
@@ -556,11 +566,10 @@ function setupLocationFilter() {
 	
 	/* setup location search submit */
 	$('#location-search-form').submit(function(event) {
-		// prevent refresh
 		event.preventDefault();
 		// get submitted building's code, center map on it, and display it's events
-		bldgName = $('#location-search').val();
-		bldgCode = jevent.bldgNames[bldgName];
+		var bldgName = $('#location-search').val();
+		var bldgCode = jevent.bldgNames[bldgName];
 		if (bldgCode != undefined) {
 			centerOnBldg(bldgCode);
 		}
