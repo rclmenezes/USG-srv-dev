@@ -11,7 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/timeline.css"/>
 	
 	<script type="text/javascript">
-		jevent = {}
 	
 		function pickdates() {
 			$( "#jtl-startDate" ).datepicker();
@@ -30,11 +29,8 @@
 		        slide: function( event, ui ) {
 		        	//sliderLeftTimeVal and sliderRightTimeVal will contain arrays where the zeroth 
 		        	//element is the hour (0-23) and the first element is the minutes (0 or 30)
-		            jevent.sliderLeftTimeVal = convertToTime(ui.values[0]);
-		            $( "#slider-left-value" ).val(printTime(jevent.sliderLeftTimeVal));
-		            
-		            jevent.sliderRightTimeVal = convertToTime(ui.values[1]);
-		            $( "#slider-right-value" ).val(printTime(jevent.sliderRightTimeVal));
+		            $( "#slider-left-value" ).val(printTime(convertToTime(ui.values[0])));
+		            $( "#slider-right-value" ).val(printTime(convertToTime(ui.values[1])));
 		        },
 		        
 		        stop: function (event, ui) {

@@ -45,14 +45,21 @@
 					<input id="events-search-submit" type="submit" value="Search Events" />
 				</form>
 
-				<br/>
-
-				<div id="jtl-input" style="float:left;">
-					<input type="text" class="jtl-params" id="jtl-startDate" value="05/07/2012"/>
-					<input type="text" class="jtl-params" id="jtl-nDays" value="3"/><br/>
-					<input type="text" class="jtl-params" id="jtl-startTime" value="0:30"/>
-					<input type="text" class="jtl-params" id="jtl-endTime" value="24:00"/>
-				</div><br/>
+				<div id="jtl-input">
+					Date: <input type="text" id="jtl-startDate" value="05/07/2012" readonly='true' style="width:80px;"/>
+					Ndays: <input type="text" class="jtl-params" id="jtl-nDays" value="3" style="width:20px;"/><br/><br/>
+					<input type="hidden" class="jtl-params" id="jtl-startTime" /> 
+					<input type="hidden" class="jtl-params" id="jtl-endTime" />
+					
+					<div id="jtl-hours-slider"></div>
+					<p>
+						<label for="jtl-startTime">Start time:</label>
+						<input type="text" class="jtl-params" id="jtl-slider-start" style="border:0; color:#f6931f; font-weight:bold;width:80px;"/> 
+						<label for="jtl-endTime">End time:</label>
+						<input type="text" class="jtl-params" id="jtl-slider-end" style="border:0; color:#f6931f; font-weight:bold;width:80px;"/>
+					</p>
+				</div>
+				
 				<!-- 
 				X: <input id="box1" type="text" style="width:40px;"/>
 				Y: <input id="box2" type="text" style="width:40px;"/><br/>

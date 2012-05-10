@@ -58,11 +58,8 @@ a:hover{
 #info-top-types {
 	margin:10px 0;
 }
-#other-info-types {
-	margin:10px 0;
-}
 #info-top-filters {
-	margin:5px 0;
+	margin:10px 0;
 }
 .top-tab {
 	display: none;
@@ -90,13 +87,10 @@ a:hover{
 	/*margin-right: 5px;*/
 }
 .info-event-subtitle {
-	font-weight:bold;
-	font-size:9pt;
 	/*margin-left: 5px;*/
 }
 .info-event-description {
 	/*margin-left: 5px;*/
-	font-weight:lighter;
 	color:#464646; /*gray*/
 }
 
