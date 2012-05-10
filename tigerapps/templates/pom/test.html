@@ -16,7 +16,7 @@
 		function pickdates() {
 			$( "#datepicker" ).datepicker();
 		}
-	
+			
 		function sliderInit() {
 		    oldLeft = -1;
 		    oldRight = -1;
@@ -25,16 +25,16 @@
 		    sliderEle.slider({
 		        range: true,
 		        min: 0,
-		        max: 47,
-		        values: [0, 47],
+		        max: 48,
+		        values: [0, 48],
 		        slide: function( event, ui ) {
 		        	//sliderLeftTimeVal and sliderRightTimeVal will contain arrays where the zeroth 
 		        	//element is the hour (0-23) and the first element is the minutes (0 or 30)
 		            jevent.sliderLeftTimeVal = convertToTime(ui.values[0]);
-		            $( "#slider-left-value" ).val(printTime(jevent.eventLeftDate));
+		            $( "#slider-left-value" ).val(printTime(jevent.sliderLeftTimeVal));
 		            
 		            jevent.sliderRightTimeVal = convertToTime(ui.values[1]);
-		            $( "#slider-right-value" ).val(printTime(jevent.eventRightDate));
+		            $( "#slider-right-value" ).val(printTime(jevent.sliderRightTimeVal));
 		        },
 		        
 		        stop: function (event, ui) {
@@ -53,12 +53,14 @@
 		
 		function convertToTime(sliderVal) {
 			var timeval = new Array();
-			timeval[0] = sliderVal/2
+			//alert(sliderVal)
+			timeval[0] = Math.floor(sliderVal/2)
 			timeval[1] = (sliderVal%2)*30
 		    return (timeval);
 		}
 		function printTime(timeObj) {
-		    var hours = timeObj[0] + 1;
+		    var hours = timeObj[0];
+		    hours %= 24
 		    var am = true;
 		    if (hours > 12) {
 		       am = false;
@@ -68,7 +70,10 @@
 		    } else if (hours == 0) {
 		       hours = 12;
 		    }
-		    return hours + ":" + timeObj[1] + ' ' + (am ? "AM" : "PM");
+		    zeroPad = ''
+		    if (timeObj[1] == 0)
+		    	zeroPad += "0"
+		    return hours + ":" + timeObj[1] + zeroPad + ' ' + (am ? "AM" : "PM");
 		}
 		
 		
@@ -82,9 +87,11 @@
 
 <div id="jtl-input" style="float:left;">
 	<div class="demo">
-		<p>Date: <input type="text" id="datepicker"></p>
+		Date: <input type="text" id="datepicker" value="05/07/2012"> 
+		<input type="button" value="Shrink Timeline" name="shrink_timeline" onClick="alert('this button will shrink the timeline')">
+		<input type="button" value="Expand Timeline" name="expand_timeline" onClick="alert('this button will expand the timeline')">
 	</div>
-	
+	<br>
 	<div id="events-slider"></div>
 	<p>
 		<label for="slider-left-value">Left Value:</label>
@@ -92,11 +99,6 @@
 		<label for="slider-right-value">Right Value:</label>
 		<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
 	</p>
-
-	<input type="text" id="jtl-startDay" value="05/07/2012"/><br/>
-	<input type="text" id="jtl-nDays" value="2"/><br/>
-	<input type="text" id="jtl-startTime" value="14:30"/><br/>
-	<input type="text" id="jtl-endTime" value="24:00"/><br/>
 </div>
 
 <div id="jtl" style="height:100%;margin:auto;">
