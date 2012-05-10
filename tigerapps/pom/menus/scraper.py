@@ -1,4 +1,4 @@
-from utils.scrape import scrapePage
+from utils.scrape import *
 import urllib3, urllib2
 from bs4 import BeautifulSoup
 
@@ -25,11 +25,11 @@ class Meal:
         
         
 class Entree:
-    def __init__():
+    def __init__(self):
         self.attributes = {}
 
     def __str__(self):
-        return str(self.__dict__)
+        return str(self.attributes)
     __repr__ = __str__
         
 
@@ -39,19 +39,22 @@ def scrape_single_menu(bldg_code):
     hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
     
+    #log ('ass')
+    
     content = scrapePage(url)
     bs = BeautifulSoup(content)
     menu = Menu()
-    menu.title = bs.title.contents[0]
-
+    #menu.title = bs.title.contents[0]
+    #log('dildo')
     for meal_xml in bs.find_all('meal'):
+        #log('cock')
         meal = Meal()
         meal.name = meal_xml.attrs['name']
         for entree_xml in meal_xml.find_all('entree'):
             entree = Entree()
-            entree['name'] = entree_xml.next.contents[0]
+            entree.attributes['name'] = entree_xml.next.contents[0]
             for c in entree_xml.contents[1:]:
-                entree[c.name] = c.contents[0]
+                entree.attributes[c.name] = c.contents[0]
             meal.entrees.append(entree)
         menu.meals[meal.name] = meal
 

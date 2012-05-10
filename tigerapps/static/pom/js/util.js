@@ -32,7 +32,6 @@ function sliderInit() {
         		handleFilterChange();
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
-                AJAXeventsForAllBldgs();
             }
         }
     });
@@ -80,6 +79,17 @@ function cmpDates(d1,d2) {
 /***************************************/
 /* Utility functions */
 /***************************************/
+
+function jExpand() {
+	$('.jexpand-main').mouseover(function() {
+		$(this).find('.jexpand-shortdesc').hide();
+		$(this).find('.jexpand-longdesc').show(100);
+	});
+	$('.jexpand-main').mouseout(function() {
+		$(this).find('.jexpand-longdesc').hide(100);
+		$(this).find('.jexpand-shortdesc').show();
+	});
+}
 
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
     if (confirm(errorThrown + ': Show error?')) {
