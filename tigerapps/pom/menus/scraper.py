@@ -27,7 +27,7 @@ class Meal:
 class Entree:
     def __init__(self):
         self.attributes = {}
-        self.color = '#000000'
+        self.color = '#000000' #default black
 
     def __str__(self):
         return str(self.attributes)
@@ -60,7 +60,7 @@ def scrape_single_menu(bldg_code):
                     if (c.name == 'vegan'):
                         entree.color = '#0000FF' #blue
                     elif (c.name == 'vegetarian'):
-                        entree.color = '#00CC00' #green
+                        entree.color = '#00AA00' #dark green
                     elif (c.name == 'pork'):
                         entree.color = '#8000FF' #purple
                     elif (c.name == 'nuts'):
