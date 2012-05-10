@@ -2,14 +2,15 @@
 /* jqueryui setup */
 /***************************************/
 
-jDisplay = {}
 function utilInit() {
+	jDisplay = {};
+	
 	$("input:submit").button();
 	$("#info-top-types").buttonset();
 	
 	//events inputs
-	$("#jtl-startDate").val()
-	$("#jtl-startDate").datepicker({defaultDate:0});
+	$("#jtl-startDate").datepicker();
+	$("#jtl-startDate").datepicker('setDate', new Date());
 	setupJTLSlider();
 	
 	//timeline display/toggle

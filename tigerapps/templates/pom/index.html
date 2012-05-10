@@ -46,18 +46,21 @@
 				</form>
 
 				<div id="jtl-input">
-					Date: <input type="text" id="jtl-startDate" value="05/07/2012" readonly='true' style="width:80px;"/>
-					Ndays: <input type="text" class="jtl-params" id="jtl-nDays" value="3" style="width:20px;"/><br/><br/>
-					<input type="hidden" class="jtl-params" id="jtl-startTime" /> 
-					<input type="hidden" class="jtl-params" id="jtl-endTime" />
-					
-					<div id="jtl-hours-slider"></div>
-					<p>
+					<table><tr><td>Hours:</td>
+						<td><div id="jtl-hours-slider"></div>
 						<label for="jtl-startTime">Start time:</label>
 						<input type="text" class="jtl-params" id="jtl-slider-start" style="border:0; color:#f6931f; font-weight:bold;width:80px;"/> 
 						<label for="jtl-endTime">End time:</label>
 						<input type="text" class="jtl-params" id="jtl-slider-end" style="border:0; color:#f6931f; font-weight:bold;width:80px;"/>
-					</p>
+						</td>
+					</tr><tr><td>Start date:</td>
+						<td><input type="text" id="jtl-startDate" readonly='true' style="width:72px;"/></td>
+					</tr><tr><td>Number of days:</td>
+						<td><input type="text" class="jtl-params" id="jtl-nDays" value="3" style="width:20px;"/></td>
+					</tr></table>
+					
+					<input type="hidden" class="jtl-params" id="jtl-startTime" /> 
+					<input type="hidden" class="jtl-params" id="jtl-endTime" />
 				</div>
 				
 				<!-- 
