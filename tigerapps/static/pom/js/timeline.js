@@ -25,7 +25,7 @@ jtl.tlWidth = 100;
 /***************************************/
 
 /* Display a JTL object in id */
-function jTimeline(id, timelineParams, markData, fnMarkMouseover, fnMarkMouseout) {
+function jTimeline(id, timelineParams, markData, fnMarkMouseover, fnMarkMouseout, fnMarkClick) {
 	//static references
 	jtl.tl = document.getElementById(id);
 	jtl.$tl = $(jtl.tl);
@@ -35,6 +35,7 @@ function jTimeline(id, timelineParams, markData, fnMarkMouseover, fnMarkMouseout
 	jtl.markData = markData;
 	jtl.fnMarkMouseover = fnMarkMouseover;
 	jtl.fnMarkMouseout = fnMarkMouseout;
+	jtl.fnMarkClick = fnMarkClick;
 
 	jtlFn.buildTimeline(timelineParams);
 }
@@ -170,8 +171,11 @@ jtlFn.addJTLEvents = function() {
 			eventMark.setAttribute('class', 'jtl-mark');
 			eventMark.setAttribute('id', 'jtl-mark-'+markData['eventId']);
 			eventMark.style.left = Math.round((parseInt(i)+.5)/nMarks * jtl.tlWidth)-3;
+			eventMark.style.zIndex = 110+(i%2);
+			//may want to add in if statements if this is to be a real library
 			eventMark.onmouseover = function(ev){jtl.fnMarkMouseover(this);};
 			eventMark.onmouseout = function(ev){jtl.fnMarkMouseout(this);};
+			eventMark.onclick = function(ev){jtl.fnMarkClick(this);};
 			divTick.appendChild(eventMark);
 		}
 	}

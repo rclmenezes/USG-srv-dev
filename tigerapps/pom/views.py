@@ -40,8 +40,11 @@ def get_cal_events_json(request, events_list=None):
     except Exception, e:
         raise Exception('Bad GET request: missing get params (%s)' % str(e))
     
-    events_dict = {}
+    mark_data = {}
+    events_data = {}
     for event in events_list:
+        events_data[event.event_id] = event.event_location
+        
         e_start = event.event_date_time_start
         delta = e_start - start_date
         half_hrs_delta = int(round(delta.total_seconds()/1800)) % 48
@@ -51,12 +54,12 @@ def get_cal_events_json(request, events_list=None):
         #e_dict['startTime'] = e_start
         #e_dict['endTime'] = event.event_date_time_end
         
-        if time_index in events_dict:
-            events_dict[time_index].append(e_dict)
+        if time_index in mark_data:
+            mark_data[time_index].append(e_dict)
         else:
-            events_dict[time_index] = [e_dict]
+            mark_data[time_index] = [e_dict]
         
-    return events_dict
+    return {'eventsData': events_data, 'markData': mark_data}
 
 
 
@@ -108,8 +111,7 @@ def events_for_bldg(request, bldg_code):
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
-            response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code,
-                             'eventsJson': get_cal_events_json(request, events)}
+            response_dict = dict({'error': None, 'html': html, 'bldgCode': bldg_code}.items() + get_cal_events_json(request, events).items())
         except Exception, e:
             response_dict = {'error': str(e)}
         
@@ -205,8 +207,7 @@ def events_for_all_bldgs(request):
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': 'All Events',
                                      'events': events})
-            response_json = simplejson.dumps({'error': None, 'html': html,
-                                              'eventsJson': get_cal_events_json(request, events)})
+            response_json = simplejson.dumps(dict({'error': None, 'html': html}.items() + get_cal_events_json(request, events).items()))
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
     

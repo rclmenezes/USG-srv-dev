@@ -140,18 +140,29 @@ function eventEntryMouseover(domEle) {
 	var eventId = jtlFn.htmlIdToEventId(domEle.id);
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
-	//jevent.eventsJson
+	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId])];
 	eventEntry.style.background='#ECECEC';
 	tlMark.style.background='#E9692C';
+	if (bldgDict != undefined) 	$(bldgDict.domEle).mouseover();
 }
 function eventEntryMouseout(domEle) {
 	var eventId = jtlFn.htmlIdToEventId(domEle.id);
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
+	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId])];
 	//jevent.eventsJson
 	eventEntry.style.background='white';
 	tlMark.style.background='orange';
+	if (bldgDict != undefined) 	$(bldgDict.domEle).mouseout();
 }
+function eventEntryClick(domEle) { //only for the timeline
+	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+	var infoBot = $('#info-bot');
+	infoBot.animate({
+        scrollTop: $("#event-entry-"+eventId).position().top+infoBot.scrollTop()-infoBot.position().top-15
+    }, 100);
+}
+
 
 function jExpand() {
 	$('.jexpand-main').mouseover(function() {

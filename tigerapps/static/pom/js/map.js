@@ -506,8 +506,8 @@ function handleEventsAJAX(data) {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
 		if (jevent.filterType == 0) {
-			jevent.eventsJson = data.eventsJson;
-			jTimeline(jmap.jtlId, getJTLParams(), data.eventsJson, eventEntryMouseover, eventEntryMouseout);
+			jevent.eventsData = data.eventsData;
+			jTimeline(jmap.jtlId, getJTLParams(), data.markData, eventEntryMouseover, eventEntryMouseout, eventEntryClick);
 		}
 	}
 }
