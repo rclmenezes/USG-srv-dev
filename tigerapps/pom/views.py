@@ -32,9 +32,9 @@ def get_bldg_names_json(request):
 def get_cal_events_json(request):
     events_list = filter_cal_events(request)
     try:
-        start_date = datetime.date(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
-        start_index = int(request.GET['h0']) + 2*round(int(request.GET['i0'])/30)
-        end_index = int(request.GET['h1']) + 2*round(int(request.GET['i1'])/30)
+        start_date = datetime.datetime(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
+        start_index = 2*int(request.GET['h0']) + round(int(request.GET['i0'])/30)
+        end_index = 2*int(request.GET['h1']) + round(int(request.GET['i1'])/30)
         n_days = int(request.GET['nDays'])
     except Exception, e:
         raise Exception('Bad GET request: missing get params (%s)' % str(e))
@@ -42,12 +42,18 @@ def get_cal_events_json(request):
     events_dict = {}
     for event in events_list:
         e_dict = {}
-        time_id = '1'
-        e_dict['startTime'] = event.event_date_time_start
+        e_start = event.event_date_time_start
+        e_dict['startTime'] = e_start
         e_dict['endTime'] = event.event_date_time_end
         e_dict['bldg_code'] = event.event_location
         e_dict['eventId'] = event.event_id
-        events_dict[time_id] = e_dict
+        delta = e_start - start_date
+        half_hrs_delta = int(round(delta.total_seconds()/1800))
+        time_id = str(delta.days) + '-' + str(half_hrs_delta)
+        if time_id in events_dict:
+            events_dict[time_id].append(e_dict)
+        else:
+            events_dict[time_id] = [e_dict]
         
     dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) else None
     response_json = json.dumps(events_dict, default=dthandler)

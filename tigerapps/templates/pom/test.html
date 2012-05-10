@@ -14,7 +14,7 @@
 		jevent = {}
 	
 		function pickdates() {
-			$( "#datepicker" ).datepicker();
+			$( "#jtl-startDate" ).datepicker();
 		}
 			
 		function sliderInit() {
@@ -87,7 +87,7 @@
 
 <div id="jtl-input" style="float:left;">
 	<div class="demo">
-		Date: <input type="text" id="datepicker" value="05/07/2012"> 
+		Date: <input type="text" id="jtl-startDate" value="05/07/2012" readonly='true'> 
 		<input type="button" value="Shrink Timeline" name="shrink_timeline" onClick="alert('this button will shrink the timeline')">
 		<input type="button" value="Expand Timeline" name="expand_timeline" onClick="alert('this button will expand the timeline')">
 	</div>
