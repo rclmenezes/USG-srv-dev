@@ -6,12 +6,12 @@
 <span style="color:#8000FF;"> Contains Pork </span> <br>
 <span style="color:#990000;"> Contains Nuts </span> <br>
 
-<h3 id="info-bldg-name">All Menus</h3>
+<h2 id="info-bldg-name">All Menus</h2>
 
 {% for tup in menu_list %}
 
 {% with bldg_info|hash:tup.0 as hallname%}
-<h2>{{ hallname.0 }}</h2>
+<h3>{{ hallname.0 }}</h3>
 {%endwith%}
 
 {%for meal in tup.1.meals%}
