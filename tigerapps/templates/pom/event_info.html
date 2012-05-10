@@ -23,13 +23,14 @@
 		</div>
 
 		{%if events|length > 3%}
-		<div class="info-event-description jexpand-short">
-			{{event.short_desc}}{%if event.long_desc%}...{%endif%}
+		<div class="info-event-description">
+			{{event.short_desc}}{%if event.long_desc%}<span class="jexpand-dots">...</span><span class="jexpand-long">{{event.long_desc}}</span>{%endif%}
 		</div>
-		{%endif%}
-		<div class="info-event-description jexpand-long" {%if events|length > 3%}style="display:none"{%endif%}>
+		{%else%}
+		<div class="info-event-description">
 			{{event.long_desc}}
 		</div>
+		{%endif%}
 			
 		<!-- APPLE SUCKS.  We do not provide support for iCal
 		<a href="/ical/{{event.event_id}}"><img src="/static/cal/css/img/ical.png" alt="Add to iCal" /></a>

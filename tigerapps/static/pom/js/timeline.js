@@ -29,10 +29,6 @@ function jTimeline(id, params) {
 	jtl.tl = document.getElementById(id);
 	jtl.$tl = $(jtl.tl);
 	
-	
-	
-	
-	
 	//data from django
 	jtl.events = {};
 
@@ -52,21 +48,21 @@ function jTimeline(id, params) {
 jtlFn.loadParams = function(params) {
 	/* NADER: Call this on slide in your hours slider, and return false if this is violated */
 	/* Allowed min/max range of the # of half-hours the timeline can handle. Depends on nDays */
-	jtlFn.minHoursRange = function() {
+	/*jtlFn.minHoursRange = function() {
 		return Math.floor(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
 	}
 	jtlFn.maxHoursRange = function() {
 		return Math.ceil(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
-	}
+	}*/
 	
 	jtl.startDate = params.startDate;
 	jtl.nDays = params.nDays;
 	jtl.startIndex = jtlFn.timeToIndex(params.startTime[0], params.startTime[1]);
 	jtl.endIndex = jtlFn.timeToIndex(params.endTime[0], params.endTime[1]);
 	jtl.nIntervals = jtl.endIndex - jtl.startIndex;
-	if (jtl.nIntervals > jtlFn.maxHoursRange() || jtl.nIntervals < jtlFn.minHoursRange())
+	/*if (jtl.nIntervals > jtlFn.maxHoursRange() || jtl.nIntervals < jtlFn.minHoursRange())
 		return false;
-	return true;
+	return true;*/
 }
 
 
@@ -77,7 +73,8 @@ jtlFn.loadParams = function(params) {
 
 /* Load the timeline from scratch, used at init */
 jtlFn.buildTimeline = function(params) {
-	if (!jtlFn.loadParams(params)) {alert('jTl bad params: range of hours will cause timeline to display badly');return;}
+	//if (!jtlFn.loadParams(params)) {alert('jTl bad params: range of hours will cause timeline to display badly');return;}
+	jtlFn.loadParams(params)
 	jtlFn.clearTimeline();
 	
 	//compute the sizes of each day, each tick, given the parameters + timeline size
@@ -88,12 +85,13 @@ jtlFn.buildTimeline = function(params) {
 	jtl.dayPadding = minDayPadding;
 	jtl.dayHt = jtl.intervalHt*(jtl.nIntervals-1) + 2*jtl.dayPadding;
 	jtl.endPadding = Math.floor((jtl.tl.offsetHeight - (jtl.dayHt + jtl.dayBorderHt)*jtl.nDays)/2);
+	jtl.nEndDays = Math.ceil(jtl.endPadding*2 / jtl.dayHt);
 	
 	//for the day labels
 	var tmpDate = new Date();
 	tmpDate.setTime(jtl.startDate.getTime());
 	
-	for (var d=-1; d<=jtl.nDays; d++) {
+	for (var d=-jtl.nEndDays; d<jtl.nDays+jtl.nEndDays; d++) {
 		var divDay = document.createElement('div');
 		divDay.setAttribute('class', 'jtl-day');
 		divDay.setAttribute('style', 'height:'+jtl.dayHt+'px;top:'+((jtl.dayHt+jtl.dayBorderHt)*d+jtl.endPadding)+'px;');
@@ -107,8 +105,8 @@ jtlFn.buildTimeline = function(params) {
 		divDay.appendChild(divDate);
 		
 		var divTicks = document.createElement('div');
-		divTicks.setAttribute('class', 'jtl-tick-box');
-		divTicks.setAttribute('style', 'height:100%;padding-top:'+jtl.dayPadding+'px;');
+		divTicks.setAttribute('class', 'jtl-tick-box'+(d<0||d>=jtl.nDays?' jtl-tick-box-inactive':''));
+		divTicks.setAttribute('style', 'height:'+(jtl.dayHt-jtl.dayPadding*2)+'px;padding:'+jtl.dayPadding+'px 0;');
 		divDay.appendChild(divTicks);
 		
 		var dHtSinceTick = jtl.minTickHt;
@@ -200,6 +198,7 @@ function indexToId(day, ind) {
 function indexToTime(ind) {
 	var hour = Math.floor(ind/2);
 	var ampm, min;
+	hour = hour % 24;
 	if (hour < 12) {
 		if (hour==0) hour = 12;
 		ampm = 'a';
@@ -213,7 +212,7 @@ function indexToTime(ind) {
 }
 
 function dateAbbrStr(d) {
-	return jtl.wkdays[d.getDay()] + ' ' + d.getMonth()+'/'+d.getDate()+'/'+d.getFullYear();
+	return jtl.wkdays[d.getDay()] + ' ' + d.getMonth()+'/'+d.getDate()+'/'+d.getFullYear().toString().substring(2);
 }
 
 

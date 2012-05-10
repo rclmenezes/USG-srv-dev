@@ -36,8 +36,8 @@ def get_cal_events_json(request):
         start_index = int(request.GET['h0']) + 2*round(int(request.GET['i0'])/30)
         end_index = int(request.GET['h1']) + 2*round(int(request.GET['i1'])/30)
         n_days = int(request.GET['nDays'])
-    except:
-        raise Exception('missing get params')
+    except Exception, e:
+        raise Exception('Bad GET request: missing get params (%s)' % str(e))
     
     events_dict = {}
     for event in events_list:
@@ -301,7 +301,7 @@ def filter_cal_events(request, bldg_code=None):
         for event in events:
             desc = event.event_cluster.cluster_description
             event.short_desc = desc[:140]
-            event.long_desc = desc
+            event.long_desc = desc[140:]
     except Exception, e:
         raise Exception('Bad GET request: '+ str(e))
     return events

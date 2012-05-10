@@ -113,9 +113,13 @@ function hideTimeline() {
 /***************************************/
 
 function jExpand() {
-	$('.jexpand-main').click(function() {
-		$(this).find('.jexpand-short').toggle();
-		$(this).find('.jexpand-long').toggle();
+	$('.jexpand-main').mouseover(function() {
+		$(this).find('.jexpand-dots').hide();
+		$(this).find('.jexpand-long').show();
+	});
+	$('.jexpand-main').mouseout(function() {
+		$(this).find('.jexpand-dots').show();
+		$(this).find('.jexpand-long').hide();
 	});
 }
 
