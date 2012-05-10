@@ -183,9 +183,18 @@ def events_for_bldg(request, bldg_code):
                 response_dict = {'error': str(e)}
     
     elif filter_type == '5': #location
-        campus_map_code = campus_map_codes.campus_map_codes[bldg_code]
-        campus_map_info = campus_map_bldgs_info.campus_map_info[campus_map_code]
-        html = render_to_string('pom/location_info.html', campus_map_info)
+        try:
+            codes = campus_map_codes.campus_map_codes[bldg_code]
+            if codes[0] == 0: info = None
+            else:
+                info = [campus_map_bldgs_info.campus_map_info[code] for code in codes]
+
+            html = render_to_string('pom/location_info.html',
+                                    {'bldg_name':BLDG_INFO[bldg_code][0], 'info':info})
+            response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
+        except Exception, e:
+            response_dict = {'error': str(e)}
+        
         
     else:
         raise Exception("Bad filter type in GET request: %s" % filter_type)
