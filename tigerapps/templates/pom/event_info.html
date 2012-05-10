@@ -1,5 +1,5 @@
-{% load value_from_settings %}
-<h3 id="info-bldg-name">{{bldg_name}}</h3>
+{% load value_from_settings %}{% load hashing_filter %}
+<h3 id="info-bldg-name">{% if all_events %}All Events{%else%}{{bldg_name}}{% endif %}</h3>
 
 {% for event in events %}
 	<div class="info-event-entry jexpand-main" id="event-entry-{{event.event_id}}">
@@ -18,7 +18,8 @@
 			</a>
 			<div class="info-event-subtitle">
 				{{event.event_date_time_start|date:"M d, Y h:i a"}}<br/>
-				{{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
+				{% if all_events and event.event_location_name %}{{event.event_location_name}}<br/>{% endif %}
+				{% if event.event_location_details %}{{event.event_location_details}} | {% endif %}{{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
 			</div>
 		</div>
 

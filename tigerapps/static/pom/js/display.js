@@ -31,10 +31,11 @@ function setupJTLSlider() {
         range: true,
         min: 0,
         max: 48,
-        values: [20, 40],
+        values: [20, 40], //initial
         slide: function( event, ui ) {
         	//sliderLeftTimeVal and sliderRightTimeVal will contain arrays where the zeroth 
         	//element is the hour (0-23) and the first element is the minutes (0 or 30)
+        	if (ui.values[1] - ui.values[0] < 4) return false;
         	var startTime = indexToTimeArr(ui.values[0]);
     		var endTime = indexToTimeArr(ui.values[1]);
             $("#jtl-slider-start").val(printTime(startTime));

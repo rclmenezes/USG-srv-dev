@@ -221,7 +221,7 @@ def events_for_all_bldgs(request):
         try:
             events = filter_cal_events(request)
             html = render_to_string('pom/event_info.html',
-                                    {'bldg_name': 'All Events',
+                                    {'all_events': True, 
                                      'events': events})
             response_json = simplejson.dumps(dict({'error': None, 'html': html}.items() + get_cal_events_json(request, events).items()))
         except Exception, e:
@@ -303,22 +303,29 @@ def events_for_all_bldgs(request):
 def filter_cal_events(request, bldg_code=None):
     events = []
     try:
-        if bldg_code:
+        if bldg_code: #Filter by bldg
             events = cal_event_query.filter_by_bldg(events, bldg_code)
-        if 'search' in request.GET:
+            if not events: return events
+        if request.GET['search']: #Filter by search term
             events = cal_event_query.filter_by_search(events, request.GET['search'])
-        if 'm0' in request.GET:
-            start_day = datetime.date(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
-            end_day = start_day + datetime.timedelta(days=int(request.GET['nDays'])-1)
-            events = cal_event_query.filter_by_day_hour(events,
-                start_day.month, start_day.day, start_day.year, int(request.GET['h0']), int(request.GET['i0']),
-                end_day.month, end_day.day, end_day.year, int(request.GET['h1']), int(request.GET['i1']))
-        for event in events:
-            desc = event.event_cluster.cluster_description
-            event.short_desc = desc[:140]
-            event.long_desc = desc[140:]
+            if not events: return events
+        
+        #Filter by time, must be last since it's hacky
+        start_day = datetime.date(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
+        end_day = start_day + datetime.timedelta(days=int(request.GET['nDays'])-1)
+        events = cal_event_query.filter_by_day_hour(events,
+            start_day.month, start_day.day, start_day.year, int(request.GET['h0']), int(request.GET['i0']),
+            end_day.month, end_day.day, end_day.year, int(request.GET['h1']), int(request.GET['i1']))
     except Exception, e:
         raise Exception('Bad GET request: '+ str(e))
+    for event in events:
+        desc = event.event_cluster.cluster_description
+        event.short_desc = desc[:100]
+        event.long_desc = desc[100:]
+        if (not bldg_code) and event.event_location:
+            event.event_location_name = BLDG_INFO[event.event_location][0]
+        if event.event_location_details.isdigit():
+            event.event_location_details = 'Room ' + event.event_location_details
     return events
      
 
