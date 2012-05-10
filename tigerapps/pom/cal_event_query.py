@@ -82,10 +82,11 @@ def filter_by_day_hour(qset,
     return retlist
 
 
-def filter_by_title_desc(qset, query):
+def filter_by_search(qset, query):
     '''
     Get all events with `query` in their title or description
     '''
+    if not query: return qset
     if qset:
         return qset.filter(Q(event_cluster__cluster_title__icontains=query) |
                            Q(event_clusert__cluster_description__icontains=query))
