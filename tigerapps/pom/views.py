@@ -283,6 +283,3 @@ def filter_cal_events(request):
     if 'search' in request.GET:
         events = cal_event_query.filter_by_search(events, request.GET['search'])
     return events
-
-def filter_
-
