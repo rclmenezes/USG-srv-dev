@@ -32,7 +32,7 @@ def get_bldg_names_json(request):
 def get_cal_events_json(request):
     events_list = filter_cal_events(request)
     try:
-        start_day = datetime.date(request.GET['y0'], request.GET['m0'], request.GET['d0'])
+        start_date = datetime.date(request.GET['y0'], request.GET['m0'], request.GET['d0'])
         start_time = request.GET['h0'] + request.GET['i0']
         end_time = request.GET['h1'] + request.GET['i1']
     except:
