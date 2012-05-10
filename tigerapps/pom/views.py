@@ -35,6 +35,7 @@ def get_cal_events_json(request):
         start_date = datetime.date(request.GET['y0'], request.GET['m0'], request.GET['d0'])
         start_time = request.GET['h0'] + request.GET['i0']
         end_time = request.GET['h1'] + request.GET['i1']
+        n_days = request.GET['nDays']
     except:
         raise Exception('missing get params')
     
