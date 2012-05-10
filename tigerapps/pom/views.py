@@ -13,6 +13,19 @@ from pom.laundry import scraper as laundry
 import datetime, simplejson
 from django.core.cache import cache
 from django.core.mail import send_mail
+import json
+
+def eventList_to_JSON(events_list):
+    events_dict = {}
+    for event in events_list:
+        e_dict = {}
+        e_dict['startTime'] = event.event_date_time_start
+        e_dict['endTime'] = event.event_date_time_end
+        e_dict['bldg_code'] = event.event_location
+        events_dict[event.event_id] = e_dict
+    dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) else None
+    return json.dumps(events_dict, default=dthandler)
+
 
 def index(request, offset):
     # not used due to direct_to_template in urls.py
