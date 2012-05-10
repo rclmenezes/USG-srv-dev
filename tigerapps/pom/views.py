@@ -295,7 +295,7 @@ def filter_laundry(request, bldg_code=None):
     #TODO: could add filtering for just breakfast, etc based on request.GET here
     #after the scrape but before the return
     mapping = cache.get('laundry')
-    if mapping == None:
+    if not mapping:
         mapping = laundry.scrape_all()
         try:
             cache.set('laundry', mapping, 1000)
@@ -304,7 +304,8 @@ def filter_laundry(request, bldg_code=None):
     if bldg_code:
         return mapping[bldg_code]
     
-    if machine_list == None: 
+    machine_list = cache.get('laundry_list')
+    if not machine_list: 
         machine_list = [x for x in v for k,v in mapping.items()]
         machine_list = sorted(machine_list, key=lambda x: x[0])
         try: 
