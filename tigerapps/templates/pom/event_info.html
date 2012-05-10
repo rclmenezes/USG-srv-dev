@@ -23,13 +23,13 @@
 		</div>
 
 		{%if events|length > 3%}
-		<div class="info-event-description">
-			{{event.short_desc}}{%if event.long_desc%}<span class="jexpand-dots">...</span><span class="jexpand-long" style="display:none;">{{event.long_desc}}</span>{%endif%}
-		</div>
+			<div class="info-event-description">
+				{{event.short_desc}}{%if event.long_desc%}<span class="info-event-dots">...</span><span class="info-event-long" style="display:inline;">{{event.long_desc}}</span>{%endif%}
+			</div>
 		{%else%}
-		<div class="info-event-description">
-			{{event.long_desc}}
-		</div>
+			<div class="info-event-description">
+				{{event.short_desc}}{{event.long_desc}}
+			</div>
 		{%endif%}
 			
 		<!-- APPLE SUCKS.  We do not provide support for iCal
@@ -40,8 +40,9 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+	{%if events|length > 3%}$('.info-event-long').hide();{%endif%}
 	$('.info-event-entry').mouseover(function(ev){eventEntryMouseover(this);});
 	$('.info-event-entry').mouseout(function(ev){eventEntryMouseout(this);});
-	{%if events|length > 3%}jExpand();{%endif%}
+	$('.info-event-entry').click(function(ev){eventEntryClick(this);});
 });
 </script>
