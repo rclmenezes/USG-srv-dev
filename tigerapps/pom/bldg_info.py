@@ -64,7 +64,7 @@ BLDG_INFO = {
     'GREEN': ('Green Hall',(),True),
     'GUYOT': ('Guyot Hall',('Department of Ecology and Evolutionary Biology', 'Department of Geosciences', 'Princeton Environmental Institute (PEI)', 'Schultz Laboratory', 'Moffett Laboratory',),True),
     'HAMIL': ('Hamilton Hall',(),True),
-    'HARGH': ('Whitman College Hargadon Hall',(),True),
+    'HARGH': ('Whitman College',('Hargadon Hall',),True),
     'HENHO': ('Henry House',(),True),
     'HOLDE': ('Holder Hall',(),True),
     'HOYTL': ('Hoyt Chemical Laboratory',(),True),
