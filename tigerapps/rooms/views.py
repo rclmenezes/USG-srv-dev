@@ -433,6 +433,6 @@ def notify(user, subject, message):
     if user.do_email:
         send_mail(subject, message, 'rooms@tigerapps.org',
                       ["%s@princeton.edu" % user.netid], fail_silently=False)
-    if user.do_text:
+    if user.do_text and user.confirmed:
         send_mail(subject, message, 'rooms@tigerapps.org',
                       ["%s@%s" % (user.phone, user.carrier.address)], fail_silently=False)

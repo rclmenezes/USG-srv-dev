@@ -25,6 +25,7 @@ function mapInit() {
 	jmap.info = document.getElementById('jmap-info');
 	jmap.infoTop = document.getElementById('info-top');
 	jmap.jtl = document.getElementById('info-jtl');
+	jmap.jtlId = 'info-jtl';
 
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -381,9 +382,7 @@ function displayLocationBldgs() {
 /* We also need a way to color just 1 building (the one the user searched for) */
 function displayLocationBldg(bldgId) {
 	displayLocationBldgs();
-	setupEventBldg(jmap.loadedBldgs[bldgId]);
-	alert(bldgId);
-	alert(jmap.loadedBldgs[bldgId]);
+	setupEventBldg(jmap.loadedBldgs[bldgId].domEle);
 }
 
 function showMapLoading() {
@@ -461,7 +460,7 @@ function getFilterParams() {
 	var get_params = {type: jevent.filterType};
 	if (jevent.filterType == 0) {
 		//get dates from JTL if searching events
-		$.extend(get_params, getJTLParamsAJAX());
+		$.extend(get_params, getEventsParamsAJAX());
 	}
 	return get_params;
 }
@@ -521,13 +520,68 @@ function hideInfoEvent() {
 
 
 
+/***************************************************************************/
+/***************************************************************************/
+/***************************************************************************/
 
 /***************************************/
 /* Predefined filters                  */ 
 /***************************************/
 function setupActualFilters() {
-	setupLocationFilter();
+	setupEventFilters();
+	jTimeline(jmap.jtlId, getJTLParams());
+	setupLocationSearch();
 }
+
+function setupEventFilters() {
+	//event search
+	$('#events-search-form').submit(function(event) {
+		event.preventDefault();
+		jTimeline(jmap.jtlId, getJTLParams());
+		handleFilterChange();
+	});
+	//other params
+	$('.jtl-params').change(function() {
+		jTimeline(jmap.jtlId, getJTLParams());
+		handleFilterChange();
+	});
+}
+
+/***************************************/
+/* Timeline input */ 
+/***************************************/
+
+/* Return dictionary of params in the input box for javascript */
+function getJTLParams() {
+	//var startDate = $('#jtl-startDate').datepicker("getDate");
+	var inDate = $('#jtl-startDate').val().split('/');
+	var startDate = new Date();
+	clearDateTime(startDate);
+	startDate.setFullYear(inDate[2]);
+	startDate.setMonth(inDate[0]-1);
+	startDate.setDate(inDate[1]);
+	var nDays = $('#jtl-nDays').val();
+	var startTime = $('#jtl-startTime').val().split(':');
+	var endTime = $('#jtl-endTime').val().split(':');
+	return {startDate:startDate, nDays:nDays, startTime:startTime, endTime:endTime};
+}
+/* Return dictionary of params in the input box for a GET request */
+function getEventsParamsAJAX() {
+	var p = getJTLParams();
+	a =  {
+		m0: p.startDate.getMonth()+1,
+		d0: p.startDate.getDate(),
+		y0: p.startDate.getFullYear(),
+		nDays: p.nDays,
+		h0: p.startTime[0]%24,
+		i0: p.startTime[1],
+		h1: p.endTime[0]%24,
+		i1: p.endTime[1],
+		search: $('#events-search').val()
+	}
+	return a;
+}
+
 
 
 /***************************************/
@@ -535,7 +589,7 @@ function setupActualFilters() {
 /***************************************/
 
 //load the bldgs.json file that holds all HTML-element data for the buildings
-function setupLocationFilter() {
+function setupLocationSearch() {
 	/* setup location search autocomplete */
 	$.ajax(jevent.urlBldgNames, {		
 		dataType: 'json',
@@ -556,11 +610,10 @@ function setupLocationFilter() {
 	
 	/* setup location search submit */
 	$('#location-search-form').submit(function(event) {
-		// prevent refresh
 		event.preventDefault();
-		// get submitted building's code, center map on it, and display it's events
-		bldgName = $('#location-search').val();
-		bldgCode = jevent.bldgNames[bldgName];
+		// get submitted building's code, center map on it, and display its events
+		var bldgName = $('#location-search').val();
+		var bldgCode = jevent.bldgNames[bldgName];
 		if (bldgCode != undefined) {
 			centerOnBldg(bldgCode);
 		}
