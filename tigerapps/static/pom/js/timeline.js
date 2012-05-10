@@ -203,7 +203,7 @@ jtlFn.indexToTime = function(ind) {
 }
 
 jtlFn.dateAbbrStr = function(d) {
-	return jtl.wkdays[d.getDay()] + ' ' + d.getMonth()+'/'+d.getDate()+'/'+d.getFullYear().toString().substring(2);
+	return jtl.wkdays[d.getDay()] + ' ' + d.getMonth()+'/'+d.getDate();//+'/'+d.getFullYear().toString().substring(2);
 }
 
 
