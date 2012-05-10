@@ -2,18 +2,92 @@
 /* jqueryui setup */
 /***************************************/
 
-jDisplay = {}
 function utilInit() {
+	jDisplay = {};
+	
 	$("input:submit").button();
 	$("#info-top-types").buttonset();
-
-	//nader's datepicker slider stuff
-	//
-	//end
 	
-	//for the timeline
+	//events inputs
+	$("#jtl-startDate").datepicker();
+	$("#jtl-startDate").datepicker('setDate', new Date());
+	setupJTLSlider();
+	
+	//timeline display/toggle
 	setupJTLDisplay();
 }
+
+
+/***************************************/
+/* Inputs display */ 
+/***************************************/
+
+function setupJTLSlider() {
+    oldLeft = -1;
+    oldRight = -1;
+    var sliderEle = $("#jtl-hours-slider");
+	
+    sliderEle.slider({
+        range: true,
+        min: 0,
+        max: 48,
+        values: [20, 40],
+        slide: function( event, ui ) {
+        	//sliderLeftTimeVal and sliderRightTimeVal will contain arrays where the zeroth 
+        	//element is the hour (0-23) and the first element is the minutes (0 or 30)
+        	var startTime = indexToTimeArr(ui.values[0]);
+    		var endTime = indexToTimeArr(ui.values[1]);
+            $("#jtl-slider-start").val(printTime(startTime));
+            $("#jtl-slider-end").val(printTime(endTime));
+        },
+        
+        stop: function (event, ui) {
+        	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
+            	var startTime = indexToTimeArr(ui.values[0]);
+        		var endTime = indexToTimeArr(ui.values[1]);
+                $("#jtl-startTime").val(printTimeMilit(startTime));
+                $("#jtl-endTime").val(printTimeMilit(endTime));
+            	oldLeft = ui.values[0];
+            	oldRight = ui.values[1];
+            	
+        		jTimeline(jmap.jtlId, getJTLParams());
+        		handleFilterChange();
+            }
+        }
+    });
+
+	var startTime = indexToTimeArr(sliderEle.slider( "values", 0 ));
+	var endTime = indexToTimeArr(sliderEle.slider( "values", 1 ));
+    $("#jtl-slider-start").val(printTime(startTime));
+    $("#jtl-slider-end").val(printTime(endTime));
+    $("#jtl-startTime").val(printTimeMilit(startTime));
+    $("#jtl-endTime").val(printTimeMilit(endTime));
+}
+
+function indexToTimeArr(sliderVal) {
+	return [Math.floor(sliderVal/2), (sliderVal%2)*30];
+}
+function printTimeMilit(timeArr) {
+	return timeArr[0] + ':' + timeArr[1];
+}
+function printTime(timeArr) {
+    var hours = timeArr[0];
+    hours %= 24
+    var am = true;
+    if (hours > 12) {
+       am = false;
+       hours -= 12;
+    } else if (hours == 12) {
+       am = false;
+    } else if (hours == 0) {
+       hours = 12;
+    }
+    zeroPad = ''
+    if (timeArr[1] == 0)
+    	zeroPad += "0"
+    return hours + ":" + timeArr[1] + zeroPad + ' ' + (am ? "AM" : "PM");
+}
+
 
 
 /***************************************/
