@@ -79,8 +79,9 @@ function onLoad()
 
 <div id="settings_container">
 
-<h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your settings here.</h1>
-
+<h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})!
+<br>Edit your settings here.</br>
+</h1>
 <form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform">
 <p>Phone #: <input type="text" name="phone" id="phone" value="{{user.phone}}"></input>
 

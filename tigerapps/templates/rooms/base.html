@@ -39,7 +39,11 @@
     <script type="text/javascript">
 	$(document).ready(function() 
         {
-        $(".various").fancybox();
+        $(".various").fancybox(
+        {
+        fitToView: true
+        }
+        );
         $(".fancyroom").fancybox(
         {
         maxWidth: 400,
@@ -47,7 +51,9 @@
         });
         $("#settings").fancybox(
         {
-        maxHeight: 293
+        fitToView: true,
+        maxHeight: 293,
+        maxWidth: 400
         });
 	});
 
