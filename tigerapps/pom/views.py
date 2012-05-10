@@ -31,17 +31,28 @@ def get_bldg_names_json(request):
 
 def get_cal_events_json(request):
     events_list = filter_cal_events(request)
+    try:
+        start_day = datetime.date(request.GET['y0'], request.GET['m0'], request.GET['d0'])
+        start_time = request.GET['h0'] + request.GET['i0']
+        end_time = request.GET['h1'] + request.GET['i1']
+    except:
+        raise Exception('missing get params')
+    
     events_dict = {}
     for event in events_list:
         e_dict = {}
+        time_id = '1'
         e_dict['startTime'] = event.event_date_time_start
         e_dict['endTime'] = event.event_date_time_end
         e_dict['bldg_code'] = event.event_location
-        events_dict[event.event_id] = e_dict
+        e_dict['eventId'] = event.event_id
+        events_dict[time_id] = e_dict
         
     dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) else None
     response_json = json.dumps(events_dict, default=dthandler)
     return HttpResponse(response_json, content_type="application/javascript")
+
+
 
 def bldgs_for_filter(request):
     '''
@@ -274,15 +285,20 @@ def events_for_all_bldgs(request):
 ####
 
 def filter_cal_events(request, bldg_code=None):
-    events = None
-    if 'm0' in request.GET:
-        events = cal_event_query.filter_by_date(events,
-            request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-            request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
-    if 'search' in request.GET:
-        events = cal_event_query.filter_by_search(events, request.GET['search'])
-    if bldg_code:
-        events = cal_event_query.filter_by_bldg(events, bldg_code)
+    events = []
+    try:
+        if bldg_code:
+            events = cal_event_query.filter_by_bldg(events, bldg_code)
+        if 'm0' in request.GET:
+            start_day = datetime.date(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
+            end_day = start_day + datetime.timedelta(int(request.GET['nDays']))
+            events = cal_event_query.filter_by_day_hour(events,
+                start_day.month, start_day.day, start_day.year, int(request.GET['h0']), int(request.GET['i0']),
+                end_day.month, end_day.day, end_day.year, int(request.GET['h1']), int(request.GET['i1']))
+        if 'search' in request.GET:
+            events = cal_event_query.filter_by_title_desc(events, request.GET['search'])
+    except Exception, e:
+        raise Exception('Bad GET request: '+ str(e))
     return events
      
 

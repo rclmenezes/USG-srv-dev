@@ -39,14 +39,20 @@ body
     margin: 0 auto;
 }
 
-#top_half
+#fp_nav
 {
-    height: 49.25%; width:100%;
-    position: relative;
-    transition: height .2s;
-    -moz-transition: height .2s; /* Firefox 4 */
-    -webkit-transition: height .2s; /* Safari and Chrome */
-    -o-transition: height .2s; /* Opera */
+    display: none;
+    position: absolute;
+    top: 4%;
+    left: 37px;
+    padding: 10px;
+    background: url('images/wash-white-30.png');
+
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    box-shadow: 0 0 5px #888;
+
+    border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;
 }
 
 #map_canvas
@@ -303,14 +309,14 @@ input
     position: absolute;
     left: 37px;
     right: 37px;
-    bottom: 0;
+    bottom: -4px;
     margin-bottom: 50%;
-    padding-top: 10px;
+    padding-top: 14px;
     background: url('images/wash-white-30.png');
     
-    -moz-box-shadow: 0 -2px 3px -1px #888;
-    -webkit-box-shadow: 0 -2px 3px -1px #888;
-    box-shadow: 0 -2px 3px -1px #888;
+    -moz-box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
+    -webkit-box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
+    box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
 }
 
 #roomListWrapperBigger
@@ -403,55 +409,73 @@ input
 
 }
 
-#fp_title
-{
-    padding: 3px;
-    position: absolute;
-    left: 150px;
-    top: 30px;
-}
-
 .fp_button
 {
-    padding: 3px;
-    position: absolute;
-    background-color: #CC6600;
-    color: #FFFFFF;
-    width: 80px;
-    border: 2px black solid;
+    height: 20px;
     cursor: pointer;
-    font-size: 10px;
-    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#fp_title
+{
+    display: inline;
 }
 
 #fp_back_button
 {
+    vertical-align: inherit;
     left: 30px;
     top: 30px;
+    width: auto;
+    height: auto;
+    font-size: 20px;
+    color: #f90;
 }
 
 #fp_zoomin_button
 {
-    left: 30px;
-    top: 60px;
+    width: 16px;
+    background: url('images/sprites/plusminus.png') 0 0;
+}
+
+#fp_zoomin_button:hover
+{
+    background-position: -34px 0;
 }
 
 #fp_zoomout_button
 {
-    left: 30px;
-    top: 80px;
+    width: 18px;
+    background: url('images/sprites/plusminus.png') -17px 0;
+    margin-right: 13px;
+}
+
+#fp_zoomout_button:hover
+{
+    background-position: -51px 0;
 }
 
 #fp_floorup_button
 {
-    left: 30px;
-    top: 110px;
+    width: 16px;
+    background: url('images/sprites/plusminus.png') 0 0;
+}
+
+#fp_floorup_button:hover
+{
+    background-position: -34px 0;
 }
 
 #fp_floordown_button
 {
-    left: 30px;
-    top: 130px;
+    width: 18px;
+    background: url('images/sprites/plusminus.png') -17px 0;
+}
+
+#fp_floordown_button:hover
+{
+    background-position: -51px 0;
 }
 
 /* Settings page styles */
@@ -460,7 +484,7 @@ input
     background-color: #D6D6D6;
     /* margin: 75px 150px 75px 150px;*/
     margin: 0px;
-    padding: 75px;
+    padding: 50px;
 }
 
 #settings_container p
@@ -505,13 +529,6 @@ input
      width: 50%;
 }
 
-
-#room_view
-{
-    
-    padding: 20px;
-}
-
 #room_view_wrapper
 {
     width: 100%;
@@ -531,5 +548,55 @@ a:hover
 .various
 {
     display: block;
+    /*text-decoration: none;*/
+}
+
+.fancyroom
+{
+    display: block;
     text-decoration: none;
+}
+
+#room_view
+{
+    text-size: 13px;
+}
+#room_view_head
+{
+    text-align: center;
+    padding: 10px;
+}
+
+#room_view_avail
+{
+    text-align: center;
+    text-size: 14px;
+    color: #00ce00; 
+}
+
+#room_view_unavail
+{
+    text-align: center;
+    text-size: 14px;
+    color: #e30000;
+}
+#room_view_head2
+{
+    text-align: center;
+    font-size: 14px;
+}
+
+#room_view_table tbody tr td
+{
+    /*border-collapse: collapse;
+    border: 3px solid black;*/
+    font-size: 14px;
+    text-align: center;
+}
+
+#room_view_table
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
 }

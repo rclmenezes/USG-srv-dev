@@ -1,36 +1,47 @@
-{% block roomview %}
-<div id="room_view_wrapper">
-<div id="room_view">
-    <h1>{{room.number}} {{ room.building }}
-    <div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
-    <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
-    </h1>
+<html>
+<head>
+<link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+<link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+</head>
+<body id="room_view">
+    <h1 id="room_view_head">{{ room.building }}, Room {{room.number}}: {{ room.numrooms}}-room {{ occlong }}</h1>
+    {% if room.avail %}
+    <div id="room_view_avail">Available</div>
+    {% else %}
+    <div id="room_view_unavail">Unavailable</div>
+    {% endif %}
+    <!--div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
+    <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div-->
+    <table id="room_view_table">
+      <tbody>
+        <tr>
+          <td>Floor</td>
+          <td>Square Feet</td>
+          <td>Bathroom</td>
+          <td>Gender</td>
+        </tr>
+        <tr>
+          <td>{{ room.floor }}</td>
+          <td>{{ room.sqft }}</td>
+          <td>{{ room.get_bathroom_display }}</td> 
+          <td>{{ room.get_gender_display }}</td>
+        </tr>
+        <tr>
+          <td>Substance Free?</td>
+          <td>ADA Compliant?</td>
+          <td>Bi-level?</td>
+          <td>Connected Room?</td>
+        </tr>
+        <tr>
+          <td>{% if room.subfree %}Yes{% else %}No{% endif %}</td>
+          <td>{% if room.ada %}Yes{% else %}No{% endif %}</td>
+          <td>{% if room.bi %}Yes{% else %}No{% endif %}</td> 
+          <td>{% if room.con %}Yes{% else %}No{% endif %}</td>
+        </tr>
+      </tbody>
+    </table>
     <ul>
-    <li>Floor: {{ room.floor }}</li>
-    <li>Square Feet: {{ room.sqft }}</li>
-    <li>Occupants: {{ room.occ }}</li>
-    <li>Subfree: {{ room.subfree }}</li>
-    <li>Floor: {{ room.floor }}</li>
-    <li>Room Count: {{ room.numrooms }}</li>
-    <li>Gender: {{ room.get_gender_display }}</li>
-    <li>Available?
-    {% if room.avail %}Yes{% else %}No{% endif %}
-    </li>
-    <li>ADA Compliant? 
-      {% if room.ada %}Yes{% else %}No{% endif %}
-    </li>
-    <li>Bi-Level Room? 
-      {% if room.bi %}Yes{% else %}No{% endif %}
-    </li>
-    <li>Connected Room? 
-    {% if room.con %}Yes{% else %}No{% endif %}
-    </li>
-    <li>Bathroom: 
-      {{ room.get_bathroom_display }}
-    </li>
     <li><a href="../review/{{ room.id }}">Review</a></li>
     </ul>
-</div>
-</div>
-
-{% endblock roomview %}
+</body>
+</html>
