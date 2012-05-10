@@ -1,0 +1,11 @@
+{% if info == None %}
+    There is no info to display.
+{% else %}
+    {% for bldg in info %}
+        <br> {{bldg.name}} </br>
+        {% if bldg.image_url != None %}
+            <img src={{bldg.image_url}}></img>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
