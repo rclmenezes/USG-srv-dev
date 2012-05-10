@@ -5,7 +5,7 @@
     <th id="roomTab">Room</th>
     <th id="buildingTab">Building</th>	
     <th id="sqrtTab">Sqft</th>
-    <th id="occTab">Occupancy</th>
+    <th id="occTab">Room Type</th>
     <th id="floorTab">Floor</th>
     <th id="numRoomsTab">Num Rooms</th>
     <th id="genderTab">Gender</th>    
@@ -19,13 +19,31 @@
         <div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
         <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div>
       </td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.number }}</td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.building }}</a></td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.sqft }}</td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.occ }}</td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.floor }}</td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.numrooms }}</td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.number }}</a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.building }}</a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.sqft }}</a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
+          {% if room.occ == 1 %}
+          Single
+          {% else %}
+          {% if room.occ == 2 %}
+          Double
+          {% else %}
+          {% if room.occ == 3 %}
+          Triple
+          {% else %}
+          {% if room.occ == 4 %}
+          Quad
+          {% else %}
+          Suite ({{ room.occ }})
+          {% endif %}
+          {% endif %}
+          {% endif %}
+          {% endif %}
+      </a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.floor }}</a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.numrooms }}</a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
         {{ room.get_gender_display }}
           {% comment %}
           {% ifequal room.gender "E" %}
@@ -42,14 +60,14 @@
             {% endifequal %}
         {% endifequal %}
         {% endcomment %}
-      </td>
-      <td><a class="various" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
+      </a></td>
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
         {% if room.avail %}
         Yes
         {% else %}
         No
         {% endif %}
-      </td>
+     </a></td>
     </tr>
     {% endfor %}
     </tbody>
