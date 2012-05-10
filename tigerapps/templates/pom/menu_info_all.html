@@ -1,34 +1,21 @@
-<h3 id="info-bldg-name">{{bldg_name}}</h3>
+{% load hashing_filter %}
 
-{% if 'Breakfast' in menu.meals %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">Breakfast</span>
-		{% for entree in menu.meals['Breakfast'] %}
-		<div class="info-event-subtext">
-			{{entree.name}}
-		</div>
-		{% endfor %}
-	</div>
-{% endif %}
-	
-{% if 'Lunch' in menu.meals %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">Lunch</span>
-		{% for entree in menu.lunch.entrees %}
-		<div class="info-event-subtext">
-			{{entree.name}}
-		</div>
-		{% endfor %}
-	</div>
-{% endif %}
+<h3 id="info-bldg-name">All Menus</h3>
 
-{% if 'Dinner' in menu.meals %}
+{% for tup in menu_list %}
+
+{% with bldg_info|hash:tup.0 as hallname%}
+<h2>{{ hallname.0 }}</h2>
+{%endwith%}
+
+{%for meal in tup.1.meals%}
 	<div class="info-event-entry">
-		<span style="font-weight:bold">Dinner</span>
-		{% for entree in menu.dinner.entrees %}
-		<div class="info-event-subtext">
-			{{entree.name}}
-		</div>
-		{% endfor %}
+		<span style="font-weight:bold">{{meal.0}}</span>
+		{% for entree in meal.1.entrees%}
+			<div class="info-event-subtext">
+				{{entree.attributes.name}}
+			</div>
+		{% endfor%}
 	</div>
-{% endif %}
+{%endfor%}
+{% endfor %}

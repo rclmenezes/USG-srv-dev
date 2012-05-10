@@ -60,7 +60,7 @@ function mapInit() {
 	jevent.urlBldgsForFilter = '/bldgs/filter/';
 	jevent.urlEventsForBldg = '/events/bldg/';
 	jevent.urlEventsForAll = '/events/all/';
-	jevent.urlBldgNames = '/bldgs/name/';
+	jevent.urlBldgNames = '/json/bldgs/names/';
 	
 	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
 		'<td style="padding:1px 4px 0;">Loading...</td>' +
@@ -456,6 +456,8 @@ function handleFilterChange() {
 	AJAXbldgsForFilter();
 	if (jevent.bldgDisplayed != null)
 		AJAXeventsForBldg(jevent.bldgDisplayed);
+	else
+        AJAXeventsForAllBldgs();
 }
 
 /* These return the GET params that should be sent in every AJAX call */
