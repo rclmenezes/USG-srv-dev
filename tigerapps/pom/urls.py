@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # Map-related
     url(r'^/?$', direct_to_template,
         {'template': 'pom/index.html'}),
+    url(r'^events/json$', 'pom.views.respond_to_cal_events')
     url(r'^test/?$', direct_to_template,
         {'template': 'pom/test.html'}),
     

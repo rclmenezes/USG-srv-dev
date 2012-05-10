@@ -7,6 +7,7 @@ this in pom/ and not cal/.
 from cal.models import Event
 from pom.bldg_info import *
 import datetime, time
+from django.db.models import Q
 
     
 def all():
@@ -59,3 +60,13 @@ def filter_res_by_hour(res, leftMonth, leftDay, leftYear, leftHour, rightMonth, 
                 else:
                         retlist.append(x)
     return retlist
+
+def bldg_title_descr_filtered(bldg_code, query):
+    return Event.objects.filter(event_location=bldg_code,
+                                Q(event_cluster__cluster_title__icontains=query) |
+                                Q(event_clusert__cluster_description__icontains=query))
+    
+def title_descr_filtered(query):
+    return Event.objects.filter(Q(event_cluster__cluster_title__icontains=query) |
+                                Q(event_clusert__cluster_description__icontains=query))
+    
