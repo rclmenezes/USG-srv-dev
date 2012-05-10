@@ -8,6 +8,7 @@ from cal.models import Event
 from pom.bldg_info import *
 import datetime, time
 from django.db.models import Q
+from utils.scrape import log
 
     
 def all():

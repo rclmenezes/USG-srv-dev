@@ -76,8 +76,25 @@ def scrape_all():
             laundry.append((x[0], room_obj.washers()[0], room_obj.washers()[1], room_obj.dryers()[0], room_obj.dryers()[1]))
         laundry_info[id] = tuple(laundry)
     '''
+    
+    dict = {}
+    for building,rooms in laundry_info.items():
+        rooms_list = list(rooms)
+        for i in  range(0, len(rooms)):
+            room = list(rooms_list[i])
+            if (room[1] == 0): #if no washers left
+                room.append('#FF0000') #red
+            else:
+                room.append('#00AA00') #green
+            if (room[3] == 0): #if no dryers left
+                room.append('#FF0000') #red
+            else:
+                room.append('#00AA00') #green
+            rooms_list[i] = tuple(room)
+        rooms_list = tuple(rooms_list)
+        dict[building] = rooms_list
         
-    return laundry_info
+    return dict
 
 def print_laundry_info(laundry_info):
     '''print the results as an example'''
