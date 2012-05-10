@@ -24,18 +24,17 @@ jtl.minLabelHt = 16; //time labels on left of timeline
 /***************************************/
 
 /* Display a JTL object in id */
-function jTimeline(id, params) {
+function jTimeline(id, params, marks) {
 	//static references
 	jtl.tl = document.getElementById(id);
 	jtl.$tl = $(jtl.tl);
 	
 	//data from django
-	jtl.events = {};
+	jtl.marks = {};
 
 	jtl.tl.class = 'jtl-tl';
 	jtlFn.buildTimeline(params);
 }
-
 
 
 
@@ -46,7 +45,6 @@ function jTimeline(id, params) {
 
 /* Update globals with params in filter input boxes */
 jtlFn.loadParams = function(params) {
-	/* NADER: Call this on slide in your hours slider, and return false if this is violated */
 	/* Allowed min/max range of the # of half-hours the timeline can handle. Depends on nDays */
 	/*jtlFn.minHoursRange = function() {
 		return Math.floor(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
@@ -54,7 +52,6 @@ jtlFn.loadParams = function(params) {
 	jtlFn.maxHoursRange = function() {
 		return Math.ceil(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
 	}*/
-	
 	jtl.startDate = params.startDate;
 	jtl.nDays = params.nDays;
 	jtl.startIndex = jtlFn.timeToIndex(params.startTime[0], params.startTime[1]);
@@ -64,7 +61,6 @@ jtlFn.loadParams = function(params) {
 		return false;
 	return true;*/
 }
-
 
 
 /***************************************/

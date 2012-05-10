@@ -6,64 +6,14 @@ jDisplay = {}
 function utilInit() {
 	$("input:submit").button();
 	$("#info-top-types").buttonset();
-	
-	
-	//for the timeline
-	jTimeline('info-jtl', getJTLParams());
-	setupJTLInput();
-	setupJTLDisplay();
-	
-}
 
-
-
-
-/***************************************/
-/* Timeline input */ 
-/***************************************/
-
-function setupJTLInput() {
 	//nader's datepicker slider stuff
 	//
 	//end
 	
-	$('.jtl-params').change(function() {
-		jTimeline('info-jtl', getJTLParams());
-		handleFilterChange();
-	});
+	//for the timeline
+	setupJTLDisplay();
 }
-
-
-/* Return dictionary of params in the input box for javascript */
-function getJTLParams() {
-	//var startDate = $('#jtl-startDate').datepicker("getDate");
-	var inDate = $('#jtl-startDate').val().split('/');
-	var startDate = new Date();
-	clearDateTime(startDate);
-	startDate.setFullYear(inDate[2]);
-	startDate.setMonth(inDate[0]-1);
-	startDate.setDate(inDate[1]);
-	var nDays = $('#jtl-nDays').val();
-	var startTime = $('#jtl-startTime').val().split(':');
-	var endTime = $('#jtl-endTime').val().split(':');
-	return {startDate:startDate, nDays:nDays, startTime:startTime, endTime:endTime};
-}
-/* Return dictionary of params in the input box for a GET request */
-function getJTLParamsAJAX() {
-	var p = getJTLParams();
-	a =  {
-		m0: p.startDate.getMonth()+1,
-		d0: p.startDate.getDate(),
-		y0: p.startDate.getFullYear(),
-		nDays: p.nDays,
-		h0: p.startTime[0]%24,
-		i0: p.startTime[1],
-		h1: p.endTime[0]%24,
-		i1: p.endTime[1],
-	}
-	return a;
-}
-
 
 
 /***************************************/
