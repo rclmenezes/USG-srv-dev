@@ -1,20 +1,18 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
-<link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+
+  <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
+  <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+  <script type="text/javascript" src="jquery.js"></script>
 </head>
 
 <body>      
-
-    <a href="/get_room/{{ roomid }}">Back</a>
-    <br>
-    <br>
-    <br>
+    <a href="/get_room/{{ roomid }}"><span class="fp_button" id="fp_back_button">&#8592;</span></a>
     <form action = "" method="POST">
-    <input name = "review" type="submit" value="Review This Room">
-    <input name = "display" type="submit" value="Display Reviews">
-    </form>
+    <input id="review_button" name = "review" type="submit" value="Review This Room">
+    <input id="review_button" name = "display" type="submit" value="Display Reviews">
+</form>
     
     {% if form %}
         <form action = "" method="POST">
@@ -35,6 +33,9 @@
         
     {% else %}
         {% if display %}
+        {% if reviews.count == 0 %}
+        <p>Sorry, there are no reviews for this room.</p>
+        {% endif %}
             <table>
                 {% for r in reviews %}
                     <tr>
@@ -44,8 +45,8 @@
                     </tr>
                     <tr>
                         <td> {{ r.content }}
-                        <hr>
                     </tr>
+                    <hr>
                 {% endfor %}
             </table>
         {% else %}
@@ -63,8 +64,6 @@
     
     {% if submitted %}
         Submitted
-    {% else %}
-        Not submitted
     {% endif %}
     
 </body>
