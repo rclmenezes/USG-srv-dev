@@ -9,7 +9,6 @@ urlpatterns = patterns('',
     # Map-related
     url(r'^/?$', direct_to_template,
         {'template': 'pom/index.html'}),
-    url(r'^events/json$', 'pom.views.respond_to_cal_events')
     url(r'^test/?$', direct_to_template,
         {'template': 'pom/test.html'}),
     
@@ -17,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^events/bldg/(?P<bldg_code>\S+)/?$', 'pom.views.events_for_bldg'),
     url(r'^events/all/?$', 'pom.views.events_for_all_bldgs'),
     url(r'^bldgs/name/?$', 'pom.views.get_bldg_names_json'),
+    url(r'^events/json$', 'pom.views.get_cal_events_json')
 
     url(r'^pmap/?$', direct_to_template,
         {'template': 'pom/pmap.html'}),

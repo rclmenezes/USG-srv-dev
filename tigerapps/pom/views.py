@@ -14,7 +14,22 @@ import datetime, simplejson
 from django.core.cache import cache
 from django.core.mail import send_mail
 
-def respond_to_cal_events(request):
+
+
+def index(request, offset):
+    # not used due to direct_to_template in urls.py
+    return render_to_response('pom/index.html', {}, RequestContext(context))
+
+
+def get_bldg_names_json(request):
+    '''
+    make dictionary of name, code pairs for use in location-based filtering
+    '''
+    bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
+    response_json = simplejson.dumps(bldg_names)
+    return HttpResponse(response_json, content_type="application/javascript")
+
+def get_cal_events_json(request):
     events_list = filter_cal_events(request)
     events_dict = {}
     for event in events_list:
@@ -28,9 +43,6 @@ def respond_to_cal_events(request):
     response_json = json.dumps(events_dict, default=dthandler)
     return HttpResponse(response_json, content_type="application/javascript")
 
-def index(request, offset):
-    # not used due to direct_to_template in urls.py
-    return render_to_response('pom/index.html', {}, RequestContext(context))
 
 
 def bldgs_for_filter(request):
@@ -230,15 +242,6 @@ def events_for_all_bldgs(request):
         raise Exception("Bad filter type in GET request: %s" % filter_type)
     
         
-    return HttpResponse(response_json, content_type="application/javascript")
-
-
-def get_bldg_names_json(request):
-    '''
-    make dictionary of name, code pairs for use in location-based filtering
-    '''
-    bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
-    response_json = simplejson.dumps(bldg_names)
     return HttpResponse(response_json, content_type="application/javascript")
 
 
