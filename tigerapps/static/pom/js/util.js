@@ -40,7 +40,7 @@ function getJTLParams() {
 	var startDate = new Date();
 	clearDateTime(startDate);
 	startDate.setFullYear(inDate[2]);
-	startDate.setMonth(inDate[0]);
+	startDate.setMonth(inDate[0]-1);
 	startDate.setDate(inDate[1]);
 	var nDays = $('#jtl-nDays').val();
 	var startTime = $('#jtl-startTime').val().split(':');
@@ -50,7 +50,7 @@ function getJTLParams() {
 /* Return dictionary of params in the input box for a GET request */
 function getJTLParamsAJAX() {
 	var p = getJTLParams();
-	x= {
+	a =  {
 		m0: p.startDate.getMonth()+1,
 		d0: p.startDate.getDate(),
 		y0: p.startDate.getFullYear(),
@@ -60,7 +60,7 @@ function getJTLParamsAJAX() {
 		h1: p.endTime[0]%24,
 		i1: p.endTime[1],
 	}
-	return x;
+	return a;
 }
 
 
@@ -113,11 +113,9 @@ function hideTimeline() {
 /***************************************/
 
 function jExpand() {
-	$('.jexpand-main').mouseover(function() {
-		$(this).find('.jexpand-longdesc').show(100);
-	});
-	$('.jexpand-main').mouseout(function() {
-		$(this).find('.jexpand-longdesc').hide(100);
+	$('.jexpand-main').click(function() {
+		$(this).find('.jexpand-short').toggle();
+		$(this).find('.jexpand-long').toggle();
 	});
 }
 
