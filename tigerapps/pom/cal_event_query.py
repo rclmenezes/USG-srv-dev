@@ -40,7 +40,7 @@ def filter_by_date(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rig
         return Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
 
 
-def filter_by_hour(qset,
+def filter_by_day_hour(qset,
                    leftMonth, leftDay, leftYear, leftHour, leftMinute,
                    rightMonth, rightDay, rightYear, rightHour, rightMinute):
     '''

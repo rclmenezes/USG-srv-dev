@@ -1,28 +1,49 @@
+/*jTimeline - timeline object.
+ * 
+ * 
+ * 
+ */
+
+
 jtl = {};
-function jTimeline(idTl, idInput, urlEvents) {
-	jtl.urlEventsJSON = 'json/events/';
-	//$.fn.getJTLParams = getJTLParams;
-	
+jtlFn = {};
+
+//static constants
+jtl.wkdays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
+jtl.minEndPadding = 12;
+jtl.minDayPadding = 6;
+jtl.minIntervalHt = 3; //including border
+jtl.maxIntervalHt = 100; //including border
+jtl.dayBorderHt = 3;  //between days
+jtl.minTickHt = 8;  //including border
+jtl.minLabelHt = 16; //time labels on left of timeline
+
+
+/***************************************/
+/* Intended for public */
+/***************************************/
+
+/* Display a JTL object in id */
+function jTimeline(id, params) {
 	//static references
-	jtl.tl = document.getElementById(idTl);
-	jtl.$tl = $('#'+idTl);
-	jtl.input = document.getElementById(idInput);
-	jtl.tl.class = 'jtl-tl';
-	
-	//static constants
-	jtl.wkdays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
-	jtl.minEndPadding = 12;
-	jtl.minDayPadding = 6;
-	jtl.minIntervalHt = 3; //including border
-	jtl.maxIntervalHt = 100; //including border
-	jtl.dayBorderHt = 3;  //between days
-	jtl.minTickHt = 8;  //including border
-	jtl.minLabelHt = 16; //time labels on left of timeline
+	jtl.tl = document.getElementById(id);
+	jtl.$tl = $(jtl.tl);
 	
 	//data from django
-	jtl.eventSummary = {};
-	
-	setupJTLInputs();
+	jtl.events = {};
+
+	jtl.tl.class = 'jtl-tl';
+	jtlFn.buildTimeline(params);
+}
+
+
+/* NADER: Call this on slide in your hours slider, and return false if this is violated */
+/* Allowed min/max range of the # of half-hours the timeline can handle. Depends on nDays */
+jtlFn.minHoursRange = function() {
+	return Math.ceil(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
+}
+jtlFn.maxHoursRange = function() {
+	return Math.floor(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
 }
 
 
@@ -30,45 +51,18 @@ function jTimeline(idTl, idInput, urlEvents) {
 /* Input builders */
 /***************************************/
 
-/* called once at init, to setup input filters for timeline */
-function setupJTLInputs() {
-	$(jtl.input).html('<input type="text" id="jtl-startDay" value="05/07/2012"/>'+
-					  '<input type="text" id="jtl-nDays" value="2"/><br/>'+
-					  '<input type="text" id="jtl-startTime" value="0:30"/>'+
-					  '<input type="text" id="jtl-endTime" value="24:00"/>');
-	
-	//TODO: make the elements above datepickers, etc
-	
-	loadJTLTimeline();
-}
-
-/* NADER: Min/max range the slider of hours can go over. Basically call this on slide, and return false if this is violated */
-function minRangeOfTimes() {
-	return Math.ceil(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
-}
-function maxRangeOfTimes() {
-	return Math.floor(((jtl.tl.offsetHt - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
-}
-
 /* Update globals with params in filter input boxes */
-function loadJTLInputs() {
-	var startDate = $('#jtl-startDay').val().split('/');
-	jtl.startDate = new Date();
-	clearDateTime(jtl.startDate);
-	jtl.startDate.setFullYear(startDate[2]);
-	jtl.startDate.setMonth(startDate[0]);
-	jtl.startDate.setDate(startDate[1]);
-	clearDateTime(jtl.startDate);
-	jtl.nDays = $('#jtl-nDays').val();
-	var startTime = $('#jtl-startTime').val().split(':');
-	jtl.startIndex = timeToIndex(startTime[0], startTime[1]);
-	var endTime = $('#jtl-endTime').val().split(':');
-	jtl.endIndex = timeToIndex(endTime[0], endTime[1]);
+jtlFn.loadParams = function(params) {
+	jtl.startDate = params.startDate;
+	jtl.nDays = params.nDays;
+	jtl.startIndex = jtlFn.timeToIndex(params.startTime[0], params.startTime[1]);
+	jtl.endIndex = jtlFn.timeToIndex(params.endTime[0], params.endTime[1]);
+	jtl.nIntervals = jtl.endIndex - jtl.startIndex;
+	if (jtl.nIntervals > jtlFn.maxHoursRange() || jtl.nIntervals < jtlFn.minHoursRange())
+		return false;
+	return true;
 }
 
-function getJTLInputs() {
-	return 
-}
 
 
 /***************************************/
@@ -76,13 +70,11 @@ function getJTLInputs() {
 /***************************************/
 
 /* Load the timeline from scratch, used at init */
-function loadJTLTimeline() {
-	loadJTLInputs();
-	loadJTLEvents();
-	clearJTLTimeline();
+jtlFn.buildTimeline = function(params) {
+	if (!jtlFn.loadParams(params)) {alert('bad params: range of hours too small');return;}
+	jtlFn.clearTimeline();
 	
 	//compute the sizes of each day, each tick, given the parameters + timeline size
-	jtl.nIntervals = jtl.endIndex - jtl.startIndex;
 	var maxDayHt = Math.floor((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays) - jtl.dayBorderHt;
 	var minDayPadding = (jtl.nIntervals==48?0:jtl.minDayPadding);
 	var maxTicksHt = maxDayHt - 2*minDayPadding;
@@ -146,10 +138,9 @@ function loadJTLTimeline() {
 			}
 		}
 	}
-	addJTLEvents();
 }
 
-function clearJTLTimeline() {
+jtlFn.clearTimeline = function() {
 	var c = jtl.tl;
 	if (c.hasChildNodes())
 		while (c.childNodes.length >= 1)
@@ -161,28 +152,13 @@ function clearJTLTimeline() {
 /* Event adders */
 /***************************************/
 
-function loadJTLEvents() {
-	/*$.ajax(jevent.urlEventsJSON, {
-		data: (),
-		dataType: 'json',
-		success: displayInfoEvent,
-		error: function(jqXHR, textStatus, errorThrown) {
-			hideInfoEvent();
-			handleAjaxError(jqXHR, textStatus, errorThrown);
-		}
-	});*/
-	
-	//events: {id: {startTime: Date-obj, bldgCode: str}}
-	//need clearDateTime() on startTime
-}
-
-function addJTLEvents() {
-	for (id in jtl.events) {
+jtlFn.addJTLEvents = function() {
+	for (var id in jtl.events) {
 		var startTime = jtl.events[id].startTime;
 		var startDayIndex = dateToDayIndex(date);
 		if (startDayIndex < 0 || startDayIndex > jtl.nDays)
 			continue;
-		var startIndex = timeToIndex(startTime.getHour(), startTime.getMinute());
+		var startIndex = jtlFn.timeToIndex(startTime.getHour(), startTime.getMinute());
 		if (startIndex < jtl.startIndex && startIndex > jtl.endIndex)
 			continue;
 		var id = indexToId(startDayIndex, startIndex);
@@ -200,10 +176,7 @@ function addJTLEvents() {
 //could account for non :00/:30 later
 /***************************************/
 
-function clearDateTime(d) {
-	d.setHours(0);d.setMinutes(0);d.setSeconds(0);d.setMilliseconds(0);
-}
-function timeToIndex(hour, min) {
+jtlFn.timeToIndex = function(hour, min) {
 	return hour*2 + Math.round(min/30);
 }
 function dateToDayIndex(date) {
