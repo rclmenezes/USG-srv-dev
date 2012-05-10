@@ -2,6 +2,8 @@
 <head>
 <link type="text/css" href="/static/rooms/reset.css" rel="Stylesheet" />
 <link type="text/css" href="/static/rooms/styles.css" rel="Stylesheet" />
+<script type="text/javascript" src="jquery.js"></script>
+
 </head>
 <body id="room_view">
     <h1 id="room_view_head">{{ room.building }}, Room {{room.number}}: {{ room.numrooms}}-room {{ occlong }}</h1>
@@ -10,34 +12,50 @@
     {% else %}
     <div id="room_view_unavail">Unavailable</div>
     {% endif %}
+    <!--ul>
+    	<li>{{ floorword }} Floor</li>
+        <li>{{ room.sqft }} square feet</li>
+      	<li>{{ room.get_bathroom_display }} Bathroom</li>
+        <li>{{ room.get_gender_display }} Gender</li>
+    </ul-->
     <!--div class="addRoom" id="addremove" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
     <div class="removeRoom" id="addremove" onclick="$.publish('queue/remove', {{ room.id }})"></div-->
     <table id="room_view_table">
       <tbody>
-        <tr>
-          <td>Floor</td>
-          <td>Square Feet</td>
-          <td>Bathroom</td>
-          <td>Gender</td>
+        <tr id="room_view_tablehead">
+          <td>{{ floorword }} Floor</td>
+          <td>{% if room.subfree %}{% else %}Not{% endif %} Substance Free</td>
         </tr>
         <tr>
+          <td>{{ room.sqft }} square feet</td>
+          <td>{% if room.ada %}{% else %}Not{% endif %} ADA Compliant</td>
+        </tr>
+        <tr>
+          <td>{{ room.get_bathroom_display }} Bathroom</td>
+          <td>{% if room.bi %}{% else %}Not{% endif %} Bi-level</td>
+        </tr>
+        <tr>
+          <td>{{ room.get_gender_display }} Gender</td>
+           <td>{% if room.con %}{% else %}No{% endif %} Connected Room</td>
+        </tr>
+        <!--tr id="room_view_tablebody">
           <td>{{ room.floor }}</td>
           <td>{{ room.sqft }}</td>
           <td>{{ room.get_bathroom_display }}</td> 
           <td>{{ room.get_gender_display }}</td>
-        </tr>
-        <tr>
-          <td>Substance Free?</td>
+        </tr-->
+        <!--tr id="room_view_tablehead">
+          
           <td>ADA Compliant?</td>
           <td>Bi-level?</td>
-          <td>Connected Room?</td>
+          <td></td>
         </tr>
         <tr>
-          <td>{% if room.subfree %}Yes{% else %}No{% endif %}</td>
-          <td>{% if room.ada %}Yes{% else %}No{% endif %}</td>
-          <td>{% if room.bi %}Yes{% else %}No{% endif %}</td> 
-          <td>{% if room.con %}Yes{% else %}No{% endif %}</td>
-        </tr>
+          <td></td>
+          <td></td>
+          <td></td> 
+         
+        </tr-->
       </tbody>
     </table>
     <ul>

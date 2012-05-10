@@ -151,7 +151,7 @@ body
 
 li
 {
-    font-size: 12px;
+    font-size: 13px;
     padding: 5px;
 }
 .queue_rooms
@@ -577,14 +577,14 @@ a:hover
 #room_view_avail
 {
     text-align: center;
-    text-size: 14px;
+    font-size: 14px;
     color: #00ce00; 
 }
 
 #room_view_unavail
 {
     text-align: center;
-    text-size: 14px;
+    font-size: 14px;
     color: #e30000;
 }
 #room_view_head2
@@ -597,13 +597,25 @@ a:hover
 {
     /*border-collapse: collapse;
     border: 3px solid black;*/
-    font-size: 14px;
-    text-align: center;
+    font-size: 13px; 
+    text-align: left;
 }
 
 #room_view_table
 {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#room_view_tablehead
+{
+	font-size: 13px;
+
+}
+
+#room_view_tablebody, #room_view_info ul
+{
+	font-size: 13px;
 }
