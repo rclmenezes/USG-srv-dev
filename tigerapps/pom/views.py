@@ -50,7 +50,10 @@ def get_cal_events_json(request):
         delta = e_start - start_date
         half_hrs_delta = int(round(delta.total_seconds()/1800))
         time_id = str(delta.days) + str(half_hrs_delta)
-        events_dict[time_id] = e_dict
+        if time_id in events_dict:
+            events_dict[time_id].append(e_dict)
+        else:
+            events_dict[time_id] = [e_dict]
         
     dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) else None
     response_json = json.dumps(events_dict, default=dthandler)
