@@ -30,14 +30,8 @@ function jTimeline(id, params) {
 	jtl.$tl = $(jtl.tl);
 	
 	
-	/* NADER: Call this on slide in your hours slider, and return false if this is violated */
-	/* Allowed min/max range of the # of half-hours the timeline can handle. Depends on nDays */
-	jtlFn.minHoursRange = function() {
-		return Math.floor(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
-	}
-	jtlFn.maxHoursRange = function() {
-		return Math.ceil(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
-	}
+	
+	
 	
 	//data from django
 	jtl.events = {};
@@ -56,6 +50,15 @@ function jTimeline(id, params) {
 
 /* Update globals with params in filter input boxes */
 jtlFn.loadParams = function(params) {
+	/* NADER: Call this on slide in your hours slider, and return false if this is violated */
+	/* Allowed min/max range of the # of half-hours the timeline can handle. Depends on nDays */
+	jtlFn.minHoursRange = function() {
+		return Math.floor(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.maxIntervalHt);
+	}
+	jtlFn.maxHoursRange = function() {
+		return Math.ceil(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
+	}
+	
 	jtl.startDate = params.startDate;
 	jtl.nDays = params.nDays;
 	jtl.startIndex = jtlFn.timeToIndex(params.startTime[0], params.startTime[1]);
