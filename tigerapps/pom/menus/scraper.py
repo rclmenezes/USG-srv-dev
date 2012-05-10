@@ -27,6 +27,7 @@ class Meal:
 class Entree:
     def __init__(self):
         self.attributes = {}
+        self.color = '#000000'
 
     def __str__(self):
         return str(self.attributes)
@@ -55,6 +56,15 @@ def scrape_single_menu(bldg_code):
             entree.attributes['name'] = str(entree_xml.next.contents[0])
             for c in entree_xml.contents[1:]:
                 entree.attributes[c.name] = str(c.contents[0])
+                if str(c.contents[0]) == 'y':
+                    if (c.name == 'vegan'):
+                        entree.color = '#0000FF' #blue
+                    elif (c.name == 'vegetarian'):
+                        entree.color = '#00CC00' #green
+                    elif (c.name == 'pork'):
+                        entree.color = '#8000FF' #purple
+                    elif (c.name == 'nuts'):
+                        entree.color = '#990000' #brownish red
             meal.entrees.append(entree)
         menu.meals[meal.name] = meal
 
