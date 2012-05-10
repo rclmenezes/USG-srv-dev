@@ -11,8 +11,17 @@ from django.core.mail import send_mail
 from django import forms
 import json
 import sys
-import time
 from queue import *
+import traceback
+
+REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
+NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
+
+def externalResponse(data):
+    response =  HttpResponse(data)
+    response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+    response['Access-Control-Allow-Credentials'] =  "true"
+    return response
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -26,7 +35,7 @@ def check_undergraduate(username):
         user.save()
         #Create queues for each draw
         for draw in Draw.objects.all():
-            queue = Queue(draw=draw)
+            queue = Queue.make(draw=draw, user=user)
             queue.save()
             user.queues.add(queue)
     if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
@@ -48,7 +57,9 @@ def index(request):
         if request.POST['form_type'] == 'settings':
             handle_settings_form(request, user)
     
-    return render_to_response('rooms/base_dataPanel.html', locals())
+    response = render_to_response('rooms/base_dataPanel.html', locals())
+    response['Access-Control-Allow-Origin'] =  '*'
+    return response
 
 
 @login_required
@@ -69,6 +80,7 @@ def mapdata():
         maplist.append({'name':building.name, 'draws':draws,
                         'lat':building.lat, 'lon':building.lon})
     mapstring = json.dumps(maplist)
+    mapstring = mapstring + ('; REAL_TIME_ADDR = "%s"' % REAL_TIME_ADDR)
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript
 
@@ -99,56 +111,10 @@ def create_queue(request, drawid):
     # Check if user already has queue for this draw
     if user.queues.filter(draw=draw):
         return HttpResponse("fail")
-    queue = Queue(draw=draw)
+    queue = Queue.make(draw=draw, user=user)
     queue.save()
     user.queues.add(queue)
     return HttpResponse("pass")
-    
-@login_required
-def update_queue(request, drawid):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return HttpResponseForbidden()
-    draw = Draw.objects.get(pk=drawid)
-    qlist = json.loads(request.POST['queue'])
-    # resp = ''
-    # for r in qlist:
-    #     resp += ' ' + r;
-    queue = user.queues.filter(draw=draw)[0]
-    if not queue:
-        return HttpResponse('no queue')
-    rooms = []
-    for roomid in qlist:
-        room = Room.objects.get(pk=roomid)
-        if (not room) or not draw in room.building.draw.all():
-            return HttpResponse('bad room/draw')
-        rooms.append(room)
-    # Clear out the old list
-    queue.queuetoroom_set.all().delete()
-    # Put in new relationships
-    for i in range(0, len(rooms)):
-        qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
-        qtr.save()
-    # Test output - list rooms
-    return HttpResponse(rooms)
-
-# Ajax for displaying this user's queue
-@login_required
-def get_queue(request, drawid):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return HttpResponseForbidden()
-    try:
-        queue = user.queues.get(draw__id=drawid)
-    except:
-        return HttpResponse('no queue')
-    queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
-    if not queueToRooms:
-        return HttpResponse('')
-    room_list = []
-    for qtr in queueToRooms:
-        room_list.append(qtr.room)
-    return render_to_response('rooms/queue.html', {'room_list':room_list})
 
 # Send a queue invite
 @login_required
@@ -176,8 +142,7 @@ def invite_queue(request):
         return manage_queues(request, 'You didn\'t select any draws. Try again!')
 
     for draw in invited_draws:
-        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
-                         timestamp=int(time.time()))
+        invite = QueueInvite(sender=user, receiver=receiver, draw=draw)
         invite.save();
 
     sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
@@ -228,7 +193,7 @@ def leave_queue(request):
     q1 = user.queues.get(draw=draw)
     if 1 == q1.user_set.count():
         return HttpResponse('')
-    q2 = Queue(draw=draw)
+    q2 = Queue.make(draw=draw, user=user)
     q2.save()
     qtrs = q1.queuetoroom_set.all()
     for qtr in qtrs:
@@ -395,11 +360,15 @@ def manage_queues(request, error=""):
 
 
 def test(request):
-    return HttpResponse(testtime())
+    #return HttpResponse(testtime())
+    externalResponse('Hello')
+    return response
 
 def trigger(request):
+    print('Hello')    
     triggertime()
-    return HttpResponse('triggered')
+    return externalResponse('triggered')
+
 
 #helper function
 def notify(user, subject, message):
@@ -409,3 +378,66 @@ def notify(user, subject, message):
     if user.do_text:
         send_mail(subject, message, 'rooms@tigerapps.org',
                       ["%s@%s" % (user.phone, user.carrier.address)], fail_silently=False)
+
+
+
+
+
+##################
+# Real-time view functions go here (long polling)
+    
+#@login_required
+def update_queue(request, drawid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return externalResponse('forbidden')
+    draw = Draw.objects.get(pk=drawid)
+    qlist = json.loads(request.POST['queue'])
+    # resp = ''
+    # for r in qlist:
+    #     resp += ' ' + r;
+    queue = user.queues.filter(draw=draw)[0]
+    if not queue:
+        return externalResponse('no queue')
+
+    # QueueManager object takes over
+    rooms = []
+    for roomid in qlist:
+        room = Room.objects.get(pk=roomid)
+        if (not room) or not draw in room.building.draw.all():
+            return externalResponse('bad room/draw')
+        rooms.append(room)
+    # Clear out the old list
+    queue.queuetoroom_set.all().delete()
+    # Put in new relationships
+    for i in range(0, len(rooms)):
+        qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
+        qtr.save()
+    # Test output - list rooms
+    return externalResponse(rooms)
+
+
+# Ajax for displaying this user's queue
+@login_required
+def get_queue(request, drawid, timestamp = 0):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        draw = Draw.objects.get(pk=drawid)
+        queue = user.queues.get(draw=draw)
+    except Exception as e:
+        return HttpResponse(traceback.format_exc(2) + str(draw))
+    #real-time takes over
+#    return HttpResponse(queue)
+    try:
+        return check(user, queue, timestamp)
+    except Exception as e:
+        return HttpResponse(traceback.format_exc(2))
+    # queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
+    # if not queueToRooms:
+    #     return HttpResponse('')
+    # room_list = []
+    # for qtr in queueToRooms:
+    #     room_list.append(qtr.room)
+    # return render_to_response('rooms/queue.html', {'room_list':room_list})
