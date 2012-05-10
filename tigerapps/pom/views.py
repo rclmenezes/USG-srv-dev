@@ -349,7 +349,7 @@ def filter_laundry(request, bldg_code=None):
     
     machine_list = cache.get('laundry_list')
     if not machine_list: 
-        machine_list = [x for x in v for k,v in mapping.items()]
+        machine_list = [x for k,v in mapping.items() for x in v]
         machine_list = sorted(machine_list, key=lambda x: x[0])
         try: 
             cache.set('laundry_list', machine_list, 1000)
