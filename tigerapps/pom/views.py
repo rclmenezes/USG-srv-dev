@@ -7,6 +7,8 @@ from django.template import RequestContext
 from cal.models import Event
 from pom import cal_event_query
 from pom.bldg_info import *
+import pom.campus_map_codes
+import pom.campus_map_bldgs_info
 from pom.menus import scraper as menus
 from pom.printers import scraper as printers
 from pom.laundry import scraper as laundry
@@ -179,6 +181,11 @@ def events_for_bldg(request, bldg_code):
                 response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
             except Exception, e:
                 response_dict = {'error': str(e)}
+    
+    elif filter_type == '5': #location
+        campus_map_code = campus_map_codes.campus_map_codes[bldg_code]
+        campus_map_info = campus_map_bldgs_info.campus_map_info[campus_map_code]
+        html = render_to_string('pom/location_info.html', campus_map_info)
         
     else:
         raise Exception("Bad filter type in GET request: %s" % filter_type)
