@@ -505,7 +505,10 @@ function handleEventsAJAX(data) {
 	} else {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
-		//loadJTLEvents(data.events);
+		if (jevent.filterType == 0) {
+			jevent.eventsData = data.eventsData;
+			jTimeline(jmap.jtlId, getJTLParams(), data.markData, eventEntryMouseover, eventEntryMouseout, eventEntryClick);
+		}
 	}
 }
 
@@ -529,7 +532,6 @@ function hideInfoEvent() {
 /***************************************/
 function setupActualFilters() {
 	setupEventFilters();
-	jTimeline(jmap.jtlId, getJTLParams());
 	setupLocationSearch();
 }
 
@@ -537,12 +539,10 @@ function setupEventFilters() {
 	//event search
 	$('#events-search-form').submit(function(event) {
 		event.preventDefault();
-		jTimeline(jmap.jtlId, getJTLParams());
 		handleFilterChange();
 	});
 	//other params
 	$('.jtl-params').change(function() {
-		jTimeline(jmap.jtlId, getJTLParams());
 		handleFilterChange();
 	});
 }
@@ -568,7 +568,7 @@ function getJTLParams() {
 /* Return dictionary of params in the input box for a GET request */
 function getEventsParamsAJAX() {
 	var p = getJTLParams();
-	a =  {
+	return {
 		m0: p.startDate.getMonth()+1,
 		d0: p.startDate.getDate(),
 		y0: p.startDate.getFullYear(),
@@ -579,9 +579,7 @@ function getEventsParamsAJAX() {
 		i1: p.endTime[1],
 		search: $('#events-search').val()
 	}
-	return a;
 }
-
 
 
 /***************************************/

@@ -35,30 +35,33 @@ def get_cal_events_json(request, events_list=None):
     if not events_list:
         events_list = filter_cal_events(request)
     try:
-        start_date = datetime.datetime(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
+        start_date = datetime.datetime(int(request.GET['y0'])-1, int(request.GET['m0']), int(request.GET['d0']))
         start_index = 2*int(request.GET['h0']) + round(int(request.GET['i0'])/30)
         end_index = 2*int(request.GET['h1']) + round(int(request.GET['i1'])/30)
         n_days = int(request.GET['nDays'])
     except Exception, e:
         raise Exception('Bad GET request: missing get params (%s)' % str(e))
     
-    events_dict = {}
+    mark_data = {}
+    events_data = {}
     for event in events_list:
+        events_data[event.event_id] = event.event_location
+        
         e_start = event.event_date_time_start
         delta = e_start - start_date
-        half_hrs_delta = int(round(delta.total_seconds()/1800))
+        half_hrs_delta = int(round(delta.total_seconds()/1800)) % 48
         time_index = str(delta.days) + '-' + str(half_hrs_delta)
         
         e_dict = {'bldgCode': event.event_location, 'eventId': event.event_id}
         #e_dict['startTime'] = e_start
         #e_dict['endTime'] = event.event_date_time_end
         
-        if time_index in events_dict:
-            events_dict[time_index].append(e_dict)
+        if time_index in mark_data:
+            mark_data[time_index].append(e_dict)
         else:
-            events_dict[time_index] = [e_dict]
+            mark_data[time_index] = [e_dict]
         
-    return events_dict
+    return {'eventsData': events_data, 'markData': mark_data}
 
 
 
@@ -110,8 +113,7 @@ def events_for_bldg(request, bldg_code):
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
-            response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code,
-                             'eventsJson': get_cal_events_json(request, events)}
+            response_dict = dict({'error': None, 'html': html, 'bldgCode': bldg_code}.items() + get_cal_events_json(request, events).items())
         except Exception, e:
             response_dict = {'error': str(e)}
         
@@ -221,8 +223,7 @@ def events_for_all_bldgs(request):
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': 'All Events',
                                      'events': events})
-            response_json = simplejson.dumps({'error': None, 'html': html,
-                                              'eventsJson': get_cal_events_json(request, events)})
+            response_json = simplejson.dumps(dict({'error': None, 'html': html}.items() + get_cal_events_json(request, events).items()))
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
     
