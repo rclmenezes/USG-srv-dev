@@ -8,6 +8,7 @@ from cal.models import Event
 from pom.bldg_info import *
 import datetime, time
 from django.db.models import Q
+from utils.scrape import log
 
     
 def all():
@@ -90,6 +91,6 @@ def filter_by_title_desc(qset, query):
                            Q(event_clusert__cluster_description__icontains=query))
     else:
         return Event.objects.filter(Q(event_cluster__cluster_title__icontains=query) |
-                                    Q(event_clusert__cluster_description__icontains=query))
+                                    Q(event_cluster__cluster_description__icontains=query))
         
         
