@@ -454,6 +454,8 @@ function handleFilterChange() {
 	AJAXbldgsForFilter();
 	if (jevent.bldgDisplayed != null)
 		AJAXeventsForBldg(jevent.bldgDisplayed);
+	else
+        AJAXeventsForAllBldgs();
 }
 
 /* These return the GET params that should be sent in every AJAX call */

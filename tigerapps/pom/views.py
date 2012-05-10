@@ -13,6 +13,7 @@ from pom.laundry import scraper as laundry
 import datetime, simplejson
 from django.core.cache import cache
 from django.core.mail import send_mail
+import time
 
 def index(request, offset):
     # not used due to direct_to_template in urls.py
@@ -29,8 +30,7 @@ def bldgs_for_filter(request):
     filter_type = request.GET['type']
 
     if filter_type == '0': #standard event
-        events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                  request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+        events = filter_cal_events(request)
         bldgsList = list(set((event.event_location for event in events)))
         
     elif filter_type == '2': #menus
@@ -38,7 +38,6 @@ def bldgs_for_filter(request):
     
     elif filter_type == '3': #laundry
         bldgsList = getBldgsWithLaundry()
-        #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
     
     elif filter_type == '4': #printers
         bldgsList = getBldgsWithPrinters()
@@ -64,9 +63,7 @@ def events_for_bldg(request, bldg_code):
     
     if filter_type == '0': #standard event
         try:
-            events = cal_event_query.filter_res_by_date(cal_event_query.bldg_filtered(bldg_code), 
-                                                        request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                        request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+            events = filter_cal_events(request)
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
@@ -87,10 +84,17 @@ def events_for_bldg(request, bldg_code):
                 log = open('/srv/tigerapps/slog','a')
                 log.write('before call to scrape: %s\n' % bldg_code)
                 log.close()
-                menu_info = menus.scrape_single_menu(bldg_code)
+                menu_list = cache.get('menu_list') 
+                if menu_list == None:
+                    menu_list = menus.scrape_all()
+                    try: 
+                        cache.set('menu_list', menu_list, 1000)
+                    except Exception, e:
+                        send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                  
                 html = render_to_string('pom/menu_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'menu': menu_info})
+                                         'menu': menu_list[bldg_code]})
                 response_json = simplejson.dumps({'error': None,
                                                   'html': html,
                                                   'bldgCode': bldg_code})
@@ -157,6 +161,7 @@ def events_for_bldg(request, bldg_code):
     return HttpResponse(response_json, content_type="application/javascript")
 
 
+
 def events_for_all_bldgs(request):
     '''
     Return the HTML that should be rendered in the info box given the
@@ -169,9 +174,8 @@ def events_for_all_bldgs(request):
     
     if filter_type == '0': #standard event
         try:
-            events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                        request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
-            html = render_to_string('pom/event_info_all.html',
+            events = filter_cal_events(request)
+            html = render_to_string('pom/event_info.html',
                                     {'bldg_name': 'All Events',
                                      'events': events})
             response_json = simplejson.dumps({'error': None,
@@ -182,16 +186,22 @@ def events_for_all_bldgs(request):
             
     elif filter_type == '2': #menus
         try:
-            menus_info = menus.scrape_all()
-            html = render_to_string('pom/menu_info.html',
-                                    {'bldg_name': BLDG_INFO[bldg_code][0],
-                                     'menu': menu_info})
+            menu_list = cache.get('menu_list') 
+            if menu_list == None:
+                menu_list = menus.scrape_all()
+                try: 
+                    cache.set('menu_list', menu_list, 1000)
+                except Exception, e:
+                    send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+            
+            html = render_to_string('pom/menu_info_all.html',
+                                    {'menu_list': menu_list,
+                                     'bldg_info': BLDG_INFO})
             response_json = simplejson.dumps({'error': None,
-                                              'html': html,
-                                              'bldgCode': bldg_code})
+                                              'html': html})
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
-    
+   
     
     elif filter_type == '3': #laundry
         try:
@@ -250,9 +260,26 @@ def events_for_all_bldgs(request):
     return HttpResponse(response_json, content_type="application/javascript")
 
 
-# make dictionary of name, code pairs for use in location-based filtering 
-def make_bldg_names_json(request):
+def get_bldg_names_json(request):
+    '''
+    make dictionary of name, code pairs for use in location-based filtering
+    '''
     bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
     response_json = simplejson.dumps(bldg_names)
     return HttpResponse(response_json, content_type="application/javascript")
 
+
+
+####
+#Helper functions for views above
+####
+
+def filter_cal_events(request):
+    events = None
+    if 'm0' in request.GET:
+        events = cal_event_query.filter_by_date(events,
+            request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
+            request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+    if 'search' in request.GET:
+        events = cal_event_query.filter_by_search(events, request.GET['search'])
+    return events
