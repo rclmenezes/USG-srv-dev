@@ -1,10 +1,12 @@
 {% load hashing_filter %}
 
-<div style="font-weight:bold">Legend</div>
+<div style="text-align:right;padding-right:8px;">
+<span style="font-weight:bold"> Legend </span><br/>
 <span style="color:#0000FF;"> Vegan - no animal derivatives </span> <br>
 <span style="color:#00AA00;"> Vegetarian - no meat products </span> <br>
 <span style="color:#8000FF;"> Contains Pork </span> <br>
 <span style="color:#990000;"> Contains Nuts </span> <br>
+</div>
 
 <center>
 <h2 id="info-bldg-name">All Menus</h2>
@@ -12,8 +14,8 @@
 {% for tup in menu_list %}
 
 {% with bldg_info|hash:tup.0 as hallname%}
-<hr>
-<h3 id="info-bldg-name">{{ hallname.0 }}</h3>
+<hr style="width:90%">
+<h3 id="info-bldg-name" style="font-size:16px;">{{ hallname.0 }}</h3>
 {%endwith%}
 {%for meal in tup.1.meals%}
 	<div class="info-event-entry">
@@ -25,6 +27,6 @@
 		{% endfor%}
 	</div>
 {%endfor%}
+<br/>
 {% endfor %}
-
 </center>

@@ -134,7 +134,7 @@ def events_for_bldg(request, bldg_code):
                         tup[1].meals = [(name, meal) for name, meal in tup[1].meals.items()]
                         tup[1].meals = sorted(tup[1].meals, key = lambda x: menus_sorter(x[0]))
                     try:
-                        cache.set('menu_list', menu_list, 1000)
+                        cache.set('menu_list', menu_list, 100000)
                     except Exception, e:
                         send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
                 menu = dict(menu_list)[bldg_code]
@@ -173,7 +173,7 @@ def events_for_bldg(request, bldg_code):
                 if mapping == None:
                     mapping = printers.scrape_all()
                     try:
-                        cache.set('printer', mapping, 1000)
+                        cache.set('printer', mapping, 100000)
                     except Exception, e:
                         send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'joshchen@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
                 printer_info = mapping[bldg_code]
@@ -239,7 +239,7 @@ def events_for_all_bldgs(request):
                     tup[1].meals = [(name, meal) for name, meal in tup[1].meals.items()]
                     tup[1].meals = sorted(tup[1].meals, key = lambda x: menus_sorter(x[0]))
                 try:
-                    cache.set('menu_list', menu_list, 1000)
+                    cache.set('menu_list', menu_list, 100000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
 
@@ -274,8 +274,8 @@ def events_for_all_bldgs(request):
                         printer_list.append((x.loc, x.color, x.status))
                 printer_list = sorted(printer_list, key=lambda x: x[0])
                 try:
-                    cache.set('printer_list', printer_list, 1000)
-                    cache.set('printer', mapping, 1000)
+                    cache.set('printer_list', printer_list, 100000)
+                    cache.set('printer', mapping, 100000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
 
@@ -372,7 +372,7 @@ def filter_laundry(request, bldg_code=None):
     if not machine_mapping:
         machine_mapping = laundry.scrape_all()
         try:
-            cache.set('laundry', machine_mapping, 1000)
+            cache.set('laundry', machine_mapping, 100000)
         except Exception, e:
             send_mail('EXCEPTION IN pom.views filter_laundry1', e, 'from@example.com', ['nbal@princeton.edu', 'joshchen@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
             

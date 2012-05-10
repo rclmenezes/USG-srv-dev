@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>HelloStephen</title>
+    <title>Pursuit of Mappyness</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/pom/js/jquery-ui-1.8.20.custom.min.js"></script>
 	<script type="text/javascript" src="/static/pom/js/timeline.js"></script>
@@ -72,7 +72,7 @@
 						</td><td style="text-align:right;">
 							<label class="jtl-labels-black">Number of days:</label>
 								<select class="jtl-params" id="jtl-nDays">
-									<option value=1 > 1 </option>
+									<option value=1> 1 </option>
 									<option value=2> 2 </option>
 									<option value=3> 3 </option>
 									<option value=4> 4 </option>
@@ -100,18 +100,26 @@
 			</div>
 			
 			<div id="top-tab-a" class="top-tab">
-				<div id="campus-info-types">
-					<input type="radio"  id="filter-menus" name="campus-info" value="2" checked="checked"/><label class="jtl-labels" for="filter-menus">Menus</label>
-					<input type="radio"  id="filter-laundry" name="campus-info" value="3"/><label class="jtl-labels" for="filter-lachundry">Laundry</label>
-					<input type="radio"  id="filter-printers" name="campus-info" value="4"/><label class="jtl-labels" for="filter-printers">Printers</label>
+				<div class="isolated">
+					<div>We've aggregated campus information into a single page for you, as a one-stop shop for many of your most common tasks!</div><br/>
+					<span class="desc-help">View campus information:</span><br/>			
+					<div id="campus-info-types">
+						<input type="radio"  id="filter-menus" name="campus-info" value="2" checked="checked"/><label class="jtl-labels" for="filter-menus">Menus</label>
+						<input type="radio"  id="filter-laundry" name="campus-info" value="3"/><label class="jtl-labels" for="filter-lachundry">Laundry</label>
+						<input type="radio"  id="filter-printers" name="campus-info" value="4"/><label class="jtl-labels" for="filter-printers">Printers</label>
+					</div>
 				</div>
 			</div>
 			
 			<div id="top-tab-5" class="top-tab">
-				<form id="location-search-form">
-					<input id="location-search" type="text" style="width:160px;" name="locations"/>&nbsp;
-					<input id="location-search-submit" type="submit" value="Jump to Location" />
-				</form>
+				<div class="isolated">
+					<div>We've also built a location search to augment the existing <a href="http://etcweb.princeton.edu/pumap/" target="_blank">Campus Map</a> for your convenience.</div><br/>
+					<span class="desc-help">Search for a building/location:</span><br/>
+					<form id="location-search-form">
+						<input id="location-search" type="text" style="width:160px;" name="locations"/>&nbsp;
+						<input id="location-search-submit" type="submit" value="Jump to Location" />
+					</form>
+				</div>
 			</div>
 			
 		</div>

@@ -61,9 +61,11 @@ table {
 
 a:link, a:visited{
 	color:#FF6600;
+	text-decoration:none;
 }
 a:hover{
 	color:#000000;
+	text-decoration:underline;
 }
 
 
@@ -130,6 +132,11 @@ div.isolated {
 #info-bldg-name {
 	margin-bottom:4px;
 }
+#info-bot-link {
+	float:right;
+	padding-right:10px;
+}
+
 .info-event-entry {
 	padding:8px 12px 8px 0;
 	/*margin-right: 5px;*/
@@ -141,7 +148,6 @@ div.isolated {
 	/*margin-left: 5px;*/
 	color:#464646; /*gray*/
 }
-
 
 
 /*************/
