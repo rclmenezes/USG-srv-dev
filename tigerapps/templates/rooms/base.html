@@ -37,8 +37,13 @@
   <script type="text/javascript" src="/static/rooms/js/jquery.tablesorter.js"></script>
   <script type="text/javascript" src="/static/rooms/js/picnet.table.filter.min.js"></script>
     <script type="text/javascript">
-	$(document).ready(function() {
-		$(".various").fancybox();
+	$(document).ready(function() 
+        {
+        $(".various").fancybox();
+        $("#settings").fancybox(
+        {
+        maxHeight: 293
+        });
 	});
     </script>
   <script type="text/javascript">
