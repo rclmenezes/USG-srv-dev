@@ -322,7 +322,7 @@ def filter_cal_events(request, bldg_code=None):
         desc = event.event_cluster.cluster_description
         event.short_desc = desc[:100]
         event.long_desc = desc[100:]
-        if (not bldg_code) and event.event_location:
+        if (not bldg_code) and event.event_location in BLDG_INFO:
             event.event_location_name = BLDG_INFO[event.event_location][0]
         if event.event_location_details.isdigit():
             event.event_location_details = 'Room ' + event.event_location_details

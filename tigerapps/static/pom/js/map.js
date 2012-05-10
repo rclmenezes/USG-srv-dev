@@ -64,7 +64,7 @@ function mapInit() {
 	jevent.urlBldgNames = '/json/bldgs/names/';
 	
 	jevent.htmlLoading = '<table style="margin:auto;height:24px;"><tr>' +
-		'<td style="padding:1px 4px 0;">Loading...</td>' +
+		'<td style="font-size:16px;padding:1px 4px 0;">Loading...</td>' +
 		'<td style="vertical-align:top;"><img src="/static/pom/img/loading_spinner.gif" height="20" width="20"/></td></tr></table>';
 
 	//cache display-related tabs
@@ -333,7 +333,7 @@ function handleBldgClick(ev,domEle) {
 	var bldgCode = bldgIdToCode(domEle.id);
 	if (jevent.bldgDisplayed == bldgCode) {
 		/* hide the building info if building clicked is the one that's shown */
-		hideInfoEvent();
+		AJAXeventsForAllBldgs();
 	} else
 		/* otherwise, load the clicked building */
 		AJAXeventsForBldg(bldgCode);
@@ -544,6 +544,10 @@ function setupEventFilters() {
 	//event search
 	$('#events-search-form').submit(function(event) {
 		event.preventDefault();
+		handleFilterChange();
+	});
+	$('#events-search-clear').click(function(event) {
+		$('#events-search').val('');
 		handleFilterChange();
 	});
 	//other params

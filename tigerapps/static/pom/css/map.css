@@ -88,22 +88,20 @@ a:hover{
 
 #info-top {
 	height: 210px;
-	margin:0 18px 15px;
+	margin:0 18px 15px 18px;
 }
 #info-title {
 	height:35px;
 	width:325px;
 	float: left;
-	margin:-4px 0 15px -14px;
+	margin:-4px 0 12px -14px;
 }
 #info-top-types {
 	margin:10px 0;
 }
-#info-top-filters {
-	margin:10px 0;
-}
 .top-tab {
 	display: none;
+	margin:6px 0;
 }
 
 #info-divider {
@@ -115,6 +113,15 @@ a:hover{
 #info-bot {
 	overflow-y: auto;
 	margin:15px 0px 15px 11px;
+}
+
+
+span.desc-help {
+	font-style:italic;
+	font-size:12px;
+}
+div.isolated {
+	margin: 4px 0 6px;
 }
 
 /*************/

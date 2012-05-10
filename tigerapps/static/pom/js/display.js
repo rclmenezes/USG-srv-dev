@@ -6,6 +6,7 @@ function utilInit() {
 	jDisplay = {};
 	
 	$("input:submit").button();
+	$(":button").button();
 	$("#info-top-types").buttonset();
 	
 	//events inputs

@@ -40,32 +40,47 @@
 		
 		<div id="info-top-filters">
 			<div id="top-tab-0" class="top-tab">
-				<form id="events-search-form">
-					<input id="events-search" type="text" style="width:160px;" name="events"/>&nbsp;
-					<input id="events-search-submit" type="submit" value="Search Events" />
-				</form>
+				<div class="isolated">
+					<form id="events-search-form">
+						<span class="desc-help">Filter by query:</span><br/>
+						<input id="events-search" type="text" style="width:185px;" name="events"/>
+						<input id="events-search-submit" type="submit" value="Search"/>
+						<input id="events-search-clear" type="button" value="Clear"/>
+					</form>
+				</div>
 
-				<div id="jtl-input">
-				<br>
-					<table ><tr>
-						<div id="jtl-hours-slider" style = "width:300"></div>
-					</tr><tr><td><label for="jtl-startTime" class="jtl-labels">Start time:</label>
-						<input type="text" class="jtl-params" id="jtl-slider-start" readonly='true' style="border:0; width:115px;"/></td> 
-						<td><label for="jtl-endTime" class="jtl-labels">End time:</label>
-						<input type="text" class="jtl-params" id="jtl-slider-end" readonly='true' style="border:0; width:60px;"/></td> 
-					</tr><tr><td><label class="jtl-labels-black"> Start date:</label>
-						<input type="text" class="jtl-params" id="jtl-startDate" readonly='true' style="border:1px solid #76868e; width:72px;"/></td>
-					</tr><tr><td><label class="jtl-labels-black">Number of days:</label>
-						<!-- <input type="text" class="jtl-params" id="jtl-nDays" value="3" style="border:0; color:#f6931f; font-weight:bold;width:20px;"/></td> -->
-						<select class="jtl-params" id="jtl-nDays">
-								<option value=1 > 1 </option>
-								<option value=2> 2 </option>
-								<option value=3> 3 </option>
-								<option value=4> 4 </option>
-								<option value=5 selected="selected"> 5 </option>
-								<option value=6> 6 </option>
-								<option value=7> 7 </option>								
-							</select></td>
+				<div class="isolated">
+					<span class="desc-help">Filter by time:</span><br/>
+					<div id="jtl-hours-slider" style="width:312px;margin-top:2px;"></div>
+					
+					<table style="width:320px;"><tr>
+						<td style="text-align:left;">
+							<label for="jtl-startTime" class="jtl-labels">Start time:</label>&nbsp;
+								<input type="text" class="jtl-params" id="jtl-slider-start" readonly='true' style="border:0; width:115px;"/>
+						</td><td style="text-align:right;"> 
+							<label for="jtl-endTime" class="jtl-labels">End time:</label>&nbsp;
+								<input type="text" class="jtl-params" id="jtl-slider-end" readonly='true' style="border:0; width:60px;"/>
+						</td>
+					</tr></table>
+				</div>
+
+				<div class="isolated">
+					<table style="width:320px;"><tr>
+						<td style="text-align:left;">
+							<label class="jtl-labels-black"> Start date:</label>
+								<input type="text" class="jtl-params" id="jtl-startDate" readonly='true' style="border:1px solid #76868e; width:72px;"/>
+						</td><td style="text-align:right;">
+							<label class="jtl-labels-black">Number of days:</label>
+								<select class="jtl-params" id="jtl-nDays">
+									<option value=1 > 1 </option>
+									<option value=2> 2 </option>
+									<option value=3> 3 </option>
+									<option value=4> 4 </option>
+									<option value=5 selected="selected"> 5 </option>
+									<option value=6> 6 </option>
+									<option value=7> 7 </option>								
+								</select>
+						</td>
 					</tr></table>
 					
 					<input type="hidden" class="jtl-params" id="jtl-startTime" /> 
