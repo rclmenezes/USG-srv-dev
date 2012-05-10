@@ -13,7 +13,7 @@ BLDG_INFO = {
     'ARTMU': ('Art Museum',(),True),
     'BENDC': ('Bendheim Center for Finance',(),True),
     'BENDH': ('Bendheim Hall',(),True),
-    'BERLT': ('Berlind Theatre',(),True),
+    'BERTL': ('Berlind Theatre',(),True),
     'BLAIR': ('Blair/Buyers Hall',(),True),
     'BOBSH': ('Bobst Hall',(),True),
     'BOWEN': ('Bowen Hall',(),True),
