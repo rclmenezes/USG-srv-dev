@@ -49,7 +49,7 @@ def get_cal_events_json(request):
         e_dict['eventId'] = event.event_id
         delta = e_start - start_date
         half_hrs_delta = int(round(delta.total_seconds()/1800))
-        time_id = str(delta.days) + str(half_hrs_delta)
+        time_id = str(delta.days) + '-' + str(half_hrs_delta)
         if time_id in events_dict:
             events_dict[time_id].append(e_dict)
         else:
