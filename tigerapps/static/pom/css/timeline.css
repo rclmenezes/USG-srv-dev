@@ -58,12 +58,14 @@
 .jtl-tick-first .jtl-time { top: -9px; }
 .jtl-tick-border .jtl-time { top: -8px; }
 
-.jtl-event {
-	color: orange;
-	border: 1px solid #F88017;
-	height: 2px;
-	width: 2px;
-	margin: -1px auto 0;
+.jtl-mark {
+	background-color: orange;
+	border: 1px solid black;
+	height: 4px;
+	width: 4px;
+	position: absolute;
+	top: -4px;
+	z-index: 110;
 }
 
 

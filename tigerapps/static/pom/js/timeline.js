@@ -1,7 +1,7 @@
-/*jTimeline - timeline object.
+/* jTimeline - timeline object.
+ * Author: Josh Chen (joshchen@princeton.edu)
  * 
- * 
- * 
+ * Initialize or reload by calling jTimeline().
  */
 
 
@@ -17,6 +17,7 @@ jtl.maxIntervalHt = 100; //including border
 jtl.dayBorderHt = 3;  //between days
 jtl.minTickHt = 8;  //including border
 jtl.minLabelHt = 16; //time labels on left of timeline
+jtl.tlWidth = 100;
 
 
 /***************************************/
@@ -24,16 +25,18 @@ jtl.minLabelHt = 16; //time labels on left of timeline
 /***************************************/
 
 /* Display a JTL object in id */
-function jTimeline(id, params, marks) {
+function jTimeline(id, timelineParams, markData, fnMarkMouseover, fnMarkMouseout) {
 	//static references
 	jtl.tl = document.getElementById(id);
 	jtl.$tl = $(jtl.tl);
-	
-	//data from django
-	jtl.marks = {};
-
 	jtl.tl.class = 'jtl-tl';
-	jtlFn.buildTimeline(params);
+	
+	//data for loading marks
+	jtl.markData = markData;
+	jtl.fnMarkMouseover = fnMarkMouseover;
+	jtl.fnMarkMouseout = fnMarkMouseout;
+
+	jtlFn.buildTimeline(timelineParams);
 }
 
 
@@ -126,7 +129,7 @@ jtlFn.buildTimeline = function(params) {
 
 			var divIntv = document.createElement('div');
 			divIntv.setAttribute('class', 'jtl-tick '+(jtl.dayPadding==0&&i==jtl.startIndex?'jtl-tick-first':(hasBorder?'jtl-tick-border':'')));
-			divIntv.setAttribute('id', jtlFn.indexToId(d,i));
+			divIntv.setAttribute('id', jtlFn.indexToId(d+'-'+i));
 			divIntv.setAttribute('style', 'height:'+(hasBorder?jtl.intervalHt-1:jtl.intervalHt)+'px;');
 			divTicks.appendChild(divIntv);
 			
@@ -138,6 +141,8 @@ jtlFn.buildTimeline = function(params) {
 			}
 		}
 	}
+	
+	jtlFn.addJTLEvents()
 }
 
 jtlFn.clearTimeline = function() {
@@ -153,19 +158,22 @@ jtlFn.clearTimeline = function() {
 /***************************************/
 
 jtlFn.addJTLEvents = function() {
-	for (var id in jtl.events) {
-		var startTime = jtl.events[id].startTime;
-		var startDayIndex = jtlFn.dateToDayIndex(date);
-		if (startDayIndex < 0 || startDayIndex > jtl.nDays)
-			continue;
-		var startIndex = jtlFn.timeToIndex(startTime.getHour(), startTime.getMinute());
-		if (startIndex < jtl.startIndex && startIndex > jtl.endIndex)
-			continue;
-		var id = jtlFn.indexToId(startDayIndex, startIndex);
-		var divTick = document.getElementById(id);
-		var eventDot = document.createElement('div');
-		eventDot.setAttribute('class', 'jtl-event');
-		divTick.appendChild(eventDot);
+	for (var tickIndex in jtl.markData) {
+		var tickId = jtlFn.indexToId(tickIndex);
+		var divTick = document.getElementById(tickId);
+		var tickData = jtl.markData[tickIndex];
+		var nMarks = tickData.length;
+		
+		for (var i in tickData) {
+			var markData = tickData[i];
+			var eventMark = document.createElement('div');
+			eventMark.setAttribute('class', 'jtl-mark');
+			eventMark.setAttribute('id', 'jtl-mark-'+markData['eventId']);
+			eventMark.style.left = Math.round((parseInt(i)+.5)/nMarks * jtl.tlWidth)-3;
+			eventMark.onmouseover = function(ev){jtl.fnMarkMouseover(this);};
+			eventMark.onmouseout = function(ev){jtl.fnMarkMouseout(this);};
+			divTick.appendChild(eventMark);
+		}
 	}
 }
 
@@ -176,6 +184,10 @@ jtlFn.addJTLEvents = function() {
 //could account for non :00/:30 later
 /***************************************/
 
+jtlFn.htmlIdToEventId = function(htmlId) {
+	return htmlId.split('-')[2];
+}
+
 jtlFn.timeToIndex = function(hour, min) {
 	return hour*2 + Math.round(min/30);
 }
@@ -183,8 +195,8 @@ jtlFn.dateToDayIndex = function(date) {
 	return (date.getTime() - jtl.startDate.getTime())/86400000; 
 }
 // converts day + time index to id of div
-jtlFn.indexToId = function(day, ind) {
-	return 'jtl-tick-'+day+'-'+ind;
+jtlFn.indexToId = function(ind) {
+	return 'jtl-tick-'+ind;
 }
 jtlFn.indexToTime = function(ind) {
 	var hour = Math.floor(ind/2);

@@ -2,7 +2,7 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
 {% for event in events %}
-	<div class="info-event-entry jexpand-main" id="info-event-{{event.event_id}}">
+	<div class="info-event-entry jexpand-main" id="event-entry-{{event.event_id}}">
 		<div style="font-weight:bold;">
 			<div style="float:right;margin-top:3px;">
 				<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|urlencode:""|truncatewords:100}}&sprop=name:pcal" target="_blank">
@@ -40,8 +40,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$('.info-event-entry').mouseover(function(){this.style.background='#ECECEC';});
-	$('.info-event-entry').mouseout(function(){this.style.background='white';});
+	$('.info-event-entry').mouseover(function(ev){eventEntryMouseover(this);});
+	$('.info-event-entry').mouseout(function(ev){eventEntryMouseout(this);});
 	{%if events|length > 3%}jExpand();{%endif%}
 });
 </script>

@@ -50,7 +50,6 @@ function setupJTLSlider() {
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
             	
-        		jTimeline(jmap.jtlId, getJTLParams());
         		handleFilterChange();
             }
         }
@@ -134,8 +133,25 @@ function hideTimeline() {
 
 
 /***************************************/
-/* Utility functions */
+/* Mouseover/out functions */
 /***************************************/
+
+function eventEntryMouseover(domEle) {
+	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+	var eventEntry = document.getElementById('event-entry-'+eventId);
+	var tlMark = document.getElementById('jtl-mark-'+eventId);
+	//jevent.eventsJson
+	eventEntry.style.background='#ECECEC';
+	tlMark.style.background='#E9692C';
+}
+function eventEntryMouseout(domEle) {
+	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+	var eventEntry = document.getElementById('event-entry-'+eventId);
+	var tlMark = document.getElementById('jtl-mark-'+eventId);
+	//jevent.eventsJson
+	eventEntry.style.background='white';
+	tlMark.style.background='orange';
+}
 
 function jExpand() {
 	$('.jexpand-main').mouseover(function() {
@@ -147,6 +163,11 @@ function jExpand() {
 		$(this).find('.jexpand-long').hide();
 	});
 }
+
+
+/***************************************/
+/* Utility functions */
+/***************************************/
 
 function clearDateTime(d) {
 	d.setHours(0);d.setMinutes(0);d.setSeconds(0);d.setMilliseconds(0);
