@@ -38,7 +38,8 @@ def index(request):
     draw_list = Draw.objects.order_by('id')
     mapscript = mapdata()
     drawscript = drawdata()
-#    return HttpResponse(request.user.username);
+    #occlong = occlong()
+    #    return HttpResponse(request.user.username);
     user = check_undergraduate(request.user.username)
 
     if not user:
@@ -81,6 +82,20 @@ def drawdata():
     drawscript = '<script type="text/javascript">drawdata = %s</script>' % drawstring
     return drawscript
 
+def occlonghelper(room):
+    occlong = 'Single'
+    if room.occ == 1:
+        occlong = 'Single'
+    elif room.occ == 2:
+        occlong = 'Double'
+    elif room.occ == 3:
+        occlong = 'Triple'
+    elif room.occ == 4:
+        occlong = 'Quad'
+    else:
+        occlong = 'Suite' + ' (' + str(room.occ) + ')'
+    return occlong
+
 # Single room view function
 @login_required
 def get_room(request, roomid):
@@ -88,7 +103,8 @@ def get_room(request, roomid):
     if not user:
         return HttpResponseForbidden()
     room = get_object_or_404(Room, pk=roomid)
-    return render_to_response('rooms/room_view.html', {'room':room})
+    occlong = occlonghelper(room)
+    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong})
     
 @login_required
 def create_queue(request, drawid):

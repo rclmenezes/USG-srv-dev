@@ -276,6 +276,9 @@ class Event(models.Model):
            #hr = int(adjustedHour) + 4
            
            #hack to fix daylight savings time bug
+           #not strictly correct, since this figures out the offset
+           #of the time of access, and not of the start/end time of the event
+           #but it should work for the majority of the year
            curnorm = int(datetime.now().strftime("%H"))
            curutc = int(datetime.utcnow().strftime("%H"))
            
@@ -298,6 +301,9 @@ class Event(models.Model):
            #hr = int(adjustedHour) + 4
            
            #hack to fix daylight savings time bug
+           #not strictly correct, since this figures out the offset
+           #of the time of access, and not of the start/end time of the event
+           #but it should work for the majority of the year
            curnorm = int(datetime.now().strftime("%H"))
            curutc = int(datetime.utcnow().strftime("%H"))
            

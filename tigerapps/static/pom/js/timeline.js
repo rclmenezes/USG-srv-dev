@@ -30,9 +30,13 @@ function jTimeline(idTl, idInput, urlEvents) {
 /* Input builders */
 /***************************************/
 
+function datepicker() {
+	$( "#datepicker" ).datepicker();
+}
+
 /* called once at init, to setup input filters for timeline */
 function setupJTLInputs() {
-	$(jtl.input).html('<input type="text" id="jtl-startDay" value="05/07/2012"/>'+
+	$(jtl.input).html('<div class="demo">\n<p>Date: <input type="text" id="datepicker"></p>\n</div>'+
 					  '<input type="text" id="jtl-nDays" value="2"/><br/>'+
 					  '<input type="text" id="jtl-startTime" value="0:30"/>'+
 					  '<input type="text" id="jtl-endTime" value="24:00"/>');
