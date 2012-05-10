@@ -32,7 +32,6 @@ function sliderInit() {
         		handleFilterChange();
             	oldLeft = ui.values[0];
             	oldRight = ui.values[1];
-                AJAXeventsForAllBldgs();
             }
         }
     });

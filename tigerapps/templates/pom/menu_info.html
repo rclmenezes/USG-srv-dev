@@ -3,9 +3,9 @@
 {% if 'Breakfast' in menu.meals %}
 	<div class="info-event-entry">
 		<span style="font-weight:bold">Breakfast</span>
-		{% for entree in menu.meals['Breakfast'] %}
+		{% for entree in menu.meals.Breakfast.entrees %}
 		<div class="info-event-subtext">
-			{{entree.attributes['name']}}
+			{{entree.attributes.name}}
 		</div>
 		{% endfor %}
 	</div>
@@ -14,9 +14,9 @@
 {% if 'Lunch' in menu.meals %}
 	<div class="info-event-entry">
 		<span style="font-weight:bold">Lunch</span>
-		{% for entree in menu.lunch.entrees %}
+		{% for entree in menu.meals.Lunch.entrees %}
 		<div class="info-event-subtext">
-			{{entree.attributes['name']}}
+			{{entree.attributes.name}}
 		</div>
 		{% endfor %}
 	</div>
@@ -25,9 +25,9 @@
 {% if 'Dinner' in menu.meals %}
 	<div class="info-event-entry">
 		<span style="font-weight:bold">Dinner</span>
-		{% for entree in menu.dinner.entrees %}
+		{% for entree in menu.meals.Dinner.entrees %}
 		<div class="info-event-subtext">
-			{{entree.attributes['name']}}
+			{{entree.attributes.name}}
 		</div>
 		{% endfor %}
 	</div>
