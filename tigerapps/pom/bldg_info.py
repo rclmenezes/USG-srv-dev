@@ -113,14 +113,12 @@ BLDG_INFO = {
     '169NA': ('169 Nassau',(),True),
     '179NA': ('179 Nassau',(),True),
     '180AL': ('172/180 Alexander',(),True),
-    '185NA': ('185 Nassau',(),True), #NA185
     '1895F': ('1895 Field',(),True),
     #'1901H': ('1901 Hall',(),True),
     '1938H': ('1938 Hall',(),True),
     '1952S': ('1952 Stadium',(),True),
     '1967H': ('1967 Hall',(),True),
     '200EL': ('200 Elm',(),True),
-    '201NA': ('199/201 Nassau',(),True), #na201
     '221NA': ('221 Nassau',(),True),
     '22CHA': ('22 Chambers St.',(),True),
     '23UNI': ('23 University Place',(),True),
