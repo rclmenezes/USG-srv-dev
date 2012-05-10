@@ -309,7 +309,7 @@ def filter_cal_events(request, bldg_code=None):
             events = cal_event_query.filter_by_search(events, request.GET['search'])
         if 'm0' in request.GET:
             start_day = datetime.date(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
-            end_day = start_day + datetime.timedelta(days=int(request.GET['nDays']))
+            end_day = start_day + datetime.timedelta(days=int(request.GET['nDays'])-1)
             events = cal_event_query.filter_by_day_hour(events,
                 start_day.month, start_day.day, start_day.year, int(request.GET['h0']), int(request.GET['i0']),
                 end_day.month, end_day.day, end_day.year, int(request.GET['h1']), int(request.GET['i1']))

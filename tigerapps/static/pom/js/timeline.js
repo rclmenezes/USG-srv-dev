@@ -57,7 +57,7 @@ jtlFn.loadParams = function(params) {
 		return Math.ceil(((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays - jtl.minDayPadding) / jtl.minIntervalHt);
 	}*/
 	jtl.startDate = params.startDate;
-	jtl.nDays = params.nDays;
+	jtl.nDays = parseInt(params.nDays);
 	jtl.startIndex = jtlFn.timeToIndex(params.startTime[0], params.startTime[1]);
 	jtl.endIndex = jtlFn.timeToIndex(params.endTime[0], params.endTime[1]);
 	jtl.nIntervals = jtl.endIndex - jtl.startIndex;
@@ -81,9 +81,9 @@ jtlFn.buildTimeline = function(params) {
 	var maxDayHt = Math.floor((jtl.tl.offsetHeight - 2*jtl.minEndPadding)/jtl.nDays) - jtl.dayBorderHt;
 	var minDayPadding = (jtl.nIntervals==48?0:jtl.minDayPadding);
 	var maxTicksHt = maxDayHt - 2*minDayPadding;
-	jtl.intervalHt = Math.floor(maxTicksHt/(jtl.nIntervals-1)); //based on 1 interval per tick
+	jtl.intervalHt = Math.floor(maxTicksHt/jtl.nIntervals); //based on 1 interval per tick
 	jtl.dayPadding = minDayPadding;
-	jtl.dayHt = jtl.intervalHt*(jtl.nIntervals-1) + 2*jtl.dayPadding;
+	jtl.dayHt = jtl.intervalHt*jtl.nIntervals + 2*jtl.dayPadding;
 	jtl.endPadding = Math.floor((jtl.tl.offsetHeight - (jtl.dayHt + jtl.dayBorderHt)*jtl.nDays)/2);
 	jtl.nEndDays = Math.ceil(jtl.endPadding*2 / jtl.dayHt);
 	
@@ -112,16 +112,17 @@ jtlFn.buildTimeline = function(params) {
 		var dHtSinceTick = jtl.minTickHt;
 		var dHtSinceLabel = jtl.minLabelHt;
 		
-		for (var i=jtl.startIndex; i<jtl.endIndex; i++) {
+		for (var i=jtl.startIndex; i<=jtl.endIndex; i++) {
 			//calculate whether or not this interval has a border/label
 			var hasBorder = false;
 			var hasLabel = false;  //time label
 			if (i%2==0 && dHtSinceTick >= jtl.minTickHt) { //if it's on the hour, and dHt is satisfied
-				if (!(jtl.dayPadding==0 && i==jtl.startIndex))
+				if (!(jtl.dayPadding==0 && (i==jtl.startIndex || i==jtl.endIndex)))
 					hasBorder = true;
 				dHtSinceTick = 0; 
 				if (dHtSinceLabel >= jtl.minLabelHt) {
-					hasLabel = true;
+					if (!(jtl.dayPadding==0 && i==jtl.endIndex))
+						hasLabel = true;
 					dHtSinceLabel = 0;
 				}
 			}
@@ -162,6 +163,7 @@ jtlFn.addJTLEvents = function() {
 	for (var tickIndex in jtl.markData) {
 		var tickId = jtlFn.indexToId(tickIndex);
 		var divTick = document.getElementById(tickId);
+		console.log(tickId);
 		var tickData = jtl.markData[tickIndex];
 		var nMarks = tickData.length;
 		
@@ -219,7 +221,7 @@ jtlFn.indexToTime = function(ind) {
 }
 
 jtlFn.dateAbbrStr = function(d) {
-	return jtl.wkdays[d.getDay()] + ' ' + d.getMonth()+'/'+d.getDate();//+'/'+d.getFullYear().toString().substring(2);
+	return jtl.wkdays[d.getDay()] + ' ' + (1+d.getMonth())+'/'+d.getDate();//+'/'+d.getFullYear().toString().substring(2);
 }
 
 

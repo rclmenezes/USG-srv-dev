@@ -380,8 +380,9 @@ function displayLocationBldgs() {
 	}
 }
 /* We also need a way to color just 1 building (the one the user searched for) */
-function displayLocationBldg(bldgId) {
+function displayLocationBldg(bldgId, bldgCode) {
 	displayLocationBldgs();
+	jevent.bldgCodeHasEvent[bldgCode] = true;
 	setupEventBldg(jmap.loadedBldgs[bldgId].domEle);
 }
 
@@ -633,7 +634,7 @@ function centerOnBldg(bldgCode) {
 		duration: 200,
 		complete: function() {
 			loadTiles();
-			displayLocationBldg(bldgId);
+			displayLocationBldg(bldgId, bldgCode);
 		}
 	});
 }
