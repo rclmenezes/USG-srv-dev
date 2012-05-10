@@ -82,12 +82,10 @@ function cmpDates(d1,d2) {
 
 function jExpand() {
 	$('.jexpand-main').mouseover(function() {
-		$(this).find('.jexpand-shortdesc').hide();
 		$(this).find('.jexpand-longdesc').show(100);
 	});
 	$('.jexpand-main').mouseout(function() {
 		$(this).find('.jexpand-longdesc').hide(100);
-		$(this).find('.jexpand-shortdesc').show();
 	});
 }
 

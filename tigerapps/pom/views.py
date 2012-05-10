@@ -30,8 +30,7 @@ def bldgs_for_filter(request):
     filter_type = request.GET['type']
 
     if filter_type == '0': #standard event
-        events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                  request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+        events = filter_cal_events(request)
         bldgsList = list(set((event.event_location for event in events)))
         
     elif filter_type == '2': #menus
@@ -39,7 +38,6 @@ def bldgs_for_filter(request):
     
     elif filter_type == '3': #laundry
         bldgsList = getBldgsWithLaundry()
-        #html = {'events': [(event.event_location  + "info_sep" + event.event_cluster.cluster_title + "info_sep" + event.event_date_time_start.isoformat(' ') + "info_sep" + event.event_date_time_end.isoformat(' ')) for event in events]}
     
     elif filter_type == '4': #printers
         bldgsList = getBldgsWithPrinters()
@@ -65,9 +63,7 @@ def events_for_bldg(request, bldg_code):
     
     if filter_type == '0': #standard event
         try:
-            events = cal_event_query.filter_res_by_date(cal_event_query.bldg_filtered(bldg_code), 
-                                                        request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                        request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+            events = filter_cal_events(request)
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
@@ -165,6 +161,7 @@ def events_for_bldg(request, bldg_code):
     return HttpResponse(response_json, content_type="application/javascript")
 
 
+
 def events_for_all_bldgs(request):
     '''
     Return the HTML that should be rendered in the info box given the
@@ -177,8 +174,7 @@ def events_for_all_bldgs(request):
     
     if filter_type == '0': #standard event
         try:
-            events = cal_event_query.date_filtered(request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
-                                                        request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+            events = filter_cal_events(request)
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': 'All Events',
                                      'events': events})
@@ -264,9 +260,29 @@ def events_for_all_bldgs(request):
     return HttpResponse(response_json, content_type="application/javascript")
 
 
-# make dictionary of name, code pairs for use in location-based filtering 
-def make_bldg_names_json(request):
+def get_bldg_names_json(request):
+    '''
+    make dictionary of name, code pairs for use in location-based filtering
+    '''
     bldg_names = dict((name[0], code) for code, name in BLDG_INFO.iteritems())
     response_json = simplejson.dumps(bldg_names)
     return HttpResponse(response_json, content_type="application/javascript")
+
+
+
+####
+#Helper functions for views above
+####
+
+def filter_cal_events(request):
+    events = None
+    if 'm0' in request.GET:
+        events = cal_event_query.filter_by_date(events,
+            request.GET['m0'], request.GET['d0'], request.GET['y0'], request.GET['h0'],
+            request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
+    if 'search' in request.GET:
+        events = cal_event_query.filter_by_search(events, request.GET['search'])
+    return events
+
+def filter_
 
