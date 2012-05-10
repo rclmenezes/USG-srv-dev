@@ -32,10 +32,10 @@ def get_bldg_names_json(request):
 def get_cal_events_json(request):
     events_list = filter_cal_events(request)
     try:
-        start_date = datetime.date(request.GET['y0'], request.GET['m0'], request.GET['d0'])
-        start_time = request.GET['h0'] + request.GET['i0']
-        end_time = request.GET['h1'] + request.GET['i1']
-        n_days = request.GET['nDays']
+        start_date = datetime.date(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
+        start_index = int(request.GET['h0']) + 2*round(int(request.GET['i0'])/30)
+        end_index = int(request.GET['h1']) + 2*round(int(request.GET['i1'])/30)
+        n_days = int(request.GET['nDays'])
     except:
         raise Exception('missing get params')
     
