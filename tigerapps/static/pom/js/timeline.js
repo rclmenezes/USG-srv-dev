@@ -1,5 +1,8 @@
 jtl = {};
-function jTimeline(idTl, idInput) {
+function jTimeline(idTl, idInput, urlEvents) {
+	jtl.urlEventsJSON = 'json/events/';
+	//$.fn.getJTLParams = getJTLParams;
+	
 	//static references
 	jtl.tl = document.getElementById(idTl);
 	jtl.$tl = $('#'+idTl);
@@ -61,6 +64,10 @@ function loadJTLInputs() {
 	jtl.startIndex = timeToIndex(startTime[0], startTime[1]);
 	var endTime = $('#jtl-endTime').val().split(':');
 	jtl.endIndex = timeToIndex(endTime[0], endTime[1]);
+}
+
+function getJTLInputs() {
+	return 
 }
 
 
@@ -155,12 +162,22 @@ function clearJTLTimeline() {
 /***************************************/
 
 function loadJTLEvents() {
+	/*$.ajax(jevent.urlEventsJSON, {
+		data: (),
+		dataType: 'json',
+		success: displayInfoEvent,
+		error: function(jqXHR, textStatus, errorThrown) {
+			hideInfoEvent();
+			handleAjaxError(jqXHR, textStatus, errorThrown);
+		}
+	});*/
 	
+	//events: {id: {startTime: Date-obj, bldgCode: str}}
+	//need clearDateTime() on startTime
 }
 
 function addJTLEvents() {
 	for (id in jtl.events) {
-		//need clearDateTime() on startTime
 		var startTime = jtl.events[id].startTime;
 		var startDayIndex = dateToDayIndex(date);
 		if (startDayIndex < 0 || startDayIndex > jtl.nDays)
@@ -175,6 +192,8 @@ function addJTLEvents() {
 		divTick.appendChild(eventDot);
 	}
 }
+
+
 
 /***************************************/
 /* Time conversions */
@@ -219,22 +238,3 @@ function dateAbbrStr(d) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-function cmpDates(d1,d2) {
-	if (d1.getFullYear() < d2.getFullYear()) return -1;
-	else if (d1.getFullYear() > d2.getFullYear()) return 1;
-	if (d1.getMonth() < d2.getMonth()) return -1;
-	else if (d1.getMonth() > d2.getMonth()) return 1;
-	if (d1.getDate() < d2.getDate()) return -1;
-	else if (d1.getDate() > d2.getDate()) return 1;
-	return 0;
-}

@@ -484,7 +484,7 @@ input
     background-color: #D6D6D6;
     /* margin: 75px 150px 75px 150px;*/
     margin: 0px;
-    padding: 75px;
+    padding: 50px;
 }
 
 #settings_container p
@@ -529,17 +529,6 @@ input
      width: 50%;
 }
 
-
-#room_view
-{   
-    padding: 20px;
-}
-
-#room_view table
-{
-    border-top: 1px dashed black;
-}
-
 #room_view_wrapper
 {
     width: 100%;
@@ -559,5 +548,55 @@ a:hover
 .various
 {
     display: block;
+    /*text-decoration: none;*/
+}
+
+.fancyroom
+{
+    display: block;
     text-decoration: none;
+}
+
+#room_view
+{
+    text-size: 13px;
+}
+#room_view_head
+{
+    text-align: center;
+    padding: 10px;
+}
+
+#room_view_avail
+{
+    text-align: center;
+    text-size: 14px;
+    color: #00ce00; 
+}
+
+#room_view_unavail
+{
+    text-align: center;
+    text-size: 14px;
+    color: #e30000;
+}
+#room_view_head2
+{
+    text-align: center;
+    font-size: 14px;
+}
+
+#room_view_table tbody tr td
+{
+    /*border-collapse: collapse;
+    border: 3px solid black;*/
+    font-size: 14px;
+    text-align: center;
+}
+
+#room_view_table
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
 }
