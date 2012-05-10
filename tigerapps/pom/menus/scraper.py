@@ -49,12 +49,12 @@ def scrape_single_menu(bldg_code):
     for meal_xml in bs.find_all('meal'):
         #log('cock')
         meal = Meal()
-        meal.name = meal_xml.attrs['name']
+        meal.name = str(meal_xml.attrs['name'])
         for entree_xml in meal_xml.find_all('entree'):
             entree = Entree()
-            entree.attributes['name'] = entree_xml.next.contents[0]
+            entree.attributes['name'] = str(entree_xml.next.contents[0])
             for c in entree_xml.contents[1:]:
-                entree.attributes[c.name] = c.contents[0]
+                entree.attributes[c.name] = str(c.contents[0])
             meal.entrees.append(entree)
         menu.meals[meal.name] = meal
 

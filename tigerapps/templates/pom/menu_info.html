@@ -1,34 +1,12 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
-{% if 'Breakfast' in menu.meals %}
+{%for name, meal in menu.meals.items%}
 	<div class="info-event-entry">
-		<span style="font-weight:bold">Breakfast</span>
-		{% for entree in menu.meals.Breakfast.entrees %}
-		<div class="info-event-subtext">
-			{{entree.attributes.name}}
-		</div>
-		{% endfor %}
+		<span style="font-weight:bold">{{name}}</span>
+		{% for entree in meal.entrees%}
+			<div class="info-event-subtext">
+				{{entree.attributes.name}}
+			</div>
+		{% endfor%}
 	</div>
-{% endif %}
-	
-{% if 'Lunch' in menu.meals %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">Lunch</span>
-		{% for entree in menu.meals.Lunch.entrees %}
-		<div class="info-event-subtext">
-			{{entree.attributes.name}}
-		</div>
-		{% endfor %}
-	</div>
-{% endif %}
-
-{% if 'Dinner' in menu.meals %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">Dinner</span>
-		{% for entree in menu.meals.Dinner.entrees %}
-		<div class="info-event-subtext">
-			{{entree.attributes.name}}
-		</div>
-		{% endfor %}
-	</div>
-{% endif %}
+{%endfor%}
