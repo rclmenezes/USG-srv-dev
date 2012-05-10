@@ -72,8 +72,6 @@ function mapInit() {
 	jevent.bldgDisplayed = null;
 	
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
-    jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
-    jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
 	
 	setupFilterTabs();
 	setupActualFilters();
