@@ -66,18 +66,26 @@ function printDateTime(dateObj) {
     	hours + (am ? "AM" : "PM");
 }
 
+function cmpDates(d1,d2) {
+	if (d1.getFullYear() < d2.getFullYear()) return -1;
+	else if (d1.getFullYear() > d2.getFullYear()) return 1;
+	if (d1.getMonth() < d2.getMonth()) return -1;
+	else if (d1.getMonth() > d2.getMonth()) return 1;
+	if (d1.getDate() < d2.getDate()) return -1;
+	else if (d1.getDate() > d2.getDate()) return 1;
+	return 0;
+}
+
 /***************************************/
 /* Utility functions */
 /***************************************/
 
 function jExpand() {
 	$('.jexpand-main').mouseover(function() {
-		$(this).find('.jexpand-shortdesc').hide();
 		$(this).find('.jexpand-longdesc').show(100);
 	});
 	$('.jexpand-main').mouseout(function() {
 		$(this).find('.jexpand-longdesc').hide(100);
-		$(this).find('.jexpand-shortdesc').show();
 	});
 }
 
@@ -87,3 +95,4 @@ function handleAjaxError(jqXHR, textStatus, errorThrown) {
         win.document.write(jqXHR.responseText);
     }
 }
+
