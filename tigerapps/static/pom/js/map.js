@@ -72,8 +72,6 @@ function mapInit() {
 	jevent.bldgDisplayed = null;
 	
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
-    jevent.eventLeftDate = convertToDate($( "#events-slider" ).slider( "values", 0 ));
-    jevent.eventRightDate = convertToDate($( "#events-slider" ).slider( "values", 1 ));
 	
 	setupFilterTabs();
 	setupActualFilters();
@@ -462,22 +460,10 @@ function handleFilterChange() {
 function getFilterParams() {
 	var get_params = {type: jevent.filterType};
 	if (jevent.filterType == 0) {
-		//get dates from slider if searching events
-		$.extend(get_params, datesToFilter(jevent.eventLeftDate, jevent.eventRightDate));
+		//get dates from JTL if searching events
+		$.extend(get_params, getJTLParamsAJAX());
 	}
 	return get_params;
-}
-function datesToFilter(startDate, endDate) {
-	return {
-		m0: startDate.getMonth()+1,
-		d0: startDate.getDate(),
-		y0: startDate.getFullYear(),
-		h0: startDate.getHours(),
-		m1: endDate.getMonth()+1,
-		d1: endDate.getDate(),
-		y1: endDate.getFullYear(),
-		h1: endDate.getHours()
-	}
 }
 
 
@@ -491,7 +477,7 @@ function AJAXeventsForAllBldgs() {
 	$.ajax(jevent.urlEventsForAll, {
 		data: getFilterParams(),
 		dataType: 'json',
-		success: displayInfoEvent,
+		success: handleEventsAJAX,
 		error: function(jqXHR, textStatus, errorThrown) {
 			hideInfoEvent();
 			handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -504,7 +490,7 @@ function AJAXeventsForBldg(bldgCode) {
 	$.ajax(jevent.urlEventsForBldg+bldgCode, {
 		data: getFilterParams(),
 		dataType: 'json',
-		success: displayInfoEvent,
+		success: handleEventsAJAX,
 		error: function(jqXHR, textStatus, errorThrown) {
 			hideInfoEvent();
 			handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -513,13 +499,14 @@ function AJAXeventsForBldg(bldgCode) {
 }
 
 /* Success callback for AJAXeventsForBldg */
-function displayInfoEvent(data) {
+function handleEventsAJAX(data) {
 	if (data.error != null) {
 		hideInfoEvent();
 		alert(data.error);
 	} else {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
+		//loadJTLEvents(data.events);
 	}
 }
 
@@ -539,50 +526,7 @@ function hideInfoEvent() {
 /* Predefined filters                  */ 
 /***************************************/
 function setupActualFilters() {
-	setupTimelineFilter();
 	setupLocationFilter();
-}
-
-
-/***************************************/
-/* Timeline filter */ 
-/***************************************/
-
-function setupTimelineFilter() {
-	jTimeline('info-jtl', 'jtl-input');
-	$('#jtl-toggle').click(function() {
-		if (jevent.timelineShown)
-			hideTimeline();
-		else
-			showTimeline();
-	})
-	showTimeline();
-}
-function displayTimeline() {
-	if (jevent.timelineShown) showTimeline();
-	$('#jtl-toggle').show();
-}
-function undisplayTimeline() {
-	var tmp = jevent.timelineShown;
-	$('#jtl-toggle').hide();
-	hideTimeline();
-	jevent.timelineShown = tmp;
-}
-function showTimeline() {
-	$(jmap.jtl).show(80)
-	$(jmap.info).animate({
-		width:'535px'
-	}, 80);
-	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
-	jevent.timelineShown = true;
-}
-function hideTimeline() {
-	$(jmap.jtl).hide(80)
-	$(jmap.info).animate({
-		width:'380px'
-	}, 80);
-	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
-	jevent.timelineShown = false;
 }
 
 
