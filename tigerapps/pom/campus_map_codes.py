@@ -1,5 +1,5 @@
 
-campus_map_codes = \
+campus_codes = \
 {
     "136AL": [
         520
