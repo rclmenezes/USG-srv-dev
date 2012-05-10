@@ -29,8 +29,9 @@ def get_bldg_names_json(request):
     response_json = simplejson.dumps(bldg_names)
     return HttpResponse(response_json, content_type="application/javascript")
 
-def get_cal_events_json(request):
-    events_list = filter_cal_events(request)
+def get_cal_events_json(request, events_list=None):
+    if not events_list:
+        events_list = filter_cal_events(request)
     try:
         start_date = datetime.datetime(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
         start_index = 2*int(request.GET['h0']) + round(int(request.GET['i0'])/30)
@@ -41,23 +42,21 @@ def get_cal_events_json(request):
     
     events_dict = {}
     for event in events_list:
-        e_dict = {}
         e_start = event.event_date_time_start
-        e_dict['startTime'] = e_start
-        e_dict['endTime'] = event.event_date_time_end
-        e_dict['bldg_code'] = event.event_location
-        e_dict['eventId'] = event.event_id
         delta = e_start - start_date
         half_hrs_delta = int(round(delta.total_seconds()/1800))
-        time_id = str(delta.days) + '-' + str(half_hrs_delta)
-        if time_id in events_dict:
-            events_dict[time_id].append(e_dict)
-        else:
-            events_dict[time_id] = [e_dict]
+        time_index = str(delta.days) + '-' + str(half_hrs_delta)
         
-    dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) else None
-    response_json = json.dumps(events_dict, default=dthandler)
-    return HttpResponse(response_json, content_type="application/javascript")
+        e_dict = {'bldgCode': event.event_location, 'eventId': event.event_id}
+        #e_dict['startTime'] = e_start
+        #e_dict['endTime'] = event.event_date_time_end
+        
+        if time_index in events_dict:
+            events_dict[time_index].append(e_dict)
+        else:
+            events_dict[time_index] = [e_dict]
+        
+    return events_dict
 
 
 
@@ -109,11 +108,10 @@ def events_for_bldg(request, bldg_code):
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
-            response_json = simplejson.dumps({'error': None,
-                                              'html': html,
-                                              'bldgCode': bldg_code})
+            response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code,
+                             'eventsJson': get_cal_events_json(request, events)}
         except Exception, e:
-            response_json = simplejson.dumps({'error': str(e)})
+            response_dict = {'error': str(e)}
         
         
     elif filter_type == '2': #menus        
@@ -139,11 +137,9 @@ def events_for_bldg(request, bldg_code):
                 html = render_to_string('pom/menu_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
                                          'menu': menu})
-                response_json = simplejson.dumps({'error': None,
-                                                  'html': html,
-                                                  'bldgCode': bldg_code})
+                response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
             except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)})
+                response_dict = {'error': str(e)}
     
     
     elif filter_type == '3': #laundry
@@ -157,11 +153,9 @@ def events_for_bldg(request, bldg_code):
                 html = render_to_string('pom/laundry_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
                                          'machines' : machine_list_bldg})
-                response_json = simplejson.dumps({'error': None,
-                                                  'html': html,
-                                                  'bldgCode': bldg_code})
+                response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
             except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)}) 
+                response_dict = {'error': str(e)}
     
     
     elif filter_type == '4': #printers
@@ -182,17 +176,15 @@ def events_for_bldg(request, bldg_code):
                 html = render_to_string('pom/printer_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
                                          'printers' : printer_info})
-                response_json = simplejson.dumps({'error': None,
-                                                  'html': html,
-                                                  'bldgCode': bldg_code})
+                response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
             except Exception, e:
-                response_json = simplejson.dumps({'error': str(e)})
-        
+                response_dict = {'error': str(e)}
         
     else:
         raise Exception("Bad filter type in GET request: %s" % filter_type)
-            
-
+    
+    
+    response_json = simplejson.dumps(response_dict)
     return HttpResponse(response_json, content_type="application/javascript")
 
 
@@ -213,8 +205,8 @@ def events_for_all_bldgs(request):
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': 'All Events',
                                      'events': events})
-            response_json = simplejson.dumps({'error': None,
-                                              'html': html})
+            response_json = simplejson.dumps({'error': None, 'html': html,
+                                              'eventsJson': get_cal_events_json(request, events)})
         except Exception, e:
             response_json = simplejson.dumps({'error': str(e)})
     
