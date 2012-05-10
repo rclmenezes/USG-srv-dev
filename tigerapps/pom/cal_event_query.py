@@ -15,24 +15,26 @@ def all():
     '''
     return Event.objects.all().order_by('event_date_time_start','event_date_time_end')
 
-def bldg_filtered(bldg_code):
+
+def filter_by_bldg(qset, bldg_code):
     '''
     Get all events for `building`
     '''
-    return Event.objects.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
+    if qset:
+        return qset.objects.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
+    else:
+        return Event.objects.filter(event_location=bldg_code).order_by('event_date_time_start','event_date_time_end')
 
-def date_filtered(leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
-    '''DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!'''
-    #TODO: above
-    left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
-    right = datetime.datetime(year = int(rightYear) -1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
-    return Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
 
-def filter_res_by_date(res,leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
+def filter_by_date(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
     '''DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!'''
     left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
     right = datetime.datetime(year = int(rightYear) -1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
-    return res.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
+    if qset:
+        return qset.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
+    else:
+        return Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
+
 
 def filter_res_by_hour(res, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
     left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))

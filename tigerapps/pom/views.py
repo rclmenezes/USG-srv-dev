@@ -63,7 +63,7 @@ def events_for_bldg(request, bldg_code):
     
     if filter_type == '0': #standard event
         try:
-            events = filter_cal_events(request)
+            events = filter_cal_events(request, bldg_code)
             html = render_to_string('pom/event_info.html',
                                     {'bldg_name': BLDG_INFO[bldg_code][0],
                                      'events': events})
@@ -81,20 +81,10 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                log = open('/srv/tigerapps/slog','a')
-                log.write('before call to scrape: %s\n' % bldg_code)
-                log.close()
-                menu_list = cache.get('menu_list') 
-                if menu_list == None:
-                    menu_list = menus.scrape_all()
-                    try: 
-                        cache.set('menu_list', menu_list, 1000)
-                    except Exception, e:
-                        send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-                  
+                menu = filter_menus(request, bldg_code)
                 html = render_to_string('pom/menu_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'menu': menu_list[bldg_code]})
+                                         'menu': menu})
                 response_json = simplejson.dumps({'error': None,
                                                   'html': html,
                                                   'bldgCode': bldg_code})
@@ -102,26 +92,17 @@ def events_for_bldg(request, bldg_code):
                 response_json = simplejson.dumps({'error': str(e)})
     
     
-    elif filter_type == '3': #laundry    
+    elif filter_type == '3': #laundry
         #assert building contains laundry room
-        response_json = simplejson.dumps({'error': 'not implemented'})
-
         if bldg_code not in getBldgsWithLaundry():
            err = 'requested laundry info from invalid building ' + BLDG_INFO[bldg_code][0]
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                mapping = cache.get('laundry')
-                if mapping == None:
-                    mapping = laundry.scrape_all()
-                    try: 
-                        cache.set('laundry', mapping, 1000)
-                    except Exception, e:
-                        send_mail('EXCEPTION IN pom.views events_for_bldg laundry', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-                laundry_info = mapping[bldg_code]
+                machine_list_bldg = filter_laundry(request, bldg_code)
                 html = render_to_string('pom/laundry_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'machines' : laundry_info})
+                                         'machines' : machine_list_bldg})
                 response_json = simplejson.dumps({'error': None,
                                                   'html': html,
                                                   'bldgCode': bldg_code})
@@ -186,14 +167,7 @@ def events_for_all_bldgs(request):
             
     elif filter_type == '2': #menus
         try:
-            menu_list = cache.get('menu_list') 
-            if menu_list == None:
-                menu_list = menus.scrape_all()
-                try: 
-                    cache.set('menu_list', menu_list, 1000)
-                except Exception, e:
-                    send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-            
+            menu_list = filter_menus(request)
             html = render_to_string('pom/menu_info_all.html',
                                     {'menu_list': menu_list,
                                      'bldg_info': BLDG_INFO})
@@ -205,21 +179,7 @@ def events_for_all_bldgs(request):
     
     elif filter_type == '3': #laundry
         try:
-            machine_list = cache.get('laundry_list')
-            if machine_list == None:
-                mapping = laundry.scrape_all()
-                machine_list = []
-                for key, value in mapping.items():
-                    for x in value:
-                        machine_list.append(x)
-                machine_list = sorted(machine_list, key=lambda x: x[0])
-                try: 
-                    cache.set('laundry_list', machine_list, 1000)
-                    cache.set('laundry', mapping, 1000)
-                except Exception, e:
-                    send_mail('EXCEPTION IN pom.views events_for_bldg laundry', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-            
-            
+            machine_list = filter_laundry(request)
             html = render_to_string('pom/laundry_info_all.html',
                                     {'machine_list' : machine_list})
             response_json = simplejson.dumps({'error': None,
@@ -274,7 +234,7 @@ def get_bldg_names_json(request):
 #Helper functions for views above
 ####
 
-def filter_cal_events(request):
+def filter_cal_events(request, bldg_code=None):
     events = None
     if 'm0' in request.GET:
         events = cal_event_query.filter_by_date(events,
@@ -282,4 +242,60 @@ def filter_cal_events(request):
             request.GET['m1'], request.GET['d1'], request.GET['y1'], request.GET['h1'])
     if 'search' in request.GET:
         events = cal_event_query.filter_by_search(events, request.GET['search'])
+    if bldg_code:
+        events = cal_event_query.filter_by_bldg(events, bldg_code)
     return events
+
+
+def filter_menus(request, bldg_code=None):
+    #TODO: could add filtering for just breakfast, etc based on request.GET here
+    #after the scrape but before the return
+    log = open('/srv/tigerapps/slog','a')
+    log.write('before call to scrape: %s\n' % bldg_code)
+    log.close()
+    menu_list = cache.get('menu_list')
+    if not menu_list:
+        if bldg_code:
+            menu = cache.get('menu_'+bldg_code)
+            if not menu:
+                menu = scrape_single_menu(bldg_code)
+            try: 
+                cache.set('menu_'+bldg_code, menu, 1000)
+            except Exception, e:
+                send_mail('EXCEPTION IN pom.views filter_menus1 menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+            return menu
+        else:
+            menu_list = menus.scrape_all()
+            try: 
+                cache.set('menu_list', menu_list, 1000)
+            except Exception, e:
+                send_mail('EXCEPTION IN pom.views filter_menus2 menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+    if bldg_code:
+        return menu_list[bldg_code]
+    return menu_list
+
+
+def filter_laundry(request, bldg_code=None):
+    #TODO: could add filtering for just breakfast, etc based on request.GET here
+    #after the scrape but before the return
+    mapping = cache.get('laundry')
+    if mapping == None:
+        mapping = laundry.scrape_all()
+        try:
+            cache.set('laundry', mapping, 1000)
+        except Exception, e:
+            send_mail('EXCEPTION IN pom.views filter_laundry1', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+    if bldg_code:
+        return mapping[bldg_code]
+    
+    if machine_list == None: 
+        machine_list = [x for x in v for k,v in mapping.items()]
+        machine_list = sorted(machine_list, key=lambda x: x[0])
+        try: 
+            cache.set('laundry_list', machine_list, 1000)
+        except Exception, e:
+            send_mail('EXCEPTION IN pom.views filter_laundry2', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+    return machine_list
+
+
+
