@@ -14,7 +14,7 @@ import datetime, simplejson
 from django.core.cache import cache
 from django.core.mail import send_mail
 
-def eventList_to_JSON(request):
+def respond_to_cal_events(request):
     events_list = filter_cal_events(request)
     events_dict = {}
     for event in events_list:
