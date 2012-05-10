@@ -2,14 +2,16 @@
 
 <h3 id="info-bldg-name">All Menus</h3>
 
-{% for hall, menu in menu_list.items %}
-{% with bldg_info|hash:hall as tup%}
-<h2>{{ tup.0 }}</h2>
+{% for tup in menu_list %}
+
+{% with bldg_info|hash:tup.0 as hallname%}
+<h2>{{ hallname.0 }}</h2>
 {%endwith%}
-{%for name, meal in menu.meals.items%}
+
+{%for meal in tup.1.meals%}
 	<div class="info-event-entry">
-		<span style="font-weight:bold">{{name}}</span>
-		{% for entree in meal.entrees%}
+		<span style="font-weight:bold">{{meal.0}}</span>
+		{% for entree in meal.1.entrees%}
 			<div class="info-event-subtext">
 				{{entree.attributes.name}}
 			</div>

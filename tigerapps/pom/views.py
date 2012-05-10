@@ -76,6 +76,16 @@ def bldgs_for_filter(request):
 
 
 
+def sorting_func(val):
+    if (val == 'Breakfast'):
+        return 0
+    elif (val == 'Brunch'):
+        return 1
+    elif (val == 'Lunch'):
+        return 2
+    else:
+        return 3
+
 def events_for_bldg(request, bldg_code):
     '''
     Return the HTML that should be rendered in the info box given the
@@ -106,7 +116,28 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                menu = filter_menus(request, bldg_code)
+                log = open('/srv/tigerapps/slog','a')
+                log.write('before call to scrape: %s\n' % bldg_code)
+                log.close()
+                menu_list = cache.get('menu_list') 
+                if menu_list == None:
+                    menu_list = menus.scrape_all()
+                    menu_list = list(set([(hall, menu) for hall, menu in menu_list.items()]))
+                    menu_list = sorted(menu_list, key = lambda x: x[0])
+                    for tup in menu_list:
+                        tup[1].meals = [(name, meal) for name, meal in tup[1].meals.items()]
+                        tup[1].meals = sorted(tup[1].meals, key = lambda x: sorting_func(x[0]))
+                    try: 
+                        cache.set('menu_list', menu_list, 1000)
+                    except Exception, e:
+                        send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                                        
+                menu = ''
+                for x in menu_list:
+                    if x[0] == bldg_code:
+                        menu = x[1]
+                        break
+                
                 html = render_to_string('pom/menu_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
                                          'menu': menu})
@@ -192,7 +223,19 @@ def events_for_all_bldgs(request):
             
     elif filter_type == '2': #menus
         try:
-            menu_list = filter_menus(request)
+            menu_list = cache.get('menu_list') 
+            if menu_list == None:
+                menu_list = menus.scrape_all()
+                menu_list = list(set([(hall, menu) for hall, menu in menu_list.items()]))
+                menu_list = sorted(menu_list, key = lambda x: x[0])
+                for tup in menu_list:
+                    tup[1].meals = [(name, meal) for name, meal in tup[1].meals.items()]
+                    tup[1].meals = sorted(tup[1].meals, key = lambda x: sorting_func(x[0]))
+                try: 
+                    cache.set('menu_list', menu_list, 1000)
+                except Exception, e:
+                    send_mail('EXCEPTION IN pom.views events_for_bldg menus', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+            
             html = render_to_string('pom/menu_info_all.html',
                                     {'menu_list': menu_list,
                                      'bldg_info': BLDG_INFO})

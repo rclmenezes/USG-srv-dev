@@ -1,9 +1,9 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
-{%for name, meal in menu.meals.items%}
+{%for meal in menu.meals%}
 	<div class="info-event-entry">
-		<span style="font-weight:bold">{{name}}</span>
-		{% for entree in meal.entrees%}
+		<span style="font-weight:bold">{{meal.0}}</span>
+		{% for entree in meal.1.entrees%}
 			<div class="info-event-subtext">
 				{{entree.attributes.name}}
 			</div>
