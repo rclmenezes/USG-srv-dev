@@ -163,7 +163,6 @@ jtlFn.addJTLEvents = function() {
 	for (var tickIndex in jtl.markData) {
 		var tickId = jtlFn.indexToId(tickIndex);
 		var divTick = document.getElementById(tickId);
-		console.log(tickId);
 		var tickData = jtl.markData[tickIndex];
 		var nMarks = tickData.length;
 		

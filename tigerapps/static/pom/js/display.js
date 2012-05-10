@@ -31,10 +31,11 @@ function setupJTLSlider() {
         range: true,
         min: 0,
         max: 48,
-        values: [20, 40],
+        values: [20, 40], //initial
         slide: function( event, ui ) {
         	//sliderLeftTimeVal and sliderRightTimeVal will contain arrays where the zeroth 
         	//element is the hour (0-23) and the first element is the minutes (0 or 30)
+        	if (ui.values[1] - ui.values[0] < 4) return false;
         	var startTime = indexToTimeArr(ui.values[0]);
     		var endTime = indexToTimeArr(ui.values[1]);
             $("#jtl-slider-start").val(printTime(startTime));
@@ -157,22 +158,13 @@ function eventEntryMouseout(domEle) {
 }
 function eventEntryClick(domEle) { //only for the timeline
 	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var infoBot = $('#info-bot');
 	infoBot.animate({
         scrollTop: $("#event-entry-"+eventId).position().top+infoBot.scrollTop()-infoBot.position().top-15
     }, 100);
-}
-
-
-function jExpand() {
-	$('.jexpand-main').mouseover(function() {
-		$(this).find('.jexpand-dots').hide();
-		$(this).find('.jexpand-long').show();
-	});
-	$('.jexpand-main').mouseout(function() {
-		$(this).find('.jexpand-dots').show();
-		$(this).find('.jexpand-long').hide();
-	});
+	$(eventEntry).find('.info-event-dots').toggle();
+	$(eventEntry).find('.info-event-long').toggle(100);
 }
 
 
