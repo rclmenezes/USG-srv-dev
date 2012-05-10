@@ -381,12 +381,8 @@ function displayLocationBldgs() {
 }
 /* We also need a way to color just 1 building (the one the user searched for) */
 function displayLocationBldg(bldgId) {
-	alert(bldgId);
 	displayLocationBldgs();
-	alert("here2");
-	setupEventBldg(/*JOSHBOPS this variable is undefined, needs to be domEle */ jmap.loadedBldgs[bldgId]);
-	alert(bldgId);
-	alert(jmap.loadedBldgs[bldgId]);
+	setupEventBldg(jmap.loadedBldgs[bldgId].domEle);
 }
 
 function showMapLoading() {
