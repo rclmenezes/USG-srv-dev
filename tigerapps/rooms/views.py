@@ -1,6 +1,8 @@
 # Create your views here.
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
+from django.views.decorators.csrf import csrf_protect
+from django.template import RequestContext
 from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -137,7 +139,58 @@ def get_room(request, roomid):
     room = get_object_or_404(Room, pk=roomid)
     occlong = occlonghelper(room)
     floorword = floorwordhelper(room.floor)
-    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword})
+    
+    # Gather reviews for this room
+    revs = Review.objects.filter(room=room)
+    print 'num reviews found: %d' % (len(revs))
+    
+    pastReview = None
+    try:
+        pastReview = Review.objects.get(room=room, user=user)    #the review that the user has posted already (if it exists)
+    except Review.DoesNotExist:
+        pass
+        
+    if request.method == 'POST':
+        review = request.POST.get('review', None)
+        submit = request.POST.get('submit', None)
+        delete = request.POST.get('delete', None)
+        
+        # user wants to review - clicked "Review this Room"
+        if review:
+            if pastReview:
+                form = ReviewForm(instance=pastReview)
+                return render_to_response('rooms/room_view.html', {'room' : room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs, 'form': form, 'edit': True}, context_instance=RequestContext(request))
+            else:   
+                form = ReviewForm()
+                return render_to_response('rooms/room_view.html', {'room' : room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs, 'form': form}, context_instance=RequestContext(request))
+        # user submitted the review
+        elif submit:
+            if pastReview:
+                form = ReviewForm(request.POST, instance=pastReview)
+            else:
+                form = ReviewForm(request.POST)
+                
+            if form.is_valid():
+                print 'ok valid'
+                rev = form.save(commit=False)
+                rev.user = user
+                rev.room = room
+                rev.save()
+                revs = Review.objects.filter(room=room)
+                print 'num reviews found: %d' % (len(revs))
+                return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs})
+            else:
+                form = ReviewForm()
+                return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs, 'form': form, 'error': 'Invalid submit data'})
+        # user clicked "Delete this Review"
+        elif delete:
+            if pastReview:
+                pastReview.delete()
+                revs = Review.objects.filter(room=room)
+                print 'num reviews found: %d' % (len(revs))
+                return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs})
+    
+    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs})
     
 @login_required
 def create_queue(request, drawid):
@@ -251,7 +304,7 @@ def leave_queue(request):
     user.queues.remove(q1)
     user.queues.add(q2)
     return manage_queues(request);
-
+'''
 @login_required
 #for testing
 def review(request, roomid):
@@ -315,7 +368,7 @@ def review(request, roomid):
             return HttpResponseRedirect(reverse(index))
     else:
         return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': False})
-
+'''
 @login_required
 def settings(request):
     user = check_undergraduate(request.user.username)
