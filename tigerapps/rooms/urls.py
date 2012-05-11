@@ -17,7 +17,8 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     
     #for testing purposes
-    (r'^review/(?P<roomid>\d+)$', 'rooms.views.review'),
+    #(r'^review/(?P<roomid>\d+)$', 'rooms.views.review'),
+    
     (r'^test','rooms.views.test'),
     (r'^trigger','rooms.views.trigger'),
     (r'^user_settings.html$','rooms.views.settings'),
