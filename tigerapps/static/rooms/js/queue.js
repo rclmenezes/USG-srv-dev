@@ -1,16 +1,30 @@
 // Module for managing the queue panel
 
 var ExternAjax = function(url, type, data, onSuccess) {
-    $.ajax({
+    console.log('in externajax');
+    // xhr = $.ajax({
+    //     url: REAL_TIME_ADDR + url,
+    //     success: function(data) {
+    //         alert('hello')
+    //     },
+    //     data: data,
+    //     type: type,
+    //     xhrFields: {
+    //         withCredentials: true
+    //     }
+    // });
+    xhr = $.ajax({
+//        url:'trigger/',
         url: REAL_TIME_ADDR + url,
+        type: 'POST',
         data: data,
-        type: type,
-        //beforeSend: function(xhr){xhr.setRequestHeader('cookie', 'sessionid='+$.cookie('sessionid'));},
         xhrFields: {
             withCredentials: true
         },
-        success: function(data) {console.log(data)  }
+        success: function(data) {onSuccess(JSON.parse(data))}
     });
+    console.log(xhr);
+    return xhr;
 }
 var QueueModule = (function($) {
     
@@ -20,6 +34,11 @@ var QueueModule = (function($) {
     var prefix = 'queue-';
     // URL for saving updates
     var saveurl = REAL_TIME_ADDR + '/update_queue/'
+    
+    // Last update for this draw
+    var update_timestamp = 0
+    // Currently waiting request
+    var update_xhr = 0
     
     // Update the idlist (i.e. after deletion, reordering)
     var update_idlist = function() {
@@ -75,15 +94,40 @@ var QueueModule = (function($) {
     }
 
     // Pull up the queue for a new draw
-    var switchhelper = function() {
+    // var switchhelper = function(data) {
+    //     idlist = new Array();
+    //     $('#room_queue').sortable('refresh');
+    //     update_idlist();
+    //     //console.log(idlist);
+    // }
+    var switchdraw = function(e, drawid) {
+        //$('#room_queue').load('/get_queue/'+drawid, switchhelper);
+        get_queue(drawid, 0);
+	    $('#queuehead').html(drawdata[drawid-1]['name'] + ' Queue'); // needs to be more secure?
+    }
+
+    var handler = function(data) {
+        console.log('got queue');
         idlist = new Array();
+        console.log(data)
+        update_timestamp = data.timestamp;
+        // Put into list - formatting goes here
+        $('#room_queue').html(JSON.stringify(data.rooms));
         $('#room_queue').sortable('refresh');
         update_idlist();
-        //console.log(idlist);
+        //setInterval(get_update, 1);
     }
-    var switchdraw = function(e, drawid) {
-        $('#room_queue').load('/get_queue/'+drawid, switchhelper);
-	$('#queuehead').html(drawdata[drawid-1]['name'] + ' Queue'); // needs to be more secure?
+
+    var get_queue = function(drawid, timestamp) {
+        if (update_xhr && update_xhr.readystate != 4)
+            update_xhr.abort();
+        console.log('Getting queue');
+        update_xhr = ExternAjax('/get_queue/'+drawid+'/'+timestamp,
+                                'json', null, handler);
+    }
+
+    var get_update = function() {
+        get_queue(current_draw, update_timestamp);
     }
 
         

@@ -433,7 +433,7 @@ def notify(user, subject, message):
 ##################
 # Real-time view functions go here (long polling)
     
-#@login_required
+@login_required
 def update_queue(request, drawid):
     user = check_undergraduate(request.user.username)
     if not user:
@@ -448,26 +448,27 @@ def update_queue(request, drawid):
         return externalResponse('no queue')
 
     # QueueManager object takes over
-    rooms = []
-    for roomid in qlist:
-        room = Room.objects.get(pk=roomid)
-        if (not room) or not draw in room.building.draw.all():
-            return externalResponse('bad room/draw')
-        rooms.append(room)
-    # Clear out the old list
-    queue.queuetoroom_set.all().delete()
-    # Put in new relationships
-    for i in range(0, len(rooms)):
-        qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
-        qtr.save()
-    # Test output - list rooms
-    return externalResponse(rooms)
+    # rooms = []
+    # for roomid in qlist:
+    #     room = Room.objects.get(pk=roomid)
+    #     if (not room) or not draw in room.building.draw.all():
+    #         return externalResponse('bad room/draw')
+    #     rooms.append(room)
+    # # Clear out the old list
+    # queue.queuetoroom_set.all().delete()
+    # # Put in new relationships
+    # for i in range(0, len(rooms)):
+    #     qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
+    #     qtr.save()
+    # # Test output - list rooms
+    # return externalResponse(rooms)
 
-
+    return edit(user, queue, qlist)
 # Ajax for displaying this user's queue
 @login_required
 def get_queue(request, drawid, timestamp = 0):
     user = check_undergraduate(request.user.username)
+    timestamp = int(timestamp)
     if not user:
         return HttpResponseForbidden()
     try:
