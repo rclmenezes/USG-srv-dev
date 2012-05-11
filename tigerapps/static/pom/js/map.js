@@ -333,7 +333,10 @@ function handleBldgClick(ev,domEle) {
 	var bldgCode = bldgIdToCode(domEle.id);
 	if (jevent.bldgDisplayed == bldgCode) {
 		/* hide the building info if building clicked is the one that's shown */
-		AJAXeventsForAllBldgs();
+		if (jevent.filterType != 5)
+			AJAXeventsForAllBldgs();
+		else
+			hideInfoEvent();
 	} else
 		/* otherwise, load the clicked building */
 		AJAXeventsForBldg(bldgCode);
