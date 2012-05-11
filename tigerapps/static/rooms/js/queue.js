@@ -1,11 +1,25 @@
 // Module for managing the queue panel
 
+var ExternAjax = function(url, type, data, onSuccess) {
+    $.ajax({
+        url: REAL_TIME_ADDR + url,
+        data: data,
+        type: type,
+        //beforeSend: function(xhr){xhr.setRequestHeader('cookie', 'sessionid='+$.cookie('sessionid'));},
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(data) {console.log(data)  }
+    });
+}
 var QueueModule = (function($) {
     
     // The current ordered list of room ids
     var idlist = new Array();
     // The prefix for room ids in the queue elements
     var prefix = 'queue-';
+    // URL for saving updates
+    var saveurl = REAL_TIME_ADDR + '/update_queue/'
     
     // Update the idlist (i.e. after deletion, reordering)
     var update_idlist = function() {
@@ -66,10 +80,15 @@ var QueueModule = (function($) {
     // Save the current list to the server
     var save = function() {
         //alert(current_draw);
-        $.post('/update_queue/'+current_draw, {'queue':JSON.stringify(idlist)});
-        // function(data) {
-        //     $('#testoutput').html(data);
-        // });
+        ExternAjax('/update_queue/'+current_draw, 'POST', {'queue':JSON.stringify(idlist)},
+               function(data) {
+                   console.log(data);
+               });
+
+        // $.post(saveurl+current_draw, {'queue':JSON.stringify(idlist)},
+        //        function(data) {
+        //            console.log(data);
+        //        });
     }
 
     // Pull up the queue for a new draw
