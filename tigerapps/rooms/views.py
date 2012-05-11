@@ -12,9 +12,11 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django import forms
 import json
-import sys
-from queue import *
+import sys,os
 import traceback
+
+if 'IS_REAL_TIME_SERVER' in os.environ:
+    from real_time_views import *
 
 REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
 NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
@@ -232,7 +234,8 @@ def invite_queue(request):
         return manage_queues(request, 'You didn\'t select any draws. Try again!')
 
     for draw in invited_draws:
-        invite = QueueInvite(sender=user, receiver=receiver, draw=draw)
+        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
+                             timestamp=int(time.time()))
         invite.save();
 
     sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
@@ -264,6 +267,8 @@ def respond_queue(request):
     try:
         if accepted:
             queue = invite.accept()
+            if not queue:
+                return manage_queues(request)
             friends = queue.user_set.all()
             for friend in friends:
                 if user != friend:
@@ -279,7 +284,7 @@ to add. """ % (receiver_name, url)
         return HttpResponse(e)
 
 
-    return manage_queues(request);
+    return manage_queues(request)
 
 # Leave a queue that was previously shared
 @login_required
@@ -379,10 +384,11 @@ def settings(request):
 
 def handle_settings_form(request, user):
     
+    
     if(request.POST['phone']):
         phone = int(request.POST['phone'])
     
-        if phone != int(user.phone):
+        if (not user.phone) or (phone != int(user.phone)):
             # Send confirmation code
             carriers = Carrier.objects.order_by('name')
     
@@ -400,6 +406,9 @@ def handle_settings_form(request, user):
 
 
 def handle_confirmphone_form(confirmation, user):
+    if not user.phone:
+        return False
+
     carrier_id = int(confirmation) - (int(user.phone) / 10000 * 3) - user.id;
 
     if carrier_id < 0 or carrier_id % 7 != 0:
@@ -482,67 +491,3 @@ def notify(user, subject, message):
 
 
 
-
-
-##################
-# Real-time view functions go here (long polling)
-    
-@login_required
-def update_queue(request, drawid):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return externalResponse('forbidden')
-    draw = Draw.objects.get(pk=drawid)
-    qlist = json.loads(request.POST['queue'])
-    # resp = ''
-    # for r in qlist:
-    #     resp += ' ' + r;
-    queue = user.queues.filter(draw=draw)[0]
-    if not queue:
-        return externalResponse('no queue')
-
-    # QueueManager object takes over
-    # rooms = []
-    # for roomid in qlist:
-    #     room = Room.objects.get(pk=roomid)
-    #     if (not room) or not draw in room.building.draw.all():
-    #         return externalResponse('bad room/draw')
-    #     rooms.append(room)
-    # # Clear out the old list
-    # queue.queuetoroom_set.all().delete()
-    # # Put in new relationships
-    # for i in range(0, len(rooms)):
-    #     qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
-    #     qtr.save()
-    # # Test output - list rooms
-    # return externalResponse(rooms)
-    try:
-        return edit(user, queue, qlist, draw)
-    except Exception as e:
-        return externalResponse(e)
-
-# Ajax for displaying this user's queue
-@login_required
-def get_queue(request, drawid, timestamp = 0):
-    user = check_undergraduate(request.user.username)
-    timestamp = int(timestamp)
-    if not user:
-        return HttpResponseForbidden()
-    try:
-        draw = Draw.objects.get(pk=drawid)
-        queue = user.queues.get(draw=draw)
-    except Exception as e:
-        return HttpResponse(traceback.format_exc(2) + str(draw))
-    #real-time takes over
-#    return HttpResponse(queue)
-    try:
-        return check(user, queue, timestamp)
-    except Exception as e:
-        return HttpResponse(traceback.format_exc(2))
-    # queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
-    # if not queueToRooms:
-    #     return HttpResponse('')
-    # room_list = []
-    # for qtr in queueToRooms:
-    #     room_list.append(qtr.room)
-    # return render_to_response('rooms/queue.html', {'room_list':room_list})

@@ -85,12 +85,13 @@
         {% endifequal %}
         {% endcomment %}
       </a></td>
-      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">
+      <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}"><div id="avail-{{ room.id }}">
         {% if room.avail %}
         Yes
         {% else %}
         No
         {% endif %}
+        </div>
      </a></td>
     </tr>
     {% endfor %}

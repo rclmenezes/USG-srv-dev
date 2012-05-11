@@ -1,6 +1,6 @@
 // Module for managing the queue panel
 
-var ExternAjax = function(url, type, data, onSuccess) {
+var ExternAjax = function(url, type, data, onSuccess, onFail) {
     console.log('in externajax');
     // xhr = $.ajax({
     //     url: REAL_TIME_ADDR + url,
@@ -21,7 +21,8 @@ var ExternAjax = function(url, type, data, onSuccess) {
         xhrFields: {
             withCredentials: true
         },
-        success: function(data) {console.log(data);onSuccess(JSON.parse(data))}
+        success: function(data) {console.log(data);onSuccess(JSON.parse(data))},
+        error: onFail
     });
     console.log(xhr);
     return xhr;
@@ -144,8 +145,12 @@ var QueueModule = (function($) {
         // Put into list - formatting goes here
         $('#room_queue').html(intohtml); //JSON.stringify(data.rooms));
         $('#room_queue').sortable('refresh');
+        if (data.kind == 'EDIT')
+            $('#queue_note').html(data.netid + ' edited queue');
+        else
+            $('#queue_note').html('queue merged');
         update_idlist();
-        setTimeout(get_update, 2000);
+        setTimeout(get_update, 100);
     }
 
     var get_queue = function(drawid, timestamp) {
@@ -154,6 +159,7 @@ var QueueModule = (function($) {
         console.log('Getting queue');
         update_xhr = ExternAjax('/get_queue/'+drawid+'/'+timestamp,
                                 'json', null, handler);
+                                //function(){setTimeout(get_update, 1000)});
     }
 
     get_update = function() {
@@ -180,3 +186,20 @@ var QueueModule = (function($) {
     });
 
 }(jQuery));
+
+
+var avail_handler = function(data) {
+    console.log('In avail_handler');
+    console.log(data);
+    for (var i = 0; i < data.rooms.length; i++) {
+        console.log(data.rooms[i]);
+        console.log($('#avail-'+data.rooms[i]));
+        $('#avail-'+data.rooms[i]).html('No');
+    }
+    setTimeout(function() {check_avail(data.timestamp)}, 100);
+}
+var check_avail = function(timestamp) {
+    ExternAjax('/check_availability/'+timestamp, 'GET', null, avail_handler)
+}
+
+check_avail(0);
