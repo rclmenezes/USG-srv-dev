@@ -20,6 +20,14 @@ timing_event = Event()
 #     subprocess.Popen(scriptloc, close_fds=True)
 #     #del os.environ['IS_REAL_TIME_SERVER']
 
+NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
+# def externalResponse(data):
+#     response =  HttpResponse(data)
+#     response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+#     response['Access-Control-Allow-Credentials'] =  "true"
+#     response['Access-Control-Allow-Methods'] =  "JSON"
+#     return response
+
 def triggertime():
     timing_event.set()
     timing_event.clear()
@@ -57,10 +65,10 @@ class QueueManager(object):
     def edit(self, user, queue, room_idlist):
         # Perform the work
         rooms = []
-        for roomid in qlist:
+        for roomid in room_idlist:
             room = Room.objects.get(pk=roomid)
             if (not room) or not draw in room.building.draw.all():
-                return HttpResponse('bad room/draw')
+                return json_response({'error':'bad room/draw'})
             rooms.append(room)
         # Clear out the old list
         queue.queuetoroom_set.all().delete()
@@ -75,33 +83,38 @@ class QueueManager(object):
         self.updates[queue.id].update = update
         self.updates[queue.id].event.set()
         self.updates[queue.id].event.clear()
-        return HttpResponse(rooms)
+        return json_response({'rooms':rooms})
 
     def check(self, user, queue, timestamp):
+        print user, queue, timestamp
         latest = self.updates[queue.id]
         if timestamp != 0 and timestamp > latest.update.timestamp:
+            print 'going to wait'
+            print latest.update.timestamp
             latest.event.wait()
             latest = self.updates[queue.id]
+        print 'past wait'
         queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
         if not queueToRooms:
-            return HttpResponse('')
+            return json_response({'timestamp':int(time.time()), 'rooms':[]})
         room_list = []
         for qtr in queueToRooms:
-            room_list.append(qtr.room)
-        return render_to_response('rooms/queue.html', {'room_list':room_list})
+            room_list.append({'id':qtr.room.id, 'number':qtr.room.number,
+                              'building':qtr.room.building.name})
+        return json_response({'timestamp':int(time.time()), 'rooms':room_list})
 
 #if 'IS_REAL_TIME_SERVER' in os.environ:
 manager = QueueManager()
 
 check = manager.check
-
-def create_message(from_, body):
-    data = {'id': str(uuid.uuid4()), 'from': from_, 'body': body}
-    data['html'] = render_to_string('message.html', dictionary={'message': data})
-    return data
+edit = manager.edit
 
 
 def json_response(value, **kwargs):
-    kwargs.setdefault('content_type', 'text/javascript; charset=UTF-8')
-    return HttpResponse(simplejson.dumps(value), **kwargs)
+#    kwargs.setdefault('content_type', 'text/javascript; charset=UTF-8')
+    response =  HttpResponse(simplejson.dumps(value), **kwargs)
+    response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+    response['Access-Control-Allow-Credentials'] =  "true"
+    response['Access-Control-Allow-Methods'] =  "JSON"
+    return response
 
