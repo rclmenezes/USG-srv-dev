@@ -21,6 +21,7 @@
 #submit
 {
   width: 100px;
+  margin-left: 0;
 }
 
 #accept, #decline
@@ -32,7 +33,7 @@
 #leave
 {
     width: 120px;
-    margin-left: 15px;
+    margin: 10px auto 10px auto;
 }
 </style>
 
@@ -93,7 +94,8 @@ function onLoad()
 {% endif %}
 
 
-<h1>Here's where you share or unshare your queues with friends. To invite a friend to share a queue, type in their NetID below:</h1>
+<h1>Here's where you share or unshare your queues with friends.
+<br>To invite a friend to share a queue, type in their NetID below:</h1>
 
 <form action="/invite_queue/" onsubmit="return onformsubmit()" method="post" name="invitequeueform">
 <p>Friend's NetID: <input type="text" name="netid" id="netid" /></p>
@@ -175,17 +177,14 @@ function onLoad()
 
   {% for queue in shared_queues %}
      <div class="shared_queue">
-     <p><b>Shared Queue: {{ queue }}</b></p>
-     <p>
-     Members:<p>
+     <p id="queuename"><b>{{ queue }}</b></p>
+     <!--p>Members:</p-->
      {% for friend in queue.user_set.all %}
          <p> {{ friend.firstname }} {{ friend.lastname }} ({{ friend.netid }}@princeton.edu)</p>
      {% endfor %}
      <form action="/leave_queue/" method="post" name="leavequeue">
      <input type="hidden" id="draw_id" name="draw_id" value="{{ queue.draw.id }}" />
      <input type="submit" id="leave" value="Unshare Queue" />
-     <br>
-     <br>
      </form>
      </div>
   {% endfor %}

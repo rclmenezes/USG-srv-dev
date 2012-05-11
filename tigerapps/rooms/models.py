@@ -128,6 +128,10 @@ class QueueInvite(models.Model):
     def accept(self):
         q1 = self.sender.queues.get(draw=self.draw)
         q2 = self.receiver.queues.get(draw=self.draw)
+        # Check whether queues are same
+        if q1.id == q2.id:
+            self.delete()
+            return None
         rooms1 = q1.queuetoroom_set.all()
         rooms2 = q2.queuetoroom_set.all()
         ranking = len(rooms1)

@@ -1,7 +1,8 @@
-/* jTimeline - timeline object.
+/* jTimeline - Dynamic timeline using jQuery.
  * Author: Josh Chen (joshchen@princeton.edu)
+ * Date: May 2012
  * 
- * Initialize or reload by calling jTimeline().
+ * Initialize or reload by calling $(domEle).timeline(timelineParams, markData, fnMarkMouseover, fnMarkMouseout, fnMarkClick).
  */
 
 
@@ -25,11 +26,11 @@ jtl.tlWidth = 100;
 /***************************************/
 
 /* Display a JTL object in id */
-function jTimeline(id, timelineParams, markData, fnMarkMouseover, fnMarkMouseout, fnMarkClick) {
+$.fn.timeline = function(timelineParams, markData, fnMarkMouseover, fnMarkMouseout, fnMarkClick) {
 	//static references
-	jtl.tl = document.getElementById(id);
-	jtl.$tl = $(jtl.tl);
-	jtl.tl.class = 'jtl-tl';
+	jtl.tl = this.get(0);
+	jtl.$tl = this;
+	jtl.tl.setAttribute('class', 'jtl-tl');
 	
 	//data for loading marks
 	jtl.markData = markData;

@@ -62,9 +62,10 @@ class QueueManager(object):
                                      kind_id = 1)
                 self.updates[queue_id[0]] = LastQueueUpdate(update=update)
 
-    def edit(self, user, queue, room_idlist):
+    def edit(self, user, queue, room_idlist, draw):
         # Perform the work
         rooms = []
+        print 'edit', room_idlist
         for roomid in room_idlist:
             room = Room.objects.get(pk=roomid)
             if (not room) or not draw in room.building.draw.all():
@@ -83,7 +84,11 @@ class QueueManager(object):
         self.updates[queue.id].update = update
         self.updates[queue.id].event.set()
         self.updates[queue.id].event.clear()
-        return json_response({'rooms':rooms})
+        room_list = []
+        for room in rooms:
+            room_list.append({'id':room.id, 'number':room.number,
+                              'building':room.building.name})
+        return json_response({'rooms':room_list})
 
     def check(self, user, queue, timestamp):
         print user, queue, timestamp
@@ -98,10 +103,19 @@ class QueueManager(object):
         if not queueToRooms:
             return json_response({'timestamp':int(time.time()), 'rooms':[]})
         room_list = []
+        if latest.update.kind == QueueUpdate.EDIT:
+            if latest.update.kind_id == user.id and timestamp != 0:
+                return self.check(user, queue, int(time.time()))
+            netid = User.objects.get(pk=latest.update.kind_id).netid
+        else:
+            netid = ''
         for qtr in queueToRooms:
             room_list.append({'id':qtr.room.id, 'number':qtr.room.number,
                               'building':qtr.room.building.name})
-        return json_response({'timestamp':int(time.time()), 'rooms':room_list})
+        return json_response({'timestamp':int(time.time()),
+                              'kind':QueueUpdate.UPDATE_KINDS[latest.update.kind][1],
+                              'netid':netid,
+                              'rooms':room_list})
 
 #if 'IS_REAL_TIME_SERVER' in os.environ:
 manager = QueueManager()

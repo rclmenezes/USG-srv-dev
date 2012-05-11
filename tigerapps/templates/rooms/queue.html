@@ -1,6 +1,6 @@
 {% for room in room_list %}
 <li id="queue-{{ room.id }}" class="queued_room">
-<a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{room.id }}">{{ room.number }} {{ room.building }}</a>
+<a class="fancyroom link_in_queue" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{room.id }}">{{ room.number }} {{ room.building }}</a>
 
 <div title="Remove from queue" class="removeRoom removeInQueue" onclick="$.publish('queue/remove', {{ room.id }})"></div>
 </li>

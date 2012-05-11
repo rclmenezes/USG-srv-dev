@@ -15,6 +15,7 @@ import json
 import sys
 from queue import *
 import traceback
+from simulation import start_sim, stop_sim, check_avail
 
 REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
 NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
@@ -264,6 +265,8 @@ def respond_queue(request):
     try:
         if accepted:
             queue = invite.accept()
+            if not queue:
+                return manage_queues(request)
             friends = queue.user_set.all()
             for friend in friends:
                 if user != friend:
@@ -279,7 +282,7 @@ to add. """ % (receiver_name, url)
         return HttpResponse(e)
 
 
-    return manage_queues(request);
+    return manage_queues(request)
 
 # Leave a queue that was previously shared
 @login_required
@@ -517,26 +520,31 @@ def update_queue(request, drawid):
     #     qtr.save()
     # # Test output - list rooms
     # return externalResponse(rooms)
+    try:
+        return edit(user, queue, qlist, draw)
+    except Exception as e:
+        return externalResponse(e)
 
-    return edit(user, queue, qlist)
 # Ajax for displaying this user's queue
 @login_required
 def get_queue(request, drawid, timestamp = 0):
     user = check_undergraduate(request.user.username)
     timestamp = int(timestamp)
     if not user:
-        return HttpResponseForbidden()
+        return externalResponse('no user')
     try:
         draw = Draw.objects.get(pk=drawid)
         queue = user.queues.get(draw=draw)
     except Exception as e:
-        return HttpResponse(traceback.format_exc(2) + str(draw))
+        return externalResponse(traceback.format_exc(2) + str(draw))
     #real-time takes over
-#    return HttpResponse(queue)
+#    return externalResponse(queue)
     try:
         return check(user, queue, timestamp)
     except Exception as e:
-        return HttpResponse(traceback.format_exc(2))
+        return externalResponse(traceback.format_exc(2))
+    
+
     # queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
     # if not queueToRooms:
     #     return HttpResponse('')
@@ -544,3 +552,15 @@ def get_queue(request, drawid, timestamp = 0):
     # for qtr in queueToRooms:
     #     room_list.append(qtr.room)
     # return render_to_response('rooms/queue.html', {'room_list':room_list})
+
+
+def start_simulation(request, delay, size=1):
+    delay = int(delay)
+    size = int(size)
+    return start_sim(delay, size)
+
+def stop_simulation(request):
+    return stop_sim()
+
+def check_availability(request, timestamp):
+    return check_avail(int(timestamp))
