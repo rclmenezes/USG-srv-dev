@@ -36,6 +36,27 @@
   <script type="text/javascript" src="/static/rooms/js/roomnames.js"></script>
   <script type="text/javascript" src="/static/rooms/js/jquery.tablesorter.js"></script>
   <script type="text/javascript" src="/static/rooms/js/picnet.table.filter.min.js"></script>
+    <script type="text/javascript">
+	$(document).ready(function() 
+        {
+        $(".various").fancybox(
+        {
+        fitToView: true
+        }
+        );
+        $(".fancyroom").fancybox(
+        {
+        maxWidth: 400,
+        height: 340
+        });
+        $("#settings").fancybox(
+        {
+        fitToView: true,
+        maxHeight: 293,
+        maxWidth: 400
+        });
+	});
+    </script>
   <script type="text/javascript">
   $(function() {
   $("#drawtable").tablesorter({headers: { 0: { sorter: false}}});
@@ -54,22 +75,34 @@
         <div id="wrapper2">
             <div id="map_canvas"></div>
             <div id="floorplan_canvas"></div>
+            <div id="fp_nav">
+                <div id="fp_nav_whitebackground">
+                <span class="fp_button" id="fp_back_button">&#8592; </span>
+                <h1 id="fp_title"></h1>
+                <br>
+                <br>
+                Floors:
+                <div class="fp_button" id="fp_floordown_button"></div>
+                <div class="fp_button" id="fp_floorup_button"></div>
+                Zoom:
+                <div class="fp_button" id="fp_zoomout_button"></div>
+                <div class="fp_button" id="fp_zoomin_button"></div>
+                </div>
+            </div>
 
             <div id="queues_wrapper">
                 <div id="queues">
-                    <div id="settings"><h1><a href="/usersettings.html">Settings</a></h1></div>
-                    <div id="managequeues"><h1><a href="/manage_queues.html">Share/Unshare Queues</a></h1></div>
+                    <a id="settings" title="User Settings" class="various" data-fancybox-type="iframe" href="/user_settings.html"></a>
                     <div id="queue">
-                        <h1 id="queuehead"> Queue</h1>
-                        <!--ul id="list_queues"-->
+                        <h1 id="queuehead"></h1>
+                        <br>
+                        <div id="managequeues"><a class="various" data-fancybox-type="iframe" href="/manage_queues.html">Edit Members</a></div>
                         <div id="room_queue"></div>
-                        <!--/ul-->
                         <div class="clearfloat"></div>
                     </div>
                 </div>
             </div>
 
-            <div id="roomListTopTrim"></div>
             <div id="roomListWrapperBigger">
                 <div id="roomListWrapper">
                     {% block dataPanel %}
@@ -85,5 +118,8 @@
         
         </div> <!-- wrapper2 -->
     </div> <!-- wrapper1 -->
+
+    <!-- used for dynamically calling fancybox through floorplan.js -->
+    <a id="hiddenclicker" data-fancybox-type="iframe" class="fancyroom" href="filler" title="Room Overview"></a>
 </body>
 </html>

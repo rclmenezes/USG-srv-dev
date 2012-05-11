@@ -320,17 +320,16 @@
         ], 
         "4-6-1": [
             "4-WIL41", 
-            "4-CHAPE", 
-            "4-NA185", 
             "4-MCCOS", 
-            "4-FIRES", 
-            "4-185NA", 
+            "4-CHAPE", 
             "4-GREEN", 
+            "4-FIRES", 
+            "4-BENDH", 
+            "4-NA185", 
             "4-DICKH", 
             "4-179NA", 
             "4-BURRH", 
             "4-169NA", 
-            "4-BENDH", 
             "4-HOYTL"
         ], 
         "4-6-0": [
@@ -357,18 +356,17 @@
             "4-LEWLI"
         ], 
         "4-7-0": [
-            "4-201NA", 
-            "4-221NA"
+            "4-221NA", 
+            "4-NA201"
         ], 
         "4-7-1": [
             "4-WIL41", 
             "4-WALLB", 
-            "4-201NA", 
+            "4-FRIEN", 
+            "4-MUDDL", 
             "4-BENDH", 
             "4-NA185", 
-            "4-MUDDL", 
-            "4-FRIEN", 
-            "4-185NA", 
+            "4-NA201", 
             "4-HOYTL", 
             "4-221NA", 
             "4-ORFES"
@@ -519,18 +517,18 @@
             "height": 103
         }, 
         "4-POWER": {
-            "zIndex": 1, 
+            "zIndex": 2, 
             "width": 212, 
             "top": 931, 
             "left": 1973, 
             "height": 239
         }, 
-        "4-201NA": {
+        "4-THOML": {
             "zIndex": 1, 
-            "width": 29, 
-            "top": 241, 
-            "left": 1909, 
-            "height": 49
+            "width": 109, 
+            "top": 1002, 
+            "left": 1618, 
+            "height": 62
         }, 
         "4-FOULK": {
             "zIndex": 1, 
@@ -612,9 +610,9 @@
         "4-FRELI": {
             "zIndex": 1, 
             "width": 220, 
-            "top": 1170, 
+            "top": 1158, 
             "left": 1973, 
-            "height": 108
+            "height": 120
         }, 
         "4-WALLB": {
             "zIndex": 1, 
@@ -680,10 +678,10 @@
             "height": 11
         }, 
         "4-1952S": {
-            "zIndex": 1, 
-            "width": 122, 
+            "zIndex": 2, 
+            "width": 140, 
             "top": 1462, 
-            "left": 1691, 
+            "left": 1673, 
             "height": 154
         }, 
         "4-JOLIN": {
@@ -694,7 +692,7 @@
             "height": 59
         }, 
         "4-STRUB": {
-            "zIndex": 1, 
+            "zIndex": 2, 
             "width": 170, 
             "top": 957, 
             "left": 2376, 
@@ -813,11 +811,11 @@
             "height": 20
         }, 
         "4-SEXTO": {
-            "zIndex": 2, 
+            "zIndex": 1, 
             "width": 186, 
-            "top": 1086, 
+            "top": 1079, 
             "left": 2383, 
-            "height": 111
+            "height": 118
         }, 
         "4-MCCOH": {
             "zIndex": 1, 
@@ -1029,6 +1027,13 @@
             "left": 1364, 
             "height": 99
         }, 
+        "4-71UNI": {
+            "zIndex": 1, 
+            "width": 24, 
+            "top": 711, 
+            "left": 1001, 
+            "height": 20
+        }, 
         "4-48UNI": {
             "zIndex": 4, 
             "width": 30, 
@@ -1108,10 +1113,10 @@
         }, 
         "4-FINNE": {
             "zIndex": 1, 
-            "width": 147, 
-            "top": 1123, 
-            "left": 2234, 
-            "height": 138
+            "width": 163, 
+            "top": 1105, 
+            "left": 2219, 
+            "height": 165
         }, 
         "4-MADIH": {
             "zIndex": 1, 
@@ -1470,13 +1475,6 @@
             "left": 2029, 
             "height": 145
         }, 
-        "4-185NA": {
-            "zIndex": 1, 
-            "width": 104, 
-            "top": 263, 
-            "left": 1779, 
-            "height": 59
-        }, 
         "4-MCCOS": {
             "zIndex": 1, 
             "width": 149, 
@@ -1498,12 +1496,12 @@
             "left": 1364, 
             "height": 97
         }, 
-        "4-71UNI": {
+        "4-NA201": {
             "zIndex": 1, 
-            "width": 24, 
-            "top": 711, 
-            "left": 1001, 
-            "height": 20
+            "width": 29, 
+            "top": 241, 
+            "left": 1909, 
+            "height": 49
         }, 
         "4-BURRH": {
             "zIndex": 1, 
@@ -1546,13 +1544,6 @@
             "top": 404, 
             "left": 2049, 
             "height": 61
-        }, 
-        "4-THOML": {
-            "zIndex": 1, 
-            "width": 109, 
-            "top": 1002, 
-            "left": 1618, 
-            "height": 62
         }, 
         "4-ROCKL": {
             "zIndex": 1, 

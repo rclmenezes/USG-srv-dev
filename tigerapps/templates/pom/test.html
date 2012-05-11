@@ -2,25 +2,99 @@
 <head>
 	<title>timeline test</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/pom/js/jquery-ui-1.8.20.custom.min.js"></script>
 	
 	<script type="text/javascript" src="/static/pom/js/timeline.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/overcast/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/pom/css/jquery-ui-1.8.20.custom.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/timeline.css"/>
 	
 	<script type="text/javascript">
-		$(document).ready(function() { jTimeline('jtl', 'jtl-input'); });
+	
+		function pickdates() {
+			$( "#jtl-startDate" ).datepicker();
+		}
+			
+		function sliderInit() {
+		    oldLeft = -1;
+		    oldRight = -1;
+		    var sliderEle = $( "#events-slider" );
+			
+		    sliderEle.slider({
+		        range: true,
+		        min: 0,
+		        max: 48,
+		        values: [0, 48],
+		        slide: function( event, ui ) {
+		        	//sliderLeftTimeVal and sliderRightTimeVal will contain arrays where the zeroth 
+		        	//element is the hour (0-23) and the first element is the minutes (0 or 30)
+		            $( "#slider-left-value" ).val(printTime(convertToTime(ui.values[0])));
+		            $( "#slider-right-value" ).val(printTime(convertToTime(ui.values[1])));
+		        },
+		        
+		        stop: function (event, ui) {
+		        	if (oldLeft != ui.values[0] || oldRight != ui.values[1]) {
+		        		//handleFilterChange();
+		            	oldLeft = ui.values[0];
+		            	oldRight = ui.values[1];
+		            }
+		        }
+		    });
+		    
+		    
+		    $( "#slider-left-value" ).val(printTime(convertToTime(sliderEle.slider( "values", 0 ))));
+		    $( "#slider-right-value" ).val(printTime(convertToTime(sliderEle.slider( "values", 1 ))));
+		}
+		
+		function convertToTime(sliderVal) {
+			var timeval = new Array();
+			//alert(sliderVal)
+			timeval[0] = Math.floor(sliderVal/2)
+			timeval[1] = (sliderVal%2)*30
+		    return (timeval);
+		}
+		function printTime(timeObj) {
+		    var hours = timeObj[0];
+		    hours %= 24
+		    var am = true;
+		    if (hours > 12) {
+		       am = false;
+		       hours -= 12;
+		    } else if (hours == 12) {
+		       am = false;
+		    } else if (hours == 0) {
+		       hours = 12;
+		    }
+		    zeroPad = ''
+		    if (timeObj[1] == 0)
+		    	zeroPad += "0"
+		    return hours + ":" + timeObj[1] + zeroPad + ' ' + (am ? "AM" : "PM");
+		}
+		
+		
+		$(document).ready(function() {
+			pickdates();
+			sliderInit();
+		});
 	</script>	
 </head>
 <body>
 
 <div id="jtl-input" style="float:left;">
-	<input type="text" id="jtl-startDay" value="05/07/2012"/><br/>
-	<input type="text" id="jtl-nDays" value="2"/><br/>
-	<input type="text" id="jtl-startTime" value="14:30"/><br/>
-	<input type="text" id="jtl-endTime" value="24:00"/><br/>
+	<div class="demo">
+		Date: <input type="text" id="jtl-startDate" value="05/07/2012" readonly='true'> 
+		<input type="button" value="Shrink Timeline" name="shrink_timeline" onClick="alert('this button will shrink the timeline')">
+		<input type="button" value="Expand Timeline" name="expand_timeline" onClick="alert('this button will expand the timeline')">
+	</div>
+	<br>
+	<div id="events-slider"></div>
+	<p>
+		<label for="slider-left-value">Left Value:</label>
+		<input type="text" id="slider-left-value" style="border:0; color:#f6931f; font-weight:bold;" /><br/>
+		<label for="slider-right-value">Right Value:</label>
+		<input type="text" id="slider-right-value" style="border:0; color:#f6931f; font-weight:bold;" />
+	</p>
 </div>
 
 <div id="jtl" style="height:100%;margin:auto;">

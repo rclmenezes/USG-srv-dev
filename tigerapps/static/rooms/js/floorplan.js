@@ -1,42 +1,73 @@
 var FLOOR_PLAN_ZOOM_LEVELS = [.4, .55, .7, .85, 1, 1.2, 1.5, 2];
-var FLOOR_PLAN_DEFAULT_ZOOM = 1;
+var FLOOR_PLAN_DEFAULT_ZOOM = 4;
+var FLOOR_PLAN_HINT_DIRECTIONS = {UP : 0,
+				  DOWN : 1}
 
-function displayFloorPlan(name, floor)
+function displayFloorPlan(name, floor, hint_direction)
 {
-    console.log("Floor plan for: " + name);
     var map_canvas = document.getElementById("map_canvas");
     var fp_canvas = document.getElementById("floorplan_canvas");
+    var fp_nav = document.getElementById("fp_nav");
     var bldgId;
     var current_zoom = FLOOR_PLAN_DEFAULT_ZOOM;
     var current_view_pos = {x: 0, y: 0};
     var mousedown_pos = undefined; 
 
-    if(! floor)
+    if((! floor) && (floor !== 0))
 	floor = 1;
     
     map_canvas.style.display = "none";
-    fp_canvas.style.display = "inline";
+    fp_canvas.style.display = "block";
+    fp_nav.style.display = "block";
 
     fp_canvas.style.height = "100%";
     fp_canvas.style.width = "100%";
 
+    var roomlist = document.getElementById("roomListWrapperBigger");
+    half_expanded = false;
+    roomlist.style.height = '10%';
+
+    var fp_img = getFloorPlanImg();
+    if(! fp_img)
+    {
+	   if(hint_direction===FLOOR_PLAN_HINT_DIRECTIONS.UP)
+	       return displayFloorPlan(name, floor+1);
+	   else if (hint_direction===FLOOR_PLAN_HINT_DIRECTIONS.DOWN)
+	       return displayFloorPlan(name, floor-1);
+	   else
+	   {
+	       alert("Sorry, this floor does not exist or cannot be viewed.");
+	       return false;
+	   }
+    }
 
     fp_canvas.innerHTML = "";
-    fp_canvas.appendChild(getFloorPlanImg(name));
-    fp_canvas.appendChild(getBackButton());
-    fp_canvas.appendChild(getZoomInButton());
-    fp_canvas.appendChild(getZoomOutButton());
-    fp_canvas.appendChild(getFloorUpButton());
-    fp_canvas.appendChild(getFloorDownButton());
+    fp_canvas.appendChild(fp_img);
 
-    function getFloorPlanImg(name)
+    setFloorPlanTitle(name, floor);
+    loadBackButton();
+    loadZoomInButton(); 
+    loadZoomOutButton();
+    loadFloorUpButton();
+    loadFloorDownButton();
+
+    return true;
+
+    function getFloorPlanImg()
     {
 	
 	bldgId = pdfByBldg[name][floor];
+	if(! bldgId)
+	    return null;
 
 	var default_zoom_factor = FLOOR_PLAN_ZOOM_LEVELS[FLOOR_PLAN_DEFAULT_ZOOM];
 
 	var img = document.createElement("img");
+        //img.onError = function()
+        //{
+        //    console.log("Error loading: " + this.src);
+        //    this.src = "static/rooms/images/floorplan_error.jpg";
+        //}
 	img.src = "static/rooms/images/floorplans/" + bldgId + "-001.jpg";
 	img.style.width = floorplancoordsWidth * default_zoom_factor + "px";
 	img.id = "floorplan_img";
@@ -128,9 +159,11 @@ function displayFloorPlan(name, floor)
 	area.shape = "rect";
 	area.coords = rectCoords.join();
 	area.onclick = function(){
-        $('#roomlist').load('/get_room/'+roomIdByName[name][String(roomName)]);/*
-	    alert("Here you would see information about room id: "
-		  + roomIdByName[name][String(roomName)] + "(" + name + " " + roomName + ")");*/
+        var hrefarg = '/get_room/' + roomIdByName[name][String(roomName)];
+
+        var clicker = document.getElementById("hiddenclicker");
+        clicker.href = hrefarg;
+        $('#hiddenclicker').trigger('click');
 	}
 	return area;
     }
@@ -158,85 +191,77 @@ function displayFloorPlan(name, floor)
 	getFloorPlanImgMap(new_zoom_index);
     }
 
-    function getBackButton()
-    {
-	var button = document.createElement("span");
-	button.innerHTML = "<< back"; // TODO make this prettier
-	button.id = "fp_back_button";
-	button.className = "fp_button";
-	button.onclick = function()
-	{
-	    fp_canvas.style.display = "none";
-	    map_canvas.style.display = "block";
-	}
-	return button;
+    function setFloorPlanTitle(name, floor)
+    {  
+       var title = document.getElementById("fp_title");
+	   title.innerHTML = name + ", Floor " + floor; // TODO make this prettier
     }
 
-    function getZoomInButton()
+    function loadBackButton()
     {
-	var button = document.createElement("span");
-	button.innerHTML = "+ zoom in"; // TODO make this prettier
-	button.id = "fp_zoomin_button";
-	button.className = "fp_button";
-
-	button.onclick = function()
-	{
-	    if(current_zoom < FLOOR_PLAN_ZOOM_LEVELS.length - 1)
-	    {
-		resizeFloorPlan(current_zoom, current_zoom + 1);
-		current_zoom++;
-	    }
-	}
-
-	return button;
+	   var button = document.getElementById("fp_back_button");
+	   button.onclick = function()
+	   {
+	       fp_canvas.style.display = "none";
+           fp_nav.style.display = "none";
+	       map_canvas.style.display = "block";
+            
+           var roomlist = document.getElementById("roomListWrapperBigger");
+           half_expanded = true;
+           roomlist.style.height = '50%';
+	   }
     }
 
-    function getZoomOutButton()
+    function loadZoomInButton()
     {
-	var button = document.createElement("span");
-	button.innerHTML = "- zoom out"; // TODO make this prettier
-	button.id = "fp_zoomout_button";
-	button.className = "fp_button";
+        var button = document.getElementById("fp_zoomin_button");
+
+        button.onclick = function()
+        {
+            if(current_zoom < FLOOR_PLAN_ZOOM_LEVELS.length - 1)
+            {
+                resizeFloorPlan(current_zoom, current_zoom + 1);
+                current_zoom++;
+            }
+        }
+
+    }
+
+    function loadZoomOutButton()
+    {
+        var button = document.getElementById("fp_zoomout_button");
 	
-	button.onclick = function()
-	{
-	    if(current_zoom > 0)
-	    {
-		resizeFloorPlan(current_zoom, current_zoom - 1);
-		current_zoom--;
-	    }
-	}
-	return button;
+        button.onclick = function()
+        {
+            if(current_zoom > 0)
+            {
+                resizeFloorPlan(current_zoom, current_zoom - 1);
+                current_zoom--;
+            }
+        }
+
     }
 
-    function getFloorUpButton()
+    function loadFloorUpButton()
     {
-	var button = document.createElement("span");
-	button.innerHTML = "^ floor up";
-	button.id = "fp_floorup_button";
-	button.className = "fp_button";
+        var button = document.getElementById("fp_floorup_button");
 
-	button.onclick = function()
-	{
-	    displayFloorPlan(name, floor+1);
-	}
+	   button.onclick = function()
+	   {
+	       displayFloorPlan(name, floor+1, FLOOR_PLAN_HINT_DIRECTIONS.UP);
+	   }
 
-	return button;
     }
 
-    function getFloorDownButton()
+    function loadFloorDownButton()
     {
-	var button = document.createElement("span");
-	button.innerHTML = "V floor down";
-	button.id = "fp_floordown_button";
-	button.className = "fp_button";
+        var button = document.getElementById("fp_floordown_button");
 
-	button.onclick = function()
-	{
-	    displayFloorPlan(name, floor-1);
-	}
+	   button.onclick = function()
+	   {
+	       displayFloorPlan(name, floor-1, FLOOR_PLAN_HINT_DIRECTIONS.DOWN);
+	   }
 
-	return button;
     }
 
 }

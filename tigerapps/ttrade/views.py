@@ -15,10 +15,14 @@ import datetime
 
 def home(request):
     return showListings(request, Listing.objects.filter(expire__gt=datetime.datetime.now()), 'ttrade/index.html')
-    
+
 @login_required
 def yourListings(request):
-    return showListings(request, Listing.objects.filter(user=request.user), 'ttrade/yourListings.html', "yourListings/")
+    return showListings(request, Listing.objects.filter(user=request.user), 'ttrade/yourListings.html', "yourListings/", "Your Listings")
+
+@login_required
+def yourOffers(request):
+    return showListings(request, Listing.objects.filter(offers__user=request.user), 'ttrade/yourListings.html', "yourOffers/", "Listings you offered on")
 
 @login_required
 def create(request):
@@ -182,7 +186,7 @@ def terms(request):
     return render_to_response('ttrade/terms.html', {'logged_in': logged_in})
   
 # Generic view that does yourListings and index  
-def showListings(request, listing_set, template, extension=""):
+def showListings(request, listing_set, template, extension="", list_title="All Listings"):
     # Check if logged in
     if request.user.is_authenticated():
         logged_in = True
@@ -264,5 +268,5 @@ def showListings(request, listing_set, template, extension=""):
         # If page is out of range (e.g. 9999), deliver last page of results.
         listings = paginator.page(paginator.num_pages)
            
-    return render_to_response(template, {'extension': extension, 'reverse': reverse, 'listingType': listingType, 'query': query, 'category': category, 'items': items, 'page': page, 'categories': categories, 'oldGet': oldGet, 'logged_in': logged_in, 'listings': listings, 'order': order})
+    return render_to_response(template, {'extension': extension, 'reverse': reverse, 'listingType': listingType, 'query': query, 'category': category, 'items': items, 'page': page, 'categories': categories, 'oldGet': oldGet, 'logged_in': logged_in, 'listings': listings, 'order': order, 'list_title': list_title})
     

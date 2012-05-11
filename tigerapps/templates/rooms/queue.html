@@ -1,5 +1,5 @@
 {% for room in room_list %}
 <li id="queue-{{ room.id }}" class="queued_room">
-{{ room.number }} {{ room.building }}
+<a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{room.id }}">{{ room.number }} {{ room.building }}</a>
 </li>
 {% endfor %}

@@ -1,0 +1,22 @@
+{% if info == None %}
+    There is no info to display.
+{% else %}
+
+		<h3 id="info-bldg-name">{{bldg_name}}</h3>
+	
+	
+    {% for bldg in info %}
+    	<div class="info-event-entry">
+   		{% if info|length > 1 %}
+			<span style="font-weight:bold">{{bldg.name}}</span>
+		{% endif %}
+		<div class="info-event-subtext">
+		{% if bldg.image_url != None %}
+				<span style="color:{{printer.color}}">
+            <img src={{bldg.image_url}}></img>
+        {% endif %}</span> 
+			</div>
+		</div>
+    {% endfor %}
+{% endif %}
+<br/>

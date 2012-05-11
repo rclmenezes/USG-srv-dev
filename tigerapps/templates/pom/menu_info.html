@@ -1,34 +1,23 @@
-<h3 id="info-bldg-name">{{bldg_name}}</h3>
+<div style="text-align:right;padding-right:8px;">
+<span style="font-weight:bold"> Legend </span><br/>
+<span style="color:#0000FF;"> Vegan - no animal derivatives </span> <br>
+<span style="color:#00AA00;"> Vegetarian - no meat products </span> <br>
+<span style="color:#8000FF;"> Contains Pork </span> <br>
+<span style="color:#990000;"> Contains Nuts </span> <br>
+</div>
 
-{% if 'Breakfast' in menu.meals %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">Breakfast</span>
-		{% for entree in menu.meals['Breakfast'] %}
-		<div class="info-event-subtext">
-			{{entree.name}}
-		</div>
-		{% endfor %}
-	</div>
-{% endif %}
-	
-{% if 'Lunch' in menu.meals %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">Lunch</span>
-		{% for entree in menu.lunch.entrees %}
-		<div class="info-event-subtext">
-			{{entree.name}}
-		</div>
-		{% endfor %}
-	</div>
-{% endif %}
+<center>
+<h3 id="info-bldg-name" style="font-size:16px;">{{bldg_name}}</h3>
 
-{% if 'Dinner' in menu.meals %}
+{%for name,meal in menu.meals%}
 	<div class="info-event-entry">
-		<span style="font-weight:bold">Dinner</span>
-		{% for entree in menu.dinner.entrees %}
-		<div class="info-event-subtext">
-			{{entree.name}}
-		</div>
-		{% endfor %}
+		<span style="font-weight:bold">{{name}}</span>
+		{% for entree in meal.entrees%}
+			<div class="info-event-subtext" style='color:{{entree.color}};'>
+				{{entree.attributes.name}}
+			</div>
+		{% endfor%}
 	</div>
-{% endif %}
+{%endfor%}
+<br/>
+</center>

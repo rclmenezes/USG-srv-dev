@@ -47,7 +47,8 @@ def index(request):
     draw_list = Draw.objects.order_by('id')
     mapscript = mapdata()
     drawscript = drawdata()
-#    return HttpResponse(request.user.username);
+    #occlong = occlong()
+    #    return HttpResponse(request.user.username);
     user = check_undergraduate(request.user.username)
 
     if not user:
@@ -93,6 +94,39 @@ def drawdata():
     drawscript = '<script type="text/javascript">drawdata = %s</script>' % drawstring
     return drawscript
 
+def occlonghelper(room):
+    occlong = 'Single'
+    if room.occ == 1:
+        occlong = 'Single'
+    elif room.occ == 2:
+        occlong = 'Double'
+    elif room.occ == 3:
+        occlong = 'Triple'
+    elif room.occ == 4:
+        occlong = 'Quad'
+    else:
+        occlong = 'Suite' + ' (' + str(room.occ) + ')'
+    return occlong
+    
+def floorwordhelper(floor):
+	
+	if floor == 0:
+		floorword = 'Ground'
+	elif floor == 1:
+		floorword = 'First'
+	elif floor == 2:
+		floorword = 'Second'
+	elif floor == 3:
+		floorword = 'Third'
+	elif floor == 4:
+		floorword = 'Fourth'
+	elif floor == 5:
+		floorword = 'Fifth'
+	else:
+		floorword = 'Zebra'
+	return floorword;
+		
+
 # Single room view function
 @login_required
 def get_room(request, roomid):
@@ -100,7 +134,9 @@ def get_room(request, roomid):
     if not user:
         return HttpResponseForbidden()
     room = get_object_or_404(Room, pk=roomid)
-    return render_to_response('rooms/room_view.html', {'room':room})
+    occlong = occlonghelper(room)
+    floorword = floorwordhelper(room.floor)
+    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword})
     
 @login_required
 def create_queue(request, drawid):
@@ -173,11 +209,22 @@ def respond_queue(request):
         return HttpResponse(e)
     try:
         if accepted:
-            invite.accept()
+            queue = invite.accept()
+            friends = queue.user_set.all()
+            for friend in friends:
+                if user != friend:
+                    receiver_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
+                    subject = "Rooms: %s Joined Your Queue" % user.firstname
+                    url = "http://rooms.tigerapps.org/"
+                    message = """Your friend %s has joined your room draw queue! Visit %s to browse rooms
+to add. """ % (receiver_name, url)
+                    notify(friend, subject, message)
         else:
             invite.deny()
     except Exception as e:
         return HttpResponse(e)
+
+
     return manage_queues(request);
 
 # Leave a queue that was previously shared
@@ -231,16 +278,16 @@ def review(request, roomid):
         if review:
             if pastReview:
                 form = ReviewForm(instance=pastReview)
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False, 'edit': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False, 'edit': True})
             else:   
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': False})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': False})
                 
         #user asked to display current reviews
         elif display:
             revs = Review.objects.filter(room=room)
             print 'num reviews found: %d' % (len(revs))
-            return render_to_response('rooms/reviewtest.html', {'reviews': revs, 'display': display})
+            return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'reviews': revs, 'display': display})
         # user submitted the review
         elif submit:
             if pastReview:
@@ -254,19 +301,19 @@ def review(request, roomid):
                 rev.user = user
                 rev.room = room
                 rev.save()
-                return render_to_response('rooms/reviewtest.html', {'submitted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': True})
             else:
                 form = ReviewForm()
-                return render_to_response('rooms/reviewtest.html', {'form': form, 'submitted': True, 'error': 'Invalid submit data'})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'form': form, 'submitted': True, 'error': 'Invalid submit data'})
         elif delete:
             if pastReview:
                 pastReview.delete()
-                return render_to_response('rooms/reviewtest.html', {'deleted': True})
+                return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'deleted': True})
         else:
             #someone's messing with the post params
             return HttpResponseRedirect(reverse(index))
     else:
-        return render_to_response('rooms/reviewtest.html', {'submitted': False})
+        return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': False})
 
 @login_required
 def settings(request):
@@ -375,7 +422,7 @@ def notify(user, subject, message):
     if user.do_email:
         send_mail(subject, message, 'rooms@tigerapps.org',
                       ["%s@princeton.edu" % user.netid], fail_silently=False)
-    if user.do_text:
+    if user.do_text and user.confirmed:
         send_mail(subject, message, 'rooms@tigerapps.org',
                       ["%s@%s" % (user.phone, user.carrier.address)], fail_silently=False)
 

@@ -1,29 +1,53 @@
 {% load value_from_settings %}
-<h3 id="info-bldg-name">{{bldg_name}}</h3>
+<div style="height:24px;">
+	<div style="float:left;"><h3 id="info-bldg-name">{% if all_events %}All Events{%else%}{{bldg_name}}{% endif %}</h3></div>
+	<div id="info-bot-link"><a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/add" target="_blank">Add event</a></div>
+</div>
 
 {% for event in events %}
-	<div class="info-event-entry" id="info-event-{{event.event_id}}" onmouseover="this.style.background='#ECECEC';" onmouseout="this.style.background='white';">
-		<span style="font-weight:bold"> 
-			<a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/{{event.event_id}}" target="_blank">
-				{{event}}
-			</a> 
-		</span>
-		
-		<div class="info-event-subtitle">
-			{{event.event_date_time_start|date:"M d, Y h:i a"}}<br/>
-			{{event.event_location_details}} | {{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
-			
-			<div class="info-event-description">
-				{{event.event_cluster.cluster_description}}
+	<div class="info-event-entry jexpand-main" id="event-entry-{{event.event_id}}">
+		<div style="font-weight:bold;">
+			<div style="float:right;margin-top:3px;">
+				<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|truncatewords:175|urlencode:""}}&sprop=name:pcal" target="_blank">
+					<img src="/static/pom/img/gcal_button_2.png" alt="Add to Google Calendar">
+					<!--  use old image
+					<img src="http://www.google.com/calendar/images/ext/gc_button1.gif" alt="Add to Google Calendar">
+					-->
+				</a>
 			</div>
 			
-			<a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{event|urlencode:""}}&dates={{event.getGCalSDate1}}{{event.getGCalSDate2}}{{event.getGCalSDate3}}/{{event.getGCalEDate1}}{{event.getGCalEDate2}}{{event.getGCalEDate3}}&location={{event.getGCalLocation|urlencode:""}}&details={{event.event_cluster.cluster_description|urlencode:""}}&sprop=name:pcal" target="_blank">
-				<img src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="Add to Google Calendar">
+			<a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/{{event.event_id}}" target="_blank">
+				{{event}}
 			</a>
-			
-			<!-- APPLE SUCKS.  We do not provide support for iCal
-			<a href="/ical/{{event.event_id}}"><img src="/static/cal/css/img/ical.png" alt="Add to iCal" /></a>
-			-->
+			<div class="info-event-subtitle">
+				{{event.event_date_time_start|date:"M d, Y h:i a"}}<br/>
+				{% if all_events and event.event_location_name %}{{event.event_location_name}}<br/>{% endif %}
+				{% if event.event_location_details %}{{event.event_location_details}} | {% endif %}{{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
+			</div>
 		</div>
+
+		{%if events|length > 3%}
+			<div class="info-event-description">
+				{{event.short_desc}}{%if event.long_desc%}<span class="info-event-dots">...</span><span class="info-event-long" style="display:inline;">{{event.long_desc}}</span>{%endif%}
+			</div>
+		{%else%}
+			<div class="info-event-description">
+				{{event.short_desc}}{{event.long_desc}}
+			</div>
+		{%endif%}
+			
+		<!-- APPLE SUCKS.  We do not provide support for iCal
+		<a href="/ical/{{event.event_id}}"><img src="/static/cal/css/img/ical.png" alt="Add to iCal" /></a>
+		-->
 	</div>
 {% endfor %}
+<br/>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	{%if events|length > 3%}$('.info-event-long').hide();{%endif%}
+	$('.info-event-entry').mouseover(function(ev){eventEntryMouseover(this);});
+	$('.info-event-entry').mouseout(function(ev){eventEntryMouseout(this);});
+	$('.info-event-entry').click(function(ev){eventEntryClick(this);});
+});
+</script>

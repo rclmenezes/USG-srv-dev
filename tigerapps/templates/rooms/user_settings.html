@@ -79,9 +79,9 @@ function onLoad()
 
 <div id="settings_container">
 
-<h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your settings here.</h1>
+<h1>Hi {{ user.firstname }}! <br> Edit your settings here.</h1>
 
-<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform">
+<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform" id="settings_form">
 <p>Phone #: <input type="text" name="phone" id="phone" value="{{user.phone}}"></input>
 
 
@@ -95,8 +95,6 @@ function onLoad()
 <input type="hidden" name="form_type" id="form_type" value="settings" />
 <p><input type="submit" id="submit" value="Save Settings"></input></p>
 </form>
-
-<p><a href="/">Return to Main Page</a></p>
 
 <script type="text/javascript">
 onLoad();
