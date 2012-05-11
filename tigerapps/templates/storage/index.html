@@ -6,7 +6,7 @@
     </div>
 
     {% for post in posts.object_list %}
-        {% ifnotequal forloop.counter0 0 %}<hr style="margin:16px 0;">{% endifnotequal %}
+        {% ifnotequal forloop.counter0 0 %}<hr style="margin:36px 0;">{% endifnotequal %}
         <h2 id="postTitle" style="text-align:center;">{{ post.title }}</h2>
         <p id="postDate" style="text-align:center;margin-top:-8px;">{{ post.posted|date:"F j, Y" }}</h3>
         {% autoescape off %}
