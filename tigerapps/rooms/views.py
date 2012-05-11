@@ -233,7 +233,8 @@ def invite_queue(request):
         return manage_queues(request, 'You didn\'t select any draws. Try again!')
 
     for draw in invited_draws:
-        invite = QueueInvite(sender=user, receiver=receiver, draw=draw)
+        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
+                             timestamp=int(time.time()))
         invite.save();
 
     sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
