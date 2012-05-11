@@ -406,7 +406,7 @@ def handle_settings_form(request, user):
 
 
 def handle_confirmphone_form(confirmation, user):
-    if ! user.phone:
+    if not user.phone:
         return False
 
     carrier_id = int(confirmation) - (int(user.phone) / 10000 * 3) - user.id;
