@@ -11,6 +11,7 @@
         {% autoescape off %}
         {{ post.content }}
         {% endautoescape %}
+        {% ifnotequal forloop.counter0 0 %}<hr style="padding:16px 0;">{% endifnotequal %}
     {% endfor %}
     <div class="pagination"><span class="step-links">
         {% if posts.has_previous %}
