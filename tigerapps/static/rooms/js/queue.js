@@ -59,17 +59,34 @@ var QueueModule = (function($) {
         $('#room_queue').append(tag);
         $('#room_queue').sortable('refresh');
         save();
+
+        $.publish('mark_as_neg', roominfo['id']);
     }
 
     // Remove a room from the queue
     var remove = function(e, roomid) {
+
         if (idlist.indexOf(roomid) == -1)
             return;
         $('#'+prefix+roomid).remove();
         $('#room_queue').sortable('refresh');
         update_idlist();
         save();
+
+        console.log('markaspos - '+roomid);
         // console.log(idlist);
+        $.publish('mark_as_pos', roomid);
+        console.log('markaspos2 - '+roomid);
+    }
+    
+    var mark_as_neg = function(e, roomid) {
+        $('#add'+roomid).hide();
+        $('#remove'+roomid).show();
+    }
+
+    var mark_as_pos = function(e, roomid) {
+        $('#add'+roomid).show();
+        $('#remove'+roomid).hide();
     }
 
     // Respond to reordering
@@ -135,6 +152,8 @@ var QueueModule = (function($) {
     $.subscribe('queue/add', add);
     $.subscribe('queue/remove', remove);
     $.subscribe("draw", switchdraw);
+    $.subscribe('mark_as_neg', mark_as_neg);
+    $.subscribe('mark_as_pos', mark_as_pos);
     
     // Set up the draggable queue
     $(function() {

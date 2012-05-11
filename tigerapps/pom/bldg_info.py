@@ -2,7 +2,7 @@
 - Mapping of buildings to their info
 - Functions that return a list of buildings with certain properties
 '''
-from pom.menus.scraper import DINING_HALLS
+#from pom.menus.scraper import DINING_HALLS
 from pom.printers.scraper import PRINTER_BLDGS
 
 BLDG_INFO = {
