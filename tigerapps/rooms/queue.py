@@ -62,9 +62,10 @@ class QueueManager(object):
                                      kind_id = 1)
                 self.updates[queue_id[0]] = LastQueueUpdate(update=update)
 
-    def edit(self, user, queue, room_idlist):
+    def edit(self, user, queue, room_idlist, draw):
         # Perform the work
         rooms = []
+        print 'edit', room_idlist
         for roomid in room_idlist:
             room = Room.objects.get(pk=roomid)
             if (not room) or not draw in room.building.draw.all():
@@ -83,7 +84,11 @@ class QueueManager(object):
         self.updates[queue.id].update = update
         self.updates[queue.id].event.set()
         self.updates[queue.id].event.clear()
-        return json_response({'rooms':rooms})
+        room_list = []
+        for room in rooms:
+            room_list.append({'id':room.id, 'number':room.number,
+                              'building':room.building.name})
+        return json_response({'rooms':room_list})
 
     def check(self, user, queue, timestamp):
         print user, queue, timestamp

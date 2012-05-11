@@ -21,7 +21,7 @@ var ExternAjax = function(url, type, data, onSuccess) {
         xhrFields: {
             withCredentials: true
         },
-        success: function(data) {onSuccess(JSON.parse(data))}
+        success: function(data) {console.log(data);onSuccess(JSON.parse(data))}
     });
     console.log(xhr);
     return xhr;
@@ -33,12 +33,14 @@ var QueueModule = (function($) {
     // The prefix for room ids in the queue elements
     var prefix = 'queue-';
     // URL for saving updates
-    var saveurl = REAL_TIME_ADDR + '/update_queue/'
+    var saveurl = REAL_TIME_ADDR + '/update_queue/';
     
     // Last update for this draw
-    var update_timestamp = 0
+    var update_timestamp = 0;
     // Currently waiting request
-    var update_xhr = 0
+    var update_xhr = 0;
+    // Are we sending queue
+    var update_lock = false;
     
     // Update the idlist (i.e. after deletion, reordering)
     var update_idlist = function() {
@@ -97,8 +99,10 @@ var QueueModule = (function($) {
     }
 
     // Save the current list to the server
-    var save = function() {
+    save = function() {
         //alert(current_draw);
+        // if (update_xhr && update_xhr.readystate != 4)
+        //     update_xhr.abort();
         ExternAjax('/update_queue/'+current_draw, 'POST', {'queue':JSON.stringify(idlist)},
                function(data) {
                    console.log(data);
@@ -128,11 +132,20 @@ var QueueModule = (function($) {
         idlist = new Array();
         console.log(data)
         update_timestamp = data.timestamp;
+        var intohtml = '';
+        for (i in data.rooms)
+        {
+            console.log(data.rooms[i]);
+            room = data.rooms[i];
+            intohtml += '<li id="queue-'+room.id+'" class="queued_room">';
+            intohtml  += '<a class="fancyroom link_in_queue" title="Room Overview" data-fancybox-type="iframe" href="/get_room/'+room.id+'">'+room.number+' '+room.building+'</a>'
+            intohtml += '<div onclick="$.publish(\'queue/remove\','+room.id+')" title="Remove from queue" class="removeRoom removeInQueue" ></div> </li>';
+        }
         // Put into list - formatting goes here
-        $('#room_queue').html(JSON.stringify(data.rooms));
+        $('#room_queue').html(intohtml); //JSON.stringify(data.rooms));
         $('#room_queue').sortable('refresh');
         update_idlist();
-        //setInterval(get_update, 1);
+        setTimeout(get_update, 2000);
     }
 
     var get_queue = function(drawid, timestamp) {
@@ -143,7 +156,8 @@ var QueueModule = (function($) {
                                 'json', null, handler);
     }
 
-    var get_update = function() {
+    get_update = function() {
+        console.log('get_update called');
         get_queue(current_draw, update_timestamp);
     }
 

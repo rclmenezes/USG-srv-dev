@@ -516,8 +516,11 @@ def update_queue(request, drawid):
     #     qtr.save()
     # # Test output - list rooms
     # return externalResponse(rooms)
+    try:
+        return edit(user, queue, qlist, draw)
+    except Exception as e:
+        return externalResponse(e)
 
-    return edit(user, queue, qlist)
 # Ajax for displaying this user's queue
 @login_required
 def get_queue(request, drawid, timestamp = 0):
