@@ -186,3 +186,15 @@ var QueueModule = (function($) {
     });
 
 }(jQuery));
+
+
+var avail_handler = function(data) {
+    console.log('In avail_handler');
+    console.log(data);
+    setTimeout(function() {check_avail(data.timestamp)}, 100);
+}
+var check_avail = function(timestamp) {
+    ExternAjax('/check_availability/'+timestamp, 'GET', null, avail_handler)
+}
+
+check_avail(0);

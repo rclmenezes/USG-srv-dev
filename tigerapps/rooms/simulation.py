@@ -55,13 +55,13 @@ class AvailManager(object):
         return HttpResponse('Stopped simulation')
     
     def check_avail(self, timestamp):
-        if timestamp > self.updates[0].timestamp:
-            draw.event.wait()
+        if len(self.updates) == 0 or timestamp > self.updates[0].timestamp:
+            self.event.wait()
         room_ids = []
         i = len(self.updates) - 1
         while i >= 0:
             i = i - 1
-            update = updates[i]
+            update = self.updates[i]
             if timestamp <= update.timestamp:
                 room_ids.append(update.room_id)
             else:
@@ -73,3 +73,4 @@ class AvailManager(object):
 avail_manager = AvailManager()
 start_sim = avail_manager.start_sim
 stop_sim = avail_manager.stop_sim
+check_avail = avail_manager.check_avail

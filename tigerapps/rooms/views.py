@@ -15,7 +15,7 @@ import json
 import sys
 from queue import *
 import traceback
-from simulation import start_sim, stop_sim
+from simulation import start_sim, stop_sim, check_avail
 
 REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
 NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
@@ -559,3 +559,6 @@ def start_simulation(request, delay):
 
 def stop_simulation(request):
     return stop_sim()
+
+def check_availability(request, timestamp):
+    return check_avail(int(timestamp))
