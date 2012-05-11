@@ -91,21 +91,35 @@ class Command(BaseCommand):
                         build = Building.objects.get(name=newBuildID['name'])
                     except:
                         print 'couldn\'t find building with name %s' % newBuildID['name']
+                        review = reviewCursor.fetchone()
+                        count = count + 1
+                        continue
                         
                     try:
                         curRoom = Room.objects.get(number=room['NumberOld'], building=build)
                     except:
                         print 'couldn\'t find room %s in building %s' % (room['NumberOld'], build)
+                        review = reviewCursor.fetchone()
+                        count = count + 1
+                        continue
                         
                     revDate = datetime.date(year=review['Date'].year, month=review['Date'].month, day=review['Date'].day)
                     try:
                         alreadyImported = Review.objects.get(room=room, summary=review['Title'], date=revDate, content=review['Text'], rating=review['Rating'], user=user)
                         print 'review already exists'
                     except:
-                        titDec = review['Title'].decode('ascii', 'ignore')
-                        textDec = review['Text'].decode('ascii', 'ignore')
-                        curReview = Review(room=curRoom, summary=titDec.encode('latin-1'), date=revDate, content=textDec.encode('latin-1'), rating=review['Rating'], user=user)
-                        curReview.save()
+                       titDec = review['Title'].decode('ascii', 'ignore')
+                       textDec = review['Text'].decode('ascii', 'ignore')
+                       curReview = Review(room=curRoom, summary=titDec.encode('latin-1'), date=revDate, content=textDec.encode('latin-1'), rating=review['Rating'], user=user)
+                       curReview.save()
+                       print 'going to put Review of room %s in building %s into new database for room %s in building %s' % (room['NumberOld'], oldBuildName['Name'], curRoom, build)
+                    #if room['NumberOld'] != curRoom.number or oldBuildName['Name'] != build:
+                        #print ' you done messed up here for room %s in building %s putting into room %s in building %s' % (room['NumberOld'], oldBuildName['Name'], curRoom.number, build)
+                        
+                    #sys.stderr.write("'%s'" % room['NumberOld'])
+                    #sys.stderr.write("'%s'" % oldBuildName['Name'])
+                    #sys.stderr.write("'%s'" % curRoom.number)
+                    #sys.stderr.write("'%s'" % build)
                     
                 oldRoomCursor.close()
                 
