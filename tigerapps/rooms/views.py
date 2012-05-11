@@ -527,18 +527,20 @@ def get_queue(request, drawid, timestamp = 0):
     user = check_undergraduate(request.user.username)
     timestamp = int(timestamp)
     if not user:
-        return HttpResponseForbidden()
+        return externalResponse('no user')
     try:
         draw = Draw.objects.get(pk=drawid)
         queue = user.queues.get(draw=draw)
     except Exception as e:
-        return HttpResponse(traceback.format_exc(2) + str(draw))
+        return externalResponse(traceback.format_exc(2) + str(draw))
     #real-time takes over
-#    return HttpResponse(queue)
+#    return externalResponse(queue)
     try:
         return check(user, queue, timestamp)
     except Exception as e:
-        return HttpResponse(traceback.format_exc(2))
+        return externalResponse(traceback.format_exc(2))
+    
+
     # queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
     # if not queueToRooms:
     #     return HttpResponse('')

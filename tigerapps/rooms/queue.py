@@ -119,6 +119,7 @@ def json_response(value, **kwargs):
 #    kwargs.setdefault('content_type', 'text/javascript; charset=UTF-8')
     response =  HttpResponse(simplejson.dumps(value), **kwargs)
     response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+    response['Access-Control-Allow-Origin'] =  'http://dev.rooms.tigerapps.org:8092'
     response['Access-Control-Allow-Credentials'] =  "true"
     response['Access-Control-Allow-Methods'] =  "JSON"
     return response
