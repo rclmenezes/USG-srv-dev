@@ -236,6 +236,19 @@ td
     background-position: -51px 0;
 }
 
+.removeInQueue
+{
+    position: absolute;
+    right: 12px;
+    visibility: hidden;
+    vertical-align: middle;
+}
+
+.queued_room:hover .removeInQueue
+{
+    visibility: visible;
+}
+
 h1
 {
     font-size: 20px;
@@ -258,6 +271,7 @@ input
 
 #addremoveTab
 {
+    cursor: pointer;
     width: 43px;
 }
 
@@ -307,13 +321,6 @@ input
 #expandMap:hover, #contractMap:hover, #restoreMap:hover, #create_queue:hover 
 {
     cursor: pointer;
-}
-
-
-#addremove:hover
-{
-    cursor: pointer;
-    font-weight: bold;
 }
 
 #roomListWrapperBigger
