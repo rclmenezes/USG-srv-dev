@@ -498,20 +498,22 @@ input
 /* Settings page styles */
 #settings_container
 {
-    background-color: #D6D6D6;
+    /*background-color: #D6D6D6;*/
     /* margin: 75px 150px 75px 150px;*/
     margin: 0px;
     padding: 50px;
+    font-size: 13px;
+    color: #222;
 }
 
 #settings_container p
 {
-    padding: 5px 40px 5px 15px;
+    padding: 5px 40px 5px 40px;
 }
 
 #settings_container h1, h2, h3, h4, p
 {
-    padding: 15px;
+    padding: 12px;
 }
 
 .error_message
@@ -520,6 +522,18 @@ input
     font-weight: bold;
 }
 
+#leave
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#settings_container #queuename
+{
+    font-size: 16px;
+    text-align: center;
+}
 /* Queue invitation styles */
 .queue_invite
 {
@@ -538,12 +552,19 @@ input
 
 .shared_queue
 {
-     background-color: #333333;
+     /*background-color: #333333;
      color: #FFFFFF;
-     font-weight: bold;
-     padding: 5px;
-     margin: 5px 40px 5px 15px;
+     font-weight: bold;*/
+    color: #222;
+    background-color: #ddd;
+    padding: 5px;
+     margin: 5px auto 5px auto;
      width: 50%;
+     /*
+     margin-left: auto;
+     margin-right: auto;
+     */
+
 }
 
 #room_view_wrapper
@@ -694,7 +715,17 @@ input[type="submit"]
     display: block;
 }
 */
-p, table
+table p
+{
+    font-size: 13px;
+}
+
+form div
+{
+    font-size: 13px;
+}
+
+label
 {
     font-size: 13px;
 }
