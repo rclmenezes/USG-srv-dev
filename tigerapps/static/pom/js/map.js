@@ -25,7 +25,6 @@ function mapInit() {
 	jmap.info = document.getElementById('jmap-info');
 	jmap.infoTop = document.getElementById('info-top');
 	jmap.jtl = document.getElementById('info-jtl');
-	jmap.jtlId = 'info-jtl';
 
 	//static constants
 	jmap.tileSZ = 256; //square
@@ -80,7 +79,7 @@ function mapInit() {
 
 function loadWindowSizeDependent() {
 	loadTiles();
-	$('#info-bot').css('height', (jmap.info.offsetHeight-jmap.infoTop.offsetHeight-51)+'px');
+	$('#info-bot').css('height', (jmap.info.offsetHeight-jmap.infoTop.offsetHeight-50)+'px');
 }
 
 /***************************************/
@@ -509,7 +508,7 @@ function handleEventsAJAX(data) {
 		jevent.bldgDisplayed = data.bldgCode;
 		if (jevent.filterType == 0) {
 			jevent.eventsData = data.eventsData;
-			jTimeline(jmap.jtlId, getJTLParams(), data.markData, eventEntryMouseover, eventEntryMouseout, eventEntryClick);
+			$(jmap.jtl).timeline(getJTLParams(), data.markData, eventEntryMouseover, eventEntryMouseout, eventEntryClick);
 		}
 	}
 }

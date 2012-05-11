@@ -118,7 +118,7 @@ function undisplayTimeline() {
 function showTimeline() {
 	$(jmap.jtl).show(80)
 	$(jmap.info).animate({
-		width:'535px'
+		width:'540px'
 	}, 80);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
 	jDisplay.timelineShown = true;

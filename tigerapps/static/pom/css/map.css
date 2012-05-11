@@ -80,13 +80,12 @@ a:hover{
 	width:380px;
 	
 	background-color:#FAFCF8;
-    box-shadow:0px 0px 0.8em hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
+    box-shadow:5px 0px 0.8em -5px hsla(0, 0%, 0%, 1.0);/*3px -2px 1.5em hsla(0, 0%, 0%, 1.0);*/
     z-index:100;
-    overflow-y:hidden;
 }
 #info-content {
-	width: 360px;
-    padding:10px;
+	width: 370px;
+    padding:5px;
 }
 
 #info-top {
@@ -115,7 +114,7 @@ a:hover{
 }
 #info-bot {
 	overflow-y: auto;
-	margin:15px 0px 15px 11px;
+	margin:13px 0px 15px 11px;
 }
 
 
@@ -139,7 +138,7 @@ div.isolated {
 }
 
 .info-event-entry {
-	padding:8px 12px 8px 0;
+	padding:8px 12px 10px 0;
 	/*margin-right: 5px;*/
 }
 .info-event-subtitle {
@@ -160,6 +159,7 @@ div.isolated {
 	left: 380px;
 	width: 150px;
 	bottom: 0;
+	padding: 0 5px;
 }
 #jtl-toggle {
 	position:absolute;
@@ -249,7 +249,7 @@ div.isolated {
 /* Scrollbar */
 /*************/
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
