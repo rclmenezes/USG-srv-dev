@@ -264,6 +264,8 @@ def respond_queue(request):
     try:
         if accepted:
             queue = invite.accept()
+            if not queue:
+                return manage_queues(request)
             friends = queue.user_set.all()
             for friend in friends:
                 if user != friend:
@@ -279,7 +281,7 @@ to add. """ % (receiver_name, url)
         return HttpResponse(e)
 
 
-    return manage_queues(request);
+    return manage_queues(request)
 
 # Leave a queue that was previously shared
 @login_required

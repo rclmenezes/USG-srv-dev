@@ -103,10 +103,19 @@ class QueueManager(object):
         if not queueToRooms:
             return json_response({'timestamp':int(time.time()), 'rooms':[]})
         room_list = []
+        if latest.update.kind == QueueUpdate.EDIT:
+            if latest.update.kind_id == user.id and timestamp != 0:
+                return self.check(user, queue, int(time.time()))
+            netid = User.objects.get(pk=latest.update.kind_id).netid
+        else:
+            netid = ''
         for qtr in queueToRooms:
             room_list.append({'id':qtr.room.id, 'number':qtr.room.number,
                               'building':qtr.room.building.name})
-        return json_response({'timestamp':int(time.time()), 'rooms':room_list})
+        return json_response({'timestamp':int(time.time()),
+                              'kind':QueueUpdate.UPDATE_KINDS[latest.update.kind][1],
+                              'netid':netid,
+                              'rooms':room_list})
 
 #if 'IS_REAL_TIME_SERVER' in os.environ:
 manager = QueueManager()
@@ -119,7 +128,6 @@ def json_response(value, **kwargs):
 #    kwargs.setdefault('content_type', 'text/javascript; charset=UTF-8')
     response =  HttpResponse(simplejson.dumps(value), **kwargs)
     response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
-    response['Access-Control-Allow-Origin'] =  'http://dev.rooms.tigerapps.org:8092'
     response['Access-Control-Allow-Credentials'] =  "true"
     response['Access-Control-Allow-Methods'] =  "JSON"
     return response
