@@ -379,10 +379,11 @@ def settings(request):
 
 def handle_settings_form(request, user):
     
+    
     if(request.POST['phone']):
         phone = int(request.POST['phone'])
     
-        if phone != int(user.phone):
+        if (!user.phone) or (phone != int(user.phone)):
             # Send confirmation code
             carriers = Carrier.objects.order_by('name')
     
