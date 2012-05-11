@@ -191,6 +191,11 @@ var QueueModule = (function($) {
 var avail_handler = function(data) {
     console.log('In avail_handler');
     console.log(data);
+    for (var i = 0; i < data.rooms.length; i++) {
+        console.log(data.rooms[i]);
+        console.log($('#avail-'+data.rooms[i]));
+        $('#avail-'+data.rooms[i]).html('No');
+    }
     setTimeout(function() {check_avail(data.timestamp)}, 100);
 }
 var check_avail = function(timestamp) {

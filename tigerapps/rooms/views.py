@@ -553,9 +553,10 @@ def get_queue(request, drawid, timestamp = 0):
     # return render_to_response('rooms/queue.html', {'room_list':room_list})
 
 
-def start_simulation(request, delay):
+def start_simulation(request, delay, size=1):
     delay = int(delay)
-    return start_sim(delay)
+    size = int(size)
+    return start_sim(delay, size)
 
 def stop_simulation(request):
     return stop_sim()

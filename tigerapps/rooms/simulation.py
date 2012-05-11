@@ -21,7 +21,7 @@ class AvailManager(object):
         self.event = Event()
 
 
-    def run_sim(self,delay):
+    def run_sim(self, delay, size):
         roomids = Room.objects.filter(avail=True).values_list('id',flat=True)
         #print 'Room ids: %s ' % roomids
         ids = []
@@ -35,15 +35,16 @@ class AvailManager(object):
             self.updates.append(RoomUpdate(room))
             self.event.set()
             self.event.clear()
-            sleep(delay)
+            if i % size == 0:
+                sleep(delay)
         self.SIM_RUNNING = False
 
-    def start_sim(self,delay):
+    def start_sim(self, delay, size=1):
         if self.SIM_RUNNING:
             kill(self.sim_thread)
         self.updates = []
         Room.objects.all().update(avail=True)
-        self.sim_thread = spawn(self.run_sim, delay=delay)
+        self.sim_thread = spawn(self.run_sim, delay=delay, size=size)
         self.SIM_RUNNING = True
         return HttpResponse('Started Simulation with delay %d' % delay)
 
