@@ -13,6 +13,11 @@ body
     padding: 0; 
 }
 
+b
+{
+    font-weight: bold;
+}
+
 #wrapper1 /* entire page */
 {
     position: relative;
@@ -149,6 +154,11 @@ body
     padding-top: 10px;
 }
 
+a.link_in_queue
+{
+    display: inline;
+}
+
 .queue_button
 {
     background: grey;
@@ -239,9 +249,9 @@ td
 .removeInQueue
 {
     position: absolute;
-    right: 12px;
+    right: 15px;
     visibility: hidden;
-    vertical-align: middle;
+    margin-top: -3px;
 }
 
 .queued_room:hover .removeInQueue
@@ -654,13 +664,26 @@ a.fancyroom
 	font-size: 13px;
 }
 
+#review_button
+{
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.review_content
+{
+    max-width: 315px;
+}
+
 /*#button_wrapper
 {
     margin-left: auto;
     margin-right: auto;
         display: block;
 }*/
-
+/*
 input[type="submit"]
 {
     width: 120px;
@@ -670,7 +693,7 @@ input[type="submit"]
     margin-bottom: 10px;
     display: block;
 }
-
+*/
 p, table
 {
     font-size: 13px;

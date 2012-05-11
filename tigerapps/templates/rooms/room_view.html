@@ -43,13 +43,11 @@
         <tr>
             <td></td><td></td>
         </tr>
-        
         <!--
         <tr>
           <td></td>
           <td style="text-align: right"><a style="font-size: 16px; margin-right: -37px" id="review_link" href="../review/{{ room.id }}">Edit / View Reviews</a></td>
         </tr>
-        
         <tr>
           <td></td>
           <td style="text-align: right">Queue:
@@ -78,12 +76,14 @@
         </tr-->
       </tbody>
     </table>
-    {% if reviews.count == 0 %}
-        <p><div align=center>Sorry, there are no reviews for this room.</div></p>
-    {% endif %}
     
     <form action = "" method="POST">
     <input id="review_button" name = "review" type="submit" value="Review This Room">
+
+    {% if reviews.count == 0 %}
+        <p><div align=center>Sorry, there are no reviews for this room.</div></p>
+    {% endif %}
+
     {% if form %}
         <form action = "" method="POST">
         {% csrf_token %}
@@ -103,6 +103,8 @@
     {% endif %}
     
     <table>
+        <thead>
+        </thead>
         {% for r in reviews %}
             <tr>
                 <td class="review_content"><b>{{ r.summary }}</b>
@@ -110,9 +112,8 @@
                 <td>     Rating: {{ r.rating }}
             </tr>
             <tr>
-                <td style=padding-bottom: 20px class="review_content"> {{ r.content }}
+                <td style="padding-bottom: 20px" class="review_content"> {{ r.content }}
             </tr>
-            
         {% endfor %}
     </table>
         
