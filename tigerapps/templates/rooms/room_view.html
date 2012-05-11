@@ -81,7 +81,7 @@
     <input id="review_button" name = "review" type="submit" value="Review This Room">
 
     {% if reviews.count == 0 %}
-        <p>Sorry, there are no reviews for this room.</p>
+        <p><div align=center>Sorry, there are no reviews for this room.</div></p>
     {% endif %}
 
     {% if form %}
@@ -107,14 +107,12 @@
         </thead>
         {% for r in reviews %}
             <tr>
-                <td class="review_content"><b>{{ r.summary }}</b></td>
-                <td> {{ r.date }}</td>
-                <td>     Rating: {{ r.rating }}</td>
+                <td class="review_content"><b>{{ r.summary }}</b>
+                <td> {{ r.date }}
+                <td>     Rating: {{ r.rating }}
             </tr>
             <tr>
-                <td style="padding-bottom: 20px" class="review_content"> {{ r.content }}</td>
-                <td></td>
-                <td></td>
+                <td style="padding-bottom: 20px" class="review_content"> {{ r.content }}
             </tr>
         {% endfor %}
     </table>

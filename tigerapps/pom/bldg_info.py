@@ -2,7 +2,7 @@
 - Mapping of buildings to their info
 - Functions that return a list of buildings with certain properties
 '''
-#from pom.menus.scraper import DINING_HALLS
+from pom.menus.scraper import DINING_HALLS
 from pom.printers.scraper import PRINTER_BLDGS
 
 BLDG_INFO = {
@@ -56,7 +56,7 @@ BLDG_INFO = {
     'FIRES': ('Firestone Library',(),True),
     'FISHH': ('Fisher Hall',('Department of Economics',),True),
     'FITZO': ('FitzRandolph Observatory',(),True),
-    'FORBC': ('Forbes College Main',(),True),
+    'FORBC': ('Forbes College',(),True),
     #'FORRT': ('Forrestal Campus',(),True),
     'FRICK': ('Frick Chemistry Laboratory',('Department of Chemistry',),True),
     'FRIEN': ('Friend Center for Engineering Education',('Engineering Library',),True),
