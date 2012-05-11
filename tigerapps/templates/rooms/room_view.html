@@ -7,9 +7,9 @@
 </head>
 <body id="room_view">
     {% if room.avail %}
-    <div id="room_view_avail">Available</div>
+    <div id="room_view_avail">Room Available</div>
     {% else %}
-    <div id="room_view_unavail">Unavailable</div>
+    <div id="room_view_unavail">Room Taken</div>
     {% endif %}
     <h1 id="room_view_head">{{ room.building }}, Room {{room.number}}: {{ room.numrooms}}-room {{ occlong }}</h1>
     
@@ -43,11 +43,11 @@
         <tr>
             <td></td><td></td>
         </tr>
+        <!--
         <tr>
           <td></td>
           <td style="text-align: right"><a style="font-size: 16px; margin-right: -37px" id="review_link" href="../review/{{ room.id }}">Edit / View Reviews</a></td>
         </tr>
-        <!--
         <tr>
           <td></td>
           <td style="text-align: right">Queue:
@@ -76,12 +76,14 @@
         </tr-->
       </tbody>
     </table>
-    {% if reviews.count == 0 %}
-        <p>Sorry, there are no reviews for this room.</p>
-    {% endif %}
     
     <form action = "" method="POST">
     <input id="review_button" name = "review" type="submit" value="Review This Room">
+
+    {% if reviews.count == 0 %}
+        <p>Sorry, there are no reviews for this room.</p>
+    {% endif %}
+
     {% if form %}
         <form action = "" method="POST">
         {% csrf_token %}
@@ -101,16 +103,19 @@
     {% endif %}
     
     <table>
+        <thead>
+        </thead>
         {% for r in reviews %}
             <tr>
-                <td><b>{{ r.summary }}</b>
-                <td> {{ r.date }}
-                <td>     Rating: {{ r.rating }}
+                <td class="review_content"><b>{{ r.summary }}</b></td>
+                <td> {{ r.date }}</td>
+                <td>     Rating: {{ r.rating }}</td>
             </tr>
             <tr>
-                <td> {{ r.content }}
+                <td style="padding-bottom: 20px" class="review_content"> {{ r.content }}</td>
+                <td></td>
+                <td></td>
             </tr>
-            <hr>
         {% endfor %}
     </table>
         
