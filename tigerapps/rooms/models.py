@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
+import time
 
 photopath = 'photo'
 
@@ -80,6 +81,14 @@ class User(models.Model):
 
 # queues
 class Queue(models.Model):
+    @staticmethod
+    def make(draw, user=None):
+        queue = Queue(draw=draw)
+        if user:
+            QueueUpdate(queue=queue, timestamp=int(time.time()), kind=QueueUpdate.EDIT,
+                        kind_id=user.id).save()
+        return queue
+
     draw = models.ForeignKey('Draw')
     def __unicode__(self):
         return self.draw.name
@@ -90,13 +99,15 @@ class QueueToRoom(models.Model):
     room = models.ForeignKey('Room')
     ranking = models.IntegerField()
 
-UPDATE_KINDS = (
-    (0, 'edit'),
-    (1, 'merge'),
-)
 
 # An update to a queue
 class QueueUpdate(models.Model):
+    EDIT = 0
+    MERGE = 1
+    UPDATE_KINDS = (
+        (EDIT, 'EDIT'),
+        (MERGE, 'MERGE'),
+        )
     queue = models.ForeignKey('Queue')
     timestamp = models.IntegerField()
     kind = models.IntegerField(choices=UPDATE_KINDS) #either edit or merge

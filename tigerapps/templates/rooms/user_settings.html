@@ -49,7 +49,8 @@ function onformsubmit()
     sf.phone.value = sf.phone.value.replace(/ /g, "");
 
     // Check if numeric value
-    if(isNaN(parseInt(sf.phone.value)))
+    // Max length of phone number = 11
+    if(isNaN(parseInt(sf.phone.value)) || sf.phone.value.length > 11)
     {
         alert("Sorry, your phone number is invalid. Try again!");
         return false;
@@ -79,9 +80,9 @@ function onLoad()
 
 <div id="settings_container">
 
-<h1>Hi {{ user.firstname }} ({{ user.netid }} {{ user.puclassyear }})! Edit your settings here.</h1>
+<h1>Hi {{ user.firstname }}! <br> Edit your settings here.</h1>
 
-<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform">
+<form action="/" onsubmit="return onformsubmit()" method="post" name="settingsform" id="settings_form">
 <p>Phone #: <input type="text" name="phone" id="phone" value="{{user.phone}}"></input>
 
 

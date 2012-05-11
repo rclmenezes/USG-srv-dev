@@ -1,5 +1,5 @@
 var FLOOR_PLAN_ZOOM_LEVELS = [.4, .55, .7, .85, 1, 1.2, 1.5, 2];
-var FLOOR_PLAN_DEFAULT_ZOOM = 1;
+var FLOOR_PLAN_DEFAULT_ZOOM = 4;
 var FLOOR_PLAN_HINT_DIRECTIONS = {UP : 0,
 				  DOWN : 1}
 
@@ -14,7 +14,10 @@ function displayFloorPlan(name, floor, hint_direction)
     var mousedown_pos = undefined; 
 
     if((! floor) && (floor !== 0))
+    {
 	floor = 1;
+	hint_direction = FLOOR_PLAN_HINT_DIRECTIONS.UP;
+    }
     
     map_canvas.style.display = "none";
     fp_canvas.style.display = "block";
@@ -22,6 +25,10 @@ function displayFloorPlan(name, floor, hint_direction)
 
     fp_canvas.style.height = "100%";
     fp_canvas.style.width = "100%";
+
+    var roomlist = document.getElementById("roomListWrapperBigger");
+    half_expanded = false;
+    roomlist.style.height = '10%';
 
     var fp_img = getFloorPlanImg();
     if(! fp_img)
@@ -51,7 +58,6 @@ function displayFloorPlan(name, floor, hint_direction)
 
     function getFloorPlanImg()
     {
-	
 	bldgId = pdfByBldg[name][floor];
 	if(! bldgId)
 	    return null;
@@ -188,11 +194,7 @@ function displayFloorPlan(name, floor, hint_direction)
     }
 
     function setFloorPlanTitle(name, floor)
-    {
-       var letters = ['A','B','C','D','E'];
-       if (floor < 0)
-           floor = letters[floor*(-1)-1];
-       
+    {  
        var title = document.getElementById("fp_title");
 	   title.innerHTML = name + ", Floor " + floor; // TODO make this prettier
     }
@@ -205,6 +207,10 @@ function displayFloorPlan(name, floor, hint_direction)
 	       fp_canvas.style.display = "none";
            fp_nav.style.display = "none";
 	       map_canvas.style.display = "block";
+            
+           var roomlist = document.getElementById("roomListWrapperBigger");
+           half_expanded = true;
+           roomlist.style.height = '50%';
 	   }
     }
 

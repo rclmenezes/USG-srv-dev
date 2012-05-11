@@ -1,21 +1,32 @@
 import time
-from models import *
+from rooms.models import *
 from gevent.event import Event
 import subprocess
 import os, sys
+import simplejson
+from django.http import HttpResponse
+from django.shortcuts import render_to_response, get_object_or_404
 
 init_time = int(time.time())
 
 timing_event = Event()
 
 # Start the real-time server if need be
-if not 'IS_REAL_TIME_SERVER' in os.environ:
-    scriptname = 'serverscript.py'
-    scriptloc = os.path.dirname(__file__)+'/serverscript.py'
+# if not 'IS_REAL_TIME_SERVER' in os.environ:
+#     scriptname = 'serverscript.py'
+#     scriptloc = os.path.dirname(__file__)+'/serverscript.py'
     
-    #os.environ['IS_REAL_TIME_SERVER'] = 'TRUE'
-    subprocess.Popen(scriptloc, close_fds=True)
-    #del os.environ['IS_REAL_TIME_SERVER']
+#     #os.environ['IS_REAL_TIME_SERVER'] = 'TRUE'
+#     subprocess.Popen(scriptloc, close_fds=True)
+#     #del os.environ['IS_REAL_TIME_SERVER']
+
+NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
+# def externalResponse(data):
+#     response =  HttpResponse(data)
+#     response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+#     response['Access-Control-Allow-Credentials'] =  "true"
+#     response['Access-Control-Allow-Methods'] =  "JSON"
+#     return response
 
 def triggertime():
     timing_event.set()
@@ -28,67 +39,87 @@ def testtime():
     return '%d %d %d' % (init_time, started, int(time.time()))
 
 
-class Update(object):
-    def __init__(self, queue_id, update=None):
-        self.update_event = Event()
+class LastQueueUpdate(object):
+    def __init__(self, queue_id=0, update=None):
+        self.event = Event()
         if update:
             self.update = update
         else:
-            self.update = QueueUpdate.objects.filter(queue__id=
-                                                     queue_id).order_by('id')[-1]
-        
+            self.update = QueueUpdate.objects.filter(queue__id=queue_id).order_by('-id')[0]
 
-# class QueueManager(object):
+class QueueManager(object):
     
-#     def __init__(self):
-#         self.updates = {}
-#     def main(self, request):
-#         if self.cache:
-#             request.session['cursor'] = self.cache[-1]['id']
-#         return render_to_response('index.html', {'MEDIA_URL': settings.MEDIA_URL, 'messages': self.cache})
+    def __init__(self):
+        self.updates = {}
+        queue_ids = Queue.objects.all().values_list('id')
+        for queue_id in queue_ids:
+            try:
+                self.updates[queue_id[0]] = LastQueueUpdate(queue_id=queue_id[0])
+            except:
+                update = QueueUpdate(queue=Queue.objects.get(id=queue_id[0]),
+                                     timestamp = int(time.time()),
+                                     kind = QueueUpdate.EDIT,
+                                     kind_id = 1)
+                self.updates[queue_id[0]] = LastQueueUpdate(update=update)
 
-#     def message_new(self, request):
-#         name = request.META.get('REMOTE_ADDR') or 'Anonymous'
-#         forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-#         if forwarded_for and name == '127.0.0.1':
-#             name = forwarded_for
-#         msg = create_message(name, request.POST['body'])
-#         self.cache.append(msg)
-#         if len(self.cache) > self.cache_size:
-#             self.cache = self.cache[-self.cache_size:]
-#         self.new_message_event.set()
-#         self.new_message_event.clear()
-#         return json_response(msg)
+    def edit(self, user, queue, room_idlist, draw):
+        # Perform the work
+        rooms = []
+        print 'edit', room_idlist
+        for roomid in room_idlist:
+            room = Room.objects.get(pk=roomid)
+            if (not room) or not draw in room.building.draw.all():
+                return json_response({'error':'bad room/draw'})
+            rooms.append(room)
+        # Clear out the old list
+        queue.queuetoroom_set.all().delete()
+        # Put in new relationships
+        for i in range(0, len(rooms)):
+            qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
+            qtr.save()
+        
+        update = QueueUpdate(queue=queue, timestamp=int(time.time()), 
+                              kind=QueueUpdate.EDIT, kind_id=user.id)
+        update.save()
+        self.updates[queue.id].update = update
+        self.updates[queue.id].event.set()
+        self.updates[queue.id].event.clear()
+        room_list = []
+        for room in rooms:
+            room_list.append({'id':room.id, 'number':room.number,
+                              'building':room.building.name})
+        return json_response({'rooms':room_list})
 
-#     def message_updates(self, request):
-#         cursor = request.session.get('cursor')
-#         if not self.cache or cursor == self.cache[-1]['id']:
-#             self.new_message_event.wait()
-#         assert cursor != self.cache[-1]['id'], cursor
-#         try:
-#             for index, m in enumerate(self.cache):
-#                 if m['id'] == cursor:
-#                     return json_response({'messages': self.cache[index + 1:]})
-#             return json_response({'messages': self.cache})
-#         finally:
-#             if self.cache:
-#                 request.session['cursor'] = self.cache[-1]['id']
-#             else:
-#                 request.session.pop('cursor', None)
+    def check(self, user, queue, timestamp):
+        print user, queue, timestamp
+        latest = self.updates[queue.id]
+        if timestamp != 0 and timestamp > latest.update.timestamp:
+            print 'going to wait'
+            print latest.update.timestamp
+            latest.event.wait()
+            latest = self.updates[queue.id]
+        print 'past wait'
+        queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
+        if not queueToRooms:
+            return json_response({'timestamp':int(time.time()), 'rooms':[]})
+        room_list = []
+        for qtr in queueToRooms:
+            room_list.append({'id':qtr.room.id, 'number':qtr.room.number,
+                              'building':qtr.room.building.name})
+        return json_response({'timestamp':int(time.time()), 'rooms':room_list})
 
-# room = ChatRoom()
-# main = room.main
-# message_new = room.message_new
-# message_updates = room.message_updates
+#if 'IS_REAL_TIME_SERVER' in os.environ:
+manager = QueueManager()
 
-
-# def create_message(from_, body):
-#     data = {'id': str(uuid.uuid4()), 'from': from_, 'body': body}
-#     data['html'] = render_to_string('message.html', dictionary={'message': data})
-#     return data
+check = manager.check
+edit = manager.edit
 
 
-# def json_response(value, **kwargs):
-#     kwargs.setdefault('content_type', 'text/javascript; charset=UTF-8')
-#     return HttpResponse(simplejson.dumps(value), **kwargs)
+def json_response(value, **kwargs):
+#    kwargs.setdefault('content_type', 'text/javascript; charset=UTF-8')
+    response =  HttpResponse(simplejson.dumps(value), **kwargs)
+    response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+    response['Access-Control-Allow-Credentials'] =  "true"
+    response['Access-Control-Allow-Methods'] =  "JSON"
+    return response
 

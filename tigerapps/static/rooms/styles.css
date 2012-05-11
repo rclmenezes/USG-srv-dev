@@ -1,3 +1,4 @@
+
 html 
 { 
     height: 100%; 
@@ -10,6 +11,11 @@ body
     height: 100%;
     margin: 0; 
     padding: 0; 
+}
+
+b
+{
+    font-weight: bold;
 }
 
 #wrapper1 /* entire page */
@@ -53,6 +59,20 @@ body
     box-shadow: 0 0 5px #888;
 
     border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+#fp_nav_whitebackground
+{
+    background: white;
+    padding: 10px;
 }
 
 #map_canvas
@@ -69,7 +89,8 @@ body
     position: absolute;
     top: 4%;
     right: 37px;
-    padding: 10px;
+    padding: 0px;
+    border: 10px solid transparent;
     background: url('images/wash-white-30.png');
     width: 250px;
     overflow: auto;
@@ -116,8 +137,8 @@ body
 #settings
 {
     position: absolute;
-    top: 22px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     width: 20px;
     height: 20px;
     background: url('images/sprites/plusminus.png') -71px 0;
@@ -131,6 +152,11 @@ body
 #room_queue
 {
     padding-top: 10px;
+}
+
+a.link_in_queue
+{
+    display: inline;
 }
 
 .queue_button
@@ -183,7 +209,7 @@ td
 {
     margin-left: auto;
     margin-right: auto;
-    padding: 7px !important;
+    padding: 7px;
 }
 
 #scrollarea tr:hover td
@@ -194,6 +220,7 @@ td
 
 .addRoom
 {
+    vertical-align: middle;
     background: url('images/sprites/plusminus.png') 0 0;
     width: 16px;
     height: 20px;
@@ -207,6 +234,7 @@ td
 
 .removeRoom
 {
+    vertical-align: middle;
     background: url('images/sprites/plusminus.png') -17px 0;
     width: 18px;
     height: 20px;
@@ -218,17 +246,31 @@ td
     background-position: -51px 0;
 }
 
+.removeInQueue
+{
+    position: absolute;
+    right: 15px;
+    visibility: hidden;
+    margin-top: -3px;
+}
+
+.queued_room:hover .removeInQueue
+{
+    visibility: visible;
+}
+
 h1
 {
     font-size: 20px;
 }
 
+/*
 input
 {
     margin-left: auto;
     margin-right: auto;
     /* width: 20px; */
-}
+/*}*/
 
 #tableheadings
 {
@@ -239,6 +281,7 @@ input
 
 #addremoveTab
 {
+    cursor: pointer;
     width: 43px;
 }
 
@@ -264,7 +307,7 @@ input
 
 #expandMap:active, #contractMap:active, #restoreMap:active, .queue_button:active
 { 
-    top: 11px;
+    top: 6px;
 }
 
 #expandMap 
@@ -290,35 +333,6 @@ input
     cursor: pointer;
 }
 
-#addremove:hover
-{
-    cursor: pointer;
-    font-weight: bold;
-}
-
-#roomListTopTrim
-{
-     transition: margin .2s;
-    -moz-transition: margin .2s; /* Firefox 4 */
-    -webkit-transition: margin .2s; /* Safari and Chrome */
-    -o-transition: margin .2s; /* Opera */
-    -moz-border-top-right-radius: 5px;
-    border-top-right-radius: 5px;
-    -moz-border-top-left-radius: 5px;
-    border-top-left-radius: 5px;
-    position: absolute;
-    left: 37px;
-    right: 37px;
-    bottom: -4px;
-    margin-bottom: 50%;
-    padding-top: 14px;
-    background: url('images/wash-white-30.png');
-    
-    -moz-box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
-    -webkit-box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
-    box-shadow: 2px 0px 4px -2px #888, -2px 0px 4px -2px #888, 0px -2px 4px -2px #888;
-}
-
 #roomListWrapperBigger
 {
     transition: height .2s;
@@ -327,16 +341,19 @@ input
     -o-transition: height .2s; /* Opera */
     position:absolute;
     height: 50%;
-    padding: 0 10px;
+    /*padding: 0 10px;*/
+    border: 10px solid transparent;
+    border-radius: 5px;
     left: 37px;
     right: 37px;
     bottom: 0;
     background: url('images/wash-white-30.png');
     overflow: auto;
+    margin-bottom: -10px;
 
-    -moz-box-shadow: 0 2px 5px #888;
-    -webkit-box-shadow: 0 2px 5px #888;
-    box-shadow: 0 2px 5px #888;
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px #888;
+    box-shadow: 0 0 5px #888;
 }
 
 #roomListWrapper
@@ -448,7 +465,6 @@ input
 {
     width: 18px;
     background: url('images/sprites/plusminus.png') -17px 0;
-    margin-right: 13px;
 }
 
 #fp_zoomout_button:hover
@@ -460,6 +476,7 @@ input
 {
     width: 16px;
     background: url('images/sprites/plusminus.png') 0 0;
+    margin-right: 16px;
 }
 
 #fp_floorup_button:hover
@@ -489,7 +506,7 @@ input
 
 #settings_container p
 {
-    padding: 5px 40px 5px 30px;
+    padding: 5px 40px 5px 15px;
 }
 
 #settings_container h1, h2, h3, h4, p
@@ -510,7 +527,7 @@ input
     color: #FFFFFF;
     font-weight: bold;
     padding: 5px;
-    margin: 5px 40px 5px 30px;
+    margin: 5px 40px 5px 15px;
     width: 50%;
 }
 
@@ -525,7 +542,7 @@ input
      color: #FFFFFF;
      font-weight: bold;
      padding: 5px;
-     margin: 5px 40px 5px 30px;
+     margin: 5px 40px 5px 15px;
      width: 50%;
 }
 
@@ -540,9 +557,30 @@ input
     right: 0px;
 }
 
+a
+{
+    text-decoration: none;
+}
+
+a:link
+{
+    color: #dc7d00;
+}
+
 a:hover
 {
     cursor: pointer;
+    text-decoration: underline;
+}
+
+a:visited
+{
+    color: #f90;
+}
+
+a.fancyroom
+{
+    color: #222;
 }
 
 .various
@@ -572,16 +610,26 @@ a:hover
 
 #room_view_avail
 {
-    text-align: center;
-    text-size: 14px;
+    font-size: 20px;
     color: #00ce00; 
+    text-align: center;
+    padding-bottom: 6px;
+    padding-top: 30px;
+}
+
+#room_view_top_line
+{
+    font-size: 14px;
+    margin: 0 auto;
 }
 
 #room_view_unavail
 {
-    text-align: center;
-    text-size: 14px;
     color: #e30000;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 6px;
+    padding-top: 30px;
 }
 #room_view_head2
 {
@@ -593,13 +641,60 @@ a:hover
 {
     /*border-collapse: collapse;
     border: 3px solid black;*/
-    font-size: 14px;
-    text-align: center;
+    font-size: 13px; 
+    text-align: left;
+    padding: 7px 20px;
 }
 
 #room_view_table
 {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#room_view_tablehead
+{
+	font-size: 13px;
+
+}
+
+#room_view_tablebody, #room_view_info ul
+{
+	font-size: 13px;
+}
+
+#review_button
+{
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.review_content
+{
+    max-width: 315px;
+}
+
+/*#button_wrapper
+{
+    margin-left: auto;
+    margin-right: auto;
+        display: block;
+}*/
+/*
+input[type="submit"]
+{
+    width: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10x;
+    margin-bottom: 10px;
+    display: block;
+}
+*/
+p, table
+{
+    font-size: 13px;
 }

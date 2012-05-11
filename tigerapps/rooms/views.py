@@ -1,6 +1,8 @@
 # Create your views here.
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
+from django.views.decorators.csrf import csrf_protect
+from django.template import RequestContext
 from dsml import gdi
 # from rooms.models import Poll
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -11,8 +13,17 @@ from django.core.mail import send_mail
 from django import forms
 import json
 import sys
-import time
 from queue import *
+import traceback
+
+REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
+NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
+
+def externalResponse(data):
+    response =  HttpResponse(data)
+    response['Access-Control-Allow-Origin'] =  NORMAL_ADDR
+    response['Access-Control-Allow-Credentials'] =  "true"
+    return response
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -23,12 +34,13 @@ def check_undergraduate(username):
         user = User(netid=username, firstname=info.get('givenName'), lastname=info.get('sn'), pustatus=info.get('pustatus'))
         if info.get('puclassyear'):
             user.puclassyear = int(info.get('puclassyear'))
-        user.save()
-        #Create queues for each draw
-        for draw in Draw.objects.all():
-            queue = Queue(draw=draw)
-            queue.save()
-            user.queues.add(queue)
+        if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
+            user.save()
+            #Create queues for each draw
+            for draw in Draw.objects.all():
+                queue = Queue(draw=draw)
+                queue.save()
+                user.queues.add(queue)
     if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
         return user
     return None
@@ -49,7 +61,9 @@ def index(request):
         if request.POST['form_type'] == 'settings':
             handle_settings_form(request, user)
     
-    return render_to_response('rooms/base_dataPanel.html', locals())
+    response = render_to_response('rooms/base_dataPanel.html', locals())
+    response['Access-Control-Allow-Origin'] =  '*'
+    return response
 
 
 @login_required
@@ -70,6 +84,7 @@ def mapdata():
         maplist.append({'name':building.name, 'draws':draws,
                         'lat':building.lat, 'lon':building.lon})
     mapstring = json.dumps(maplist)
+    mapstring = mapstring + ('; REAL_TIME_ADDR = "%s"' % REAL_TIME_ADDR)
     mapscript = '<script type="text/javascript">mapdata = %s</script>' % mapstring
     return mapscript
 
@@ -95,6 +110,25 @@ def occlonghelper(room):
     else:
         occlong = 'Suite' + ' (' + str(room.occ) + ')'
     return occlong
+    
+def floorwordhelper(floor):
+	
+	if floor == 0:
+		floorword = 'Ground'
+	elif floor == 1:
+		floorword = 'First'
+	elif floor == 2:
+		floorword = 'Second'
+	elif floor == 3:
+		floorword = 'Third'
+	elif floor == 4:
+		floorword = 'Fourth'
+	elif floor == 5:
+		floorword = 'Fifth'
+	else:
+		floorword = 'Zebra'
+	return floorword;
+		
 
 # Single room view function
 @login_required
@@ -104,7 +138,59 @@ def get_room(request, roomid):
         return HttpResponseForbidden()
     room = get_object_or_404(Room, pk=roomid)
     occlong = occlonghelper(room)
-    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong})
+    floorword = floorwordhelper(room.floor)
+    
+    # Gather reviews for this room
+    revs = Review.objects.filter(room=room)
+    print 'num reviews found: %d' % (len(revs))
+    
+    pastReview = None
+    try:
+        pastReview = Review.objects.get(room=room, user=user)    #the review that the user has posted already (if it exists)
+    except Review.DoesNotExist:
+        pass
+        
+    if request.method == 'POST':
+        review = request.POST.get('review', None)
+        submit = request.POST.get('submit', None)
+        delete = request.POST.get('delete', None)
+        
+        # user wants to review - clicked "Review this Room"
+        if review:
+            if pastReview:
+                form = ReviewForm(instance=pastReview)
+                return render_to_response('rooms/room_view.html', {'room' : room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs, 'form': form, 'edit': True}, context_instance=RequestContext(request))
+            else:   
+                form = ReviewForm()
+                return render_to_response('rooms/room_view.html', {'room' : room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs, 'form': form}, context_instance=RequestContext(request))
+        # user submitted the review
+        elif submit:
+            if pastReview:
+                form = ReviewForm(request.POST, instance=pastReview)
+            else:
+                form = ReviewForm(request.POST)
+                
+            if form.is_valid():
+                print 'ok valid'
+                rev = form.save(commit=False)
+                rev.user = user
+                rev.room = room
+                rev.save()
+                revs = Review.objects.filter(room=room)
+                print 'num reviews found: %d' % (len(revs))
+                return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs})
+            else:
+                form = ReviewForm()
+                return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs, 'form': form, 'error': 'Invalid submit data'})
+        # user clicked "Delete this Review"
+        elif delete:
+            if pastReview:
+                pastReview.delete()
+                revs = Review.objects.filter(room=room)
+                print 'num reviews found: %d' % (len(revs))
+                return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs})
+    
+    return render_to_response('rooms/room_view.html', {'room':room, 'occlong':occlong, 'floorword':floorword, 'reviews':revs})
     
 @login_required
 def create_queue(request, drawid):
@@ -115,56 +201,10 @@ def create_queue(request, drawid):
     # Check if user already has queue for this draw
     if user.queues.filter(draw=draw):
         return HttpResponse("fail")
-    queue = Queue(draw=draw)
+    queue = Queue.make(draw=draw, user=user)
     queue.save()
     user.queues.add(queue)
     return HttpResponse("pass")
-    
-@login_required
-def update_queue(request, drawid):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return HttpResponseForbidden()
-    draw = Draw.objects.get(pk=drawid)
-    qlist = json.loads(request.POST['queue'])
-    # resp = ''
-    # for r in qlist:
-    #     resp += ' ' + r;
-    queue = user.queues.filter(draw=draw)[0]
-    if not queue:
-        return HttpResponse('no queue')
-    rooms = []
-    for roomid in qlist:
-        room = Room.objects.get(pk=roomid)
-        if (not room) or not draw in room.building.draw.all():
-            return HttpResponse('bad room/draw')
-        rooms.append(room)
-    # Clear out the old list
-    queue.queuetoroom_set.all().delete()
-    # Put in new relationships
-    for i in range(0, len(rooms)):
-        qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
-        qtr.save()
-    # Test output - list rooms
-    return HttpResponse(rooms)
-
-# Ajax for displaying this user's queue
-@login_required
-def get_queue(request, drawid):
-    user = check_undergraduate(request.user.username)
-    if not user:
-        return HttpResponseForbidden()
-    try:
-        queue = user.queues.get(draw__id=drawid)
-    except:
-        return HttpResponse('no queue')
-    queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
-    if not queueToRooms:
-        return HttpResponse('')
-    room_list = []
-    for qtr in queueToRooms:
-        room_list.append(qtr.room)
-    return render_to_response('rooms/queue.html', {'room_list':room_list})
 
 # Send a queue invite
 @login_required
@@ -192,8 +232,7 @@ def invite_queue(request):
         return manage_queues(request, 'You didn\'t select any draws. Try again!')
 
     for draw in invited_draws:
-        invite = QueueInvite(sender=user, receiver=receiver, draw=draw,
-                         timestamp=int(time.time()))
+        invite = QueueInvite(sender=user, receiver=receiver, draw=draw)
         invite.save();
 
     sender_name = "%s %s (%s@princeton.edu)" % (user.firstname, user.lastname, user.netid)
@@ -255,7 +294,7 @@ def leave_queue(request):
     q1 = user.queues.get(draw=draw)
     if 1 == q1.user_set.count():
         return HttpResponse('')
-    q2 = Queue(draw=draw)
+    q2 = Queue.make(draw=draw, user=user)
     q2.save()
     qtrs = q1.queuetoroom_set.all()
     for qtr in qtrs:
@@ -265,7 +304,7 @@ def leave_queue(request):
     user.queues.remove(q1)
     user.queues.add(q2)
     return manage_queues(request);
-
+'''
 @login_required
 #for testing
 def review(request, roomid):
@@ -329,7 +368,7 @@ def review(request, roomid):
             return HttpResponseRedirect(reverse(index))
     else:
         return render_to_response('rooms/reviewtest.html', {'roomid' : roomid, 'submitted': False})
-
+'''
 @login_required
 def settings(request):
     user = check_undergraduate(request.user.username)
@@ -422,11 +461,15 @@ def manage_queues(request, error=""):
 
 
 def test(request):
-    return HttpResponse(testtime())
+    #return HttpResponse(testtime())
+    externalResponse('Hello')
+    return response
 
 def trigger(request):
+    print('Hello')    
     triggertime()
-    return HttpResponse('triggered')
+    return externalResponse('triggered')
+
 
 #helper function
 def notify(user, subject, message):
@@ -436,3 +479,70 @@ def notify(user, subject, message):
     if user.do_text and user.confirmed:
         send_mail(subject, message, 'rooms@tigerapps.org',
                       ["%s@%s" % (user.phone, user.carrier.address)], fail_silently=False)
+
+
+
+
+
+##################
+# Real-time view functions go here (long polling)
+    
+@login_required
+def update_queue(request, drawid):
+    user = check_undergraduate(request.user.username)
+    if not user:
+        return externalResponse('forbidden')
+    draw = Draw.objects.get(pk=drawid)
+    qlist = json.loads(request.POST['queue'])
+    # resp = ''
+    # for r in qlist:
+    #     resp += ' ' + r;
+    queue = user.queues.filter(draw=draw)[0]
+    if not queue:
+        return externalResponse('no queue')
+
+    # QueueManager object takes over
+    # rooms = []
+    # for roomid in qlist:
+    #     room = Room.objects.get(pk=roomid)
+    #     if (not room) or not draw in room.building.draw.all():
+    #         return externalResponse('bad room/draw')
+    #     rooms.append(room)
+    # # Clear out the old list
+    # queue.queuetoroom_set.all().delete()
+    # # Put in new relationships
+    # for i in range(0, len(rooms)):
+    #     qtr = QueueToRoom(queue=queue, room=rooms[i], ranking=i)
+    #     qtr.save()
+    # # Test output - list rooms
+    # return externalResponse(rooms)
+    try:
+        return edit(user, queue, qlist, draw)
+    except Exception as e:
+        return externalResponse(e)
+
+# Ajax for displaying this user's queue
+@login_required
+def get_queue(request, drawid, timestamp = 0):
+    user = check_undergraduate(request.user.username)
+    timestamp = int(timestamp)
+    if not user:
+        return HttpResponseForbidden()
+    try:
+        draw = Draw.objects.get(pk=drawid)
+        queue = user.queues.get(draw=draw)
+    except Exception as e:
+        return HttpResponse(traceback.format_exc(2) + str(draw))
+    #real-time takes over
+#    return HttpResponse(queue)
+    try:
+        return check(user, queue, timestamp)
+    except Exception as e:
+        return HttpResponse(traceback.format_exc(2))
+    # queueToRooms = QueueToRoom.objects.filter(queue=queue).order_by('ranking')
+    # if not queueToRooms:
+    #     return HttpResponse('')
+    # room_list = []
+    # for qtr in queueToRooms:
+    #     room_list.append(qtr.room)
+    # return render_to_response('rooms/queue.html', {'room_list':room_list})
