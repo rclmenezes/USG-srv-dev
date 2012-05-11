@@ -2,8 +2,12 @@ from utils.scrape import *
 import urllib3, urllib2
 from bs4 import BeautifulSoup
 
+#Wu has been combined into wilcox
+#DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
+#                'HARGH':8, 'CENJL':5, 'GRADC':4}
 
-DINING_HALLS = {'WUHAL':2, 'WILCH':2, 'MADIH':1, 'FORBC':3,
+
+DINING_HALLS = {'WILCH':2, 'MADIH':1, 'FORBC':3,
                 'HARGH':8, 'CENJL':5, 'GRADC':4}
 
 url_stub = 'http://facilities.princeton.edu/dining/_Foodpro/menu.asp?locationNum=0'
