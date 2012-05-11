@@ -15,6 +15,7 @@ import json
 import sys
 from queue import *
 import traceback
+from simulation import start_sim, stop_sim
 
 REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
 NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
@@ -550,3 +551,11 @@ def get_queue(request, drawid, timestamp = 0):
     # for qtr in queueToRooms:
     #     room_list.append(qtr.room)
     # return render_to_response('rooms/queue.html', {'room_list':room_list})
+
+
+def start_simulation(request, delay):
+    delay = int(delay)
+    return start_sim(delay)
+
+def stop_simulation(request):
+    return stop_sim()

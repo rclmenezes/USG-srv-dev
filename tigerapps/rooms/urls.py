@@ -29,4 +29,6 @@ urlpatterns = patterns('',
     (r'^update_queue/(?P<drawid>\d{1})$', 'rooms.views.update_queue'),
     (r'^get_queue/(?P<drawid>\d{1})$', 'rooms.views.get_queue'),
     (r'^get_queue/(?P<drawid>\d{1})/(?P<timestamp>\d+)$', 'rooms.views.get_queue'),
+    (r'^start_simulation/(?P<delay>\d+)$', 'rooms.views.start_simulation'),
+    (r'^stop_simulation/?$', 'rooms.views.stop_simulation'),
 )
