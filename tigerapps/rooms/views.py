@@ -16,6 +16,7 @@ from queue import *
 
 def check_undergraduate(username):
     # Check if user can be here
+    print 'checking for user: %s' % username
     try:
         user = User.objects.get(netid=username)
     except:
@@ -23,12 +24,13 @@ def check_undergraduate(username):
         user = User(netid=username, firstname=info.get('givenName'), lastname=info.get('sn'), pustatus=info.get('pustatus'))
         if info.get('puclassyear'):
             user.puclassyear = int(info.get('puclassyear'))
-        user.save()
-        #Create queues for each draw
-        for draw in Draw.objects.all():
-            queue = Queue(draw=draw)
-            queue.save()
-            user.queues.add(queue)
+            if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
+                user.save()
+                #Create queues for each draw
+                for draw in Draw.objects.all():
+                    queue = Queue(draw=draw)
+                    queue.save()
+                    user.queues.add(queue)
     if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
         return user
     return None
