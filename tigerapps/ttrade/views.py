@@ -52,26 +52,27 @@ def create(request):
 def item(request, listingID):
     listing = get_object_or_404(Listing, listingID=listingID)
     
-    # Check if logged in
+    # User messages (why make a whole system for two messages, anyway?)
+    message = None
+
+    # Check if logged in 
     edit = edited = expiration = False
     if request.user.is_authenticated():
         logged_in = True
         if request.user == listing.user or request.user.is_staff: # Owner of listing
             edit = True
         elif datetime.datetime.now() > listing.expire: # Expire
-            title = "Sorry!"
-            body = "This post has expired!"
-            return render_to_response('ttrade/confirm.html', {'title': title, 'body': body, 'logged_in': logged_in})
+            message = "Note: This listing has expired, so offers can no longer be made."
+            #title = "Sorry!"
+            #body = "This post has expired!"
+            #return render_to_response('ttrade/confirm.html', {'title': title, 'body': body, 'logged_in': logged_in})
     else: # Not logged in
         logged_in = False
     
-    # User messages (why make a whole system for two messages, anyway?)
-    message = None
     if request.method == 'GET':
         if 'expiration' in request.GET or 'edited' in request.GET:
             message = "Your changes have been made."
-            
-    if request.method =='POST':
+    else:        
         if 'offer' in request.POST:
             offer = get_object_or_404(Offer, offerID=int(request.POST['offer']))
             if 'Accept' in request.POST:
