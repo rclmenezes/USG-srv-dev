@@ -1,26 +1,44 @@
 {% extends "ttrade/listing.html" %}
 
 {% block fixed %}
+    {% if logged_in and not expired %}
+        <div class="box"><h3>Make an offer!</h3>
+        <div class="box_inner">
+            <form id="item" action="/confirm" method="POST">
+                <div class="centerize">
+                    {% ifequal listing.method 'Au'%}
+                        Bid: $<input type="text" id="price" name="price" />
+                    {% else %}
+                        <textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
+                    {% endifequal %}
+                    <br />
+                    <input type="hidden" name="listing" value="{{listing.listingID}}"/>
+                    <input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
+                </div>
+                <p>(An email will be sent to both you and the seller)</p>
+            </form>
+        </div>
+        </div>
+        {% if offers %}
+            <div class="box"><h3>Your offers on this listing</h3>
+            <div class="box_inner">
+                {% for offer in offers %}
+                    <div style="padding:8px 20px;">
+                        {% ifequal listing.method 'Au' %}
+                            Bid: ${{ offer.price }}
+                        {% else %}
+                            Offer: {% if offer.accepted %}<b>Accepted</b>{% else %}Awaiting acceptance{% endif %}
+                            {% if offer.additional %}
+                                <p style="margin-left:20px;">"{{ offer.additional }}"</p>
+                            {% endif %}
+                        {% endifequal %}
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        {% endif %}
+    {% endif %}
 	{% if not edit %}
-		{% if logged_in and not edit and not expired %}
-		<form id="item" action="/confirm" method="POST">
-		<div class="box"><h3>Make an offer!</h3>
-			<div class="box_inner">
-				<div class="centerize">
-					{% ifequal listing.method 'Au'%}
-						Bid: $<input type="text" id="price" name="price" />
-					{% else %}
-						<textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
-					{% endifequal %}
-					<br />
-					<input type="hidden" name="listing" value="{{listing.listingID}}"/>
-					<input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
-				</div>
-				<p>(An email will be sent to both you and the seller)</p>
-			</div>
-		</div>
-		</form>
-		{% endif %}
 		<script type="text/javascript" src="/static/ttrade/js/formcheck/lang/en.js"> </script>
 		<script type="text/javascript" src="/static/ttrade/js/formcheck/formcheck-yui.js"> </script>
 		<link rel="stylesheet" href="/static/ttrade/js/formcheck/theme/classic/formcheck.css" type="text/css" media="screen" />

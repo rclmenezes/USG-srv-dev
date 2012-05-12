@@ -56,10 +56,12 @@ def item(request, listingID):
     messages = [] 
 
     # Check if logged in 
-    edit = edited = expired = False
+    edit = expired = False
     if request.user.is_authenticated():
         logged_in = True
-        if request.user == listing.user or request.user.is_staff: # Owner of listing
+        if request.user.is_staff:
+            edit = True
+        if request.user == listing.user: # Owner of listing
             edit = True
         if datetime.datetime.now() > listing.expire: # Expire
             messages.append("Note: Offers can no longer be made on this listing since it has expired.")
@@ -67,9 +69,14 @@ def item(request, listingID):
             #title = "Sorry!"
             #body = "This post has expired!"
             #return render_to_response('ttrade/confirm.html', {'title': title, 'body': body, 'logged_in': logged_in})
+
+        offers = [offer for offer in listing.offers.all() if offer.user == request.user]
+
     else: # Not logged in
         logged_in = False
+        offers = []
     
+
     if request.method == 'GET':
         if 'expiration' in request.GET or 'edited' in request.GET:
             messages.append("Your changes have been made.")
@@ -98,10 +105,10 @@ def item(request, listingID):
     
     # If method is fixed or free
     if listing.method == "Fr" or listing.method == "Fi":
-        return render_to_response('ttrade/fixedOrFree.html', {'edit': edit, 'messages': messages, 'logged_in': logged_in, 'listing': listing, 'expired': expired})
+        return render_to_response('ttrade/fixedOrFree.html', {'edit': edit, 'messages': messages, 'logged_in': logged_in, 'listing': listing, 'expired': expired, 'offers': offers})
         
     # If method is anything else (where you make an offer) (this includes requests to buy)
-    return render_to_response('ttrade/claim.html', {'edit': edit, 'messages': messages, 'logged_in': logged_in, 'listing': listing, 'expired': expired})
+    return render_to_response('ttrade/claim.html', {'edit': edit, 'messages': messages, 'logged_in': logged_in, 'listing': listing, 'expired': expired, 'offers': offers})
  
 # Does all the buying
 @login_required   
