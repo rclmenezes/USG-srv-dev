@@ -22,7 +22,10 @@ class CalUserAdmin(admin.ModelAdmin):
 class EventClusterAdmin(admin.ModelAdmin):
     search_fields = ['cluster_title']
 
-admin.site.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    search_fields = ['event_location']
+
+admin.site.register(Event, EventAdmin)
 admin.site.register(EventCluster, EventClusterAdmin)
 admin.site.register(CalUser, CalUserAdmin)
 admin.site.register(BoardMessage)
