@@ -1,24 +1,26 @@
 {% extends "ttrade/listing.html" %}
 
 {% block fixed %}
-    {% if logged_in and not expired %}
-        <div class="box"><h3>Make an offer!</h3>
-        <div class="box_inner">
-            <form id="item" action="/confirm" method="POST">
-                <div class="centerize">
-                    {% ifequal listing.method 'Au'%}
-                        Bid: $<input type="text" id="price" name="price" />
-                    {% else %}
-                        <textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
-                    {% endifequal %}
-                    <br />
-                    <input type="hidden" name="listing" value="{{listing.listingID}}"/>
-                    <input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
-                </div>
-                <p>(An email will be sent to both you and the seller)</p>
-            </form>
-        </div>
-        </div>
+    {% if logged_in and not edit %}
+        {% if not expired %}
+            <div class="box"><h3>Make an offer!</h3>
+            <div class="box_inner">
+                <form id="item" action="/confirm" method="POST">
+                    <div class="centerize">
+                        {% ifequal listing.method 'Au'%}
+                            Bid: $<input type="text" id="price" name="price" />
+                        {% else %}
+                            <textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
+                        {% endifequal %}
+                        <br />
+                        <input type="hidden" name="listing" value="{{listing.listingID}}"/>
+                        <input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
+                    </div>
+                    <p>(An email will be sent to both you and the seller)</p>
+                </form>
+            </div>
+            </div>
+        {% endif %}
         {% if offers %}
             <div class="box"><h3>Your offers on this listing</h3>
             <div class="box_inner">
