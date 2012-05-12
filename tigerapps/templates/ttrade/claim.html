@@ -1,34 +1,8 @@
 {% extends "ttrade/listing.html" %}
 
 {% block fixed %}
-	{% if edit %}
-        {% if listing.offers.all %}
-            <div class="box"><h3>Offers</h3>
-            {% for offer in listing.offers.all %}
-                {% if offer.additional %}
-                    <div class="box_inner">
-                    From {{ offer.user.email }}:<br/><br/>
-                    "{{ offer.additional }}"
-                    <br/><br/>
-                    <form action="/item/{{listing.listingID}}" method="POST">
-                        <input type="hidden" name="offer" value="{{offer.offerID}}" />
-                        <input type="submit" name="Accept" value="Accept" />
-                        <input type="submit" name="Reject" value="Reject" />
-                    </form>
-                    </div>
-                {% endif %}
-                {% ifequal listing.method 'Au' %}
-                    <div class="box_inner">
-                        Bid from {{ offer.user.email }}: ${{ offer.price }}<br/><br/>
-                    </div>
-                {% endifequal %}
-            {% endfor %}
-            </div>
-        {% else %}
-            <div class="centerize"><h3>No offers yet!</h3></div>
-        {% endif %}
-	{% else %}
-		{% if logged_in %}
+	{% if not edit %}
+		{% if logged_in and not edit and not expired %}
 		<form id="item" action="/confirm" method="POST">
 		<div class="box"><h3>Make an offer!</h3>
 			<div class="box_inner">
@@ -42,7 +16,7 @@
 					<input type="hidden" name="listing" value="{{listing.listingID}}"/>
 					<input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
 				</div>
-				<p> (An email will be sent to both you and the seller)</p>
+				<p>(An email will be sent to both you and the seller)</p>
 			</div>
 		</div>
 		</form>

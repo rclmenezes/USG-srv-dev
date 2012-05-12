@@ -1,7 +1,7 @@
 {% extends "ttrade/listing.html" %}
 
 {% block fixed %}
-{% if not edit and logged_in %}
+{% if logged_in and not edit and not expired %}
 <form action="/confirm" method="POST">
 <div class="box"><h3>{% ifequal listing.method 'Fr' %}Claim{% else %}Buy{% endifequal %} this listing!</h3>
 	<div class="box_inner">

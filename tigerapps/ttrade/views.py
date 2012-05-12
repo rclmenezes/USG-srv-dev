@@ -53,16 +53,17 @@ def item(request, listingID):
     listing = get_object_or_404(Listing, listingID=listingID)
     
     # User messages (why make a whole system for two messages, anyway?)
-    message = None
+    messages = [] 
 
     # Check if logged in 
-    edit = edited = expiration = False
+    edit = edited = expired = False
     if request.user.is_authenticated():
         logged_in = True
         if request.user == listing.user or request.user.is_staff: # Owner of listing
             edit = True
-        elif datetime.datetime.now() > listing.expire: # Expire
-            message = "Note: This listing has expired, so offers can no longer be made."
+        if datetime.datetime.now() > listing.expire: # Expire
+            messages.append("Note: Offers can no longer be made on this listing since it has expired.")
+            expired = True
             #title = "Sorry!"
             #body = "This post has expired!"
             #return render_to_response('ttrade/confirm.html', {'title': title, 'body': body, 'logged_in': logged_in})
@@ -71,7 +72,7 @@ def item(request, listingID):
     
     if request.method == 'GET':
         if 'expiration' in request.GET or 'edited' in request.GET:
-            message = "Your changes have been made."
+            messages.append("Your changes have been made.")
     else:        
         if 'offer' in request.POST:
             offer = get_object_or_404(Offer, offerID=int(request.POST['offer']))
@@ -80,25 +81,27 @@ def item(request, listingID):
                 body = "You have accepted the offer! You and the second party will receive an email shortly."
                 buyerConfirmation(listing, offer)
                 listerConfirmation(listing, offer)
-                if listing.method != 'Mu':
+                if listing.method == 'Mu':
+                    body += " (Tip: Listings that are listed as multiple items and prices only expire when you tell them to.)"
+                    #listing.offers.remove(offer)
+                else:
                     listing.expire = datetime.datetime.now()
                     listing.save()
-                else:
-                    body += " (Tip: Listings that are listed as multiple items and prices only expire when you tell them to.)"
-                    listing.offers.remove(offer)
+                offer.accepted = True
+                offer.save()
                 return render_to_response('ttrade/confirm.html', {'title': title, 'body': body, 'logged_in': logged_in})
             if 'Reject' in request.POST:
                 listing.offers.remove(offer)
                 listing.save()
                 offerRejection(listing, offer)
-                message = "That offer has been removed."
+                messages.append("The offer has been removed.")
     
     # If method is fixed or free
     if listing.method == "Fr" or listing.method == "Fi":
-        return render_to_response('ttrade/fixedOrFree.html', {'edit': edit, 'message': message, 'logged_in': logged_in, 'listing': listing})
+        return render_to_response('ttrade/fixedOrFree.html', {'edit': edit, 'messages': messages, 'logged_in': logged_in, 'listing': listing, 'expired': expired})
         
     # If method is anything else (where you make an offer) (this includes requests to buy)
-    return render_to_response('ttrade/claim.html', {'edit': edit, 'message': message, 'logged_in': logged_in, 'listing': listing})
+    return render_to_response('ttrade/claim.html', {'edit': edit, 'messages': messages, 'logged_in': logged_in, 'listing': listing, 'expired': expired})
  
 # Does all the buying
 @login_required   
