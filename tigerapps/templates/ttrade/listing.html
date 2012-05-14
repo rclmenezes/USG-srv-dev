@@ -15,17 +15,16 @@
 	<div id="main_listing">
 		<div class="listings">
 			<div class="white"><h3>{{listing.title}}</h3></div>
-			{% if edit %}
-			<span id="left"><a id="edit" href= "/edit/{{listing.listingID}}"> Edit information </a></span>
-			<span id="right"><a id="edit" href= "/expiration/{{listing.listingID}}"> Change expiration </a></span>
+			{% if edit and not expired %}
+                <span id="left"><a id="edit" href= "/edit/{{listing.listingID}}"> Edit information </a></span>
+                <span id="right"><a id="edit" href= "/expiration/{{listing.listingID}}"> Change expiration </a></span>
 			{% endif %}
 			
-			{% if message %}
-				<br/><p>{{message}}</p>
-			{% endif %}
+			{% for message in messages %}
+				<br/><p style="text-align:center;font-weight:bold;">{{message}}</p>
+			{% endfor %}
 			
 			<div class="box"><h3>Listing Information</h3> 
-			
 			<div class="box_inner">
 			<table id="info">
 				<tr>
@@ -76,19 +75,56 @@
 				{% endif %}
 			{% endifequal %}
 			</div>
-			
 			</div>
+
 			{% if listing.description %}
 			<div class="box"><h3>Description</h3> 
 				<div class="box_inner"><p style="margin-top: 0;">{{ listing.description|linebreaksbr }}</p></div>
 			</div>
 			{% endif %}
+
 			{% if listing.picture %}
-			<div id="picture">
-				<img src="/media/{{listing.picture}}" />
+			<div class="box"><h3>Picture</h3>
+				<img class="box_picture" src="/media/{{listing.picture}}" />
 			</div>
 			{% endif %}
 			
+            {% if edit %}
+            <div class="box"><h3>Offers</h3>
+            <div class="box_inner">
+                {% if listing.offers.all %}
+                    {% for offer in listing.offers.all %}
+                    <div style="padding:8px 20px;">
+                        {% ifequal listing.method 'Au' %}
+                            Bid from {{ offer.user.email }}: ${{ offer.price }}
+                        {% else %}
+                            <table style="width:100%;"><tr>
+                                <td>From <b>{{ offer.user.email }}</b>:</td>
+                                <td style="text-align:right;">
+                                    {% if offer.accepted %}
+                                        <b>Accepted</a>
+                                    {% else %}
+                                        <form action="/item/{{listing.listingID}}" method="POST">
+                                        <input type="hidden" name="offer" value="{{offer.offerID}}" />
+                                        <input type="submit" name="Accept" value="Accept" />
+                                        <input type="submit" name="Reject" value="Reject" />
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr></table>
+                            {% if offer.additional %}
+                                <p style="margin-left:20px;">"{{ offer.additional }}"</p>
+                            {% endif %}
+                        {% endifequal %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="centerize"><h3>No offers yet!</h3></div>
+                {% endif %}
+            </div>
+            </div>
+            {% endif %}
+
 			{% block fixed %}{% endblock %}
 		</div>
 	</div>

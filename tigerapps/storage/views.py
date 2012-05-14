@@ -39,7 +39,9 @@ def home(request):
 
 @login_required
 def register(request):
-    #Make sure user didn't already register
+    #XXX: close registration
+    return HttpResponseRedirect('/register/closed/')
+
     #Make sure user didn't already register
     try:    
         status = Order.objects.get(user=request.user)
