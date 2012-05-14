@@ -84,6 +84,7 @@ class Queue(models.Model):
     @staticmethod
     def make(draw, user=None):
         queue = Queue(draw=draw)
+        queue.save()
         if user:
             QueueUpdate(queue=queue, timestamp=int(time.time()), kind=QueueUpdate.EDIT,
                         kind_id=user.id).save()
