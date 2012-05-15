@@ -16,7 +16,7 @@
     {% for room in room_list %}
     <tr>
     <td id="addremoveTab">
-        <div class="removeRoom" id="remove{{ room.id }}" onclick="$.publish('queue/remove', {{ room.id }})"></div>
+        <div class="removeRoom" id="remove{{ room.id }}" onclick="$.publish('queue/remove', {{ room.id }})" style="display: none; "></div>
         <div class="addRoom" id="add{{ room.id }}" onclick="$.publish('queue/add',{id:{{ room.id }}, building:'{{ room.building }}', number:'{{ room.number }}' });"></div>
       </td>
       <td><a class="fancyroom" title="Room Overview" data-fancybox-type="iframe" href="/get_room/{{ room.id }}">{{ room.number }}</a></td>
