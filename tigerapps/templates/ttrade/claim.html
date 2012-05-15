@@ -1,52 +1,46 @@
 {% extends "ttrade/listing.html" %}
 
 {% block fixed %}
-	{% if edit %}
-        {% if listing.offers.all %}
-            <div class="box"><h3>Offers</h3>
-            {% for offer in listing.offers.all %}
-                {% if offer.additional %}
-                    <div class="box_inner">
-                    From {{ offer.user.email }}:<br/><br/>
-                    "{{ offer.additional }}"
-                    <br/><br/>
-                    <form action="/item/{{listing.listingID}}" method="POST">
-                        <input type="hidden" name="offer" value="{{offer.offerID}}" />
-                        <input type="submit" name="Accept" value="Accept" />
-                        <input type="submit" name="Reject" value="Reject" />
-                    </form>
+    {% if logged_in and not edit %}
+        {% if not expired %}
+            <div class="box"><h3>Make an offer!</h3>
+            <div class="box_inner">
+                <form id="item" action="/confirm" method="POST">
+                    <div class="centerize">
+                        {% ifequal listing.method 'Au'%}
+                            Bid: $<input type="text" id="price" name="price" />
+                        {% else %}
+                            <textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
+                        {% endifequal %}
+                        <br />
+                        <input type="hidden" name="listing" value="{{listing.listingID}}"/>
+                        <input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
                     </div>
-                {% endif %}
-                {% ifequal listing.method 'Au' %}
-                    <div class="box_inner">
-                        Bid from {{ offer.user.email }}: ${{ offer.price }}<br/><br/>
-                    </div>
-                {% endifequal %}
-            {% endfor %}
+                    <p>(An email will be sent to both you and the seller)</p>
+                </form>
             </div>
-        {% else %}
-            <div class="centerize"><h3>No offers yet!</h3></div>
+            </div>
         {% endif %}
-	{% else %}
-		{% if logged_in %}
-		<form id="item" action="/confirm" method="POST">
-		<div class="box"><h3>Make an offer!</h3>
-			<div class="box_inner">
-				<div class="centerize">
-					{% ifequal listing.method 'Au'%}
-						Bid: $<input type="text" id="price" name="price" />
-					{% else %}
-						<textarea rows="5" cols="40" name="additional" class="validate['required','length[4,300]']"></textarea>
-					{% endifequal %}
-					<br />
-					<input type="hidden" name="listing" value="{{listing.listingID}}"/>
-					<input id="get" type="Submit" class="validate['submit']" name="Submit" value="Submit Offer" onClick="return confirmSubmit()" />
-				</div>
-				<p> (An email will be sent to both you and the seller)</p>
-			</div>
-		</div>
-		</form>
-		{% endif %}
+        {% if offers %}
+            <div class="box"><h3>Your offers on this listing</h3>
+            <div class="box_inner">
+                {% for offer in offers %}
+                    <div style="padding:8px 20px;">
+                        {% ifequal listing.method 'Au' %}
+                            Bid: ${{ offer.price }}
+                        {% else %}
+                            Offer: {% if offer.accepted %}<b>Accepted</b>{% else %}Awaiting acceptance{% endif %}
+                            {% if offer.additional %}
+                                <p style="margin-left:20px;">"{{ offer.additional }}"</p>
+                            {% endif %}
+                        {% endifequal %}
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        {% endif %}
+    {% endif %}
+	{% if not edit %}
 		<script type="text/javascript" src="/static/ttrade/js/formcheck/lang/en.js"> </script>
 		<script type="text/javascript" src="/static/ttrade/js/formcheck/formcheck-yui.js"> </script>
 		<link rel="stylesheet" href="/static/ttrade/js/formcheck/theme/classic/formcheck.css" type="text/css" media="screen" />

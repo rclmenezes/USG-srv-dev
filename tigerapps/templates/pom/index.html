@@ -5,15 +5,15 @@
 	<script type="text/javascript" src="/static/pom/js/jquery-ui-1.8.20.custom.min.js"></script>
 	<script type="text/javascript" src="/static/pom/js/timeline.js"></script>
 	
-	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	<script type="text/javascript" src="/static/pom/js/display.js"></script>
+	<script type="text/javascript" src="/static/pom/js/map.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/jquery-ui-1.8.20.custom.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/timeline.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/pom/css/map.css"/>
 	
 	<script type="text/javascript">
-		$(document).ready(function() { utilInit(); mapInit(); });
+		$(document).ready(function() { displayInit(); mapInit(); });
 	</script>
 	
 	<!--
@@ -67,8 +67,8 @@
 				<div class="isolated">
 					<table style="width:320px;"><tr>
 						<td style="text-align:left;">
-							<label class="jtl-labels-black"> Start date:</label>
-								<input type="text" class="jtl-params" id="jtl-startDate" readonly='true' style="border:1px solid #76868e; width:72px;"/>
+							<label class="jtl-labels-black">Start date:</label>&nbsp;
+								<input type="text" class="jtl-params" id="jtl-startDate" readonly='true' style="width:72px;"/>
 						</td><td style="text-align:right;">
 							<label class="jtl-labels-black">Number of days:</label>
 								<select class="jtl-params" id="jtl-nDays">

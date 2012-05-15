@@ -433,9 +433,10 @@ input#get
 	margin-bottom: 5px;
 }
 
-#picture
+.box_picture
 {
-    text-align: center;
+    width: 100%;
+    height: 100%;
 }
 
 .white

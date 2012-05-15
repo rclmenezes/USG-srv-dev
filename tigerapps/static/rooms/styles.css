@@ -13,6 +13,11 @@ body
     padding: 0; 
 }
 
+b
+{
+    font-weight: bold;
+}
+
 #wrapper1 /* entire page */
 {
     position: relative;
@@ -149,6 +154,11 @@ body
     padding-top: 10px;
 }
 
+a.link_in_queue
+{
+    display: inline;
+}
+
 .queue_button
 {
     background: grey;
@@ -236,6 +246,19 @@ td
     background-position: -51px 0;
 }
 
+.removeInQueue
+{
+    position: absolute;
+    right: 15px;
+    visibility: hidden;
+    margin-top: -3px;
+}
+
+.queued_room:hover .removeInQueue
+{
+    visibility: visible;
+}
+
 h1
 {
     font-size: 20px;
@@ -258,6 +281,7 @@ input
 
 #addremoveTab
 {
+    cursor: pointer;
     width: 43px;
 }
 
@@ -307,13 +331,6 @@ input
 #expandMap:hover, #contractMap:hover, #restoreMap:hover, #create_queue:hover 
 {
     cursor: pointer;
-}
-
-
-#addremove:hover
-{
-    cursor: pointer;
-    font-weight: bold;
 }
 
 #roomListWrapperBigger
@@ -481,28 +498,48 @@ input
 /* Settings page styles */
 #settings_container
 {
-    background-color: #D6D6D6;
+    /*background-color: #D6D6D6;*/
     /* margin: 75px 150px 75px 150px;*/
     margin: 0px;
     padding: 50px;
+    font-size: 13px;
+    color: #222;
 }
 
 #settings_container p
 {
-    padding: 5px 40px 5px 15px;
+    padding: 5px 40px 5px 40px;
 }
 
 #settings_container h1, h2, h3, h4, p
 {
-    padding: 15px;
+    padding: 12px;
 }
 
 .error_message
 {
-    color: #CC0000;
+    color: #e30000;
     font-weight: bold;
 }
 
+.success_message
+{
+    color: #00ce00;
+    font-weight: bold;
+}
+
+#leave
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#settings_container #queuename
+{
+    font-size: 16px;
+    text-align: center;
+}
 /* Queue invitation styles */
 .queue_invite
 {
@@ -521,12 +558,19 @@ input
 
 .shared_queue
 {
-     background-color: #333333;
+     /*background-color: #333333;
      color: #FFFFFF;
-     font-weight: bold;
-     padding: 5px;
-     margin: 5px 40px 5px 15px;
+     font-weight: bold;*/
+    color: #222;
+    background-color: #ddd;
+    padding: 5px;
+     margin: 5px auto 5px auto;
      width: 50%;
+     /*
+     margin-left: auto;
+     margin-right: auto;
+     */
+
 }
 
 #room_view_wrapper
@@ -647,13 +691,26 @@ a.fancyroom
 	font-size: 13px;
 }
 
+#review_button
+{
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.review_content
+{
+    max-width: 315px;
+}
+
 /*#button_wrapper
 {
     margin-left: auto;
     margin-right: auto;
         display: block;
 }*/
-
+/*
 input[type="submit"]
 {
     width: 120px;
@@ -663,8 +720,18 @@ input[type="submit"]
     margin-bottom: 10px;
     display: block;
 }
+*/
+table p
+{
+    font-size: 13px;
+}
 
-p, table
+form div
+{
+    font-size: 13px;
+}
+
+label
 {
     font-size: 13px;
 }

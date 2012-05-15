@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
+import time
 
 photopath = 'photo'
 
@@ -80,6 +81,15 @@ class User(models.Model):
 
 # queues
 class Queue(models.Model):
+    @staticmethod
+    def make(draw, user=None):
+        queue = Queue(draw=draw)
+        queue.save()
+        if user:
+            QueueUpdate(queue=queue, timestamp=int(time.time()), kind=QueueUpdate.MERGE,
+                        kind_id=queue.id).save()
+        return queue
+
     draw = models.ForeignKey('Draw')
     def __unicode__(self):
         return self.draw.name
@@ -90,13 +100,15 @@ class QueueToRoom(models.Model):
     room = models.ForeignKey('Room')
     ranking = models.IntegerField()
 
-UPDATE_KINDS = (
-    (0, 'edit'),
-    (1, 'merge'),
-)
 
 # An update to a queue
 class QueueUpdate(models.Model):
+    EDIT = 0
+    MERGE = 1
+    UPDATE_KINDS = (
+        (EDIT, 'EDIT'),
+        (MERGE, 'MERGE'),
+        )
     queue = models.ForeignKey('Queue')
     timestamp = models.IntegerField()
     kind = models.IntegerField(choices=UPDATE_KINDS) #either edit or merge
@@ -117,6 +129,10 @@ class QueueInvite(models.Model):
     def accept(self):
         q1 = self.sender.queues.get(draw=self.draw)
         q2 = self.receiver.queues.get(draw=self.draw)
+        # Check whether queues are same
+        if q1.id == q2.id:
+            self.delete()
+            return None
         rooms1 = q1.queuetoroom_set.all()
         rooms2 = q2.queuetoroom_set.all()
         ranking = len(rooms1)

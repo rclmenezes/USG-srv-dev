@@ -2,7 +2,7 @@
 /* jqueryui setup */
 /***************************************/
 
-function utilInit() {
+function displayInit() {
 	jDisplay = {};
 	
 	$("input:submit").button();
@@ -118,7 +118,7 @@ function undisplayTimeline() {
 function showTimeline() {
 	$(jmap.jtl).show(80)
 	$(jmap.info).animate({
-		width:'535px'
+		width:'540px'
 	}, 80);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
 	jDisplay.timelineShown = true;
@@ -157,15 +157,17 @@ function eventEntryMouseout(domEle) {
 	tlMark.style.background='orange';
 	if (bldgDict != undefined) 	$(bldgDict.domEle).mouseout();
 }
-function eventEntryClick(domEle) { //only for the timeline
+function eventEntryClick(domEle, dontScroll) { //only for the timeline
 	var eventId = jtlFn.htmlIdToEventId(domEle.id);
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var infoBot = $('#info-bot');
-	infoBot.animate({
-        scrollTop: $("#event-entry-"+eventId).position().top+infoBot.scrollTop()-infoBot.position().top-15
-    }, 100);
+	if (dontScroll != true) {
+		infoBot.animate({
+	        scrollTop: $("#event-entry-"+eventId).position().top+infoBot.scrollTop()-infoBot.position().top-15
+	    }, 300);
+	}
 	$(eventEntry).find('.info-event-dots').toggle();
-	$(eventEntry).find('.info-event-long').toggle(100);
+	$(eventEntry).find('.info-event-long').toggle(300);
 }
 
 

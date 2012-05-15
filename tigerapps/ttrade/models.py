@@ -92,3 +92,7 @@ class Offer(models.Model):
     price = CurrencyField("Price", blank=True, null=True, decimal_places=2, max_digits=7)
     additional = models.TextField("Message", null=True, blank=True)
     accepted = models.BooleanField("Is accepted", default=False)
+
+    def __unicode__(self):
+        return "%s: $%s" % (self.user.username, self.price)
+

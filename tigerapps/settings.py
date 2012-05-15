@@ -118,7 +118,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'middleware.SubdomainsMiddleware'
+    'middleware.SubdomainsMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfResponseMiddleware',
+
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -143,7 +146,6 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.staticfiles',
     'paypal.standard.ipn',
-    'utils',
     'cal',
     'dvd',
     'ptx',

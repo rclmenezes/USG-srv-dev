@@ -14,7 +14,10 @@ function displayFloorPlan(name, floor, hint_direction)
     var mousedown_pos = undefined; 
 
     if((! floor) && (floor !== 0))
+    {
 	floor = 1;
+	hint_direction = FLOOR_PLAN_HINT_DIRECTIONS.UP;
+    }
     
     map_canvas.style.display = "none";
     fp_canvas.style.display = "block";
@@ -55,7 +58,6 @@ function displayFloorPlan(name, floor, hint_direction)
 
     function getFloorPlanImg()
     {
-	
 	bldgId = pdfByBldg[name][floor];
 	if(! bldgId)
 	    return null;
@@ -205,6 +207,10 @@ function displayFloorPlan(name, floor, hint_direction)
 	       fp_canvas.style.display = "none";
            fp_nav.style.display = "none";
 	       map_canvas.style.display = "block";
+            
+           var roomlist = document.getElementById("roomListWrapperBigger");
+           half_expanded = true;
+           roomlist.style.height = '50%';
 	   }
     }
 

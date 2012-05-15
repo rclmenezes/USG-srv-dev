@@ -1,18 +1,18 @@
-#jtl {
-	border: 1px solid gray;
-	padding: 0;
-	position: absolute;
-	left: 500px;
-}
-
-
 .jtl-tl {
 	width:150px;
 	overflow: hidden;
+	/*
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	*/
 }
 
 .jtl-day {
-	width: 100%;
+	width: 150px;
 	position:absolute;
 }
 

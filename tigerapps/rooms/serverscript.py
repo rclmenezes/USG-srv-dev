@@ -6,14 +6,15 @@ import os, sys, time
 sys.path.append('/home/jgiles/USG-srv-dev')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'tigerapps.settings'
 os.environ['IS_REAL_TIME_SERVER'] = 'TRUE'
+import os, subprocess
+#os.chdir('..')
 
 import django.core.handlers.wsgi
 
-import os, subprocess
 PIDFILE = '/srv/eggs/rooms_server_pid'
 pid = os.getpid()
 
-PORT = 8131
+PORT = 8031
 
 
 def log(mess):
@@ -46,6 +47,7 @@ if __name__ == '__main__':
     for i in range(0, TRIES):
         try:
             WSGIServer(('', PORT), application).serve_forever()
-        except:
+        except Exception as e:
+            print e
             time.sleep(.01)
     print 'Real-time server not running'

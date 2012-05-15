@@ -1,17 +1,20 @@
 {% extends "ttrade/listing.html" %}
 
 {% block fixed %}
-{% if not edit and logged_in %}
-<form action="/confirm" method="POST">
-<div class="box"><h3>{% ifequal listing.method 'Fr' %}Claim{% else %}Buy{% endifequal %} this listing!</h3>
-	<div class="box_inner">
-		<div class="centerize">
-			<input type="hidden" name ="listing" value="{{listing.listingID}}" />
-			<input id="get" type="Submit" name="Submit" value="Get it!" onClick="return confirmSubmit()" />
-		</div>
-		<p> (An email will be sent to both you and the seller as confirmation)</p>
-	</div>
-</div>
-</form>
+{% if logged_in and not edit %}
+    {% if not expired %}
+        <div class="box"><h3>{% ifequal listing.method 'Fr' %}Claim{% else %}Buy{% endifequal %} this listing!</h3>
+        <div class="box_inner">
+            <div class="centerize"><form action="/confirm" method="POST">
+                <input type="hidden" name ="listing" value="{{listing.listingID}}" />
+                <input id="get" type="Submit" name="Submit" value="Get it!" onClick="return confirmSubmit()" />
+            </form></div>
+            <p> (An email will be sent to both you and the seller as confirmation)</p>
+        </div>
+        </div>
+    {% endif %}
+    {% if offers %}
+        <div class="centerize">You {% ifequal listing.method 'Fr' %}claimed{% else %}bought{% endifequal %} this listing!</div>
+    {% endif %}
 {% endif %}
 {% endblock %}

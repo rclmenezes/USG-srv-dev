@@ -46,8 +46,8 @@
         );
         $(".fancyroom").fancybox(
         {
-        maxWidth: 400,
-        height: 340
+        maxWidth: 500,
+        autoSize: true
         });
         $("#settings").fancybox(
         {
@@ -97,6 +97,7 @@
                         <h1 id="queuehead"></h1>
                         <br>
                         <div id="managequeues"><a class="various" data-fancybox-type="iframe" href="/manage_queues.html">Edit Members</a></div>
+                        <div id="queue_note" style="padding-top: 3px;font-weight: bold"></div>
                         <div id="room_queue"></div>
                         <div class="clearfloat"></div>
                     </div>
