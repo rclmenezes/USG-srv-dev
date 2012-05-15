@@ -19,7 +19,8 @@ from queue import *
 
 
 REAL_TIME_ADDR='http://dev.rooms.tigerapps.org:8031'
-NORMAL_ADDR='http://dev.rooms.tigerapps.org:8017'
+NORMAL_ADDR='http://dev.rooms.tigerapps.org'
+BASE_DOMAIN='rooms.tigerapps.org'
 
 def externalResponse(data):
     response =  HttpResponse(data)
@@ -27,6 +28,15 @@ def externalResponse(data):
     response['Access-Control-Allow-Credentials'] =  "true"
     return response
 
+
+def externalize(request, response):
+    response['Access-Control-Allow-Credentials'] =  "true"
+    response['Access-Control-Allow-Origin'] = NORMAL_ADDR
+    if 'HTTP_ORIGIN' in request.META:
+        origin = request.META['HTTP_ORIGIN']
+        if origin.find(BASE_DOMAIN) != -1:
+            response['Access-Control-Allow-Origin'] = origin
+    return response
 
 def check_undergraduate(username):
     # Check if user can be here
@@ -82,7 +92,7 @@ def update_queue(request, drawid):
     # # Test output - list rooms
     # return externalResponse(rooms)
     try:
-        return edit(user, queue, qlist, draw)
+        return externalize(request, edit(user, queue, qlist, draw))
     except Exception as e:
         return externalResponse(e)
 
@@ -101,7 +111,7 @@ def get_queue(request, drawid, timestamp = 0):
     #real-time takes over
 #    return externalResponse(queue)
     try:
-        return check(user, queue, timestamp)
+        return externalize(request, check(user, queue, timestamp))
     except Exception as e:
         return externalResponse(traceback.format_exc(2))
     
@@ -124,4 +134,4 @@ def stop_simulation(request):
     return stop_sim()
 
 def check_availability(request, timestamp):
-    return check_avail(int(timestamp))
+    return externalize(request, check_avail(int(timestamp)))

@@ -478,9 +478,12 @@ def test(request):
     return response
 
 def trigger(request):
-    print('Hello')    
-    triggertime()
-    return externalResponse('triggered')
+    try:
+        #print('Hello' + request.META['HTTP_ORIGIN'])    
+        triggertime()
+        return externalResponse('triggered')#'Hello' + request.META['HTTP_ORIGIN'])
+    except Exception as e:
+        return externalResponse(traceback.format_exc())
 
 
 #helper function
