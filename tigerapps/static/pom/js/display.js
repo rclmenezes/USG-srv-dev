@@ -2,7 +2,7 @@
 /* jqueryui setup */
 /***************************************/
 
-function utilInit() {
+function displayInit() {
 	jDisplay = {};
 	
 	$("input:submit").button();

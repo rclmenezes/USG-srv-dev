@@ -13,7 +13,6 @@ urlpatterns = patterns('',
         {'template': 'pom/test.html'}),
     
     url(r'^json/bldgs/names/?$', 'pom.views.get_bldg_names_json'),
-    url(r'^json/events/?$', 'pom.views.get_cal_events_json'),
     
     url(r'^bldgs/filter/?$', 'pom.views.bldgs_for_filter'),
     url(r'^events/bldg/(?P<bldg_code>\S+)/?$', 'pom.views.events_for_bldg'),
