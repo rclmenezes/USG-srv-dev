@@ -363,7 +363,7 @@ campus_codes = \
         618
     ], 
     "FRICK": [
-        549
+        649
     ], 
     "WHIG": [
         17
