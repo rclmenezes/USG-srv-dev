@@ -58,10 +58,6 @@ def index(request):
 
     if not user:
         return HttpResponseForbidden()
-
-    if request.method == 'POST':
-        if request.POST['form_type'] == 'settings':
-            handle_settings_form(request, user)
     
     response = render_to_response('rooms/base_dataPanel.html', locals())
     response['Access-Control-Allow-Origin'] =  '*'
@@ -379,6 +375,11 @@ def settings(request):
     user = check_undergraduate(request.user.username)
     if not user:
         return HttpResponseForbidden()
+        
+    if request.method == 'POST':
+        if request.POST['form_type'] == 'settings':
+            handle_settings_form(request, user)
+            return render_to_response('rooms/user_settings.html', {'user': user, 'submitted': True})
 
     return render_to_response('rooms/user_settings.html', {'user': user})
 

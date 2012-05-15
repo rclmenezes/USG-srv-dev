@@ -518,7 +518,13 @@ input
 
 .error_message
 {
-    color: #CC0000;
+    color: #e30000;
+    font-weight: bold;
+}
+
+.success_message
+{
+    color: #00ce00;
     font-weight: bold;
 }
 
