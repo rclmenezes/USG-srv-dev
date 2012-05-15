@@ -2,19 +2,7 @@
 
 var ExternAjax = function(url, type, data, onSuccess, onFail) {
     console.log('in externajax');
-    // xhr = $.ajax({
-    //     url: REAL_TIME_ADDR + url,
-    //     success: function(data) {
-    //         alert('hello')
-    //     },
-    //     data: data,
-    //     type: type,
-    //     xhrFields: {
-    //         withCredentials: true
-    //     }
-    // });
     xhr = $.ajax({
-//        url:'trigger/',
         url: REAL_TIME_ADDR + url,
         type: 'POST',
         data: data,
@@ -49,21 +37,32 @@ var QueueModule = (function($) {
         var stringarr = $('#room_queue').sortable('toArray');
         for (var i = 0; i < stringarr.length; i++)
             idlist[i] = parseInt(stringarr[i].substring(prefix.length));
+        console.log('in update_idlist');
+        console.log(idlist);
+    }
+
+    var add_helper = function(rooms) {
+        rooms = [].concat(rooms);
+        for ( var i in  rooms) {
+            room = rooms[i];
+            // Check not already in list
+            if (idlist.indexOf(room.id) != -1)
+                continue;
+            idlist.push(room.id);
+            var tag = '<li id="queue-'+room.id+'" class="queued_room">';
+            tag  += '<a class="fancyroom link_in_queue" title="Room Overview" data-fancybox-type="iframe" href="/get_room/'+room.id+'">'+room.number+' '+room.building+'</a>';
+            tag += '<div onclick="$.publish(\'queue/remove\','+room.id+')" title="Remove from queue" class="removeRoom removeInQueue" ></div> </li>';
+            $('#room_queue').append(tag);
+            $.publish('mark_as_neg', room.id);
+        }
+        $('#room_queue').sortable('refresh');
+        // update_idlist();
     }
 
     // Add a room to the queue
-    var add = function(e, roominfo) {
-        // Check not already in list
-        if (idlist.indexOf(roominfo['id']) != -1)
-            return;
-        idlist.push(roominfo['id']);
-        var tag ='<li id="'+prefix+roominfo['id']+'" class="queued_room">';
-        tag += roominfo['number'] + ' ' + roominfo['building'] + '</li>';
-        $('#room_queue').append(tag);
-        $('#room_queue').sortable('refresh');
+    var add = function(e, rooms) {
+        add_helper(rooms);
         save();
-
-        $.publish('mark_as_neg', roominfo['id']);
     }
 
     // Remove a room from the queue
@@ -81,6 +80,20 @@ var QueueModule = (function($) {
         $.publish('mark_as_pos', roomid);
         console.log('markaspos2 - '+roomid);
     }
+
+    var clear = function() {
+        console.log('in clear')
+        console.log(idlist)
+        for ( var i = 0; i < idlist.length; i++) {
+            console.log('marking '+idlist[i]);
+            $.publish('mark_as_pos', idlist[i]);
+            //mark_as_pos({}, idlist[i]);
+        }
+        idlist=[];
+        $('#room_queue').html('');
+        $('#room_queue').sortable('refresh');
+    }
+        
     
     var mark_as_neg = function(e, roomid) {
         $('#add'+roomid).hide();
@@ -88,6 +101,7 @@ var QueueModule = (function($) {
     }
 
     var mark_as_pos = function(e, roomid) {
+        console.log('mark as pos ' +  roomid);
         $('#add'+roomid).show();
         $('#remove'+roomid).hide();
     }
@@ -101,27 +115,11 @@ var QueueModule = (function($) {
 
     // Save the current list to the server
     save = function() {
-        //alert(current_draw);
-        // if (update_xhr && update_xhr.readystate != 4)
-        //     update_xhr.abort();
         ExternAjax('/update_queue/'+current_draw, 'POST', {'queue':JSON.stringify(idlist)},
                function(data) {
                    console.log(data);
                });
-
-        // $.post(saveurl+current_draw, {'queue':JSON.stringify(idlist)},
-        //        function(data) {
-        //            console.log(data);
-        //        });
     }
-
-    // Pull up the queue for a new draw
-    // var switchhelper = function(data) {
-    //     idlist = new Array();
-    //     $('#room_queue').sortable('refresh');
-    //     update_idlist();
-    //     //console.log(idlist);
-    // }
     var switchdraw = function(e, drawid) {
         //$('#room_queue').load('/get_queue/'+drawid, switchhelper);
         get_queue(drawid, 0);
@@ -130,21 +128,10 @@ var QueueModule = (function($) {
 
     var handler = function(data) {
         console.log('got queue');
-        idlist = new Array();
         console.log(data)
         update_timestamp = data.timestamp;
-        var intohtml = '';
-        for (i in data.rooms)
-        {
-            console.log(data.rooms[i]);
-            room = data.rooms[i];
-            intohtml += '<li id="queue-'+room.id+'" class="queued_room">';
-            intohtml  += '<a class="fancyroom link_in_queue" title="Room Overview" data-fancybox-type="iframe" href="/get_room/'+room.id+'">'+room.number+' '+room.building+'</a>'
-            intohtml += '<div onclick="$.publish(\'queue/remove\','+room.id+')" title="Remove from queue" class="removeRoom removeInQueue" ></div> </li>';
-        }
-        // Put into list - formatting goes here
-        $('#room_queue').html(intohtml); //JSON.stringify(data.rooms));
-        $('#room_queue').sortable('refresh');
+        clear();
+        add_helper(data.rooms);
         if (data.kind == 'EDIT')
             $('#queue_note').html(data.netid + ' edited queue');
         else
@@ -152,6 +139,7 @@ var QueueModule = (function($) {
         update_idlist();
         setTimeout(get_update, 100);
     }
+
 
     var get_queue = function(drawid, timestamp) {
         if (update_xhr && update_xhr.readystate != 4)
