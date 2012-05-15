@@ -86,8 +86,8 @@ class Queue(models.Model):
         queue = Queue(draw=draw)
         queue.save()
         if user:
-            QueueUpdate(queue=queue, timestamp=int(time.time()), kind=QueueUpdate.EDIT,
-                        kind_id=user.id).save()
+            QueueUpdate(queue=queue, timestamp=int(time.time()), kind=QueueUpdate.MERGE,
+                        kind_id=queue.id).save()
         return queue
 
     draw = models.ForeignKey('Draw')

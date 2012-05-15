@@ -36,16 +36,18 @@ def check_undergraduate(username):
         user = User(netid=username, firstname=info.get('givenName'), lastname=info.get('sn'), pustatus=info.get('pustatus'))
         if info.get('puclassyear'):
             user.puclassyear = int(info.get('puclassyear'))
-        if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
-            user.save()
-            #Create queues for each draw
-            for draw in Draw.objects.all():
-                queue = Queue(draw=draw)
-                queue.save()
-                user.queues.add(queue)
-    if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
-        return user
-    return None
+#        if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
+        user.save()
+        # Create queues for each draw
+        for draw in Draw.objects.all():
+            queue = Queue.make(draw=draw, user=user)
+            queue.save()
+            user.queues.add(queue)
+    # temporarily remove current undergrad check for sake of testing
+    # if user.pustatus == 'undergraduate' and 2011 < user.puclassyear:
+    #     return user
+    # return None
+    return user
 
 @login_required
 def index(request):

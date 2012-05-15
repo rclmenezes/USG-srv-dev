@@ -148,7 +148,7 @@ var QueueModule = (function($) {
         if (data.kind == 'EDIT')
             $('#queue_note').html(data.netid + ' edited queue');
         else
-            $('#queue_note').html('queue merged');
+            $('#queue_note').html('new queue');
         update_idlist();
         setTimeout(get_update, 100);
     }

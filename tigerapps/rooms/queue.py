@@ -105,7 +105,7 @@ class QueueManager(object):
         room_list = []
         if latest.update.kind == QueueUpdate.EDIT:
             if latest.update.kind_id == user.id and timestamp != 0:
-                return self.check(user, queue, int(time.time()))
+                return None
             netid = User.objects.get(pk=latest.update.kind_id).netid
         else:
             netid = ''
@@ -120,7 +120,12 @@ class QueueManager(object):
 #if 'IS_REAL_TIME_SERVER' in os.environ:
 manager = QueueManager()
 
-check = manager.check
+def check(user, queue, timestamp):
+    response = manager.check(user, queue, timestamp)
+    while not response:
+        response = manager.check(user, queue, int(time.time()))
+    return response
+
 edit = manager.edit
 
 
