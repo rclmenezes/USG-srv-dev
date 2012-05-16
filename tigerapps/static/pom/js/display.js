@@ -143,7 +143,9 @@ function eventEntryMouseover(eventId, fromBldg) {
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
 	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId].bldgCode)];
 	eventEntry.style.background='#ECECEC';
-	tlMark.style.background='#E9692C';
+	tlMark.setAttribute('class', 'jtl-mark-hover'); 
+	tlMark.style.left = parseInt(tlMark.style.left, 10) - 1;
+	//tlMark.style.background='#E56717';
 	if (fromBldg != true) {
 		$(tlMark).tipsy('show');
 		if (bldgDict != undefined) eventBldgMouseoverColor(bldgDict.domEle);
@@ -153,9 +155,10 @@ function eventEntryMouseout(eventId, fromBldg) {
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
 	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId].bldgCode)];
-	//jevent.eventsJson
 	eventEntry.style.background='white';
-	tlMark.style.background='orange';
+	tlMark.setAttribute('class', 'jtl-mark');
+	tlMark.style.left = parseInt(tlMark.style.left, 10) + 1;
+	//tlMark.style.background='orange';
 	if (fromBldg != true) {
 		$(tlMark).tipsy('hide');
 		if (bldgDict != undefined) eventBldgMouseoutColor(bldgDict.domEle);

@@ -3,8 +3,6 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.template import RequestContext
-#from pom.models import *
-from cal.models import Event
 from pom import cal_event_query
 from pom.bldg_info import *
 from pom.campus_map_codes import campus_codes
@@ -50,11 +48,9 @@ def get_cal_events_json(request, events_list=None):
         delta = e_start - start_date
         half_hrs_delta = int(round(delta.total_seconds()/1800)) % 48
         time_index = str(delta.days) + '-' + str(half_hrs_delta)
-        e_start_str = e_start.strftime('%I:%M%p').lstrip('0').lower()
-        e_end_str = event.event_date_time_end.strftime('%I:%M%p').lstrip('0').lower()
         
         events_data[event.event_id] = {'bldgCode': event.event_location,
-                                       'tooltip': '<span class="tipsy-bold">%s-%s</span>: %s'%(e_start_str,e_end_str, cgi.escape(event.event_cluster.cluster_title))}
+                                       'tooltip': '<span class="tipsy-bold">%s-%s</span>: %s'%(event.time_start_str, event.time_end_str, cgi.escape(event.event_cluster.cluster_title))}
         mark_data[time_index].append(event.event_id)
         
     return {'eventsData': events_data, 'markData': mark_data}
@@ -152,7 +148,7 @@ def events_for_bldg(request, bldg_code):
                 machine_list_bldg = filter_laundry(request, bldg_code)
                 html = render_to_string('pom/laundry_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'machines' : machine_list_bldg})
+                                         'machine_list' : machine_list_bldg})
                 response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
             except Exception, e:
                 response_dict = {'error': str(e)}
@@ -165,17 +161,19 @@ def events_for_bldg(request, bldg_code):
            response_json = simplejson.dumps({'error': err})
         else:
             try:
-                mapping = cache.get('printer')
-                if mapping == None:
-                    mapping = printers.scrape_all()
+                printer_mapping = cache.get('printer_mapping')
+                if not printer_mapping:
+                    printer_mapping = printers.scrape_all()
                     try:
-                        cache.set('printer', mapping, 100000)
+                        cache.set('printer_mapping', printer_mapping, 100000)
                     except Exception, e:
-                        send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'joshchen@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
-                printer_info = mapping[bldg_code]
+                        send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+                printer_list = [printer for printer in printer_mapping[bldg_code]]
+                printer_list = sorted(printer_list, key=lambda printer: printer.loc)
+    
                 html = render_to_string('pom/printer_info.html',
                                         {'bldg_name': BLDG_INFO[bldg_code][0],
-                                         'printers' : printer_info})
+                                         'printers' : printer_list})
                 response_dict = {'error': None, 'html': html, 'bldgCode': bldg_code}
             except Exception, e:
                 response_dict = {'error': str(e)}
@@ -251,8 +249,9 @@ def events_for_all_bldgs(request):
     elif filter_type == '3': #laundry
         try:
             machine_list = filter_laundry(request)
-            html = render_to_string('pom/laundry_info_all.html',
-                                    {'machine_list' : machine_list})
+            html = render_to_string('pom/laundry_info.html',
+                                    {'bldg_name': 'All Buildings with Laundry',
+                                     'machine_list' : machine_list})
             response_json = simplejson.dumps({'error': None,
                                               'html': html})
         except Exception, e:
@@ -261,22 +260,18 @@ def events_for_all_bldgs(request):
     
     elif filter_type == '4': #printers
         try:
-            printer_list = cache.get('printer_list')
-            if printer_list == None:
-                mapping = printers.scrape_all()
-                printer_list = []
-                for key, value in mapping.items():
-                    for x in value:
-                        printer_list.append((x.loc, x.color, x.status))
-                printer_list = sorted(printer_list, key=lambda x: x[0])
+            printer_mapping = cache.get('printer_mapping')
+            if not printer_mapping:
+                printer_mapping = printers.scrape_all()
                 try:
-                    cache.set('printer_list', printer_list, 100000)
-                    cache.set('printer', mapping, 100000)
+                    cache.set('printer_mapping', printer_mapping, 100000)
                 except Exception, e:
                     send_mail('EXCEPTION IN pom.views events_for_bldg printing', e, 'from@example.com', ['nbal@princeton.edu', 'mcspedon@princeton.edu', 'ldiao@princeton.edu'], fail_silently=False)
+            printer_list = [printer for bldg_code,printers_bldg in printer_mapping.items() for printer in printers_bldg]
+            printer_list = sorted(printer_list, key=lambda printer: printer.loc)
 
-            html = render_to_string('pom/printer_info_all.html',
-                                    {'bldg_name': BLDG_INFO['FRIST'][0],
+            html = render_to_string('pom/printer_info.html',
+                                    {'bldg_name': "All Printers",
                                      'printers' : printer_list})
             response_json = simplejson.dumps({'error': None,
                                               'html': html})
@@ -322,6 +317,8 @@ def filter_cal_events(request, bldg_code=None):
             event.event_location_name = BLDG_INFO[event.event_location][0]
         if event.event_location_details.isdigit():
             event.event_location_details = 'Room ' + event.event_location_details
+        event.time_start_str = event.event_date_time_start.strftime('%I:%M%p').lstrip('0').lower()
+        event.time_end_str = event.event_date_time_end.strftime('%I:%M%p').lstrip('0').lower()
     return events
      
 
