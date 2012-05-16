@@ -44,15 +44,11 @@ def scrape_single_menu(bldg_code):
     hall_num = DINING_HALLS[bldg_code]
     url = url_stub + str(hall_num)
     
-    #log ('ass')
-    
     content = scrapePage(url)
     bs = BeautifulSoup(content)
     menu = Menu()
     #menu.title = bs.title.contents[0]
-    #log('dildo')
     for meal_xml in bs.find_all('meal'):
-        #log('cock')
         meal = Meal()
         meal.name = str(meal_xml.attrs['name'])
         for entree_xml in meal_xml.find_all('entree'):
@@ -72,7 +68,6 @@ def scrape_single_menu(bldg_code):
             meal.entrees.append(entree)
         menu.meals[meal.name] = meal
 
-    log('exiting from scrape_single_menu')
     return menu
 
 def scrape_all():

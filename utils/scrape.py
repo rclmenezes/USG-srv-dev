@@ -3,9 +3,10 @@
 import subprocess as sub
 
 def log(s):
-    f = open('/srv/tigerapps/slog', 'a')
-    f.write(s + '\n')
-    f.close()
+    pass
+    #f = open('/srv/tigerapps/slog', 'a')
+    #f.write(s + '\n')
+    #f.close()
 
 def scrapePage(url):
     '''Return a unicode string of data at the specified url'''
