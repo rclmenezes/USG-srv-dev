@@ -20,7 +20,7 @@
 				{{event}}
 			</a>
 			<div class="info-event-subtitle">
-				{{event.event_date_time_start|date:"M d, Y h:i a"}}<br/>
+				{{event.event_date_time_start|date:"M d, Y"}}, {{event.time_start_str}} - {{event.time_end_str}}<br/>
 				{% if all_events and event.event_location_name %}{{event.event_location_name}}<br/>{% endif %}
 				{% if event.event_location_details %}{{event.event_location_details}} | {% endif %}{{event.getAttendeeCount}} attendee{{event.getAttendeeCount|pluralize}}<br/>
 			</div>

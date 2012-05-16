@@ -1,11 +1,11 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
-{% for machine in machines %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">{{machine.0}}</span>
-		<div class="info-event-subtext">
-			Washers:<span style='color:{{machine.5}};'> {{machine.1}} free of {{machine.2}}</span> <br>
-			Dryers: <span style='color:{{machine.6}};'>{{machine.3}} free of {{machine.4}}</span> 
-		</div>
-	</div>
+<table class="info-table">
+{% for machine in machine_list %}
+	<tr><th><div style="max-width:100px;">{{machine.0}}</div></th>
+		<td><div style="max-width:200px;">
+			Washers:<span style='color:{{machine.5}};'> {{machine.1}} free of {{machine.2}}</span><br/>
+			Dryers: <span style='color:{{machine.6}};'>{{machine.3}} free of {{machine.4}}</span></div></td>
+	</tr>
 {% endfor %}
+</table>

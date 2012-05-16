@@ -1,10 +1,9 @@
 <h3 id="info-bldg-name">{{bldg_name}}</h3>
 
+<table class="info-table">
 {% for printer in printers %}
-	<div class="info-event-entry">
-		<span style="font-weight:bold">{{printer.loc}}</span>
-		<div class="info-event-subtext">
-			<span style="color:{{printer.color}}">{{printer.status}}</span> 
-		</div>
-	</div>
+	<tr><th><div style="max-width:100px;">{{printer.loc}}</div></th>
+		<td><div style="max-width:200px;"><span style='color:{{printer.color}};'>
+			{%ifequal printer.color '#00aa00'%}OK - {%endifequal%}{{printer.status}}</span></div></td></tr>
 {% endfor %}
+</table>

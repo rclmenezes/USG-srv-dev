@@ -117,6 +117,22 @@ a:hover{
 	margin:13px 0px 15px 11px;
 }
 
+.info-table {
+	text-align:center;
+	margin:auto;
+}
+.info-table th, .info-table td {
+	padding:12px 20px 12px 0;
+	vertical-align: middle;
+}
+.info-table th {
+	font-weight:bold;
+	text-align: right;
+}
+.info-table td {
+	text-align: left;
+}
+
 
 span.desc-help {
 	font-style:italic;
