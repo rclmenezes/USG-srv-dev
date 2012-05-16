@@ -6,13 +6,14 @@
 		{% if bldg.image_url %}
 			<img style="max-width:100%;max-height:400px;padding:4px 0;" src="{{bldg.image_url}}" alt="{{bldg.name}}"/>
 		{% else %}
-			<img style="max-width:100%;max-height:400px;padding:4px 0;" src="/static/pom/img/location_noimg.png" alt="{{bldg.name}}"/>
+			<!--<img style="max-width:100%;max-height:400px;padding:4px 0;" src="/static/pom/img/location_noimg.png" alt="{{bldg.name}}"/>-->
+            <div style="padding:4px 0;font-style:italic;">No image available</div>
 		{% endif %}
 		<div style="font-weight:bold;">{{bldg.name}}</div>
 		</div>
     {% endfor %}
 {% else %}
-	<div class="info-event-entry" style="text-align:center;">
-		No information available.
+	<div class="info-event-entry" style="text-align:center;font-style:italic;">
+		No information available
 	</div>
 {% endif %}
