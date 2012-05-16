@@ -243,6 +243,13 @@ div.isolated {
 	margin-left:-62px;
 }
 
+.info-error {
+	text-align:center;
+	font-style:italic;
+	max-width:80%;
+	margin:auto;
+}
+
 
 
 /*************/
@@ -272,19 +279,3 @@ div.isolated {
 	background: rgba(200,200,200,0.4); 
 }
 
-
-
-
-
-/*.ui-button, .ui-widget, .ui-state-default, .ui-corner-all {
-	border-radius: 2px;
-}
-.ui-button-text-only .ui-button-text {
-	padding: .5em .8em;
-}
-.ui-button .ui-button-text {
-	display: block;
-	line-height: 1;
-	font: bold 11px Arial,sans-serif !important;
-	color: #444 !important;
-}*/

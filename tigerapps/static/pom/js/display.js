@@ -180,9 +180,12 @@ function clearDateTime(d) {
 }
 
 function handleAjaxError(jqXHR, textStatus, errorThrown) {
-    if (confirm(errorThrown + ': Show error?')) {
+	var e1 = 'Sorry! A server error occurred while you were browsing the page: "'+errorThrown+'".';
+	var e2 = 'Please contact our team at it@princetonusg.com if you see this message again.';
+    if (confirm(e1+'\n\n'+e2+'\n\nView error?')) {
         win = window.open();
         win.document.write(jqXHR.responseText);
     }
+	$('#info-bot').html('<div class="info-error">'+e1+'<br/><br/>'+e2+'</div>');
 }
 
