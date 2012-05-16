@@ -44,10 +44,12 @@ function mapInit() {
 	jmap.dispY = start.y;
 	jmap.map.style.left = -jmap.dispX;
 	jmap.map.style.top = -jmap.dispY;
+	
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
 	jmap.loadedBldgs = {};		  //{domEle,event:t/f}.. event is list of highlighted bldgs
 	jevent.bldgCodeHasEvent = {}; //list of bldgs with events, according to Django
+	jmap.mapLoading = false;
 
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
@@ -406,14 +408,20 @@ function centerOnBldg(bldgCode) {
 }
 
 function showMapLoading() {
-	var domEle = document.createElement('div');
-	domEle.setAttribute('id','map-loading');
-	domEle.setAttribute('class','map-box');
-	domEle.innerHTML = jevent.htmlLoading;
-	jmap.mapContainer.appendChild(domEle);
+	if (!jmap.mapLoading) {
+		var domEle = document.createElement('div');
+		domEle.setAttribute('id','map-loading');
+		domEle.setAttribute('class','map-box');
+		domEle.innerHTML = jevent.htmlLoading;
+		jmap.mapContainer.appendChild(domEle);
+		jmap.mapLoading = true;
+	}
 }
 function hideMapLoading() {
-	jmap.mapContainer.removeChild(document.getElementById('map-loading'));
+	if (jmap.mapLoading) {
+		jmap.mapContainer.removeChild(document.getElementById('map-loading'));
+		jmap.mapLoading = false;
+	}
 }
 
 
@@ -496,7 +504,7 @@ function getFilterParams() {
 /***************************************/
 
 function AJAXeventsForAllBldgs() {
-	displayInfoLoading();
+	showInfoLoading();
 	$.ajax(jevent.urlEventsForAll, {
 		data: getFilterParams(),
 		dataType: 'json',
@@ -509,7 +517,7 @@ function AJAXeventsForAllBldgs() {
 }
 
 function AJAXeventsForBldg(bldgCode) {
-	displayInfoLoading();
+	showInfoLoading();
 	$.ajax(jevent.urlEventsForBldg+bldgCode, {
 		data: getFilterParams(),
 		dataType: 'json',
@@ -536,7 +544,7 @@ function handleEventsAJAX(data) {
 	}
 }
 
-function displayInfoLoading() {
+function showInfoLoading() {
 	$('#info-bot').html(jevent.htmlLoading);
 }
 

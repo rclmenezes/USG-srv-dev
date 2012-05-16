@@ -1,7 +1,7 @@
 {% load value_from_settings %}
-<div style="height:24px;">
-	<div style="float:left;"><h3 id="info-bldg-name">{% if all_events %}All Events{%else%}{{bldg_name}}{% endif %}</h3></div>
+<div>
 	<div id="info-bot-link"><a href="http://{% value_from_settings CURRENT_HOST_PREFIX %}cal.tigerapps.org/events/add" target="_blank">Add event</a></div>
+	<h3 id="info-bldg-name">{% if all_events %}All Events{%else%}{{bldg_name}}{% endif %}</h3>
 </div>
 
 {% for event in events %}
