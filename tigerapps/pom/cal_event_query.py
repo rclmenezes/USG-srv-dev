@@ -31,10 +31,9 @@ def filter_by_bldg(qset, bldg_code):
 def filter_by_date(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rightDay, rightYear, rightHour):
     '''
     OLD: Get all events between a range of dates
-    XXX: DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!
     '''
-    left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
-    right = datetime.datetime(year = int(rightYear) -1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
+    left = datetime.datetime(year = int(leftYear), month = int(leftMonth), day = int(leftDay), hour = int(leftHour))
+    right = datetime.datetime(year = int(rightYear), month = int(rightMonth), day = int(rightDay), hour = int(rightHour))
     if qset:
         return qset.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
     else:
@@ -46,11 +45,10 @@ def filter_by_day_hour(qset,
                    rightMonth, rightDay, rightYear, rightHour, rightMinutes):
     '''
     Get all events between a range of dates and hours within those dates
-    XXX: DONT FORGET TO CHANGE THIS. YEAR SHOULD NOT HAVE THE -1 IN IT!!!!!
     '''
     
-    left = datetime.datetime(year = int(leftYear) -1, month = int(leftMonth), day = int(leftDay), hour = int(leftHour), minute = int(leftMinutes))
-    right = datetime.datetime(year = int(rightYear) -1, month = int(rightMonth), day = int(rightDay), hour = int(rightHour), minute = int(rightMinutes))
+    left = datetime.datetime(year = int(leftYear), month = int(leftMonth), day = int(leftDay), hour = int(leftHour), minute = int(leftMinutes))
+    right = datetime.datetime(year = int(rightYear), month = int(rightMonth), day = int(rightDay), hour = int(rightHour), minute = int(rightMinutes))
 
     if qset:
         temp = qset.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')

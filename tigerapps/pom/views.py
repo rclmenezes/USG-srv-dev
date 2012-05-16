@@ -36,7 +36,7 @@ def get_cal_events_json(request, events_list=None):
     if not events_list:
         events_list = filter_cal_events(request)
     try:
-        start_date = datetime.datetime(int(request.GET['y0'])-1, int(request.GET['m0']), int(request.GET['d0']))
+        start_date = datetime.datetime(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
         start_index = 2*int(request.GET['h0']) + round(int(request.GET['i0'])/30)
         end_index = 2*int(request.GET['h1']) + round(int(request.GET['i1'])/30)
         n_days = int(request.GET['nDays'])

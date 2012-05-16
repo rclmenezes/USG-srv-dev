@@ -138,24 +138,28 @@ function hideTimeline() {
 /* Mouseover/out functions */
 /***************************************/
 
-function eventEntryMouseover(eventId) {
+function eventEntryMouseover(eventId, fromBldg) {
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
 	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId].bldgCode)];
 	eventEntry.style.background='#ECECEC';
 	tlMark.style.background='#E9692C';
-	$(tlMark).tipsy('show');
-	if (bldgDict != undefined) eventBldgMouseoverColor(bldgDict.domEle);
+	if (fromBldg != true) {
+		$(tlMark).tipsy('show');
+		if (bldgDict != undefined) eventBldgMouseoverColor(bldgDict.domEle);
+	}
 }
-function eventEntryMouseout(eventId) {
+function eventEntryMouseout(eventId, fromBldg) {
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
 	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId].bldgCode)];
 	//jevent.eventsJson
 	eventEntry.style.background='white';
 	tlMark.style.background='orange';
-	$(tlMark).tipsy('hide');
-	if (bldgDict != undefined) eventBldgMouseoutColor(bldgDict.domEle);
+	if (fromBldg != true) {
+		$(tlMark).tipsy('hide');
+		if (bldgDict != undefined) eventBldgMouseoutColor(bldgDict.domEle);
+	}
 }
 function eventEntryClick(eventId, dontScroll) { //only for the timeline
 	var eventEntry = document.getElementById('event-entry-'+eventId);
@@ -173,7 +177,7 @@ function eventBldgMouseover(domEle) {
 		var bldgCode = bldgIdToCode(domEle.id);
 		for (var eventid in jevent.eventsData) {
 			if (jevent.eventsData[eventid].bldgCode == bldgCode)
-				eventEntryMouseover(eventid);
+				eventEntryMouseover(eventid, true);
 		}
 	}
 }
@@ -182,7 +186,7 @@ function eventBldgMouseout(domEle) {
 		var bldgCode = bldgIdToCode(domEle.id);
 		for (var eventid in jevent.eventsData) {
 			if (jevent.eventsData[eventid].bldgCode == bldgCode)
-				eventEntryMouseout(eventid);
+				eventEntryMouseout(eventid, true);
 		}
 	}
 }
