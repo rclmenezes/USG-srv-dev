@@ -138,27 +138,26 @@ function hideTimeline() {
 /* Mouseover/out functions */
 /***************************************/
 
-function eventEntryMouseover(domEle) {
-	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+function eventEntryMouseover(eventId) {
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
-	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId])];
+	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId].bldgCode)];
 	eventEntry.style.background='#ECECEC';
 	tlMark.style.background='#E9692C';
-	if (bldgDict != undefined) 	$(bldgDict.domEle).mouseover();
+	$(tlMark).tipsy('show');
+	if (bldgDict != undefined) eventBldgMouseoverColor(bldgDict.domEle);
 }
-function eventEntryMouseout(domEle) {
-	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+function eventEntryMouseout(eventId) {
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var tlMark = document.getElementById('jtl-mark-'+eventId);
-	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId])];
+	var bldgDict = jmap.loadedBldgs[bldgCodeToId(jevent.eventsData[eventId].bldgCode)];
 	//jevent.eventsJson
 	eventEntry.style.background='white';
 	tlMark.style.background='orange';
-	if (bldgDict != undefined) 	$(bldgDict.domEle).mouseout();
+	$(tlMark).tipsy('hide');
+	if (bldgDict != undefined) eventBldgMouseoutColor(bldgDict.domEle);
 }
-function eventEntryClick(domEle, dontScroll) { //only for the timeline
-	var eventId = jtlFn.htmlIdToEventId(domEle.id);
+function eventEntryClick(eventId, dontScroll) { //only for the timeline
 	var eventEntry = document.getElementById('event-entry-'+eventId);
 	var infoBot = $('#info-bot');
 	if (dontScroll != true) {
@@ -169,7 +168,24 @@ function eventEntryClick(domEle, dontScroll) { //only for the timeline
 	$(eventEntry).find('.info-event-dots').toggle();
 	$(eventEntry).find('.info-event-long').toggle(300);
 }
-
+function eventBldgMouseover(domEle) {
+	if (jevent.filterType == 0) {
+		var bldgCode = bldgIdToCode(domEle.id);
+		for (var eventid in jevent.eventsData) {
+			if (jevent.eventsData[eventid].bldgCode == bldgCode)
+				eventEntryMouseover(eventid);
+		}
+	}
+}
+function eventBldgMouseout(domEle) {
+	if (jevent.filterType == 0) {
+		var bldgCode = bldgIdToCode(domEle.id);
+		for (var eventid in jevent.eventsData) {
+			if (jevent.eventsData[eventid].bldgCode == bldgCode)
+				eventEntryMouseout(eventid);
+		}
+	}
+}
 
 /***************************************/
 /* Utility functions */
