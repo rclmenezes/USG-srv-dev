@@ -365,7 +365,7 @@ campus_codes = \
     "FRICK": [
         649
     ], 
-    "WHIG": [
+    "WHIGH": [
         17
     ], 
     "1976H": [

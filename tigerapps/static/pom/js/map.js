@@ -46,8 +46,8 @@ function mapInit() {
 	jmap.map.style.top = -jmap.dispY;
 	loadBldgsJSON();
 	jmap.loadedTiles = {};
-	jmap.loadedBldgs = {};
-	jevent.bldgCodeHasEvent = {};
+	jmap.loadedBldgs = {};		  //{domEle,event:t/f}.. event is list of highlighted bldgs
+	jevent.bldgCodeHasEvent = {}; //list of bldgs with events, according to Django
 
 	//now setup the drag + load the tiles/buildings
 	setupGlobalDrag();
@@ -313,12 +313,12 @@ function setupBldg(domEle) {
 			setupPlainBldg(domEle);
 	}
 }
-function setupPlainBldg(domEle, makeClickable) {
+function setupPlainBldg(domEle) {
 	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsDefaultSrc);
 	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsHoverSrc;};
 	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsDefaultSrc;};
-	if (makeClickable)	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
-	else 				domEle.onclick = function(ev){};
+	if (jevent.filterType == 5)	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
+	else		 				domEle.onclick = function(ev){};
 	jmap.loadedBldgs[domEle.id].event = false;
 }
 function setupEventBldg(domEle) {
@@ -360,30 +360,49 @@ function AJAXbldgsForFilter() {
 	});
 }
 
-/* Success callback for AJAXbldgsForFilter */
+/* Grays and un-grays the correct bldgs, given the `data` of bldgs with events */
 function displayFilteredBldgs(data) {
-	hideMapLoading();
-	for (bldgCode in jevent.bldgCodeHasEvent)
+	//data.bldgs = true for building codes that should be lit up
+	for (var bldgCode in jevent.bldgCodeHasEvent)
 		jevent.bldgCodeHasEvent[bldgCode] = false;
-	for (i in data.bldgs)
+	for (var i in data.bldgs)
 		jevent.bldgCodeHasEvent[data.bldgs[i]] = true;
-	for (id in jmap.loadedBldgs)
+	for (var id in jmap.loadedBldgs)
 		setupBldg(jmap.loadedBldgs[id].domEle);
+	hideMapLoading();
+}
+/* Grays and un-grays the correct bldgs, given the `bldgCode` of bldg clicked */
+function displayLocationBldgs(bldgCode) {
+	for (var code in jevent.bldgCodeHasEvent)
+		jevent.bldgCodeHasEvent[code] = false;
+	jevent.bldgCodeHasEvent[bldgCode] = true;
+	for (var id in jmap.loadedBldgs)
+		setupBldg(jmap.loadedBldgs[id].domEle);
+	//hideMapLoading(); never shown
 }
 
-/* We don't need django for location, but we need to gray out the buildings + make them all clickable */
-function displayLocationBldgs() {
-	for (id in jmap.loadedBldgs) {
-		var bldgCode = bldgIdToCode(id);
-		jevent.bldgCodeHasEvent[bldgCode] = false;
-		setupPlainBldg(jmap.loadedBldgs[id].domEle, true);
-	}
-}
-/* We also need a way to color just 1 building (the one the user searched for) */
-function displayLocationBldg(bldgId, bldgCode) {
-	displayLocationBldgs();
-	jevent.bldgCodeHasEvent[bldgCode] = true;
-	setupEventBldg(jmap.loadedBldgs[bldgId].domEle);
+
+/***************************************/
+/* Map interactive functionality */
+/***************************************/
+
+function centerOnBldg(bldgCode) {
+	var bldgId = bldgCodeToId(bldgCode);
+	var bldgObject = jmap.bldgsInfo[bldgId];
+	
+	// jump to new center coords, refresh tiles
+	centroid = mapCenterToDisp(bldgObject.left + bldgObject.width/2, bldgObject.top + bldgObject.height/2);
+	jmap.dispX = centroid.x;	
+	jmap.dispY = centroid.y;
+	$(jmap.map).animate({
+		left: -jmap.dispX,
+		top: -jmap.dispY,
+	}, {
+		duration: 200,
+		complete: function() {
+			loadTiles();
+		}
+	});
 }
 
 function showMapLoading() {
@@ -438,12 +457,16 @@ function displayTopTab(topTab) {
 function handleFilterTypeChange(newFilterType) {
 	if (jevent.filterType != newFilterType) {
 		hideInfoEvent();
+		var oldFilterType = jevent.filterType;
 		jevent.filterType = newFilterType;
-		if (newFilterType < 5) { //only <5 is implemented in Django
-			AJAXeventsForAllBldgs();
+		
+		if (oldFilterType == 5 || newFilterType == 5) { //changing to/from 5 is special
+			setupBldgsToFromLocation();
+		}
+		if (newFilterType != 5) {
 			AJAXbldgsForFilter();
-		} else if (newFilterType == 5) //locations is js-only
-			displayLocationBldgs();
+			AJAXeventsForAllBldgs();
+		}
 	}
 }
 /* Called when the specific filters for any particular events/hours/menus/etc tab
@@ -498,7 +521,7 @@ function AJAXeventsForBldg(bldgCode) {
 	});
 }
 
-/* Success callback for AJAXeventsForBldg */
+/* Success callback for AJAXeventsFor__Bldg */
 function handleEventsAJAX(data) {
 	if (data.error != null) {
 		hideInfoEvent();
@@ -618,30 +641,19 @@ function setupLocationSearch() {
 		var bldgName = $('#location-search').val();
 		var bldgCode = jevent.bldgNames[bldgName];
 		if (bldgCode != undefined) {
+			displayLocationBldgs(bldgCode);
 			centerOnBldg(bldgCode);
 			AJAXeventsForBldg(bldgCode);
+		} else {
+			$('#location-search-submit').effect('shake',{times:5,distance:3},30);
+			$('#location-search').val('');
 		}
 	});
 }
 
-function centerOnBldg(bldgCode) {
-	var bldgId = bldgCodeToId(bldgCode);
-	var bldgObject = jmap.bldgsInfo[bldgId];
-	
-	// jump to new center coords, refresh tiles
-	centroid = mapCenterToDisp(bldgObject.left + bldgObject.width/2, bldgObject.top + bldgObject.height/2);
-	jmap.dispX = centroid.x;	
-	jmap.dispY = centroid.y;
-	$(jmap.map).animate({
-		left: -jmap.dispX,
-		top: -jmap.dispY,
-	}, {
-		duration: 200,
-		complete: function() {
-			loadTiles();
-			displayLocationBldg(bldgId, bldgCode);
-		}
-	});
+function setupBldgsToFromLocation() {
+	for (var id in jmap.loadedBldgs)
+		setupPlainBldg(jmap.loadedBldgs[id].domEle);
 }
 
 

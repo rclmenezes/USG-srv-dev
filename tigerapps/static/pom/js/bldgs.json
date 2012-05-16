@@ -11,7 +11,7 @@
             "4-CLIOH", 
             "4-EPYNE", 
             "4-SCCAH", 
-            "4-WHIG", 
+            "4-WHIGH", 
             "4-NASSH", 
             "4-MCCOS", 
             "4-HENHO", 
@@ -23,7 +23,7 @@
             "4-CLIOH", 
             "4-CUYLE", 
             "4-MURRA", 
-            "4-WHIG", 
+            "4-WHIGH", 
             "4-JONES", 
             "4-BROWN", 
             "4-MCCOS", 
@@ -1349,7 +1349,7 @@
             "left": 1213, 
             "height": 15
         }, 
-        "4-WHIG": {
+        "4-WHIGH": {
             "zIndex": 1, 
             "width": 36, 
             "top": 489, 

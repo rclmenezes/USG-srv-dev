@@ -1,22 +1,18 @@
-{% if info == None %}
-    There is no info to display.
-{% else %}
-
-		<h3 id="info-bldg-name">{{bldg_name}}</h3>
+<h3 id="info-bldg-name">{{bldg_name}}</h3>
 	
-	
-    {% for bldg in info %}
-    	<div class="info-event-entry">
-   		{% if info|length > 1 %}
-			<span style="font-weight:bold">{{bldg.name}}</span>
+{% if info %}
+	{% for bldg in info %}
+		<div class="info-event-entry" style="text-align:center;">
+		{% if bldg.image_url %}
+			<img style="max-width:100%;max-height:400px;padding:4px 0;" src="{{bldg.image_url}}" alt="{{bldg.name}}"/>
+		{% else %}
+			<img style="max-width:100%;max-height:400px;padding:4px 0;" src="/static/pom/img/location_noimg.png" alt="{{bldg.name}}"/>
 		{% endif %}
-		<div class="info-event-subtext">
-		{% if bldg.image_url != None %}
-				<span style="color:{{printer.color}}">
-            <img src={{bldg.image_url}}></img>
-        {% endif %}</span> 
-			</div>
+		<div style="font-weight:bold;">{{bldg.name}}</div>
 		</div>
     {% endfor %}
+{% else %}
+	<div class="info-event-entry" style="text-align:center;">
+		No information available.
+	</div>
 {% endif %}
-<br/>
