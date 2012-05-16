@@ -249,6 +249,10 @@ div.isolated {
 	max-width:80%;
 	margin:auto;
 }
+.tipsy-bold {
+	font-weight:bold;
+	font-size:11px;
+}
 
 
 

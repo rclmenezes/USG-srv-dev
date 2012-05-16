@@ -168,16 +168,16 @@ jtlFn.addJTLEvents = function() {
 		var nMarks = tickData.length;
 		
 		for (var i in tickData) {
-			var markData = tickData[i];
+			var markId = tickData[i];
 			var eventMark = document.createElement('div');
 			eventMark.setAttribute('class', 'jtl-mark');
-			eventMark.setAttribute('id', 'jtl-mark-'+markData['eventId']);
+			eventMark.setAttribute('id', 'jtl-mark-'+markId);
 			eventMark.style.left = Math.round((parseInt(i)+.5)/nMarks * jtl.tlWidth)-3;
 			eventMark.style.zIndex = 110+(i%2);
 			//may want to add in if statements if this is to be a real library
-			eventMark.onmouseover = function(ev){jtl.fnMarkMouseover(this);};
-			eventMark.onmouseout = function(ev){jtl.fnMarkMouseout(this);};
-			eventMark.onclick = function(ev){jtl.fnMarkClick(this);};
+			eventMark.onmouseover = function(ev){jtl.fnMarkMouseover(jtlFn.htmlIdToEventId(this.id));};
+			eventMark.onmouseout = function(ev){jtl.fnMarkMouseout(jtlFn.htmlIdToEventId(this.id));};
+			eventMark.onclick = function(ev){jtl.fnMarkClick(jtlFn.htmlIdToEventId(this.id));};
 			divTick.appendChild(eventMark);
 		}
 	}

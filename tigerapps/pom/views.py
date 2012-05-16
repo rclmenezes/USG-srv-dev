@@ -12,7 +12,8 @@ from pom.campus_map_bldgs_info import campus_info
 from pom.menus import scraper as menus
 from pom.printers import scraper as printers
 from pom.laundry import scraper as laundry
-import datetime, simplejson
+import datetime, simplejson, cgi
+from collections import defaultdict
 from django.core.cache import cache
 from django.core.mail import send_mail
 
@@ -35,31 +36,26 @@ def get_cal_events_json(request, events_list=None):
     if not events_list:
         events_list = filter_cal_events(request)
     try:
-        start_date = datetime.datetime(int(request.GET['y0'])-1, int(request.GET['m0']), int(request.GET['d0']))
+        start_date = datetime.datetime(int(request.GET['y0']), int(request.GET['m0']), int(request.GET['d0']))
         start_index = 2*int(request.GET['h0']) + round(int(request.GET['i0'])/30)
         end_index = 2*int(request.GET['h1']) + round(int(request.GET['i1'])/30)
         n_days = int(request.GET['nDays'])
     except Exception, e:
         raise Exception('Bad GET request: missing get params (%s)' % str(e))
     
-    mark_data = {}
     events_data = {}
+    mark_data = defaultdict(list)
     for event in events_list:
-        events_data[event.event_id] = event.event_location
-        
         e_start = event.event_date_time_start
         delta = e_start - start_date
         half_hrs_delta = int(round(delta.total_seconds()/1800)) % 48
         time_index = str(delta.days) + '-' + str(half_hrs_delta)
+        e_start_str = e_start.strftime('%I:%M%p').lstrip('0').lower()
+        e_end_str = event.event_date_time_end.strftime('%I:%M%p').lstrip('0').lower()
         
-        e_dict = {'bldgCode': event.event_location, 'eventId': event.event_id}
-        #e_dict['startTime'] = e_start
-        #e_dict['endTime'] = event.event_date_time_end
-        
-        if time_index in mark_data:
-            mark_data[time_index].append(e_dict)
-        else:
-            mark_data[time_index] = [e_dict]
+        events_data[event.event_id] = {'bldgCode': event.event_location,
+                                       'tooltip': '<span class="tipsy-bold">%s-%s</span>: %s'%(e_start_str,e_end_str, cgi.escape(event.event_cluster.cluster_title))}
+        mark_data[time_index].append(event.event_id)
         
     return {'eventsData': events_data, 'markData': mark_data}
 

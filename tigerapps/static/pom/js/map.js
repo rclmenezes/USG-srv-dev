@@ -325,11 +325,14 @@ function setupPlainBldg(domEle) {
 }
 function setupEventBldg(domEle) {
 	domEle.setAttribute('src', jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc);
-	domEle.onmouseover = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc;};
-	domEle.onmouseout  = function(ev){domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc;};
+	domEle.onmouseover = function(ev){eventBldgMouseoverColor(domEle);eventBldgMouseover(domEle)};
+	domEle.onmouseout  = function(ev){eventBldgMouseoutColor(domEle);eventBldgMouseout(domEle)};
 	domEle.onclick = function(ev){handleBldgClick(ev,domEle);};
 	jmap.loadedBldgs[domEle.id].event = true;
 }
+function eventBldgMouseoverColor(domEle) {domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventHoverSrc;}
+function eventBldgMouseoutColor(domEle) {domEle.src=jmap.bldgsDir+domEle.id+jmap.bldgsEventSrc;}
+
 function handleBldgClick(ev,domEle) {
 	var bldgCode = bldgIdToCode(domEle.id);
 	if (jevent.bldgDisplayed == bldgCode) {
@@ -538,8 +541,15 @@ function handleEventsAJAX(data) {
 		$('#info-bot').html(data.html);
 		jevent.bldgDisplayed = data.bldgCode;
 		if (jevent.filterType == 0) {
+			for (var eventid in jevent.eventsData)
+				$('#jtl-mark-'+eventid).tipsy('hide');
 			jevent.eventsData = data.eventsData;
 			$(jmap.jtl).timeline(getJTLParams(), data.markData, eventEntryMouseover, eventEntryMouseout, eventEntryClick);
+			for (var eventid in jevent.eventsData) {
+				var $domEle = $('#jtl-mark-'+eventid);
+				$domEle.attr('title',jevent.eventsData[eventid].tooltip);
+				$domEle.tipsy({gravity:'w',html:true,manual:true});
+			}
 		}
 	}
 }

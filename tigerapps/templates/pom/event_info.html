@@ -46,8 +46,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	{%if events|length > 3%}$('.info-event-long').hide();{%endif%}
-	$('.info-event-entry').mouseover(function(ev){eventEntryMouseover(this);});
-	$('.info-event-entry').mouseout(function(ev){eventEntryMouseout(this);});
-	$('.info-event-entry').click(function(ev){eventEntryClick(this, true);});
+	$('.info-event-entry').mouseover(function(ev){eventEntryMouseover(jtlFn.htmlIdToEventId(this.id));});
+	$('.info-event-entry').mouseout(function(ev){eventEntryMouseout(jtlFn.htmlIdToEventId(this.id));});
+	$('.info-event-entry').click(function(ev){eventEntryClick(jtlFn.htmlIdToEventId(this.id), true);});
 });
 </script>
