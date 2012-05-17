@@ -250,7 +250,7 @@ def events_for_all_bldgs(request):
         try:
             machine_list = filter_laundry(request)
             html = render_to_string('pom/laundry_info.html',
-                                    {'bldg_name': 'All Buildings with Laundry',
+                                    {'bldg_name': 'All Laundry Machines',
                                      'machine_list' : machine_list})
             response_json = simplejson.dumps({'error': None,
                                               'html': html})
