@@ -1,26 +1,68 @@
 {% extends "storage/base.html" %}
 
 {% block header %}
+<style type="text/css">
+    form table th, form table td {
+        padding:4px 10px;
+    }
+    form table th {
+        text-align: right;
+        vertical-align: top;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
+    <div style="margin-bottom:24px;">
+        <h2>Send email to customers</h2>
+
+        {% if success_msg %}<div style="color:green;font-weight:bold;margin:auto;width:80%;margin-bottom:20px;">{{success_msg}}
+        </div>{% endif %}
+        {% if errors %}<div style="color:red;font-weight:bold;margin:auto;width:80%;margin-bottom:20px;">
+            <ul>{% for error in errors %}
+                <li>{{error}}</li>
+            {%endfor%}</ul>
+        </div>{% endif %}
+
+        <form method="POST" action="/emails/send/">
+            <table style="margin:auto;">
+                <tr><th>Sender email*:</th>
+                    <td><input type="text" name="sender" value="{{form_contents.sender}}" /></td></tr>
+                <tr><th>Receiver emails*:</th>
+                    <td><input type="radio" name="order_type" value="paid" {%ifequal form_contents.order_type 'paid'%}checked="checked"{%endifequal%}/>
+                            Paid emails<br/>
+                        <input type="radio" name="order_type" value="unpaid" {%ifequal form_contents.order_type 'unpaid'%}checked="checked"{%endifequal%}/>
+                            Unpaid emails</td></tr>
+                <tr><th>Subject*:</th>
+                    <td><input type="text" name="subject" value="{{form_contents.subject}}"/></td></tr>
+                <tr><th>Message*:</th>
+                    <td><textarea rows="25" cols="50" name="message">{{form_contents.message}}</textarea></td></tr>
+                <tr><th>Enter key to confirm*:</th>
+                    <td><span style="font-weight:bold;">{{key}}</span><br/>
+                        <input type="text" name="entered_key"/></td></tr>
+                <tr><th></th>
+                    <td><input type="submit" value="Send emails"/></td></tr>
+            </table>
+            <input type="hidden" name="key" value="{{key}}"/>
+        </form>
+    </div>
+
 	<div style="width:50%;float:left;">
-	<h2>Emails of paid orders</h2>
-	
-	<table>
-	{% for email in orders %}
-		<tr><td>{{email}}</td></tr>
-	{% endfor %}
-	</table>
-	
-	</div><div style="width:50%;float:right;">
-	<h2>Emails of unpaid orders</h2>
-	
-	<table>
-	{% for email in u_orders %}
-		<tr><td>{{email}}</td></tr>
-	{% endfor %}
-	</table>
-	
-	</div>	
+        <h2>Emails of paid orders</h2>
+        
+        <table>
+        {% for email in orders %}
+            <tr><td>{{email}}</td></tr>
+        {% endfor %}
+        </table>
+	</div>
+    <div style="width:50%;float:right;">
+        <h2>Emails of unpaid orders</h2>
+        
+        <table>
+        {% for email in u_orders %}
+            <tr><td>{{email}}</td></tr>
+        {% endfor %}
+        </table>
+	</div>
 {% endblock %}

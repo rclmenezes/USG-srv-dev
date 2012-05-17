@@ -14,7 +14,8 @@ urlpatterns = patterns('',
     
     (r'^login/?$', 'django_cas.views.login'),
     (r'^logout/?$', 'django_cas.views.logout'),
-    (r'^emails/?$', 'storage.views.emails'),
+    (r'^emails/?$', 'storage.views.admin_emails'),
+    (r'^emails/send/?$', 'storage.views.admin_send_emails'),
     
     (r'^paypal/ipntesturl123/?$', 'storage.views.my_ipn'),
 

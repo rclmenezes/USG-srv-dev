@@ -153,14 +153,64 @@ def order(request):
                                'proxy_info': proxy_info,
                                'proxy_form': form},
                               RequestContext(request))
+
+#------------------
+#admin for emails stuff
+#------------------
+
+import random, cgi, re
+
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def emails(request):
-    orders = Order.objects.all()
-    order_emails = set(order.user.username + '@princeton.edu' for order in orders)
-    unpaid_orders = UnpaidOrder.objects.all()
-    unpaid_order_emails = set(u_order.user.username + '@princeton.edu' for u_order in unpaid_orders if u_order.user.username+'@princeton.edu' not in order_emails)
-    return render_to_response('storage/emails.html', {'u_orders': unpaid_order_emails, 'orders': order_emails}, RequestContext(request))
+def admin_emails(request, form_contents=None, errors=None, success_msg=None):
+    order_emails = Order.emails.all()
+    unpaid_order_emails = UnpaidOrder.emails.all()
+    send_email_key = gen_random_word(8)
+    return render_to_response('storage/emails.html',
+                              {'u_orders': unpaid_order_emails,
+                               'orders': order_emails,
+                               'key': send_email_key,
+                               'form_contents': form_contents,
+                               'errors': errors,
+                               'success_msg': success_msg},
+                              RequestContext(request))
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_send_emails(request):
+    errors = []
+    sender = request.POST['sender']
+    if not sender: errors.append("You must enter a sender email.")
+    elif not re.match(r"[\w_.]+@[\w]+\.[\w]{3}", sender): errors.append("You must enter a valid sender email.")
+    subject = request.POST['subject']
+    if not subject: errors.append("You must enter a subject.")
+    message = request.POST['message']
+    if not message: errors.append("You must enter a message.")
+    order_type = None
+    if 'order_type' not in request.POST: errors.append("You must select a group of receiver emails.")
+    else: order_type = request.POST['order_type']
+    if request.POST['key'] != request.POST['entered_key']:
+        errors.append("The key you entered does not match.")
+    
+    if errors:
+        form_contents = {'sender':sender, 'subject':subject, 'message':message, 'order_type':order_type}
+        return admin_emails(request, form_contents, errors)
+
+    if order_type == 'paid':
+        receivers = Order.emails.all()
+    elif order_type == 'unpaid':
+        receivers = UnpaidOrder.emails.all()
+    receivers = list(receivers)
+    receivers.append(sender)
+
+    send_mail(subject, message, sender, receivers, fail_silently=False)
+    return admin_emails(request, success_msg="Emails to students with %s orders sent successfully! You have been CC'd on the email as well." % order_type)
+
+def gen_random_word(wordLen):
+    word = ''
+    for i in range(wordLen):
+        word += random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+    return word
 
 
 #------------------
