@@ -34,9 +34,10 @@ class DropoffPickupTime(models.Model):
                                                             self.pickup_time_end.strftime("%I:%M%p").lstrip('0'))
 
 
-class EmailManager(models.Manager):
+class UnpaidEmailManager(models.Manager):
     def all(self):
-        return set(obj.user.username+'@princeton.edu' for obj in self.model.objects.all())
+        ordered_users = set(order.user.username for order in Order.objects.all())
+        return set(obj.user.username+'@princeton.edu' for obj in self.model.objects.all() if obj.user.username not in ordered_users)
 
 class UnpaidOrder(models.Model):
     '''
@@ -56,12 +57,16 @@ class UnpaidOrder(models.Model):
     timestamp = models.DateTimeField("Timestamp", auto_now_add=True)
     signature = models.CharField("Signature", max_length=50)
     
-    emails = EmailManager()
+    emails = UnpaidEmailManager()
     objects = models.Manager()
 
     def __unicode__(self):
         return self.user.username
 
+
+class PaidEmailManager(models.Manager):
+    def all(self):
+        return set(obj.user.username+'@princeton.edu' for obj in self.model.objects.all())
 
 class Order(models.Model):
     '''
@@ -89,7 +94,7 @@ class Order(models.Model):
     n_boxes_dropped = models.IntegerField("# Dropped Off", max_length=2, blank=True, default=0)
     n_boxes_picked = models.IntegerField("# Picked Up", max_length=2, blank=True, default=0)
     
-    emails = EmailManager()
+    emails = PaidEmailManager()
     objects = models.Manager()
 
     def __unicode__(self):
