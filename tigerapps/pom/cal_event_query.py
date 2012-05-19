@@ -40,15 +40,17 @@ def filter_by_date(qset, leftMonth, leftDay, leftYear, leftHour, rightMonth, rig
         return Event.objects.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
 
 
-def filter_by_day_hour(qset,
-                   leftMonth, leftDay, leftYear, leftHour, leftMinutes,
-                   rightMonth, rightDay, rightYear, rightHour, rightMinutes):
+def filter_by_day_hour(qset, leftDate, rightDate, leftHour, leftMinutes, rightHour, rightMinutes):
     '''
     Get all events between a range of dates and hours within those dates
+    See the timeline to visualize what this means.
+    Special case: If end time is 12:00 AM, then assume it means the 12:00 AM of the day after the end day
     '''
     
-    left = datetime.datetime(year = int(leftYear), month = int(leftMonth), day = int(leftDay), hour = int(leftHour), minute = int(leftMinutes))
-    right = datetime.datetime(year = int(rightYear), month = int(rightMonth), day = int(rightDay), hour = int(rightHour), minute = int(rightMinutes))
+    left = leftDate.replace(hour=int(leftHour), minute=int(leftMinutes))
+    right = rightDate.replace(hour=int(rightHour), minute=int(rightMinutes))
+    if rightHour == 0 and rightMinutes == 0:
+        right += datetime.timedelta(days = 1)
 
     if qset:
         temp = qset.filter(event_date_time_start__gte=left, event_date_time_end__lte=right).order_by('event_date_time_start','event_date_time_end')
