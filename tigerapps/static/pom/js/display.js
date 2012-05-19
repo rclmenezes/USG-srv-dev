@@ -96,14 +96,14 @@ function printTime(timeArr) {
 /***************************************/
 
 function setupJTLDisplay() {
-	jDisplay.timelineShown = true
+	jDisplay.timelineShown = false;
 	$('#jtl-toggle').click(function() {
 		if (jDisplay.timelineShown)
 			hideTimeline();
 		else
 			showTimeline();
 	})
-	showTimeline();
+    displayTimeline();
 }
 function displayTimeline() {
 	$('#jtl-toggle').show();
@@ -120,7 +120,7 @@ function undisplayTimeline() {
 	jDisplay.timelineShown = tmp;
 }
 function showTimeline() {
-	$(jmap.jtl).show(100)
+	$(jmap.jtl).css('visibility', '');
 	$(jmap.info).animate({
 		width:'540px'
 	}, 100);
@@ -128,7 +128,7 @@ function showTimeline() {
 	jDisplay.timelineShown = true;
 }
 function hideTimeline() {
-	$(jmap.jtl).hide(100)
+	$(jmap.jtl).css('visibility', 'hidden');
 	$(jmap.info).animate({
 		width:'380px'
 	}, 100);

@@ -70,7 +70,6 @@ function mapInit() {
 
 	//cache display-related tabs
 	jevent.topTabActive = null;
-	jevent.timelineShown = false;
 	jevent.bldgDisplayed = null;
 	
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
@@ -451,6 +450,7 @@ function setupFilterTabs() {
 		handleFilterTypeChange(ev.target.value);
 	});
 	displayTopTab(0);
+    jDisplay.timelineShown = true;
 	handleFilterTypeChange(0);
 }
 function displayTopTab(topTab) {
@@ -458,9 +458,9 @@ function displayTopTab(topTab) {
 		jevent.topTabActive = topTab;
 		$(".top-tab").css('display', 'none');
 		$("#top-tab-"+topTab).css('display', 'block');
-		if (topTab==0)	displayTimeline();
-		else			undisplayTimeline();
 	}
+    if (topTab == 0) displayTimeline();
+    else             undisplayTimeline();
 }
 
 /* Called when the events/hours/menus/etc tabs are clicked. Changes the filters
@@ -550,7 +550,7 @@ function handleEventsAJAX(data) {
 				$domEle.attr('title',jevent.eventsData[eventid].tooltip);
 				$domEle.tipsy({gravity:'w',html:true,manual:true});
 			}
-            showTimeline();
+            displayTimeline();
 		}
 	}
 }
