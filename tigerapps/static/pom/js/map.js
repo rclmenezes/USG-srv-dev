@@ -70,7 +70,7 @@ function mapInit() {
 
 	//cache display-related tabs
 	jevent.topTabActive = null;
-	jevent.timelineShown = true;
+	jevent.timelineShown = false;
 	jevent.bldgDisplayed = null;
 	
 	jevent.filterType = -1; //events=0, hours=1, menus=2, laundry=3, printers=4
@@ -550,6 +550,7 @@ function handleEventsAJAX(data) {
 				$domEle.attr('title',jevent.eventsData[eventid].tooltip);
 				$domEle.tipsy({gravity:'w',html:true,manual:true});
 			}
+            showTimeline();
 		}
 	}
 }

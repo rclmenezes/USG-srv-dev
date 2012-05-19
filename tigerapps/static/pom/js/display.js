@@ -106,8 +106,12 @@ function setupJTLDisplay() {
 	showTimeline();
 }
 function displayTimeline() {
-	if (jDisplay.timelineShown) showTimeline();
 	$('#jtl-toggle').show();
+	if (jDisplay.timelineShown) {
+        showTimeline();
+        $('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
+    } else
+        $('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
 }
 function undisplayTimeline() {
 	var tmp = jDisplay.timelineShown;
@@ -116,18 +120,18 @@ function undisplayTimeline() {
 	jDisplay.timelineShown = tmp;
 }
 function showTimeline() {
-	$(jmap.jtl).show(80)
+	$(jmap.jtl).show(100)
 	$(jmap.info).animate({
 		width:'540px'
-	}, 80);
+	}, 100);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
 	jDisplay.timelineShown = true;
 }
 function hideTimeline() {
-	$(jmap.jtl).hide(80)
+	$(jmap.jtl).hide(100)
 	$(jmap.info).animate({
 		width:'380px'
-	}, 80);
+	}, 100);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
 	jDisplay.timelineShown = false;
 }
