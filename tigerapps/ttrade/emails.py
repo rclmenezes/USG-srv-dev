@@ -89,7 +89,7 @@ def expirationConfirmation(listing):
     if listing.offers.all():
         message = "To see your offers, go to http://%sttrade.tigerapps.org/item/%s.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     else:
-        message = "You have received any offers :(. Maybe you should try renewing the expiration of your listing and changing it at http://%sttrade.tigerapps.org/item/%s.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
+        message = "You have not received any offers :(. Maybe you should try renewing the expiration of your listing and changing it at http://%sttrade.tigerapps.org/item/%s.\n\n" % (settings.CURRENT_HOST_PREFIX, str(listing.listingID))
     to_email = []
     to_email.append(listing.user.email)
     return sendMessage(subject, message, to_email)
