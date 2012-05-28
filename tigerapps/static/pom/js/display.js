@@ -96,18 +96,22 @@ function printTime(timeArr) {
 /***************************************/
 
 function setupJTLDisplay() {
-	jDisplay.timelineShown = true
+	jDisplay.timelineShown = false;
 	$('#jtl-toggle').click(function() {
 		if (jDisplay.timelineShown)
 			hideTimeline();
 		else
 			showTimeline();
 	})
-	showTimeline();
+    displayTimeline();
 }
 function displayTimeline() {
-	if (jDisplay.timelineShown) showTimeline();
 	$('#jtl-toggle').show();
+	if (jDisplay.timelineShown) {
+        showTimeline();
+        $('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
+    } else
+        $('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
 }
 function undisplayTimeline() {
 	var tmp = jDisplay.timelineShown;
@@ -116,18 +120,18 @@ function undisplayTimeline() {
 	jDisplay.timelineShown = tmp;
 }
 function showTimeline() {
-	$(jmap.jtl).show(80)
+	$(jmap.jtl).css('visibility', '');
 	$(jmap.info).animate({
 		width:'540px'
-	}, 80);
+	}, 100);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-w');
 	jDisplay.timelineShown = true;
 }
 function hideTimeline() {
-	$(jmap.jtl).hide(80)
+	$(jmap.jtl).css('visibility', 'hidden');
 	$(jmap.info).animate({
 		width:'380px'
-	}, 80);
+	}, 100);
 	$('#jtl-toggle span').attr('class', 'ui-icon ui-icon-carat-1-e');
 	jDisplay.timelineShown = false;
 }
