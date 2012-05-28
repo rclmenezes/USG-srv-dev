@@ -93,9 +93,6 @@ def buy(request):
     offer.date_pending = today
     offer.save()
 
-    # Give the buyer a pending request.
-    buyer, created = User.objects.get_or_create(net_id=request.user.username)
-
     # Check if a request exists already.
     requests = Request.objects.filter(Q(user=buyer)
                                       & Q(status='o')
